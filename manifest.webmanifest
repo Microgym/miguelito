@@ -2,7 +2,7 @@
   "name": "Mis Tareas",
   "short_name": "Mis Tareas",
   "description": "Tareas, lectura, premios, calendario y progreso para toda la familia.",
-  "start_url": "./?v=73",
+  "start_url": "./?v=75",
   "scope": "./",
   "display": "standalone",
   "orientation": "portrait",
@@ -28,5 +28,5 @@
       "purpose": "maskable"
     }
   ],
-  "id": "./mis-tareas-v73"
+  "id": "./mis-tareas-v75"
 }

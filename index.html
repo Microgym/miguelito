@@ -2619,7 +2619,7 @@ body.preview-first-run .first-run-cancel-preview{display:block}
 
  <div class="card panelcard">
   <h3 style="margin:0 0 5px">💾 Copia de seguridad</h3>
-  <div class="mmeta">Guarda una copia de todos los datos de Miguelito o restaúrala más adelante.</div>
+  <div class="mmeta">Guarda una copia completa de toda la familia: perfiles, tareas, eventos, calendario, diario, premios, lectura, proyectos y configuración.</div>
   <div class="backup-actions">
     <button id="exportBackupBtn" class="btn primary" type="button">⬇️ Exportar copia</button>
     <label class="btn ghost" for="importBackupInput">⬆️ Restaurar copia</label>
@@ -2750,6 +2750,31 @@ function loadFamilyStore(){
 function saveFamilyStore(){
  try{window.localStorage.setItem('miguelito-family-v1',JSON.stringify(familyStore))}catch(e){}
 }
+
+function defaultWorldsData(){
+ return [
+  {id:'start',icon:'🌱',title:'Inicio de aventura',xp:0},
+  {id:'forest',icon:'🌳',title:'Bosque',xp:250},
+  {id:'mountain',icon:'🏔️',title:'Montaña',xp:600},
+  {id:'island',icon:'🌊',title:'Isla',xp:1000},
+  {id:'castle',icon:'🏰',title:'Castillo',xp:1600},
+  {id:'secret',icon:'🌌',title:'Mundo secreto',xp:2500}
+ ];
+}
+function defaultBadgesData(){
+ return [
+  {id:'reader',icon:'📖',title:'Lector experto',metric:'reading_days',target:7},
+  {id:'responsible',icon:'✅',title:'Responsable',metric:'approved_tasks',target:30},
+  {id:'helper',icon:'🏠',title:'Ayudante en casa',metric:'help_tasks',target:10},
+  {id:'project',icon:'🧩',title:'Super proyecto',metric:'completed_projects',target:1},
+  {id:'explorer',icon:'🗺️',title:'Explorador',metric:'earned_stars',target:150},
+  {id:'solidary',icon:'❤️',title:'Corazón solidario',metric:'help_tasks',target:20},
+  {id:'streak',icon:'⭐',title:'Constancia máxima',metric:'streak',target:14},
+  {id:'weekly',icon:'🏆',title:'Reto semanal',metric:'weekly_challenges',target:1},
+  {id:'secret',icon:'🔒',title:'Mundo secreto',metric:'earned_stars',target:600}
+ ];
+}
+
 function freshFirstRunState(){
  return {
   stars:0,xp:0,calendar:{},missions:[],
@@ -2760,8 +2785,8 @@ function freshFirstRunState(){
   customChallenges:[],defaultChallengesEnabled:false,
   bigGoals:[],activeGoalId:'',specialDays:[],
   notificationPrefs:{pending:true,projects:true,tomorrow:true,rewards:true},
-   badges:DEFAULT_BADGES.map(x=>({...x})),
-   worlds:DEFAULT_WORLDS.map(x=>({...x})),
+   badges:defaultBadgesData(),
+   worlds:defaultWorldsData(),
    journal:[]
  };
 }
@@ -2794,9 +2819,23 @@ if(!familyStore){
  }
 }
 function activeChildRecord(){
- return familyStore.children.find(c=>c.id===familyStore.activeChildId)||familyStore.children[0];
+ if(!familyStore||!Array.isArray(familyStore.children))return null;
+ return familyStore.children.find(c=>c.id===familyStore.activeChildId)||familyStore.children[0]||null;
 }
-let state=activeChildRecord().state;
+let state=activeChildRecord()?.state;
+if(!state){
+ const fallbackId='child-'+Date.now();
+ state=freshFirstRunState();
+ familyStore={
+   activeChildId:fallbackId,
+   onboardingCompleted:false,
+   onboardingStage:'father',
+   family:{fatherName:'',motherName:'',parentsTogether:null},
+   parentPin:'1234',
+   children:[{id:fallbackId,name:'',avatar:'👦',birthDate:'',city:'',state}]
+ };
+ saveFamilyStore();
+}
 
 function hasRealProfile(){
  if(familyStore.onboardingCompleted!==true)return false;
@@ -3432,17 +3471,71 @@ function renderSmartAlerts(){
  if(projects.length){const x=projects[0],urgent=x.left<=1;box.insertAdjacentHTML('beforeend',`<div class="smart-alert ${urgent?'urgent':'warning'}"><b>${urgent?'🚨':'⏰'} ${x.p.name}</b><span>${x.left===0?'Se entrega hoy':x.left===1?'Se entrega mañana':`Quedan ${x.left} días para la entrega`}.</span></div>`)}
 }
 
+function buildFullBackup(){
+ // Asegura que el estado visible del hijo activo se copie primero a familyStore.
+ safeStoreState();
+ return {
+   app:'Mis Tareas',
+   backupFormat:'family-full-v1',
+   version:74,
+   exportedAt:new Date().toISOString(),
+   familyStore:cloneJson(familyStore),
+   settings:{
+     syncConfig:(typeof syncConfig!=='undefined'?cloneJson(syncConfig):null)
+   }
+ };
+}
+function restoreFullFamilyBackup(data){
+ if(!data?.familyStore||typeof data.familyStore!=='object'||!Array.isArray(data.familyStore.children))throw new Error('invalid-family');
+ familyStore=cloneJson(data.familyStore);
+ if(!familyStore.family)familyStore.family={fatherName:'',motherName:'',parentsTogether:true};
+ if(!familyStore.parentPin)familyStore.parentPin='1234';
+ if(!familyStore.children.length){
+   familyStore.activeChildId='';
+   state=freshChildState('');
+ }else{
+   let active=familyStore.children.find(c=>String(c.id)===String(familyStore.activeChildId))||familyStore.children[0];
+   familyStore.activeChildId=active.id;
+   state=active.state||freshChildState(active.name||'Perfil',active.birthDate||'',active.city||'');
+ }
+ ensureV33State();ensureV34State();ensureEventState();ensureDailyGameState();ensureJournalState();ensureWorldState();ensureBadgeState();ensureTaskState();ensureRewardHistory();ensureRewardState();ensureProjectState();ensureReadingState();ensureProfileState();
+ state._updatedAt=Date.now();
+ safeStoreState();
+ if(data.settings?.syncConfig && typeof syncConfig!=='undefined'){
+   syncConfig=cloneJson(data.settings.syncConfig);
+   try{window.localStorage.setItem('miguelito-sync-config-v1',JSON.stringify(syncConfig))}catch(e){}
+ }
+}
 $('#exportBackupBtn').onclick=()=>{
- const backup={app:'Miguelito',version:33,exportedAt:new Date().toISOString(),state},blob=new Blob([JSON.stringify(backup,null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');
- a.href=url;a.download=`miguelito-copia-${localDateKey()}.json`;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),500);$('#backupStatus').textContent='Copia exportada correctamente.';toast('Copia de seguridad creada 💾');
+ const backup=buildFullBackup(),blob=new Blob([JSON.stringify(backup,null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');
+ a.href=url;a.download=`mis-tareas-copia-completa-${localDateKey()}.json`;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),500);
+ $('#backupStatus').textContent=`Copia completa exportada: ${familyStore.children?.length||0} perfil(es).`;
+ toast('Copia completa creada 💾');
 };
 $('#importBackupInput').onchange=async e=>{
  const file=e.target.files?.[0];if(!file)return;
  try{
-   const data=JSON.parse(await file.text()),restored=data.state||data;if(!restored||typeof restored!=='object'||!Array.isArray(restored.missions))throw new Error('invalid');
-   if(!confirm('¿Restaurar esta copia? Sustituirá los datos actuales.'))return;
-   state=restored;ensureV33State();ensureEventState();ensureDailyGameState();ensureTaskState();ensureRewardState();state._updatedAt=Date.now();safeStoreState();render();scheduleRemotePush();$('#backupStatus').textContent='Copia restaurada correctamente.';toast('Copia restaurada ✅');
- }catch(err){$('#backupStatus').textContent='No se pudo leer esta copia.';toast('Archivo de copia no válido')}
+   const data=JSON.parse(await file.text());
+   const isFull=data?.backupFormat==='family-full-v1'&&data?.familyStore;
+   const legacy=data?.state||(!isFull?data:null);
+   if(!isFull && (!legacy||typeof legacy!=='object'||!Array.isArray(legacy.missions)))throw new Error('invalid');
+   const msg=isFull
+     ?'¿Restaurar esta copia completa? Sustituirá todos los perfiles, tareas, eventos, calendarios, diarios, premios y demás datos actuales.'
+     :'Esta es una copia antigua de un solo perfil. ¿Restaurarla en el perfil activo?';
+   if(!confirm(msg))return;
+   if(isFull){
+     restoreFullFamilyBackup(data);
+   }else{
+     state=legacy;ensureV33State();ensureV34State();ensureEventState();ensureDailyGameState();ensureJournalState();ensureWorldState();ensureBadgeState();ensureTaskState();ensureRewardHistory();ensureRewardState();ensureProjectState();ensureReadingState();ensureProfileState();state._updatedAt=Date.now();safeStoreState();
+   }
+   render();scheduleRemotePush();
+   $('#backupStatus').textContent=isFull?'Copia completa restaurada correctamente.':'Copia antigua restaurada en el perfil activo.';
+   toast('Copia restaurada ✅');
+ }catch(err){
+   console.error(err);
+   $('#backupStatus').textContent='No se pudo leer esta copia.';
+   toast('Archivo de copia no válido');
+ }
  e.target.value='';
 };
 
@@ -3458,8 +3551,9 @@ function freshChildState(name,birthDate='',city=''){
    customChallenges:[],defaultChallengesEnabled:false,
    bigGoals:[],activeGoalId:'',specialDays:[],
    notificationPrefs:{pending:true,projects:true,tomorrow:true,rewards:true},
-   badges:DEFAULT_BADGES.map(x=>({...x})),
-   worlds:DEFAULT_WORLDS.map(x=>({...x}))
+   badges:defaultBadgesData(),
+   worlds:defaultWorldsData(),
+   journal:[]
  };
 }
 
@@ -3761,8 +3855,10 @@ function switchChild(id){
  openScreen('today');
 }
 function childVisualThumb(c){
- const src=(c?.avatar==='👧')?'./avatar-girl.webp':'./avatar-boy.webp';
- return `<span class="child-visual-icon"><img src="${src}" alt="" loading="eager"></span>`;
+ const isGirl=c?.avatar==='👧';
+ const src=isGirl?'./avatar-girl.webp':'./avatar-boy.webp';
+ const fallback=isGirl?'👧':'👦';
+ return `<span class="child-visual-icon"><img src="${src}" alt="${fallback}" loading="eager" onerror="this.style.display='none';this.parentElement.textContent='${fallback}'"></span>`;
 }
 
 function renderChildTopSwitcher(){
@@ -4559,6 +4655,8 @@ function renderActiveCity(){
 function renderFooterChildArt(){
  const el=$('#footerChildArt');if(!el)return;
  const avatar=activeChildRecord()?.avatar||'👦';
+ el.onerror=()=>{el.style.display='none'};
+ el.style.display='block';
  el.src=avatar==='👧'?'./avatar-girl.webp':'./avatar-boy.webp';
 }
 function renderActiveChildIdentity(){
@@ -5150,14 +5248,7 @@ $('#journalDatePicker').onchange=()=>{
 };
 
 
-const DEFAULT_WORLDS=[
- {id:'start',icon:'🌱',title:'Inicio de aventura',xp:0},
- {id:'forest',icon:'🌳',title:'Bosque',xp:250},
- {id:'mountain',icon:'🏔️',title:'Montaña',xp:600},
- {id:'island',icon:'🌊',title:'Isla',xp:1000},
- {id:'castle',icon:'🏰',title:'Castillo',xp:1600},
- {id:'secret',icon:'🌌',title:'Mundo secreto',xp:2500}
-];
+const DEFAULT_WORLDS=defaultWorldsData();
 function ensureWorldState(){
  if(!Array.isArray(state.worlds)||!state.worlds.length){
    state.worlds=DEFAULT_WORLDS.map(x=>({...x}));
@@ -5255,17 +5346,7 @@ $('#addWorldBtn').onclick=()=>{
  save();renderWorlds();renderWorldAdmin();
 };
 
-const DEFAULT_BADGES=[
- {id:'reader',icon:'📖',title:'Lector experto',metric:'reading_days',target:7},
- {id:'responsible',icon:'✅',title:'Responsable',metric:'approved_tasks',target:30},
- {id:'helper',icon:'🏠',title:'Ayudante en casa',metric:'help_tasks',target:10},
- {id:'project',icon:'🧩',title:'Super proyecto',metric:'completed_projects',target:1},
- {id:'explorer',icon:'🗺️',title:'Explorador',metric:'earned_stars',target:150},
- {id:'solidary',icon:'❤️',title:'Corazón solidario',metric:'help_tasks',target:20},
- {id:'streak',icon:'⭐',title:'Constancia máxima',metric:'streak',target:14},
- {id:'weekly',icon:'🏆',title:'Reto semanal',metric:'weekly_challenges',target:1},
- {id:'secret',icon:'🔒',title:'Mundo secreto',metric:'earned_stars',target:600}
-];
+const DEFAULT_BADGES=defaultBadgesData();
 const BADGE_METRICS={
  reading_days:'Días de lectura',
  approved_tasks:'Tareas aprobadas',

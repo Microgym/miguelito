@@ -1,0 +1,21 @@
+MIS TAREAS v74 — COPIA JSON COMPLETA
+
+Exportar copia ahora guarda TODA la familia:
+- todos los perfiles/hijos;
+- tareas y aprobaciones;
+- estrellas y XP;
+- calendario y custodia;
+- eventos, incluidos repetitivos;
+- diario completo;
+- premios e historial;
+- lectura;
+- proyectos;
+- retos;
+- objetivos y días especiales;
+- mundos e insignias;
+- datos familiares y PIN;
+- configuración de sincronización.
+
+Restaurar copia:
+- reconoce el nuevo formato completo;
+- sigue admitiendo las copias antiguas de un solo perfil.

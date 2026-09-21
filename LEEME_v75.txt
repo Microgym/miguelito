@@ -1,0 +1,13 @@
+MIS TAREAS v75 — CORRECCIÓN CRÍTICA IPHONE/IPAD
+
+Causa encontrada:
+En una instalación nueva o almacenamiento parcial, el arranque podía intentar usar
+DEFAULT_BADGES y DEFAULT_WORLDS antes de que JavaScript los hubiera inicializado.
+Eso detenía todo el script. Resultado: Zona Padres no abría, Diario no respondía
+y avatares/imágenes podían quedar sin pintar.
+
+Correcciones:
+- valores iniciales disponibles antes del primer arranque;
+- recuperación segura si familyStore está incompleto;
+- fallback visual de avatar niño/niña;
+- mantiene diario tipo libro, eventos repetitivos y copia JSON completa.
