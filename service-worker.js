@@ -1,4 +1,4 @@
-const CACHE='mis-tareas-pwa-v51';
+const CACHE='mis-tareas-pwa-v52';
 const ASSETS=[
 './','./index.html','./manifest.webmanifest',
 './icon-180.png','./icon-192.png','./icon-512.png','./icon-maskable-512.png',
