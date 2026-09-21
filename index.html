@@ -1797,6 +1797,21 @@ body.preview-first-run .first-run-cancel-preview{display:block}
   user-select:none;
 }
 
+
+/* ===== v77 Zona Padres reorganizada ===== */
+.parent-manage-grid{
+ display:grid;grid-template-columns:repeat(2,1fr);gap:9px;margin-top:11px
+}
+.parent-manage-grid button{
+ border:1px solid #dfe8f3;background:#fff;border-radius:16px;padding:13px 8px;
+ min-height:78px;color:#24496f;font-weight:1000;font:inherit;cursor:pointer;
+ box-shadow:0 6px 16px rgba(34,70,108,.07)
+}
+.parent-manage-grid button span{display:block;font-size:25px;margin-bottom:5px}
+.parent-manager-screen .panelcard{margin-top:10px}
+.parent-back-btn{width:100%;margin:0 0 10px}
+@media(min-width:700px){.parent-manage-grid{grid-template-columns:repeat(4,1fr)}}
+
 </style>
 </head>
 <body>
@@ -2370,318 +2385,292 @@ body.preview-first-run .first-run-cancel-preview{display:block}
  </div>
 </section>
 
-<section id="parents" class="screen">
- <div class="heroSmall"><h1>👨‍👩‍👦 Zona Padres</h1><div>Todas las tareas requieren aprobación.</div></div>
- <div class="card panelcard"><h3 style="margin-top:0">Pendientes</h3><div id="pending"></div></div>
-
-<div class="card panelcard">
-  <h3 style="margin:0 0 6px">👨‍👩‍👧 Datos familiares</h3>
-  <div class="mmeta">Gestiona los datos generales de la familia sin tocar los perfiles de los hijos.</div>
-  <div class="form-grid" style="margin-top:10px">
-    <label>Nombre de Papá<input id="familyFatherNameInput" placeholder="Papá"></label>
-    <label>Nombre de Mamá<input id="familyMotherNameInput" placeholder="Mamá"></label>
-  </div>
-  <div class="form-grid" style="margin-top:8px">
-    <label>Situación familiar
-      <select id="familyLivingInput">
-        <option value="together">Viven juntos</option>
-        <option value="separated">Viven separados</option>
-      </select>
-    </label>
-    <label>PIN familiar<input id="familyPinInput" inputmode="numeric" maxlength="8" placeholder="1234"></label>
-  </div>
-  <div class="row" style="gap:8px;margin-top:10px">
-    <button id="saveFamilyDataBtn" class="btn primary" type="button">Guardar datos familiares</button>
-    <button id="previewFirstRunBtn" class="btn ghost" type="button">Probar configuración inicial</button>
-  </div>
-  <div class="mmeta" style="margin-top:8px">La prueba del asistente no borra ni modifica tus datos reales.</div>
-</div>
-
-
- <div class="card panelcard reward-admin">
-  <h3 style="margin:0 0 5px">🏆 Gestionar premios</h3>
-  <div class="mmeta">Puedes añadir, editar o eliminar premios. Los cambios aparecen en Premios.</div>
-
-  <div class="reward-admin-form">
-    <input id="rewardNameInput" placeholder="Nombre del premio">
-    <input id="rewardCostInput" type="number" min="1" placeholder="⭐ Coste">
-  </div>
-  <div class="reward-admin-form">
-    <select id="rewardEmojiInput">
-      <option value="🍦">🍦 Helado</option>
-      <option value="🎬">🎬 Cine / peli</option>
-      <option value="🎮">🎮 Videojuegos</option>
-      <option value="⚽">⚽ Fútbol</option>
-      <option value="🎿">🎿 Esquí</option>
-      <option value="🎁">🎁 Regalo</option>
-      <option value="🍕">🍕 Comida especial</option>
-      <option value="🎉">🎉 Experiencia</option>
-    </select>
-    <select id="rewardSizeInput">
-      <option value="Pequeño">Pequeño</option>
-      <option value="Mediano">Mediano</option>
-      <option value="Grande">Grande</option>
-      <option value="Gran premio">Gran premio</option>
-    </select>
-  </div>
-
-  <button id="saveRewardBtn" class="btn primary" style="margin-top:9px;width:100%">Añadir premio</button>
-  <div id="rewardAdminList" class="reward-admin-list"></div>
- </div>
-
-
-
-
- <div class="card panelcard">
-  <h3 style="margin:0 0 5px">📅 Gestionar eventos</h3>
-  <div class="mmeta">Añade exámenes, fútbol, partidos del Madrid, fechas especiales u otros eventos.</div>
-
-  <div class="event-admin-form">
-    <input id="eventTitleInput" placeholder="Nombre del evento">
-    <select id="eventTypeInput">
-      <option value="exam">📝 Examen</option>
-      <option value="football">⚽ Fútbol</option>
-      <option value="madrid">⚪ Real Madrid</option>
-      <option value="special">🎉 Fecha especial</option>
-      <option value="other">📌 Otro</option>
-    </select>
-  </div>
-  <div class="event-admin-form">
-    <input id="eventDateInput" type="date">
-    <input id="eventTimeInput" type="time">
-  </div>
-  <div class="event-repeat-form">
-    <select id="eventRepeatInput">
-      <option value="none">No se repite</option>
-      <option value="weekly">Cada semana</option>
-      <option value="biweekly">Cada 2 semanas</option>
-      <option value="monthly">Cada mes</option>
-    </select>
-    <div id="eventRepeatUntilWrap">
-      <input id="eventRepeatUntilInput" type="date" title="Repetir hasta">
-      <div class="mmeta" style="margin-top:4px">Repetir hasta (opcional)</div>
-    </div>
-  </div>
-  <button id="saveEventBtn" class="btn primary" style="width:100%;margin-top:9px">Añadir evento</button>
-  <div id="eventAdminList" style="margin-top:10px"></div>
- </div>
-
- 
- <div class="card panelcard parent-week-summary">
-   <h3 style="margin:0 0 5px">📊 Resumen semanal familiar</h3>
-   <div id="parentWeekLabel" class="mmeta"></div>
-   <div id="parentWeekSummaryList" style="margin-top:9px"></div>
- </div>
-
- <div class="card panelcard parent-day-summary">
-  <h3 style="margin:0 0 5px">🌟 Resumen de hoy</h3>
-  <div class="mmeta">Vista rápida para padres.</div>
-  <div class="daily-grid">
-    <div class="daily-stat"><div class="ico">✅</div><b id="parentDailyTasks">0/0</b><span>aprobadas</span></div>
-    <div class="daily-stat"><div class="ico">⭐</div><b id="parentDailyStars">0</b><span>ganadas</span></div>
-    <div class="daily-stat"><div class="ico">⏳</div><b id="parentDailyPending">0</b><span>pendientes</span></div>
-  </div>
-  <div id="parentDailyMessage" class="daily-message"></div>
- </div>
-
+<section id="parentTasks" class="screen parent-manager-screen">
+ <div class="screen-title"><h1>✅ Gestionar tareas</h1><p>Crear, editar, activar o eliminar tareas.</p></div>
+ <button class="btn ghost parent-back-btn" type="button" onclick="backToParents()">← Volver a Zona Padres</button>
  <div class="card panelcard task-manager-card">
-  <h3 style="margin:0 0 5px">✅ Gestionar tareas</h3>
-  <div class="mmeta">Crear, editar, activar/desactivar o eliminar tareas diarias.</div>
-
-  <div class="task-manager-form">
-    <input id="taskNameInput" placeholder="Nombre de la tarea">
-    <select id="taskSectionInput">
-      <option>Mañana</option>
-      <option>Colegio</option>
-      <option>Tarde</option>
-    </select>
-  </div>
-  <div class="task-manager-form">
-    <input id="taskStarsInput" type="number" min="0" value="5" placeholder="⭐ Estrellas">
-    <input id="taskXpInput" type="number" min="0" value="10" placeholder="XP">
-    <select id="taskHouseInput" class="house-field">
-      <option value="Ambas">🏠 En ambas casas</option>
-      <option value="Papá">👨 Solo con Papá</option>
-      <option value="Mamá">👩 Solo con Mamá</option>
-    </select>
-    <select id="taskAssignInput" class="assign-field">
-      <option value="current">👤 Solo hijo seleccionado</option>
-      <option value="all">👨‍👩‍👧‍👦 Todos los hijos</option>
-    </select>
-  </div>
-  <button id="saveTaskBtn" class="btn primary" style="width:100%;margin-top:9px">Añadir tarea</button>
-
-  <div id="taskAdminList" style="margin-top:10px"></div>
- </div>
-
-
-
-
-
+<h3 style="margin:0 0 5px">✅ Gestionar tareas</h3>
+<div class="mmeta">Crear, editar, activar/desactivar o eliminar tareas diarias.</div>
+<div class="task-manager-form">
+<input id="taskNameInput" placeholder="Nombre de la tarea"/>
+<select id="taskSectionInput">
+<option>Mañana</option>
+<option>Colegio</option>
+<option>Tarde</option>
+</select>
+</div>
+<div class="task-manager-form">
+<input id="taskStarsInput" min="0" placeholder="⭐ Estrellas" type="number" value="5"/>
+<input id="taskXpInput" min="0" placeholder="XP" type="number" value="10"/>
+<select class="house-field" id="taskHouseInput">
+<option value="Ambas">🏠 En ambas casas</option>
+<option value="Papá">👨 Solo con Papá</option>
+<option value="Mamá">👩 Solo con Mamá</option>
+</select>
+<select class="assign-field" id="taskAssignInput">
+<option value="current">👤 Solo hijo seleccionado</option>
+<option value="all">👨‍👩‍👧‍👦 Todos los hijos</option>
+</select>
+</div>
+<button class="btn primary" id="saveTaskBtn" style="width:100%;margin-top:9px">Añadir tarea</button>
+<div id="taskAdminList" style="margin-top:10px"></div>
+</div>
+</section>
+<section id="parentEvents" class="screen parent-manager-screen">
+ <div class="screen-title"><h1>📅 Gestionar eventos</h1><p>Exámenes, fútbol, actividades y eventos repetitivos.</p></div>
+ <button class="btn ghost parent-back-btn" type="button" onclick="backToParents()">← Volver a Zona Padres</button>
  <div class="card panelcard">
-  <h3 style="margin:0 0 5px">👨‍👩‍👧‍👦 Hijos / perfiles</h3>
-  <div class="mmeta">Cada hijo tiene sus propias tareas, estrellas, premios, lectura, calendario y progreso.</div>
-  <div class="child-manager-form">
-    <input id="childNameInput" placeholder="Nombre del hijo">
-    <select id="childAvatarInput">
-      <option value="👦">👦 Niño</option>
-      <option value="👧">👧 Niña</option>
-      <option value="🧒">🧒 Infantil</option>
-    </select>
-  </div>
-  <div class="child-manager-form">
-    <input id="childBirthInput" type="date">
-    <div>
-      <select id="childCitySelect" style="width:100%">
-        <option value="">Sin ciudad</option>
-        <option value="Valencia">Valencia</option>
-        <option value="Madrid">Madrid</option>
-        <option value="__other__">Otras</option>
-      </select>
-      <input id="childCityCustom" placeholder="Escribe la ciudad" style="display:none;margin-top:8px;width:100%">
-      <input id="childCityInput" placeholder="Ciudad" style="display:none">
-    </div>
-  </div>
-  <div class="child-manager-form">
-    <input id="childColorInput" placeholder="Color favorito">
-    <div></div>
-  </div>
-  <button id="saveChildBtn" class="btn primary" style="width:100%;margin-top:9px">Añadir hijo</button>
-  <div id="childManagerList" style="margin-top:10px"></div>
- </div>
-
+<h3 style="margin:0 0 5px">📅 Gestionar eventos</h3>
+<div class="mmeta">Añade exámenes, fútbol, partidos del Madrid, fechas especiales u otros eventos.</div>
+<div class="event-admin-form">
+<input id="eventTitleInput" placeholder="Nombre del evento"/>
+<select id="eventTypeInput">
+<option value="exam">📝 Examen</option>
+<option value="football">⚽ Fútbol</option>
+<option value="madrid">⚪ Real Madrid</option>
+<option value="special">🎉 Fecha especial</option>
+<option value="other">📌 Otro</option>
+</select>
+</div>
+<div class="event-admin-form">
+<input id="eventDateInput" type="date"/>
+<input id="eventTimeInput" type="time"/>
+</div>
+<div class="event-repeat-form">
+<select id="eventRepeatInput">
+<option value="none">No se repite</option>
+<option value="weekly">Cada semana</option>
+<option value="biweekly">Cada 2 semanas</option>
+<option value="monthly">Cada mes</option>
+</select>
+<div id="eventRepeatUntilWrap">
+<input id="eventRepeatUntilInput" title="Repetir hasta" type="date"/>
+<div class="mmeta" style="margin-top:4px">Repetir hasta (opcional)</div>
+</div>
+</div>
+<button class="btn primary" id="saveEventBtn" style="width:100%;margin-top:9px">Añadir evento</button>
+<div id="eventAdminList" style="margin-top:10px"></div>
+</div>
+</section>
+<section id="parentChallenges" class="screen parent-manager-screen">
+ <div class="screen-title"><h1>🎯 Retos por hijo</h1><p>Retos individuales o para todos los hijos.</p></div>
+ <button class="btn ghost parent-back-btn" type="button" onclick="backToParents()">← Volver a Zona Padres</button>
  <div class="card panelcard">
-  <h3 style="margin:0 0 5px">🎯 Retos por hijo</h3>
-  <div class="mmeta">Crea retos para el hijo seleccionado o para todos.</div>
-  <div class="challenge-admin-form"><input id="challengeTitleInput" placeholder="Nombre del reto"><input id="challengeMatchInput" placeholder="Tarea relacionada, ej. Leer"></div>
-  <div class="challenge-admin-form"><input id="challengeGoalInput" type="number" min="1" value="5" placeholder="Meta"><input id="challengeStarsInput" type="number" min="0" value="20" placeholder="⭐ Bonus"></div>
-  <div class="challenge-admin-form"><input id="challengeXpInput" type="number" min="0" value="30" placeholder="XP bonus"><select id="challengeAssignInput"><option value="current">👤 Solo hijo seleccionado</option><option value="all">👨‍👩‍👧‍👦 Todos los hijos</option></select></div>
-  <button id="saveChallengeBtn" class="btn primary" style="width:100%;margin-top:9px">Añadir reto</button>
-  <div id="challengeAdminList" style="margin-top:10px"></div>
- </div>
-
+<h3 style="margin:0 0 5px">🎯 Retos por hijo</h3>
+<div class="mmeta">Crea retos para el hijo seleccionado o para todos.</div>
+<div class="challenge-admin-form"><input id="challengeTitleInput" placeholder="Nombre del reto"/><input id="challengeMatchInput" placeholder="Tarea relacionada, ej. Leer"/></div>
+<div class="challenge-admin-form"><input id="challengeGoalInput" min="1" placeholder="Meta" type="number" value="5"/><input id="challengeStarsInput" min="0" placeholder="⭐ Bonus" type="number" value="20"/></div>
+<div class="challenge-admin-form"><input id="challengeXpInput" min="0" placeholder="XP bonus" type="number" value="30"/><select id="challengeAssignInput"><option value="current">👤 Solo hijo seleccionado</option><option value="all">👨‍👩‍👧‍👦 Todos los hijos</option></select></div>
+<button class="btn primary" id="saveChallengeBtn" style="width:100%;margin-top:9px">Añadir reto</button>
+<div id="challengeAdminList" style="margin-top:10px"></div>
+</div>
+</section>
+<section id="parentGoals" class="screen parent-manager-screen">
+ <div class="screen-title"><h1>⭐ Grandes objetivos</h1><p>Objetivos importantes y progreso.</p></div>
+ <button class="btn ghost parent-back-btn" type="button" onclick="backToParents()">← Volver a Zona Padres</button>
  <div class="card panelcard">
-  <h3 style="margin:0 0 5px">🔔 Avisos inteligentes</h3>
-  <div class="mmeta">Elige qué avisos aparecen en Inicio.</div>
-  <div class="reminder-settings">
-    <label><input id="prefPending" type="checkbox"> Tareas por aprobar</label>
-    <label><input id="prefProjects" type="checkbox"> Proyectos próximos</label>
-    <label><input id="prefTomorrow" type="checkbox"> Eventos de mañana</label>
-    <label><input id="prefRewards" type="checkbox"> Premios pendientes</label>
-  </div>
- </div>
-
+<h3 style="margin:0 0 5px">🎯 Grandes objetivos</h3>
+<div class="mmeta">Crea objetivos grandes y elige cuál aparece en Inicio.</div>
+<div class="goal-admin-form">
+<input id="goalNameInput" placeholder="Nombre del objetivo"/>
+<input id="goalCostInput" min="1" placeholder="⭐ Meta" type="number"/>
+</div>
+<div class="goal-admin-form">
+<input id="goalDateInput" type="date"/>
+<select id="goalIconInput">
+<option value="🎿">🎿 Esquí</option><option value="⚽">⚽ Fútbol</option><option value="🎮">🎮 Videojuegos</option>
+<option value="🎢">🎢 Aventura</option><option value="🎁">🎁 Regalo</option><option value="✈️">✈️ Viaje</option>
+</select>
+</div>
+<input id="goalMessageInput" placeholder="Mensaje motivador" style="width:100%;margin-top:8px;border:1px solid #dfe8f5;border-radius:12px;padding:10px;font:inherit"/>
+<button class="btn primary" id="saveGoalBtn" style="width:100%;margin-top:9px">Añadir objetivo</button>
+<div id="goalAdminList" style="margin-top:9px"></div>
+</div>
+</section>
+<section id="parentSpecialDays" class="screen parent-manager-screen">
+ <div class="screen-title"><h1>🎉 Días especiales</h1><p>Vacaciones, excursiones, cumpleaños y excepciones.</p></div>
+ <button class="btn ghost parent-back-btn" type="button" onclick="backToParents()">← Volver a Zona Padres</button>
  <div class="card panelcard">
-  <h3 style="margin:0 0 5px">🎯 Grandes objetivos</h3>
-  <div class="mmeta">Crea objetivos grandes y elige cuál aparece en Inicio.</div>
-  <div class="goal-admin-form">
-    <input id="goalNameInput" placeholder="Nombre del objetivo">
-    <input id="goalCostInput" type="number" min="1" placeholder="⭐ Meta">
-  </div>
-  <div class="goal-admin-form">
-    <input id="goalDateInput" type="date">
-    <select id="goalIconInput">
-      <option value="🎿">🎿 Esquí</option><option value="⚽">⚽ Fútbol</option><option value="🎮">🎮 Videojuegos</option>
-      <option value="🎢">🎢 Aventura</option><option value="🎁">🎁 Regalo</option><option value="✈️">✈️ Viaje</option>
-    </select>
-  </div>
-  <input id="goalMessageInput" style="width:100%;margin-top:8px;border:1px solid #dfe8f5;border-radius:12px;padding:10px;font:inherit" placeholder="Mensaje motivador">
-  <button id="saveGoalBtn" class="btn primary" style="width:100%;margin-top:9px">Añadir objetivo</button>
-  <div id="goalAdminList" style="margin-top:9px"></div>
- </div>
-
+<h3 style="margin:0 0 5px">🎉 Días especiales</h3>
+<div class="mmeta">Puedes pausar automáticamente bloques de tareas en vacaciones, excursiones, cumpleaños o días sin colegio.</div>
+<div class="special-admin-form">
+<input id="specialTitleInput" placeholder="Nombre, ej. Excursión"/>
+<input id="specialDateInput" type="date"/>
+</div>
+<div class="special-admin-form">
+<select id="specialTypeInput">
+<option value="no-school">🏖️ Sin colegio</option>
+<option value="vacation">🌴 Vacaciones</option>
+<option value="excursion">🚌 Excursión</option>
+<option value="birthday">🎂 Cumpleaños</option>
+<option value="holiday">🎉 Festivo</option>
+<option value="other">✨ Otro</option>
+</select>
+<div></div>
+</div>
+<div class="special-skip-grid">
+<label><input id="skipMorningInput" type="checkbox"/> Mañana</label>
+<label><input checked="" id="skipSchoolInput" type="checkbox"/> Colegio</label>
+<label><input id="skipAfternoonInput" type="checkbox"/> Tarde</label>
+</div>
+<button class="btn primary" id="saveSpecialBtn" style="width:100%;margin-top:9px">Añadir día especial</button>
+<div id="specialAdminList" style="margin-top:9px"></div>
+</div>
+</section>
+<section id="parentWorlds" class="screen parent-manager-screen">
+ <div class="screen-title"><h1>🌍 Mundos</h1><p>Configura los mundos y el XP necesario.</p></div>
+ <button class="btn ghost parent-back-btn" type="button" onclick="backToParents()">← Volver a Zona Padres</button>
  <div class="card panelcard">
-  <h3 style="margin:0 0 5px">🎉 Días especiales</h3>
-  <div class="mmeta">Puedes pausar automáticamente bloques de tareas en vacaciones, excursiones, cumpleaños o días sin colegio.</div>
-  <div class="special-admin-form">
-    <input id="specialTitleInput" placeholder="Nombre, ej. Excursión">
-    <input id="specialDateInput" type="date">
-  </div>
-  <div class="special-admin-form">
-    <select id="specialTypeInput">
-      <option value="no-school">🏖️ Sin colegio</option>
-      <option value="vacation">🌴 Vacaciones</option>
-      <option value="excursion">🚌 Excursión</option>
-      <option value="birthday">🎂 Cumpleaños</option>
-      <option value="holiday">🎉 Festivo</option>
-      <option value="other">✨ Otro</option>
-    </select>
-    <div></div>
-  </div>
-  <div class="special-skip-grid">
-    <label><input id="skipMorningInput" type="checkbox"> Mañana</label>
-    <label><input id="skipSchoolInput" type="checkbox" checked> Colegio</label>
-    <label><input id="skipAfternoonInput" type="checkbox"> Tarde</label>
-  </div>
-  <button id="saveSpecialBtn" class="btn primary" style="width:100%;margin-top:9px">Añadir día especial</button>
-  <div id="specialAdminList" style="margin-top:9px"></div>
- </div>
-
+<h3 style="margin:0 0 5px">🌍 Mundos</h3>
+<div class="mmeta">Los mundos se desbloquean por XP acumulado. Gastar estrellas no los vuelve a bloquear.</div>
+<div id="worldAdminList" style="margin-top:9px"></div>
+<button class="btn ghost" id="addWorldBtn" style="width:100%;margin-top:8px" type="button">+ Añadir mundo</button>
+</div>
+</section>
+<section id="parentBadges" class="screen parent-manager-screen">
+ <div class="screen-title"><h1>🏅 Insignias</h1><p>Configura insignias y condiciones.</p></div>
+ <button class="btn ghost parent-back-btn" type="button" onclick="backToParents()">← Volver a Zona Padres</button>
  <div class="card panelcard">
-  <h3 style="margin:0 0 5px">💾 Copia de seguridad</h3>
-  <div class="mmeta">Guarda una copia completa de toda la familia: perfiles, tareas, eventos, calendario, diario, premios, lectura, proyectos y configuración.</div>
-  <div class="backup-actions">
-    <button id="exportBackupBtn" class="btn primary" type="button">⬇️ Exportar copia</button>
-    <label class="btn ghost" for="importBackupInput">⬆️ Restaurar copia</label>
-  </div>
-  <input id="importBackupInput" type="file" accept="application/json,.json" style="display:none">
-  <div id="backupStatus" class="mmeta" style="margin-top:8px"></div>
- </div>
-
-
+<h3 style="margin:0 0 5px">🏅 Insignias</h3>
+<div class="mmeta">Las insignias se desbloquean automáticamente. Puedes cambiar nombre, icono, objetivo y condición para el hijo activo.</div>
+<div id="badgeAdminList" style="margin-top:9px"></div>
+<button class="btn ghost" id="addBadgeBtn" style="width:100%;margin-top:8px" type="button">+ Añadir insignia</button>
+</div>
+</section>
+<section id="parentRewards" class="screen parent-manager-screen">
+ <div class="screen-title"><h1>🎁 Premios</h1><p>Crea y modifica los premios canjeables.</p></div>
+ <button class="btn ghost parent-back-btn" type="button" onclick="backToParents()">← Volver a Zona Padres</button>
+ <div class="card panelcard reward-admin">
+<h3 style="margin:0 0 5px">🏆 Gestionar premios</h3>
+<div class="mmeta">Puedes añadir, editar o eliminar premios. Los cambios aparecen en Premios.</div>
+<div class="reward-admin-form">
+<input id="rewardNameInput" placeholder="Nombre del premio"/>
+<input id="rewardCostInput" min="1" placeholder="⭐ Coste" type="number"/>
+</div>
+<div class="reward-admin-form">
+<select id="rewardEmojiInput">
+<option value="🍦">🍦 Helado</option>
+<option value="🎬">🎬 Cine / peli</option>
+<option value="🎮">🎮 Videojuegos</option>
+<option value="⚽">⚽ Fútbol</option>
+<option value="🎿">🎿 Esquí</option>
+<option value="🎁">🎁 Regalo</option>
+<option value="🍕">🍕 Comida especial</option>
+<option value="🎉">🎉 Experiencia</option>
+</select>
+<select id="rewardSizeInput">
+<option value="Pequeño">Pequeño</option>
+<option value="Mediano">Mediano</option>
+<option value="Grande">Grande</option>
+<option value="Gran premio">Gran premio</option>
+</select>
+</div>
+<button class="btn primary" id="saveRewardBtn" style="margin-top:9px;width:100%">Añadir premio</button>
+<div class="reward-admin-list" id="rewardAdminList"></div>
+</div>
+</section>
+<section id="parents" class="screen">
+ <div class="screen-title"><h1>🛡️ Zona Padres</h1><p>Control y configuración de la app.</p></div>
+ <div class="card panelcard">
+<h3 style="margin:0 0 6px">🔐 PIN de padres</h3>
+<div class="mmeta">PIN familiar inicial: 1234. Puedes cambiarlo aquí.</div>
+<div class="reward-admin-form" style="margin-top:10px">
+<input id="newPinInput" inputmode="numeric" maxlength="6" placeholder="Nuevo PIN" type="password"/>
+<input id="confirmPinInput" inputmode="numeric" maxlength="6" placeholder="Repetir PIN" type="password"/>
+</div>
+<button class="btn primary" id="changePinBtn" style="margin-top:9px;width:100%">Cambiar PIN</button>
+</div>
+ <div class="card panelcard">
+<h3 style="margin:0 0 5px">👨‍👩‍👧‍👦 Hijos / perfiles</h3>
+<div class="mmeta">Cada hijo tiene sus propias tareas, estrellas, premios, lectura, calendario y progreso.</div>
+<div class="child-manager-form">
+<input id="childNameInput" placeholder="Nombre del hijo"/>
+<select id="childAvatarInput">
+<option value="👦">👦 Niño</option>
+<option value="👧">👧 Niña</option>
+<option value="🧒">🧒 Infantil</option>
+</select>
+</div>
+<div class="child-manager-form">
+<input id="childBirthInput" type="date"/>
+<div>
+<select id="childCitySelect" style="width:100%">
+<option value="">Sin ciudad</option>
+<option value="Valencia">Valencia</option>
+<option value="Madrid">Madrid</option>
+<option value="__other__">Otras</option>
+</select>
+<input id="childCityCustom" placeholder="Escribe la ciudad" style="display:none;margin-top:8px;width:100%"/>
+<input id="childCityInput" placeholder="Ciudad" style="display:none"/>
+</div>
+</div>
+<div class="child-manager-form">
+<input id="childColorInput" placeholder="Color favorito"/>
+<div></div>
+</div>
+<button class="btn primary" id="saveChildBtn" style="width:100%;margin-top:9px">Añadir hijo</button>
+<div id="childManagerList" style="margin-top:10px"></div>
+</div>
+ <div class="card panelcard"><h3 style="margin-top:0">Pendientes</h3><div id="pending"></div></div>
  
- 
+ <div class="card panelcard parent-manage-card">
+  <h3 style="margin:0 0 5px">⚙️ Gestionar</h3>
+  <div class="mmeta">Entra en cada apartado para crear, editar o revisar lo que ya está guardado.</div>
+  <div class="parent-manage-grid">
+   <button type="button" onclick="openParentManager('parentTasks')"><span>✅</span>Tareas</button>
+   <button type="button" onclick="openParentManager('parentEvents')"><span>📅</span>Eventos</button>
+   <button type="button" onclick="openParentManager('parentChallenges')"><span>🎯</span>Retos por hijo</button>
+   <button type="button" onclick="openParentManager('parentGoals')"><span>⭐</span>Grandes objetivos</button>
+   <button type="button" onclick="openParentManager('parentSpecialDays')"><span>🎉</span>Días especiales</button>
+   <button type="button" onclick="openParentManager('parentWorlds')"><span>🌍</span>Mundos</button>
+   <button type="button" onclick="openParentManager('parentBadges')"><span>🏅</span>Insignias</button>
+   <button type="button" onclick="openParentManager('parentRewards')"><span>🎁</span>Premios</button>
+  </div>
+ </div>
+
  <div class="card panelcard">
-  <h3 style="margin:0 0 5px">🌍 Mundos</h3>
-  <div class="mmeta">Los mundos se desbloquean por XP acumulado. Gastar estrellas no los vuelve a bloquear.</div>
-  <div id="worldAdminList" style="margin-top:9px"></div>
-  <button id="addWorldBtn" class="btn ghost" style="width:100%;margin-top:8px" type="button">+ Añadir mundo</button>
- </div>
-
-<div class="card panelcard">
-  <h3 style="margin:0 0 5px">🏅 Insignias</h3>
-  <div class="mmeta">Las insignias se desbloquean automáticamente. Puedes cambiar nombre, icono, objetivo y condición para el hijo activo.</div>
-  <div id="badgeAdminList" style="margin-top:9px"></div>
-  <button id="addBadgeBtn" class="btn ghost" style="width:100%;margin-top:8px" type="button">+ Añadir insignia</button>
- </div>
-
-<div class="card panelcard danger-card">
-  <h3 style="margin:0 0 5px">🧹 Empezar toda la app desde cero</h3>
-  <div class="mmeta">Borra perfiles, hijos, tareas, retos, premios, estrellas, XP, lectura, proyectos, calendario, objetivos e historiales. El diseño y las funciones de la app se mantienen.</div>
-  <button id="resetWholeAppBtn" class="danger-btn" type="button">Poner toda la app a 0</button>
- </div>
-
+<h3 style="margin:0 0 5px">🔔 Avisos inteligentes</h3>
+<div class="mmeta">Elige qué avisos aparecen en Inicio.</div>
+<div class="reminder-settings">
+<label><input id="prefPending" type="checkbox"/> Tareas por aprobar</label>
+<label><input id="prefProjects" type="checkbox"/> Proyectos próximos</label>
+<label><input id="prefTomorrow" type="checkbox"/> Eventos de mañana</label>
+<label><input id="prefRewards" type="checkbox"/> Premios pendientes</label>
+</div>
+</div>
+ <div class="card panelcard">
+<h3 style="margin:0 0 5px">💾 Copia de seguridad</h3>
+<div class="mmeta">Guarda una copia completa de toda la familia: perfiles, tareas, eventos, calendario, diario, premios, lectura, proyectos y configuración.</div>
+<div class="backup-actions">
+<button class="btn primary" id="exportBackupBtn" type="button">⬇️ Exportar copia</button>
+<label class="btn ghost" for="importBackupInput">⬆️ Restaurar copia</label>
+</div>
+<input accept="application/json,.json" id="importBackupInput" style="display:none" type="file"/>
+<div class="mmeta" id="backupStatus" style="margin-top:8px"></div>
+</div>
  <div class="card panelcard sync-card">
-  <h3 style="margin:0 0 5px">☁️ Sincronización entre padres</h3>
-  <div class="mmeta">La app sigue funcionando sin conexión. Al activar la nube, ambos dispositivos compartirán los mismos datos.</div>
-
-  <div id="syncStatus" class="sync-status">
-    <span class="sync-dot"></span>
-    <span id="syncStatusText">Sin configurar</span>
-  </div>
-
-  <div class="sync-grid">
-    <input id="syncFamilyCode" placeholder="Código familiar, ej. MIGUELITO-2026">
-    <input id="syncDeviceName" placeholder="Este dispositivo, ej. Papá">
-    <input id="syncUrl" class="sync-wide" placeholder="URL de Supabase">
-    <input id="syncKey" class="sync-wide" type="password" placeholder="Anon key de Supabase">
-  </div>
-
-  <div class="sync-actions">
-    <button id="saveSyncBtn" class="btn primary" type="button">Guardar y conectar</button>
-    <button id="syncNowBtn" class="btn ghost" type="button">Sincronizar ahora</button>
-  </div>
- </div>
-
- <div class="card panelcard">
-  <h3 style="margin:0 0 6px">🔐 PIN de padres</h3>
-  <div class="mmeta">PIN familiar inicial: 1234. Puedes cambiarlo aquí.</div>
-  <div class="reward-admin-form" style="margin-top:10px">
-    <input id="newPinInput" type="password" inputmode="numeric" maxlength="6" placeholder="Nuevo PIN">
-    <input id="confirmPinInput" type="password" inputmode="numeric" maxlength="6" placeholder="Repetir PIN">
-  </div>
-  <button id="changePinBtn" class="btn primary" style="margin-top:9px;width:100%">Cambiar PIN</button>
- </div>
+<h3 style="margin:0 0 5px">☁️ Sincronización entre padres</h3>
+<div class="mmeta">La app sigue funcionando sin conexión. Al activar la nube, ambos dispositivos compartirán los mismos datos.</div>
+<div class="sync-status" id="syncStatus">
+<span class="sync-dot"></span>
+<span id="syncStatusText">Sin configurar</span>
+</div>
+<div class="sync-grid">
+<input id="syncFamilyCode" placeholder="Código familiar, ej. MIGUELITO-2026"/>
+<input id="syncDeviceName" placeholder="Este dispositivo, ej. Papá"/>
+<input class="sync-wide" id="syncUrl" placeholder="URL de Supabase"/>
+<input class="sync-wide" id="syncKey" placeholder="Anon key de Supabase" type="password"/>
+</div>
+<div class="sync-actions">
+<button class="btn primary" id="saveSyncBtn" type="button">Guardar y conectar</button>
+<button class="btn ghost" id="syncNowBtn" type="button">Sincronizar ahora</button>
+</div>
+</div>
+ <div class="card panelcard danger-card">
+<h3 style="margin:0 0 5px">🧹 Empezar toda la app desde cero</h3>
+<div class="mmeta">Borra perfiles, hijos, tareas, retos, premios, estrellas, XP, lectura, proyectos, calendario, objetivos e historiales. El diseño y las funciones de la app se mantienen.</div>
+<button class="danger-btn" id="resetWholeAppBtn" type="button">Poner toda la app a 0</button>
+</div>
 </section>
 </div>
 
@@ -2868,9 +2857,30 @@ function localDateKey(d=new Date()){
 }
 
 
+
+function repairImportedTaskOwnershipForActiveChild(){
+ if(!Array.isArray(state?.missions))return;
+ const activeId=familyStore?.activeChildId;
+ state.missions.forEach(m=>{
+   if(typeof m.enabled==='undefined')m.enabled=true;
+   if(!m.house)m.house='Ambas';
+   if(m.scope==='all')return;
+   m.scope='current';
+   m.ownerChildId=activeId;
+ });
+}
+
 function ensureV38State(){
  if(!state.customChallenges)state.customChallenges=[];
- state.missions.forEach(m=>{if(!m.scope)m.scope='current';if(!m.ownerChildId)m.ownerChildId=familyStore.activeChildId;});
+ const familyIds=new Set((familyStore?.children||[]).map(c=>String(c.id)));
+ state.missions.forEach(m=>{
+   if(!m.scope)m.scope='current';
+   if(!m.ownerChildId)m.ownerChildId=familyStore.activeChildId;
+   if(m.scope!=='all' && !familyIds.has(String(m.ownerChildId))){
+     m.scope='current';
+     m.ownerChildId=familyStore.activeChildId;
+   }
+ });
 }
 function ensureV34State(){
  if(!state.notificationPrefs)state.notificationPrefs={pending:true,projects:true,tomorrow:true,rewards:true};
@@ -3526,10 +3536,13 @@ $('#importBackupInput').onchange=async e=>{
    if(isFull){
      restoreFullFamilyBackup(data);
    }else{
-     state=legacy;ensureV33State();ensureV34State();ensureEventState();ensureDailyGameState();ensureJournalState();ensureWorldState();ensureBadgeState();ensureTaskState();ensureRewardHistory();ensureRewardState();ensureProjectState();ensureReadingState();ensureProfileState();state._updatedAt=Date.now();safeStoreState();
+     state=legacy;
+     ensureV33State();ensureV34State();ensureEventState();ensureDailyGameState();ensureJournalState();ensureWorldState();ensureBadgeState();ensureTaskState();ensureRewardHistory();ensureRewardState();ensureProjectState();ensureReadingState();ensureProfileState();
+     repairImportedTaskOwnershipForActiveChild();
+     state._updatedAt=Date.now();safeStoreState();
    }
    render();scheduleRemotePush();
-   $('#backupStatus').textContent=isFull?'Copia completa restaurada correctamente.':'Copia antigua restaurada en el perfil activo.';
+   $('#backupStatus').textContent=isFull?'Copia completa restaurada correctamente.':'Copia antigua restaurada en el perfil activo. Tareas vinculadas correctamente.';
    toast('Copia restaurada ✅');
  }catch(err){
    console.error(err);
@@ -5662,6 +5675,25 @@ function openPin(){
 function closePin(){
  $('#pinLock').style.display='none';
 }
+
+function openParentManager(id){
+ document.querySelectorAll('.nav button').forEach(x=>x.classList.remove('on'));
+ document.querySelector('.nav button[data-screen="more"]')?.classList.add('on');
+ document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+ const target=document.getElementById(id);
+ if(target)target.classList.add('active');
+ try{window.scrollTo(0,0)}catch(e){}
+ render();
+}
+function backToParents(){
+ document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+ $('#parents')?.classList.add('active');
+ document.querySelectorAll('.nav button').forEach(x=>x.classList.remove('on'));
+ document.querySelector('.nav button[data-screen="more"]')?.classList.add('on');
+ try{window.scrollTo(0,0)}catch(e){}
+ render();
+}
+
 function showParents(){
  document.querySelectorAll('.nav button').forEach(x=>x.classList.remove('on'));
  document.querySelector('.nav button[data-screen="more"]')?.classList.add('on');

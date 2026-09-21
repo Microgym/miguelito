@@ -1,0 +1,25 @@
+MIS TAREAS v77 — ZONA PADRES REORGANIZADA
+
+Orden:
+1. PIN de padres
+2. Gestión de perfiles de hijos
+3. Pendientes
+4. Gestionar:
+   - Tareas
+   - Eventos
+   - Retos por hijo
+   - Grandes objetivos
+   - Días especiales
+   - Mundos
+   - Insignias
+   - Premios
+5. Avisos inteligentes
+6. Copia de seguridad
+7. Sincronización entre padres
+8. Zona de reinicio al final
+
+Cada apartado de Gestión abre una pantalla completa independiente,
+con su formulario y con la lista de elementos ya guardados.
+
+Los datos familiares ya no aparecen duplicados en Zona Padres;
+se gestionan desde Más > Familia.

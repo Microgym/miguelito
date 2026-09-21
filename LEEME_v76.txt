@@ -1,0 +1,14 @@
+MIS TAREAS v76 — CORRECCIÓN TAREAS TRAS IMPORTAR JSON
+
+Problema:
+Las copias antiguas podían traer tareas vinculadas al ID de un perfil anterior.
+Por eso aparecían en Zona Padres, pero Tareas diarias las filtraba y no las mostraba.
+
+Corrección:
+- al importar una copia antigua, todas las tareas "del hijo actual" se vinculan al perfil activo;
+- se conservan las tareas marcadas para "todos";
+- si falta enabled, se activa;
+- si falta casa, se asigna "Ambas";
+- además se reparan automáticamente tareas huérfanas que ya hubieran sido importadas con v75.
+
+Los eventos no se modifican.
