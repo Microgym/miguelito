@@ -1,0 +1,9 @@
+MIS TAREAS v62
+
+Mejoras:
+- Bloque "Datos familiares" en Zona Padres.
+- Editar Papá, Mamá, juntos/separados y PIN desde un único sitio.
+- Botón "Probar configuración inicial" sin borrar datos.
+- La prueba usa una copia temporal y al salir restaura todo.
+- Botones Atrás añadidos en el asistente.
+- El bloque de gran objetivo se oculta si no hay ninguno configurado.
