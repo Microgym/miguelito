@@ -1,0 +1,22 @@
+MIS TAREAS v42 — IMÁGENES CORREGIDAS
+
+Sube TODOS estos archivos a la raíz de GitHub (junto a index.html):
+- index.html
+- service-worker.js
+- manifest.webmanifest
+- icon-180.png
+- icon-192.png
+- icon-512.png
+- icon-maskable-512.png
+- fondo-aventura.png
+- heroe-original.png
+- objetivo-esqui.png
+- familia-aventura.png
+- nina.png
+- nino.png
+
+IMPORTANTE:
+nina.png y nino.png deben quedar exactamente al mismo nivel que index.html.
+No los metas en una carpeta.
+
+Después espera a que GitHub Pages termine de desplegar y recarga la web.

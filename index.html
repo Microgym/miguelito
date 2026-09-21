@@ -255,7 +255,7 @@ body {
   content: "";
   position: absolute;
   inset: 0;
-  background-image: url('visual_asset_1.png');
+  background-image: url('./fondo-aventura.png');
   background-size: cover;
   background-position: center 18%;
   opacity: .92;
@@ -276,7 +276,7 @@ body {
   bottom: 3px;
   width: 160px;
   height: 236px;
-  background-image: url('visual_asset_2.png');
+  background-image: url('./heroe-original.png');
   background-size: contain;
   background-repeat: no-repeat;
   background-position: left bottom;
@@ -334,7 +334,7 @@ body {
 }
 
 .ski-illus {
-  background-image: url('visual_asset_3.png');
+  background-image: url('./objetivo-esqui.png');
   background-size: cover;
   background-position: center;
   min-height: 138px;
@@ -353,7 +353,7 @@ body {
 
 .family-illus {
   width: 42%;
-  background-image: url('visual_asset_4.png');
+  background-image: url('./familia-aventura.png');
   background-size: cover;
   background-position: left center;
   border-radius: 20px;
@@ -392,7 +392,7 @@ body {
 
 .footerart {
   height: 84px;
-  background-image: url('visual_asset_1.png');
+  background-image: url('./fondo-aventura.png');
   background-size: cover;
   background-position: center bottom;
   border: 1px solid rgba(255,255,255,.78);
@@ -426,7 +426,7 @@ body {
   content:"";
   position:absolute;
   inset:0;
-  background-image:url('visual_asset_1.png');
+  background-image:url('./fondo-aventura.png');
   background-size:cover;
   background-position:center;
   opacity:.26;
@@ -452,7 +452,7 @@ body {
 
 .cover,
 .history-cover {
-  background-image: url('visual_asset_2.png');
+  background-image: url('./heroe-original.png');
   background-size: cover;
   background-position: center;
   color: transparent;
@@ -1177,6 +1177,25 @@ body{min-height:100%;overscroll-behavior-y:none}
 .child-visual-icon img{width:100%;height:100%;object-fit:cover}
 .hero.girl{background:linear-gradient(180deg,#ffdceb 0%,#fff2f7 58%,#dff4ff 100%)!important}
 .hero.boy{background:linear-gradient(180deg,#d7ecff 0%,#f2f8ff 58%,#dff4ff 100%)!important}
+
+
+/* ===== v43 corrección de imágenes ===== */
+#homeHero .avatar{
+  background-image:none!important;
+  background:none!important;
+}
+#homeHero .avatar img.child-hero-img{
+  display:block!important;
+  width:100%!important;
+  height:100%!important;
+  object-fit:contain!important;
+  object-position:center bottom!important;
+}
+.ski-illus{
+  background-image:url('./objetivo-esqui.png')!important;
+  background-size:cover!important;
+  background-position:center!important;
+}
 
 </style>
 </head>
@@ -2503,7 +2522,7 @@ function switchChild(id){
  openScreen('today');
 }
 function childVisualThumb(c){
- const src=(c?.avatar==='👧')?'visual_asset_5.png':'visual_asset_6.png';
+ const src=(c?.avatar==='👧')?'./nina.png':'./nino.png';
  return `<span class="child-visual-icon"><img src="${src}" alt=""></span>`;
 }
 
@@ -3058,10 +3077,10 @@ function renderActiveChildIdentity(){
  if(logo)logo.textContent=name.toUpperCase();
  if(!hero||!avatarBox)return;
  hero.classList.remove('girl','boy','neutral');
- let src='visual_asset_6.png';
+ let src='./nino.png';
  let cls='boy';
- if(avatar==='👧'){src='visual_asset_5.png';cls='girl';}
- else if(avatar==='🧒'){src='visual_asset_6.png';cls='neutral';}
+ if(avatar==='👧'){src='./nina.png';cls='girl';}
+ else if(avatar==='🧒'){src='./nino.png';cls='neutral';}
  hero.classList.add(cls);
  avatarBox.innerHTML=`<img class="child-hero-img" src="${src}" alt="${name}">`;
  if($('#homeChildSubtitle')){
