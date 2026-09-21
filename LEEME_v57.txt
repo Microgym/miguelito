@@ -1,8 +1,0 @@
-MIS TAREAS v57 — CAMBIO DE PERFIL CORREGIDO
-
-Corregido:
-- En Inicio, al tocar Miguelito/Sofía cambia realmente el perfil activo.
-- Se guarda el estado del perfil actual antes del cambio.
-- Se carga el estado completo del nuevo perfil.
-- Vuelve a Inicio y refresca nombre, ciudad, estrellas, tareas e imágenes.
-- Mejora del toque en iPhone/iPad.
