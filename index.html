@@ -1197,6 +1197,23 @@ body{min-height:100%;overscroll-behavior-y:none}
   background-position:center!important;
 }
 
+
+/* ===== v44 ciudad + borrar perfil + reinicio total ===== */
+.city-badge{
+  display:inline-flex;align-items:center;gap:5px;margin-top:5px;padding:5px 8px;
+  border-radius:10px;background:#eef5ff;color:#315b8d;font-size:9px;font-weight:1000
+}
+.danger-card{border:1px solid #f1c7cc!important;background:#fff8f8!important}
+.danger-card h3{color:#a6404a}
+.danger-btn{
+  width:100%;border:0;border-radius:13px;padding:11px 12px;font:inherit;font-weight:1000;
+  background:#d84f5c;color:white;cursor:pointer;margin-top:9px
+}
+.delete-profile-btn{
+  width:100%;border:1px solid #f0c5ca;border-radius:13px;padding:10px 12px;
+  background:#fff0f2;color:#a43b47;font-weight:1000;cursor:pointer;margin-top:8px
+}
+
 </style>
 </head>
 <body>
@@ -1228,7 +1245,7 @@ body{min-height:100%;overscroll-behavior-y:none}
     <rect x="52" y="190" width="22" height="30" rx="8" fill="#233d6b"/><rect x="83" y="190" width="22" height="30" rx="8" fill="#233d6b"/>
    </svg>
   </div>
-  <div class="hero-copy"><h1>¡Vamos,<br><span id="homeChildName">Miguelito</span>!</h1><p id="homeChildSubtitle">Hoy es un gran día para aprender y conseguir tus metas.</p></div>
+  <div class="hero-copy"><h1>¡Vamos,<br><span id="homeChildName">Miguelito</span>!</h1><p id="homeChildSubtitle">Hoy es un gran día para aprender y conseguir tus metas.</p><div id="homeCityBadge" class="city-badge" style="display:none">📍 <span id="homeCityName"></span></div></div>
   <div class="hero-panels">
    <div class="glass"><div class="big">👑 Nivel <span id="level">4</span></div><div class="small">Campeón · <span id="xp">620</span> / 800 XP</div><div class="xpbar"><i id="xpbar"></i></div></div>
    <div class="glass starbox"><div style="font-size:26px">⭐</div><div class="num" id="herostars">185</div><div class="txt">estrellas</div></div>
@@ -1402,6 +1419,7 @@ body{min-height:100%;overscroll-behavior-y:none}
       <div class="field"><label>Fecha de nacimiento</label><input id="profileBirthInput" type="date"></div>
       <div class="field"><label>Edad</label><input id="profileAgeInput" type="number" min="1" max="18" value="9"></div>
     </div>
+    <div class="field" style="margin-top:8px"><label>Ciudad</label><input id="profileCityInput" placeholder="Ej. Valencia, Madrid, Sevilla"></div>
     <div class="field" style="margin-top:8px"><label>Mi color favorito</label>
       <select id="profileColorInput">
         <option>Azul</option><option>Verde</option><option>Rojo</option><option>Naranja</option><option>Morado</option>
@@ -1409,6 +1427,7 @@ body{min-height:100%;overscroll-behavior-y:none}
     </div>
     <div class="field" style="margin-top:8px"><label>Lo que más me gusta</label><input id="profileLikesInput" placeholder="Ej. fútbol, Minecraft, esquiar"></div>
     <button id="saveProfileBtn" class="btn primary" style="width:100%;margin-top:10px">Guardar perfil</button>
+    <button id="deleteCurrentProfileBtn" class="delete-profile-btn" type="button">🗑️ Eliminar este perfil</button>
   </div>
 
   <div class="paper">
@@ -1750,7 +1769,11 @@ body{min-height:100%;overscroll-behavior-y:none}
   </div>
   <div class="child-manager-form">
     <input id="childBirthInput" type="date">
+    <input id="childCityInput" placeholder="Ciudad">
+  </div>
+  <div class="child-manager-form">
     <input id="childColorInput" placeholder="Color favorito">
+    <div></div>
   </div>
   <button id="saveChildBtn" class="btn primary" style="width:100%;margin-top:9px">Añadir hijo</button>
   <div id="childManagerList" style="margin-top:10px"></div>
@@ -1832,6 +1855,13 @@ body{min-height:100%;overscroll-behavior-y:none}
   </div>
   <input id="importBackupInput" type="file" accept="application/json,.json" style="display:none">
   <div id="backupStatus" class="mmeta" style="margin-top:8px"></div>
+ </div>
+
+
+ <div class="card panelcard danger-card">
+  <h3 style="margin:0 0 5px">🧹 Empezar toda la app desde cero</h3>
+  <div class="mmeta">Borra perfiles, hijos, tareas, retos, premios, estrellas, XP, lectura, proyectos, calendario, objetivos e historiales. El diseño y las funciones de la app se mantienen.</div>
+  <button id="resetWholeAppBtn" class="danger-btn" type="button">Poner toda la app a 0</button>
  </div>
 
  <div class="card panelcard sync-card">
@@ -1942,6 +1972,7 @@ function safeStoreState(){
      child.state=state;
      child.name=state.profile?.name||child.name||'Hijo';
      child.birthDate=state.profile?.birthDate||child.birthDate||'';
+     child.city=state.profile?.city||child.city||'';
    }
    saveFamilyStore();
    window.localStorage.setItem('miguelito-v10',JSON.stringify(state));
@@ -2502,13 +2533,17 @@ $('#importBackupInput').onchange=async e=>{
 
 
 
-function freshChildState(name,birthDate=''){
- const base={
-   stars:0,xp:0,calendar:{},
-   missions:seed.map(m=>({...m,status:0,enabled:true,house:'Ambas'})),
-   profile:{name:name||'Hijo',birthDate,age:ageFromBirth(birthDate)||9,color:'Azul',likes:''}
+function freshChildState(name,birthDate='',city=''){
+ return {
+   stars:0,xp:0,calendar:{},missions:[],
+   profile:{name:name||'Nuevo perfil',birthDate,city,age:ageFromBirth(birthDate)||9,color:'Azul',likes:''},
+   rewards:[],rewardHistory:[],projects:[],
+   reading:{active:null,history:[]},
+   events:[],approvalHistory:[],weeklyClaims:{},
+   customChallenges:[],defaultChallengesEnabled:false,
+   bigGoals:[],activeGoalId:'',specialDays:[],
+   notificationPrefs:{pending:true,projects:true,tomorrow:true,rewards:true}
  };
- return base;
 }
 function switchChild(id){
  if(id===familyStore.activeChildId)return;
@@ -2546,7 +2581,7 @@ function renderChildSwitcher(){
  box.appendChild(add);
 }
 function resetChildForm(){
- $('#childNameInput').value='';$('#childAvatarInput').value='👦';$('#childBirthInput').value='';$('#childColorInput').value='';
+ $('#childNameInput').value='';$('#childAvatarInput').value='👦';$('#childBirthInput').value='';$('#childCityInput').value='';$('#childColorInput').value='';
  $('#saveChildBtn').dataset.edit='';$('#saveChildBtn').textContent='Añadir hijo';
 }
 function renderChildManager(){
@@ -2554,7 +2589,7 @@ function renderChildManager(){
  familyStore.children.forEach((c,i)=>{
    const r=document.createElement('div');r.className='child-manager-row';
    const birth=c.birthDate?new Date(c.birthDate+'T12:00:00').toLocaleDateString('es-ES'):'Sin fecha';
-   r.innerHTML=`<div><b>${childVisualThumb(c)} ${c.name}${c.id===familyStore.activeChildId?' <span class="goal-active-tag">ACTIVO</span>':''}</b><div class="mmeta">${birth}</div></div>
+   r.innerHTML=`<div><b>${childVisualThumb(c)} ${c.name}${c.id===familyStore.activeChildId?' <span class="goal-active-tag">ACTIVO</span>':''}</b><div class="mmeta">${birth}${(c.city||c.state?.profile?.city)?' · 📍 '+(c.city||c.state.profile.city):''}</div></div>
    <div class="child-manager-actions">
      <button data-childopen="${i}" style="background:#e8f2ff;color:#35618e">Abrir</button>
      <button data-childedit="${i}" style="background:#fff4d5;color:#806000">Editar</button>
@@ -2566,38 +2601,31 @@ function renderChildManager(){
  list.querySelectorAll('[data-childedit]').forEach(b=>b.onclick=()=>{
    const c=familyStore.children[Number(b.dataset.childedit)];
    $('#childNameInput').value=c.name;$('#childAvatarInput').value=c.avatar||'👦';$('#childBirthInput').value=c.birthDate||'';
+   $('#childCityInput').value=c.city||c.state?.profile?.city||'';
    $('#childColorInput').value=c.state?.profile?.color||'';
    $('#saveChildBtn').dataset.edit=b.dataset.childedit;$('#saveChildBtn').textContent='Guardar cambios';
  });
  list.querySelectorAll('[data-childdel]').forEach(b=>b.onclick=()=>{
-   if(familyStore.children.length<=1){toast('Debe quedar al menos un perfil');return}
-   const i=Number(b.dataset.childdel),c=familyStore.children[i];
-   if(confirm(`¿Eliminar el perfil de ${c.name}?`)){
-     familyStore.children.splice(i,1);
-     if(familyStore.activeChildId===c.id){
-       familyStore.activeChildId=familyStore.children[0].id;
-       state=familyStore.children[0].state;
-     }
-     saveFamilyStore();resetChildForm();render();
-   }
+   const c=familyStore.children[Number(b.dataset.childdel)];
+   deleteChildProfileById(c.id);
  });
 }
 $('#saveChildBtn').onclick=()=>{
- const name=$('#childNameInput').value.trim(),birth=$('#childBirthInput').value||'';
+ const name=$('#childNameInput').value.trim(),birth=$('#childBirthInput').value||'',city=$('#childCityInput').value.trim();
  if(!name){toast('Escribe el nombre del hijo');return}
  const edit=$('#saveChildBtn').dataset.edit;
  if(edit!==''){
    const c=familyStore.children[Number(edit)];
-   c.name=name;c.avatar=$('#childAvatarInput').value;c.birthDate=birth;
+   c.name=name;c.avatar=$('#childAvatarInput').value;c.birthDate=birth;c.city=city;
    c.state.profile=c.state.profile||{};
-   c.state.profile.name=name;c.state.profile.birthDate=birth;
+   c.state.profile.name=name;c.state.profile.birthDate=birth;c.state.profile.city=city;
    c.state.profile.age=ageFromBirth(birth)||c.state.profile.age||9;
    if($('#childColorInput').value.trim())c.state.profile.color=$('#childColorInput').value.trim();
    if(c.id===familyStore.activeChildId)state=c.state;
    toast('Perfil actualizado');
  }else{
    const id='child-'+Date.now();
-   familyStore.children.push({id,name,avatar:$('#childAvatarInput').value,birthDate:birth,state:freshChildState(name,birth)});
+   familyStore.children.push({id,name,avatar:$('#childAvatarInput').value,birthDate:birth,city,state:freshChildState(name,birth,city)});
    toast('Hijo añadido 👨‍👩‍👧‍👦');
  }
  saveFamilyStore();resetChildForm();render();
@@ -2624,6 +2652,47 @@ $('#saveChallengeBtn').onclick=()=>{
  const data={id:'challenge-'+Date.now(),title,match:$('#challengeMatchInput').value.trim().toLowerCase(),goal:Math.max(1,Number($('#challengeGoalInput').value)||1),stars:Math.max(0,Number($('#challengeStarsInput').value)||0),xp:Math.max(0,Number($('#challengeXpInput').value)||0),scope:$('#challengeAssignInput').value||'current',ownerChildId:familyStore.activeChildId};
  const edit=$('#saveChallengeBtn').dataset.edit;if(edit!==''){data.id=state.customChallenges[Number(edit)].id;state.customChallenges[Number(edit)]=data;toast('Reto actualizado')}else{state.customChallenges.push(data);toast('Reto añadido 🎯')}
  resetChallengeForm();save();
+};
+
+
+function blankFamilyStore(){
+ const id='child-'+Date.now();
+ const s=freshChildState('Nuevo perfil','','');
+ return {activeChildId:id,children:[{id,name:'Nuevo perfil',avatar:'👦',birthDate:'',city:'',state:s}]};
+}
+function deleteChildProfileById(id){
+ const c=familyStore.children.find(x=>x.id===id);
+ if(!c)return;
+ if(!confirm(`¿Eliminar por completo el perfil de ${c.name}? Se borrarán también sus tareas, premios, progreso, lectura y calendario.`))return;
+ if(familyStore.children.length>1){
+   familyStore.children=familyStore.children.filter(x=>x.id!==id);
+   if(familyStore.activeChildId===id)familyStore.activeChildId=familyStore.children[0].id;
+ }else{
+   familyStore=blankFamilyStore();
+ }
+ state=activeChildRecord().state;
+ ensureV33State();ensureV34State();ensureV38State();ensureEventState();ensureDailyGameState();ensureTaskState();ensureRewardHistory();ensureRewardState();ensureProjectState();ensureReadingState();ensureProfileState();
+ saveFamilyStore();safeStoreState();resetChildForm();render();openScreen('today');
+ toast('Perfil eliminado');
+}
+$('#deleteCurrentProfileBtn').onclick=()=>deleteChildProfileById(familyStore.activeChildId);
+
+$('#resetWholeAppBtn').onclick=()=>{
+ const first=confirm('Esto borrará TODOS los datos de todos los hijos. ¿Quieres continuar?');
+ if(!first)return;
+ const code=prompt('Para confirmar, escribe REINICIAR');
+ if(code!=='REINICIAR'){toast('Reinicio cancelado');return}
+ familyStore=blankFamilyStore();
+ state=activeChildRecord().state;
+ try{
+   localStorage.removeItem('miguelito-v10');
+   localStorage.removeItem('miguelito-family-v1');
+ }catch(e){}
+ saveFamilyStore();
+ safeStoreState();
+ resetChildForm();resetTaskForm();resetRewardForm();resetChallengeForm();resetGoalForm();resetSpecialForm();
+ render();openScreen('today');
+ toast('App reiniciada a 0 ✅');
 };
 
 function renderParents(){
@@ -3026,9 +3095,10 @@ function ageFromBirth(dateStr){
 }
 function ensureProfileState(){
  if(!state.profile){
-   state.profile={name:activeChildRecord()?.name||'Miguelito',age:9,birthDate:activeChildRecord()?.birthDate||'',color:'Azul',likes:''};
+   state.profile={name:activeChildRecord()?.name||'Miguelito',age:9,birthDate:activeChildRecord()?.birthDate||'',city:activeChildRecord()?.city||'',color:'Azul',likes:''};
  }
  if(typeof state.profile.birthDate==='undefined')state.profile.birthDate='';
+ if(typeof state.profile.city==='undefined')state.profile.city=activeChildRecord()?.city||'';
  const derived=ageFromBirth(state.profile.birthDate);
  if(derived!==null)state.profile.age=derived;
 }
@@ -3070,6 +3140,14 @@ function neutralAvatarSvg(){
    <rect x="52" y="190" width="22" height="30" rx="8" fill="#35416d"/><rect x="83" y="190" width="22" height="30" rx="8" fill="#35416d"/>
  </svg>`;
 }
+function renderActiveCity(){
+ const city=state.profile?.city||activeChildRecord()?.city||'';
+ const badge=$('#homeCityBadge'),name=$('#homeCityName');
+ if(!badge||!name)return;
+ if(city){name.textContent=city;badge.style.display='inline-flex';}
+ else{badge.style.display='none';name.textContent='';}
+}
+
 function renderActiveChildIdentity(){
  const c=activeChildRecord(),name=state.profile?.name||c?.name||'Hijo',avatar=c?.avatar||'👦';
  const hero=$('#homeHero'),nameEl=$('#homeChildName'),logo=$('#activeChildLogo'),avatarBox=document.querySelector('#homeHero .avatar');
@@ -3101,6 +3179,7 @@ function renderProfileData(){
  if($('#profileNameInput')) $('#profileNameInput').value=state.profile.name||'Miguelito';
  if($('#profileBirthInput')) $('#profileBirthInput').value=state.profile.birthDate||'';
  if($('#profileAgeInput')) $('#profileAgeInput').value=state.profile.age||9;
+ if($('#profileCityInput')) $('#profileCityInput').value=state.profile.city||'';
  if($('#profileColorInput')) $('#profileColorInput').value=state.profile.color||'Azul';
  if($('#profileLikesInput')) $('#profileLikesInput').value=state.profile.likes||'';
 }
@@ -3116,12 +3195,13 @@ $('#saveProfileBtn').onclick=()=>{
  state.profile={
    name:$('#profileNameInput').value.trim()||'Hijo',
    birthDate,
+   city:$('#profileCityInput').value.trim(),
    age:derivedAge!==null?derivedAge:(Number($('#profileAgeInput').value)||9),
    color:$('#profileColorInput').value,
    likes:$('#profileLikesInput').value.trim()
  };
  const child=activeChildRecord();
- if(child){child.name=state.profile.name;child.birthDate=birthDate;}
+ if(child){child.name=state.profile.name;child.birthDate=birthDate;child.city=state.profile.city;}
  toast('Perfil guardado 👦');
  save();
 };
@@ -3198,7 +3278,7 @@ function daysForTitle(fragment){
  return new Set(rows.map(x=>x.date)).size;
 }
 function challengeDefs(){
- const base=[
+ const base=state.defaultChallengesEnabled===false?[]:[
   {id:'read5',icon:'📚',title:'Leer 5 días',goal:5,stars:25,xp:40,match:'leer'},
   {id:'bed5',icon:'🛏️',title:'Hacer la cama 5 días',goal:5,stars:20,xp:30,match:'hacer la cama'},
   {id:'help3',icon:'🤝',title:'Ayudar 3 días',goal:3,stars:20,xp:30,match:'ayudar'}
@@ -3365,7 +3445,7 @@ const emojiArt = h==='Mamá'
   ? '<div class="family-illus"><div class="family-emoji-wrap"><div class="family-emoji">👩</div><div class="family-emoji small-kid">👦</div></div></div>'
   : '<div class="family-illus"><div class="family-emoji-wrap"><div class="family-emoji">👨</div><div class="family-emoji small-kid">👦</div></div></div>';
 $('#familyCard').innerHTML=`${emojiArt}<div class="family-panel"><div class="eyebrow">Hoy estoy con</div><b>${h}</b><span>¡Juntos hacemos grandes cosas!</span></div>`;
- renderProjectReminders();renderModules();renderReading();renderProjects();renderCalendar();renderRewards();renderRewardAdmin();renderParents();renderExtras();renderProfileData();renderStreaks();renderTaskAdmin();renderDailySummary();renderEventAdmin();renderTodayEvents();renderRewardHistory();renderSyncConfig();renderBigGoal();renderGoalAdmin();renderSpecialAdmin();renderSpecialDay();renderSmartAlerts();renderSmartHome();renderNoticeCenter();renderReminderPrefs();renderChildSwitcher();renderChildManager();renderActiveChildName();renderActiveChildIdentity();renderChildTopSwitcher();renderChallengeAdmin()
+ renderProjectReminders();renderModules();renderReading();renderProjects();renderCalendar();renderRewards();renderRewardAdmin();renderParents();renderExtras();renderProfileData();renderStreaks();renderTaskAdmin();renderDailySummary();renderEventAdmin();renderTodayEvents();renderRewardHistory();renderSyncConfig();renderBigGoal();renderGoalAdmin();renderSpecialAdmin();renderSpecialDay();renderSmartAlerts();renderSmartHome();renderNoticeCenter();renderReminderPrefs();renderChildSwitcher();renderChildManager();renderActiveChildName();renderActiveChildIdentity();renderChildTopSwitcher();renderChallengeAdmin();renderActiveCity()
 }
 
 
