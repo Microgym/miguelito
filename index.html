@@ -1453,6 +1453,14 @@ body.city-madrid .app,
 }
 
 </style>
+
+<link rel="preload" as="image" href="./hero-boy-valencia-v54.jpg">
+<link rel="preload" as="image" href="./hero-boy-madrid-v54.jpg">
+<link rel="preload" as="image" href="./hero-girl-valencia-v54.jpg">
+<link rel="preload" as="image" href="./hero-girl-madrid-v54.jpg">
+<link rel="preload" as="image" href="./ski-boy-v54.jpg">
+<link rel="preload" as="image" href="./ski-girl-v54.jpg">
+
 </head>
 <body>
 <div class="app">
@@ -2797,8 +2805,12 @@ function switchChild(id){
  openScreen('today');
 }
 function childVisualThumb(c){
- const src=(c?.avatar==='👧')?'':'';
- return `<span class="child-visual-icon"><img src="${src}" alt=""></span>`;
+ const avatar=c?.avatar||'👦';
+ const city=(c?.state?.profile?.city||c?.city||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+ const girl=avatar==='👧';
+ let src=girl?'./hero-girl-valencia-v54.jpg':'./hero-boy-valencia-v54.jpg';
+ if(city.includes('madrid'))src=girl?'./hero-girl-madrid-v54.jpg':'./hero-boy-madrid-v54.jpg';
+ return `<span class="child-visual-icon"><img src="${src}" alt="" loading="eager"></span>`;
 }
 
 function renderChildTopSwitcher(){
@@ -3423,6 +3435,14 @@ function citySceneSvg(city=''){
    <path d="M0 257 C63 247 126 250 188 260 C253 271 326 271 430 257 L430 320 L0 320 Z" fill="#f8fcff" opacity=".92"/>
   </svg>`;
 }
+
+function imageExists(url,ok,fail){
+ const im=new Image();
+ im.onload=()=>ok&&ok();
+ im.onerror=()=>fail&&fail();
+ im.src=url+(url.includes('?')?'&':'?')+'t=54';
+}
+
 function renderCityScene(){
  const city=(state.profile?.city||activeChildRecord()?.city||'').trim();
  const normalized=city.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
@@ -3432,9 +3452,9 @@ function renderCityScene(){
 
  let image='';
  if(normalized.includes('valencia')){
-   image=isGirl?'./hero-girl-valencia.webp':'./hero-boy-valencia.webp';
+   image=isGirl?'./hero-girl-valencia-v54.jpg':'./hero-boy-valencia-v54.jpg';
  }else if(normalized.includes('madrid')){
-   image=isGirl?'./hero-girl-madrid.webp':'./hero-boy-madrid.webp';
+   image=isGirl?'./hero-girl-madrid-v54.jpg':'./hero-boy-madrid-v54.jpg';
  }
 
  document.body.classList.remove('city-valencia','city-madrid');
@@ -3460,7 +3480,7 @@ function renderCityScene(){
 function renderGoalVisual(){
  const goal=$('#bigGoalIcon');if(!goal)return;
  const avatar=activeChildRecord()?.avatar||'👦';
- const img=avatar==='👧'?'./ski-girl.webp':'./ski-boy.webp';
+ const img=avatar==='👧'?'./ski-girl-v54.jpg':'./ski-boy-v54.jpg';
  goal.style.setProperty('background-image',`url("${img}")`,'important');
  goal.style.setProperty('background-size','cover','important');
  goal.style.setProperty('background-position','center center','important');
@@ -4002,18 +4022,15 @@ render();
 </script>
 
 <script>
-if ('serviceWorker' in navigator && location.protocol === 'https:') {
+if ('serviceWorker' in navigator) {
   window.addEventListener('load', async () => {
     try {
-      await navigator.serviceWorker.register('./service-worker.js?v=53', {updateViaCache:'none'});
-      const reg = await navigator.serviceWorker.ready;
-      try { await reg.update(); } catch(e) {}
-      if ('caches' in window) {
-        const keys = await caches.keys();
-        await Promise.all(keys.map(k => caches.delete(k)));
+      const regs=await navigator.serviceWorker.getRegistrations();
+      await Promise.all(regs.map(r=>r.unregister()));
+      if('caches' in window){
+        const keys=await caches.keys();
+        await Promise.all(keys.map(k=>caches.delete(k)));
       }
-      const regs = await navigator.serviceWorker.getRegistrations();
-      await Promise.all(regs.map(r => r.unregister()));
     } catch(e) {}
   });
 }
