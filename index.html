@@ -2211,6 +2211,14 @@ body.first-run-active .first-run-overlay{visibility:visible!important}
   </div>
 </div>
 
+
+<button id="firstRunResume" type="button" style="display:none;position:fixed;left:50%;bottom:88px;transform:translateX(-50%);z-index:9998;border:0;border-radius:16px;padding:12px 16px;background:#173562;color:#fff;font-weight:1000;box-shadow:0 10px 24px rgba(18,49,91,.25)">Continuar configuración →</button>
+<script>
+document.addEventListener('click',function(e){
+ if(e.target && e.target.id==='firstRunResume') resumeFirstRunAfterCalendar();
+});
+</script>
+
 <div class="nav">
  <button class="on" data-screen="today" onclick="openScreen('today')"><span class="ico">🏠</span>Inicio</button>
  <button data-screen="tasks" onclick="openScreen('tasks')"><span class="ico">✅</span>Tareas</button>
@@ -2264,7 +2272,7 @@ if(!familyStore){
  familyStore={
    activeChildId:firstId,
    onboardingCompleted:false,
-   onboardingStage:'family',
+   onboardingStage:'father',
    family:{fatherName:'',motherName:'',parentsTogether:null},
    children:[{id:firstId,name:'',avatar:'👦',birthDate:'',city:'',state:first}]
  };
@@ -2877,6 +2885,7 @@ function freshChildState(name,birthDate='',city=''){
  };
 }
 
+
 function firstRunDraft(){
  if(!familyStore.onboardingDraft){
    familyStore.onboardingDraft={
@@ -2901,7 +2910,7 @@ function startFirstRun(){
  }
  document.body.classList.add('first-run-active');
  $('#firstRunOverlay')?.classList.add('show');
- if(!familyStore.onboardingStage || familyStore.onboardingStage==='done')familyStore.onboardingStage='family';
+ if(!familyStore.onboardingStage || familyStore.onboardingStage==='done')familyStore.onboardingStage='father';
  renderFirstRun();
 }
 function finishFirstRun(){
@@ -2915,33 +2924,96 @@ function finishFirstRun(){
  render();
  openScreen('today');
 }
+function openCalendarDuringFirstRun(){
+ document.body.classList.remove('first-run-active');
+ $('#firstRunOverlay')?.classList.remove('show');
+ familyStore.onboardingStage='custody-calendar';
+ saveFamilyStore();
+ openScreen('calendar');
+ const resume=document.getElementById('firstRunResume');
+ if(resume)resume.style.display='block';
+}
+function resumeFirstRunAfterCalendar(){
+ const resume=document.getElementById('firstRunResume');
+ if(resume)resume.style.display='none';
+ familyStore.onboardingStage='children';
+ saveFamilyStore();
+ startFirstRun();
+}
 function renderFirstRun(){
  const body=$('#firstRunBody');if(!body)return;
- const d=firstRunDraft(),stage=familyStore.onboardingStage||'family';
- const separated=d.parentsTogether===false;
+ const d=firstRunDraft(),stage=familyStore.onboardingStage||'father';
 
- if(stage==='family'){
-   firstRunProgress(1, separated?4:3);
+ if(stage==='father'){
+   firstRunProgress(1,5);
    body.innerHTML=`
-    <h2>Primero, la familia</h2>
-    <p>Estos datos adaptan Inicio y Calendario.</p>
-    <div class="first-run-fields two">
+    <h2>¿Cómo se llama Papá?</h2>
+    <p>Lo usaremos para personalizar la app.</p>
+    <div class="first-run-fields">
       <input id="frFather" placeholder="Nombre de Papá" value="${d.fatherName||''}">
+    </div>
+    <div class="first-run-actions"><button id="frFatherNext" class="btn primary">Continuar</button></div>`;
+   $('#frFatherNext').onclick=()=>{
+     const v=$('#frFather').value.trim();
+     if(!v){toast('Escribe el nombre de Papá');return}
+     d.fatherName=v;
+     familyStore.family=familyStore.family||{};
+     familyStore.family.fatherName=v;
+     familyStore.onboardingStage='mother';
+     saveFamilyStore();renderFirstRun();
+   };
+   return;
+ }
+
+ if(stage==='mother'){
+   firstRunProgress(2,5);
+   body.innerHTML=`
+    <h2>¿Cómo se llama Mamá?</h2>
+    <p>También podrás cambiarlo más adelante.</p>
+    <div class="first-run-fields">
       <input id="frMother" placeholder="Nombre de Mamá" value="${d.motherName||''}">
     </div>
+    <div class="first-run-actions">
+      <button id="frMotherBack" class="btn ghost">Atrás</button>
+      <button id="frMotherNext" class="btn primary">Continuar</button>
+    </div>`;
+   $('#frMotherBack').onclick=()=>{familyStore.onboardingStage='father';saveFamilyStore();renderFirstRun()};
+   $('#frMotherNext').onclick=()=>{
+     const v=$('#frMother').value.trim();
+     if(!v){toast('Escribe el nombre de Mamá');return}
+     d.motherName=v;
+     familyStore.family=familyStore.family||{};
+     familyStore.family.motherName=v;
+     familyStore.onboardingStage='living';
+     saveFamilyStore();renderFirstRun();
+   };
+   return;
+ }
+
+ if(stage==='living'){
+   firstRunProgress(3,5);
+   body.innerHTML=`
+    <h2>¿Vivís juntos o separados?</h2>
+    <p>Esto solo cambia cómo se muestra el calendario familiar.</p>
     <div class="first-run-choice">
-      <button id="frTogether" class="${d.parentsTogether===true?'on':''}">🏠 Viven juntos</button>
-      <button id="frSeparated" class="${d.parentsTogether===false?'on':''}">🏡 Viven separados</button>
+      <button id="frTogether" class="${d.parentsTogether===true?'on':''}">🏠 Vivimos juntos</button>
+      <button id="frSeparated" class="${d.parentsTogether===false?'on':''}">🏡 Vivimos separados</button>
     </div>
-    <div class="first-run-actions"><button id="frFamilyNext" class="btn primary">Continuar</button></div>`;
+    <div class="first-run-actions">
+      <button id="frLivingBack" class="btn ghost">Atrás</button>
+      <button id="frLivingNext" class="btn primary">Continuar</button>
+    </div>`;
    $('#frTogether').onclick=()=>{d.parentsTogether=true;renderFirstRun()};
    $('#frSeparated').onclick=()=>{d.parentsTogether=false;renderFirstRun()};
-   $('#frFamilyNext').onclick=()=>{
-     d.fatherName=$('#frFather').value.trim();
-     d.motherName=$('#frMother').value.trim();
-     if(!d.fatherName||!d.motherName){toast('Escribe los nombres de Papá y Mamá');return}
-     if(d.parentsTogether!==true&&d.parentsTogether!==false){toast('Indica si viven juntos o separados');return}
-     familyStore.family={fatherName:d.fatherName,motherName:d.motherName,parentsTogether:d.parentsTogether};
+   $('#frLivingBack').onclick=()=>{familyStore.onboardingStage='mother';saveFamilyStore();renderFirstRun()};
+   $('#frLivingNext').onclick=()=>{
+     if(d.parentsTogether!==true&&d.parentsTogether!==false){toast('Elige una opción');return}
+     // IMPORTANT: preserve names already entered.
+     familyStore.family={
+       fatherName:d.fatherName||familyStore.family?.fatherName||'',
+       motherName:d.motherName||familyStore.family?.motherName||'',
+       parentsTogether:d.parentsTogether
+     };
      familyStore.onboardingStage=d.parentsTogether===false?'custody':'children';
      saveFamilyStore();renderFirstRun();
    };
@@ -2949,29 +3021,27 @@ function renderFirstRun(){
  }
 
  if(stage==='custody'){
-   firstRunProgress(2,4);
+   firstRunProgress(4,6);
    body.innerHTML=`
     <h2>Calendario familiar</h2>
-    <p>Como vivís separados, podéis marcar con quién están los niños por semanas.</p>
-    <div class="first-run-note">Puedes configurarlo ahora o dejarlo para más tarde.</div>
+    <p>Como vivís separados, puedes marcar las semanas con ${d.fatherName||fatherName()} o ${d.motherName||motherName()}.</p>
+    <div class="first-run-note">Puedes configurarlo ahora. Cuando termines, pulsa “Continuar configuración” y volverás al asistente.</div>
     <div class="first-run-actions">
       <button id="frCustodyLater" class="btn ghost">Más tarde</button>
       <button id="frCustodyNow" class="btn primary">Ir al calendario</button>
     </div>`;
    $('#frCustodyLater').onclick=()=>{familyStore.onboardingStage='children';saveFamilyStore();renderFirstRun()};
-   $('#frCustodyNow').onclick=()=>{
-     familyStore.onboardingStage='children';
-     saveFamilyStore();
-     document.body.classList.remove('first-run-active');
-     $('#firstRunOverlay').classList.remove('show');
-     openScreen('calendar');
-     setTimeout(()=>startFirstRun(),1200);
-   };
+   $('#frCustodyNow').onclick=()=>openCalendarDuringFirstRun();
+   return;
+ }
+
+ if(stage==='custody-calendar'){
+   openCalendarDuringFirstRun();
    return;
  }
 
  if(stage==='children'){
-   firstRunProgress(separated?3:2,separated?4:3);
+   firstRunProgress(d.parentsTogether===false?5:4,d.parentsTogether===false?6:5);
    body.innerHTML=`
     <h2>¿Cuántos hijos usarán la app?</h2>
     <p>Después crearemos un perfil para cada uno.</p>
@@ -2990,7 +3060,7 @@ function renderFirstRun(){
  }
 
  if(stage==='profile'){
-   firstRunProgress(separated?4:3,separated?4:3);
+   firstRunProgress(d.parentsTogether===false?6:5,d.parentsTogether===false?6:5);
    const i=d.childIndex||0,c=d.children[i]||{name:'',avatar:'👦',birthDate:'',city:''};
    body.innerHTML=`
     <h2>Perfil ${i+1} de ${d.childCount}</h2>
@@ -3148,7 +3218,7 @@ function blankFamilyStore(){
  return {
    activeChildId:id,
    onboardingCompleted:false,
-   onboardingStage:'family',
+   onboardingStage:'father',
    onboardingDraft:null,
    family:{fatherName:'',motherName:'',parentsTogether:null},
    children:[{id,name:'',avatar:'👦',birthDate:'',city:'',state:s}]
