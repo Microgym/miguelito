@@ -1,0 +1,13 @@
+MIS TAREAS v59 — REHECHA SOBRE LA v51 ESTABLE
+
+He descartado las modificaciones v52-v58 que estaban mezclando comportamientos.
+
+Esta versión vuelve a la v51 (donde las imágenes de ciudad funcionaban) y añade SOLO:
+- asistente de primera configuración;
+- reinicio real a cero;
+- no mostrar Miguelito cuando no existe perfil;
+- padres juntos/separados;
+- ocultar "Hoy estoy con..." y controles de custodia cuando viven juntos;
+- cambio de perfil robusto desde Inicio.
+
+Las imágenes siguen exactamente el sistema estable de v51.

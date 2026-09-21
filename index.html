@@ -1,9 +1,6 @@
 <!doctype html>
 <html lang="es">
 <head>
-<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-<meta http-equiv="Pragma" content="no-cache">
-<meta http-equiv="Expires" content="0">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Mis Tareas</title>
@@ -1453,82 +1450,58 @@ body.city-madrid .app,
 }
 
 
-/* ===== v55 iPhone: imágenes reales <img>, no fondos CSS ===== */
-#homeHero{
-  position:relative!important;
-  overflow:hidden!important;
-  background:#dceeff!important;
-  background-image:none!important;
+/* ===== v59 estable sobre v51 ===== */
+.first-run-overlay{
+  position:fixed;inset:0;z-index:9999;display:none;align-items:center;justify-content:center;
+  padding:18px;background:rgba(28,57,93,.56);backdrop-filter:blur(8px)
 }
-#homeHero .hero-bg-v55{
-  position:absolute!important;
-  inset:0!important;
-  width:100%!important;
-  height:100%!important;
-  object-fit:cover!important;
-  object-position:center center!important;
-  display:block!important;
-  z-index:0!important;
-  pointer-events:none!important;
+.first-run-overlay.show{display:flex}
+.first-run-card{
+  width:min(430px,100%);max-height:92vh;overflow:auto;background:#fff;border-radius:26px;
+  padding:20px;box-shadow:0 24px 70px rgba(20,45,80,.28)
 }
-#homeHero > *:not(.hero-bg-v55){
-  position:relative;
-  z-index:2;
+.first-run-card h2{margin:0 0 7px;font-size:22px;color:#173562}
+.first-run-card p{margin:0 0 12px;font-size:12px;line-height:1.45;color:#667d96}
+.first-run-fields{display:grid;gap:9px;margin:12px 0}
+.first-run-fields.two{grid-template-columns:1fr 1fr}
+.first-run-fields input,.first-run-fields select{
+  width:100%;border:1px solid #dce7f3;border-radius:13px;padding:11px;font:inherit;background:#fff;color:#173562
 }
-#homeHero .hero-panels{z-index:6!important}
-#homeHero .hero-copy{z-index:7!important}
-#bigGoalIcon{
-  position:relative!important;
-  overflow:hidden!important;
-  background:#eef6ff!important;
-  background-image:none!important;
+.first-run-choice{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0}
+.first-run-choice button{
+  border:1px solid #dbe6f2;background:#f7fbff;border-radius:15px;padding:13px 9px;
+  font-weight:900;color:#315476;cursor:pointer
 }
-#bigGoalIcon .goal-img-v55{
-  position:absolute!important;
-  inset:0!important;
-  width:100%!important;
-  height:100%!important;
-  object-fit:cover!important;
-  object-position:center center!important;
-  display:block!important;
-}
+.first-run-choice button.on{background:#e7f2ff;border-color:#78aef0;color:#155da9}
+.first-run-actions{display:flex;gap:8px;margin-top:14px}
+.first-run-actions .btn{flex:1}
+.first-run-progress{display:flex;gap:5px;margin:0 0 15px}
+.first-run-progress i{height:6px;flex:1;border-radius:6px;background:#e6edf6}
+.first-run-progress i.on{background:#3d8df2}
+.first-run-note{background:#eef7ff;border-radius:14px;padding:10px;font-size:11px;color:#456b8d}
+body.first-run-active .app,body.first-run-active .nav{visibility:hidden!important}
+body.first-run-active .first-run-overlay{visibility:visible!important}
 
-
-/* ===== v56: estado cero correcto ===== */
 #homeHero.no-profile .hero-copy,
 #homeHero.no-profile .hero-panels,
+#homeHero.no-profile .avatar,
 #homeHero.no-profile .city-badge,
-#homeHero.no-profile .hero-bg-v55{
+#homeHero.no-profile #cityScene,
+#homeHero.no-profile #cityTitleWatermark{
   display:none!important;
 }
 #homeHero.no-profile{
-  min-height:110px!important;
-  background:#eef6ff!important;
-  background-image:none!important;
+  min-height:120px!important;background:#eef6ff!important;background-image:none!important
 }
 #homeHero.no-profile::after{
   content:"Configura tu familia para empezar";
-  position:absolute;
-  inset:0;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  padding:18px;
-  text-align:center;
-  font-weight:1000;
-  color:#476987;
-  font-size:16px;
+  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  padding:18px;text-align:center;font-weight:1000;color:#4b6d8c;font-size:16px
 }
+.calendar-custody-hidden{display:none!important}
+@media(max-width:390px){.first-run-fields.two{grid-template-columns:1fr}}
 
 </style>
-
-<link rel="preload" as="image" href="./hero-boy-valencia-v54.jpg">
-<link rel="preload" as="image" href="./hero-boy-madrid-v54.jpg">
-<link rel="preload" as="image" href="./hero-girl-valencia-v54.jpg">
-<link rel="preload" as="image" href="./hero-girl-madrid-v54.jpg">
-<link rel="preload" as="image" href="./ski-boy-v54.jpg">
-<link rel="preload" as="image" href="./ski-girl-v54.jpg">
-
 </head>
 <body>
 <div class="app">
@@ -2228,6 +2201,16 @@ body.city-madrid .app,
  </div>
 </div>
 
+
+<div id="firstRunOverlay" class="first-run-overlay">
+  <div class="first-run-card">
+    <div style="font-size:23px;font-weight:1000;color:#173562;margin-bottom:3px">🏔️ Mis Tareas</div>
+    <div style="font-size:11px;color:#6e8298;margin-bottom:14px">Configuración inicial de la familia</div>
+    <div id="firstRunProgress" class="first-run-progress"></div>
+    <div id="firstRunBody"></div>
+  </div>
+</div>
+
 <div class="nav">
  <button class="on" data-screen="today" onclick="openScreen('today')"><span class="ico">🏠</span>Inicio</button>
  <button data-screen="tasks" onclick="openScreen('tasks')"><span class="ico">✅</span>Tareas</button>
@@ -2260,27 +2243,59 @@ function loadFamilyStore(){
 function saveFamilyStore(){
  try{window.localStorage.setItem('miguelito-family-v1',JSON.stringify(familyStore))}catch(e){}
 }
+function freshFirstRunState(){
+ return {
+  stars:0,xp:0,calendar:{},missions:[],
+  profile:{name:'',birthDate:'',city:'',age:9,color:'Azul',likes:''},
+  rewards:[],rewardHistory:[],projects:[],
+  reading:{active:null,history:[]},
+  events:[],approvalHistory:[],weeklyClaims:{},
+  customChallenges:[],defaultChallengesEnabled:false,
+  bigGoals:[],activeGoalId:'',specialDays:[],
+  notificationPrefs:{pending:true,projects:true,tomorrow:true,rewards:true}
+ };
+}
+
 const legacyState=safeLoadState();
 let familyStore=loadFamilyStore();
 if(!familyStore){
- const first=legacyState||{stars:185,xp:620,calendar:{},missions:seed};
  const firstId='child-'+Date.now();
+ const first=freshFirstRunState();
  familyStore={
    activeChildId:firstId,
-   children:[{
-     id:firstId,
-     name:first.profile?.name||'Miguelito',
-     avatar:'👦',
-     birthDate:first.profile?.birthDate||'',
-     state:first
-   }]
+   onboardingCompleted:false,
+   onboardingStage:'family',
+   family:{fatherName:'',motherName:'',parentsTogether:null},
+   children:[{id:firstId,name:'',avatar:'👦',birthDate:'',city:'',state:first}]
  };
  saveFamilyStore();
+}else{
+ if(!familyStore.family)familyStore.family={fatherName:'',motherName:'',parentsTogether:null};
+ if(typeof familyStore.onboardingCompleted==='undefined'){
+   const hasReal=(familyStore.children||[]).some(c=>{
+     const n=(c?.name||c?.state?.profile?.name||'').trim();
+     return !!n && n!=='Nuevo perfil' && n!=='Hijo';
+   });
+   familyStore.onboardingCompleted=hasReal;
+   familyStore.onboardingStage=hasReal?'done':'family';
+   saveFamilyStore();
+ }
 }
 function activeChildRecord(){
  return familyStore.children.find(c=>c.id===familyStore.activeChildId)||familyStore.children[0];
 }
 let state=activeChildRecord().state;
+
+function hasRealProfile(){
+ if(familyStore.onboardingCompleted!==true)return false;
+ const c=activeChildRecord();
+ const n=(c?.name||c?.state?.profile?.name||'').trim();
+ return !!n && n!=='Nuevo perfil' && n!=='Hijo';
+}
+function parentsTogether(){return familyStore.family?.parentsTogether===true}
+function fatherName(){return familyStore.family?.fatherName?.trim()||'Papá'}
+function motherName(){return familyStore.family?.motherName?.trim()||'Mamá'}
+
 function safeStoreState(){
  try{
    const child=activeChildRecord();
@@ -2548,7 +2563,7 @@ function redeem(name,cost){
  save();
 }
 function iso(d){return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`}
-function home(d){return state.calendar[iso(d)]||(((d.getDay()+6)%7)<=2?'Papá':'Mamá')}
+function home(d){if(parentsTogether())return 'Familia';return state.calendar[iso(d)]||(((d.getDay()+6)%7)<=2?'Papá':'Mamá')}
 function startWeek(){const d=new Date(),n=(d.getDay()+6)%7;d.setDate(d.getDate()-n+weekOffset*7);return d}
 
 function renderModules(){
@@ -2861,24 +2876,176 @@ function freshChildState(name,birthDate='',city=''){
    notificationPrefs:{pending:true,projects:true,tomorrow:true,rewards:true}
  };
 }
-function switchChild(id){
- if(id===familyStore.activeChildId)return;
- safeStoreState();
- familyStore.activeChildId=id;
+
+function firstRunDraft(){
+ if(!familyStore.onboardingDraft){
+   familyStore.onboardingDraft={
+     fatherName:familyStore.family?.fatherName||'',
+     motherName:familyStore.family?.motherName||'',
+     parentsTogether:familyStore.family?.parentsTogether,
+     childCount:1,children:[],childIndex:0
+   };
+ }
+ return familyStore.onboardingDraft;
+}
+function firstRunProgress(step,total){
+ const box=$('#firstRunProgress');if(!box)return;
+ box.innerHTML='';
+ for(let i=1;i<=total;i++){const el=document.createElement('i');if(i<=step)el.className='on';box.appendChild(el)}
+}
+function startFirstRun(){
+ if(familyStore.onboardingCompleted===true){
+   document.body.classList.remove('first-run-active');
+   $('#firstRunOverlay')?.classList.remove('show');
+   return;
+ }
+ document.body.classList.add('first-run-active');
+ $('#firstRunOverlay')?.classList.add('show');
+ if(!familyStore.onboardingStage || familyStore.onboardingStage==='done')familyStore.onboardingStage='family';
+ renderFirstRun();
+}
+function finishFirstRun(){
+ familyStore.onboardingCompleted=true;
+ familyStore.onboardingStage='done';
+ familyStore.onboardingDraft=null;
+ saveFamilyStore();
+ document.body.classList.remove('first-run-active');
+ $('#firstRunOverlay')?.classList.remove('show');
  state=activeChildRecord().state;
+ render();
+ openScreen('today');
+}
+function renderFirstRun(){
+ const body=$('#firstRunBody');if(!body)return;
+ const d=firstRunDraft(),stage=familyStore.onboardingStage||'family';
+ const separated=d.parentsTogether===false;
+
+ if(stage==='family'){
+   firstRunProgress(1, separated?4:3);
+   body.innerHTML=`
+    <h2>Primero, la familia</h2>
+    <p>Estos datos adaptan Inicio y Calendario.</p>
+    <div class="first-run-fields two">
+      <input id="frFather" placeholder="Nombre de Papá" value="${d.fatherName||''}">
+      <input id="frMother" placeholder="Nombre de Mamá" value="${d.motherName||''}">
+    </div>
+    <div class="first-run-choice">
+      <button id="frTogether" class="${d.parentsTogether===true?'on':''}">🏠 Viven juntos</button>
+      <button id="frSeparated" class="${d.parentsTogether===false?'on':''}">🏡 Viven separados</button>
+    </div>
+    <div class="first-run-actions"><button id="frFamilyNext" class="btn primary">Continuar</button></div>`;
+   $('#frTogether').onclick=()=>{d.parentsTogether=true;renderFirstRun()};
+   $('#frSeparated').onclick=()=>{d.parentsTogether=false;renderFirstRun()};
+   $('#frFamilyNext').onclick=()=>{
+     d.fatherName=$('#frFather').value.trim();
+     d.motherName=$('#frMother').value.trim();
+     if(!d.fatherName||!d.motherName){toast('Escribe los nombres de Papá y Mamá');return}
+     if(d.parentsTogether!==true&&d.parentsTogether!==false){toast('Indica si viven juntos o separados');return}
+     familyStore.family={fatherName:d.fatherName,motherName:d.motherName,parentsTogether:d.parentsTogether};
+     familyStore.onboardingStage=d.parentsTogether===false?'custody':'children';
+     saveFamilyStore();renderFirstRun();
+   };
+   return;
+ }
+
+ if(stage==='custody'){
+   firstRunProgress(2,4);
+   body.innerHTML=`
+    <h2>Calendario familiar</h2>
+    <p>Como vivís separados, podéis marcar con quién están los niños por semanas.</p>
+    <div class="first-run-note">Puedes configurarlo ahora o dejarlo para más tarde.</div>
+    <div class="first-run-actions">
+      <button id="frCustodyLater" class="btn ghost">Más tarde</button>
+      <button id="frCustodyNow" class="btn primary">Ir al calendario</button>
+    </div>`;
+   $('#frCustodyLater').onclick=()=>{familyStore.onboardingStage='children';saveFamilyStore();renderFirstRun()};
+   $('#frCustodyNow').onclick=()=>{
+     familyStore.onboardingStage='children';
+     saveFamilyStore();
+     document.body.classList.remove('first-run-active');
+     $('#firstRunOverlay').classList.remove('show');
+     openScreen('calendar');
+     setTimeout(()=>startFirstRun(),1200);
+   };
+   return;
+ }
+
+ if(stage==='children'){
+   firstRunProgress(separated?3:2,separated?4:3);
+   body.innerHTML=`
+    <h2>¿Cuántos hijos usarán la app?</h2>
+    <p>Después crearemos un perfil para cada uno.</p>
+    <div class="first-run-fields">
+      <select id="frChildCount">${[1,2,3,4,5,6].map(n=>`<option value="${n}" ${Number(d.childCount)===n?'selected':''}>${n}</option>`).join('')}</select>
+    </div>
+    <div class="first-run-actions"><button id="frChildrenNext" class="btn primary">Continuar</button></div>`;
+   $('#frChildrenNext').onclick=()=>{
+     d.childCount=Number($('#frChildCount').value)||1;
+     d.children=Array.from({length:d.childCount},(_,i)=>d.children[i]||{name:'',avatar:'👦',birthDate:'',city:''});
+     d.childIndex=0;
+     familyStore.onboardingStage='profile';
+     saveFamilyStore();renderFirstRun();
+   };
+   return;
+ }
+
+ if(stage==='profile'){
+   firstRunProgress(separated?4:3,separated?4:3);
+   const i=d.childIndex||0,c=d.children[i]||{name:'',avatar:'👦',birthDate:'',city:''};
+   body.innerHTML=`
+    <h2>Perfil ${i+1} de ${d.childCount}</h2>
+    <p>La fecha y la ciudad se pueden completar más tarde.</p>
+    <div class="first-run-fields">
+      <input id="frName" placeholder="Nombre" value="${c.name||''}">
+      <select id="frAvatar">
+       <option value="👦" ${c.avatar==='👦'?'selected':''}>👦 Niño</option>
+       <option value="👧" ${c.avatar==='👧'?'selected':''}>👧 Niña</option>
+       <option value="🧒" ${c.avatar==='🧒'?'selected':''}>🧒 Infantil</option>
+      </select>
+    </div>
+    <div class="first-run-fields two">
+      <input id="frBirth" type="date" value="${c.birthDate||''}">
+      <input id="frCity" list="cityOptions" placeholder="Ciudad (opcional)" value="${c.city||''}">
+    </div>
+    <div class="first-run-actions">
+      ${i>0?'<button id="frPrev" class="btn ghost">Anterior</button>':''}
+      <button id="frNext" class="btn primary">${i+1<d.childCount?'Siguiente':'Terminar'}</button>
+    </div>`;
+   if($('#frPrev'))$('#frPrev').onclick=()=>{d.childIndex--;saveFamilyStore();renderFirstRun()};
+   $('#frNext').onclick=()=>{
+     c.name=$('#frName').value.trim()||`Hijo ${i+1}`;
+     c.avatar=$('#frAvatar').value;
+     c.birthDate=$('#frBirth').value||'';
+     c.city=$('#frCity').value.trim();
+     d.children[i]=c;
+     if(i+1<d.childCount){d.childIndex=i+1;saveFamilyStore();renderFirstRun();return}
+     const now=Date.now();
+     familyStore.children=d.children.map((x,j)=>{
+       const st=freshChildState(x.name,x.birthDate,x.city);
+       st.profile.name=x.name;st.profile.birthDate=x.birthDate;st.profile.city=x.city;
+       return {id:`child-${now}-${j}`,name:x.name,avatar:x.avatar,birthDate:x.birthDate,city:x.city,state:st};
+     });
+     familyStore.activeChildId=familyStore.children[0].id;
+     state=familyStore.children[0].state;
+     finishFirstRun();
+   };
+ }
+}
+
+function switchChild(id){
+ const target=(familyStore.children||[]).find(c=>String(c.id)===String(id));
+ if(!target)return;
+ safeStoreState();
+ familyStore.activeChildId=target.id;
+ state=target.state;
  ensureV33State();ensureV34State();ensureEventState();ensureDailyGameState();ensureTaskState();ensureRewardHistory();ensureRewardState();ensureProjectState();ensureReadingState();ensureProfileState();
  saveFamilyStore();
- toast(`Perfil: ${state.profile?.name||'Hijo'}`);
  render();
  openScreen('today');
 }
 function childVisualThumb(c){
- const avatar=c?.avatar||'👦';
- const city=(c?.state?.profile?.city||c?.city||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
- const girl=avatar==='👧';
- let src=girl?'./hero-girl-valencia-v54.jpg':'./hero-boy-valencia-v54.jpg';
- if(city.includes('madrid'))src=girl?'./hero-girl-madrid-v54.jpg':'./hero-boy-madrid-v54.jpg';
- return `<span class="child-visual-icon"><img src="${src}" alt="" loading="eager" decoding="async"></span>`;
+ const src=(c?.avatar==='👧')?'':'';
+ return `<span class="child-visual-icon"><img src="${src}" alt=""></span>`;
 }
 
 function renderChildTopSwitcher(){
@@ -2977,8 +3144,15 @@ $('#saveChallengeBtn').onclick=()=>{
 
 function blankFamilyStore(){
  const id='child-'+Date.now();
- const s=freshChildState('Nuevo perfil','','');
- return {activeChildId:id,children:[{id,name:'Nuevo perfil',avatar:'👦',birthDate:'',city:'',state:s}]};
+ const s=freshFirstRunState();
+ return {
+   activeChildId:id,
+   onboardingCompleted:false,
+   onboardingStage:'family',
+   onboardingDraft:null,
+   family:{fatherName:'',motherName:'',parentsTogether:null},
+   children:[{id,name:'',avatar:'👦',birthDate:'',city:'',state:s}]
+ };
 }
 function deleteChildProfileById(id){
  const c=familyStore.children.find(x=>x.id===id);
@@ -3012,6 +3186,7 @@ $('#resetWholeAppBtn').onclick=()=>{
  safeStoreState();
  resetChildForm();resetTaskForm();resetRewardForm();resetChallengeForm();resetGoalForm();resetSpecialForm();
  render();openScreen('today');
+ startFirstRun();
  toast('App reiniciada a 0 ✅');
 };
 
@@ -3503,16 +3678,18 @@ function citySceneSvg(city=''){
    <path d="M0 257 C63 247 126 250 188 260 C253 271 326 271 430 257 L430 320 L0 320 Z" fill="#f8fcff" opacity=".92"/>
   </svg>`;
 }
-
-function imageExists(url,ok,fail){
- const im=new Image();
- im.onload=()=>ok&&ok();
- im.onerror=()=>fail&&fail();
- im.src=url+(url.includes('?')?'&':'?')+'t=54';
-}
-
 function renderCityScene(){
- const configured=hasConfiguredProfile();
+ if(!hasRealProfile()){
+   document.body.classList.remove('city-valencia','city-madrid');
+   const hero=$('#homeHero');
+   if(hero){
+     hero.classList.remove('scene-nino-valencia','scene-nino-madrid','scene-nina-valencia','scene-nina-madrid','has-city');
+     hero.style.removeProperty('background-image');
+   }
+   const holder=$('#cityScene');if(holder)holder.innerHTML='';
+   const title=$('#cityTitleWatermark');if(title){title.style.display='none';title.textContent='';}
+   return;
+ }
  const city=(state.profile?.city||activeChildRecord()?.city||'').trim();
  const normalized=city.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
  const rec=activeChildRecord();
@@ -3520,63 +3697,41 @@ function renderCityScene(){
  const isGirl=avatar==='👧';
 
  let image='';
- if(configured){
-   if(normalized.includes('valencia')){
-     image=isGirl?'./hero-girl-valencia-v54.jpg':'./hero-boy-valencia-v54.jpg';
-   }else if(normalized.includes('madrid')){
-     image=isGirl?'./hero-girl-madrid-v54.jpg':'./hero-boy-madrid-v54.jpg';
-   }
+ if(normalized.includes('valencia')){
+   image=isGirl?'./hero-girl-valencia.webp':'./hero-boy-valencia.webp';
+ }else if(normalized.includes('madrid')){
+   image=isGirl?'./hero-girl-madrid.webp':'./hero-boy-madrid.webp';
  }
 
  document.body.classList.remove('city-valencia','city-madrid');
- if(configured && normalized.includes('valencia'))document.body.classList.add('city-valencia');
- if(configured && normalized.includes('madrid'))document.body.classList.add('city-madrid');
+ if(normalized.includes('valencia'))document.body.classList.add('city-valencia');
+ if(normalized.includes('madrid'))document.body.classList.add('city-madrid');
 
  const hero=$('#homeHero');
  if(hero){
-   let bg=hero.querySelector('.hero-bg-v55');
-   if(!bg){
-     bg=document.createElement('img');
-     bg.className='hero-bg-v55';
-     bg.alt='';
-     bg.decoding='async';
-     bg.loading='eager';
-     hero.insertBefore(bg,hero.firstChild);
-   }
+   hero.classList.remove('scene-nino-valencia','scene-nino-madrid','scene-nina-valencia','scene-nina-madrid','has-city');
    if(image){
-     bg.src=image+'?v=56';
-     bg.style.display='block';
+     hero.classList.add('has-city');
+     hero.style.setProperty('background-image',`url("${image}")`,'important');
+     hero.style.setProperty('background-size','cover','important');
+     hero.style.setProperty('background-position','center center','important');
    }else{
-     bg.removeAttribute('src');
-     bg.style.display='none';
+     hero.style.setProperty('background-image','none','important');
    }
-   hero.style.setProperty('background-image','none','important');
  }
  const holder=$('#cityScene');if(holder)holder.innerHTML='';
  const title=$('#cityTitleWatermark');if(title){title.style.display='none';title.textContent='';}
 }
+
 function renderGoalVisual(){
  const goal=$('#bigGoalIcon');if(!goal)return;
- let im=goal.querySelector('.goal-img-v55');
- if(!hasConfiguredProfile()){
-   if(im)im.remove();
-   goal.style.setProperty('background-image','none','important');
-   return;
- }
  const avatar=activeChildRecord()?.avatar||'👦';
- const imgSrc=avatar==='👧'?'./ski-girl-v54.jpg':'./ski-boy-v54.jpg';
- if(!im){
-   im=document.createElement('img');
-   im.className='goal-img-v55';
-   im.alt='';
-   im.loading='eager';
-   im.decoding='async';
-   goal.innerHTML='';
-   goal.appendChild(im);
- }
- im.src=imgSrc+'?v=56';
- goal.style.setProperty('background-image','none','important');
+ const img=avatar==='👧'?'./ski-girl.webp':'./ski-boy.webp';
+ goal.style.setProperty('background-image',`url("${img}")`,'important');
+ goal.style.setProperty('background-size','cover','important');
+ goal.style.setProperty('background-position','center center','important');
 }
+
 function renderActiveCity(){
  const city=state.profile?.city||activeChildRecord()?.city||'';
  const badge=$('#homeCityBadge'),name=$('#homeCityName');
@@ -3587,11 +3742,9 @@ function renderActiveCity(){
 
 function renderActiveChildIdentity(){
  const c=activeChildRecord();
- const configured=hasConfiguredProfile();
- const rawName=(state.profile?.name||c?.name||'').trim();
- const name=configured?rawName:'';
+ const configured=hasRealProfile();
+ const name=configured?(state.profile?.name||c?.name||'').trim():'';
  const avatar=c?.avatar||'👦';
-
  const nameEl=$('#homeChildName'),logo=$('#activeChildLogo'),hero=$('#homeHero');
  if(nameEl)nameEl.textContent=name;
  if(logo)logo.textContent=configured?name.toUpperCase():'';
@@ -3600,12 +3753,9 @@ function renderActiveChildIdentity(){
    hero.classList.add(avatar==='👧'?'girl':(avatar==='🧒'?'neutral':'boy'));
    if(!configured)hero.classList.add('no-profile');
  }
- if($('#homeChildSubtitle')){
-   $('#homeChildSubtitle').textContent=configured
-     ? 'Hoy es un gran día para aprender, disfrutar y conseguir tus metas.'
-     : '';
- }
+ if($('#homeChildSubtitle'))$('#homeChildSubtitle').textContent=configured?'Hoy es un gran día para aprender, disfrutar y conseguir tus metas.':'';
 }
+
 function renderActiveChildName(){
  const c=activeChildRecord(),name=state.profile?.name||c?.name||'Hijo';
  document.querySelectorAll('[data-active-child-name]').forEach(el=>el.textContent=name);
@@ -3875,14 +4025,36 @@ function renderTodayEvents(){
  });
 }
 
+function updateFamilyCalendarVisibility(){
+ const hide=parentsTogether();
+ document.querySelector('.week-house-tools')?.classList.toggle('calendar-custody-hidden',hide);
+ document.querySelector('.house-label')?.classList.toggle('calendar-custody-hidden',hide);
+ document.querySelector('.house-switch')?.classList.toggle('calendar-custody-hidden',hide);
+ const p=$('#setWeekPapaBtn'),m=$('#setWeekMamaBtn'),pd=$('#setPapaBtn'),md=$('#setMamaBtn');
+ if(p)p.textContent=`👨 Semana con ${fatherName()}`;
+ if(m)m.textContent=`👩 Semana con ${motherName()}`;
+ if(pd)pd.textContent=`👨 ${fatherName()}`;
+ if(md)md.textContent=`👩 ${motherName()}`;
+}
+
 function render(){
+ updateFamilyCalendarVisibility();
  ['topstars','herostars','goalstars','rewardstars'].forEach(id=>{const el=$('#'+id);if(el)el.textContent=state.stars});
  $('#level').textContent=Math.floor(state.xp/200)+1;$('#xp').textContent=state.xp;$('#xpbar').style.width=Math.min(100,state.xp/8)+'%';
  const h=home(new Date());
-const emojiArt = h==='Mamá'
-  ? '<div class="family-illus"><div class="family-emoji-wrap"><div class="family-emoji">👩</div><div class="family-emoji small-kid">👦</div></div></div>'
-  : '<div class="family-illus"><div class="family-emoji-wrap"><div class="family-emoji">👨</div><div class="family-emoji small-kid">👦</div></div></div>';
-$('#familyCard').innerHTML=`${emojiArt}<div class="family-panel"><div class="eyebrow">Hoy estoy con</div><b>${h}</b><span>¡Juntos hacemos grandes cosas!</span></div>`;
+const familyCard=$('#familyCard');
+if(parentsTogether()){
+ familyCard.style.display='none';
+ familyCard.innerHTML='';
+}else{
+ familyCard.style.display='';
+ const isMama=h==='Mamá';
+ const person=isMama?motherName():fatherName();
+ const emojiArt=isMama
+  ? '<div class="family-illus"><div class="family-emoji-wrap"><div class="family-emoji">👩</div><div class="family-emoji small-kid">🧒</div></div></div>'
+  : '<div class="family-illus"><div class="family-emoji-wrap"><div class="family-emoji">👨</div><div class="family-emoji small-kid">🧒</div></div></div>';
+ familyCard.innerHTML=`${emojiArt}<div class="family-panel"><div class="eyebrow">Hoy estoy con</div><b>${person}</b><span>¡Juntos hacemos grandes cosas!</span></div>`;
+}
  renderProjectReminders();renderModules();renderReading();renderProjects();renderCalendar();renderRewards();renderRewardAdmin();renderParents();renderExtras();renderProfileData();renderStreaks();renderTaskAdmin();renderDailySummary();renderEventAdmin();renderTodayEvents();renderRewardHistory();renderSyncConfig();renderBigGoal();renderGoalAdmin();renderSpecialAdmin();renderSpecialDay();renderSmartAlerts();renderSmartHome();renderNoticeCenter();renderReminderPrefs();renderChildSwitcher();renderChildManager();renderActiveChildName();renderActiveChildIdentity();renderChildTopSwitcher();renderChallengeAdmin();renderCityScene();renderGoalVisual();renderActiveCity()
 }
 
@@ -4119,19 +4291,13 @@ window.openScreen=openScreen;
 $('#prev').onclick=()=>{weekOffset--;renderCalendar()};$('#next').onclick=()=>{weekOffset++;renderCalendar()};
 resetGoalForm();resetSpecialForm();resetChildForm();resetChallengeForm();
 render();
+startFirstRun();
 </script>
 
 <script>
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', async () => {
-    try {
-      const regs=await navigator.serviceWorker.getRegistrations();
-      await Promise.all(regs.map(r=>r.unregister()));
-      if('caches' in window){
-        const keys=await caches.keys();
-        await Promise.all(keys.map(k=>caches.delete(k)));
-      }
-    } catch(e) {}
+if ('serviceWorker' in navigator && location.protocol === 'https:') {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./service-worker.js').catch(() => {});
   });
 }
 </script>
