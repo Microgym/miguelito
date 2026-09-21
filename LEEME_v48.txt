@@ -1,0 +1,11 @@
+MIS TAREAS v48 — CORRECCIÓN FONDOS CIUDAD
+
+Corregido:
+- Valencia cambia claramente el fondo de Inicio y de toda la app.
+- Madrid cambia claramente el fondo de Inicio y de toda la app.
+- La detección admite textos como "Valencia", "Valencia, España", "Madrid", etc.
+- Si el perfil es niña, Viaje a esquiar usa objetivo-esqui-nina.png.
+
+Para GitHub:
+sube TODOS los archivos del ZIP a la raíz y sustituye los anteriores.
+Después pulsa Ctrl+F5 en Chrome.

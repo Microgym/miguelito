@@ -1279,6 +1279,69 @@ body.city-madrid .app{
   }
 }
 
+
+/* ===== v48: corrección definitiva fondos de ciudad ===== */
+body.city-valencia{
+  background-image:
+    linear-gradient(rgba(225,243,255,.12),rgba(246,251,255,.38)),
+    url('./ciudad-valencia.png?v=48')!important;
+  background-size:cover!important;
+  background-position:center top!important;
+  background-attachment:fixed!important;
+  background-repeat:no-repeat!important;
+}
+body.city-madrid{
+  background-image:
+    linear-gradient(rgba(225,243,255,.12),rgba(246,251,255,.38)),
+    url('./ciudad-madrid.png?v=48')!important;
+  background-size:cover!important;
+  background-position:center top!important;
+  background-attachment:fixed!important;
+  background-repeat:no-repeat!important;
+}
+body.city-valencia::before,
+body.city-madrid::before{display:none!important}
+body.city-valencia::after,
+body.city-madrid::after{
+  z-index:0!important;
+  background:linear-gradient(180deg,rgba(225,243,255,.06),rgba(246,251,255,.20))!important;
+}
+body.city-valencia .app,
+body.city-madrid .app{
+  position:relative;
+  z-index:1;
+  background:transparent!important;
+  backdrop-filter:none!important;
+}
+body.city-valencia #homeHero,
+body.city-madrid #homeHero{
+  background-size:cover!important;
+  background-position:center!important;
+}
+body.city-valencia #homeHero{
+  background-image:
+    linear-gradient(90deg,rgba(255,255,255,.06),rgba(255,238,247,.40)),
+    url('./ciudad-valencia.png?v=48')!important;
+}
+body.city-madrid #homeHero{
+  background-image:
+    linear-gradient(90deg,rgba(255,255,255,.06),rgba(255,238,247,.40)),
+    url('./ciudad-madrid.png?v=48')!important;
+}
+body.city-valencia #homeHero::before,
+body.city-madrid #homeHero::before{background-image:none!important}
+body.city-valencia #homeHero .mountains,
+body.city-madrid #homeHero .mountains,
+body.city-valencia #cityScene,
+body.city-madrid #cityScene{display:none!important}
+body.city-valencia #homeHero .hero-copy,
+body.city-madrid #homeHero .hero-copy{
+  background:rgba(255,255,255,.46);
+  border-radius:16px;
+  padding:8px 10px;
+  backdrop-filter:blur(4px);
+}
+
 </style>
 </head>
 <body>
@@ -3252,10 +3315,10 @@ function citySceneSvg(city=''){
 }
 function renderCityScene(){
  const city=(state.profile?.city||activeChildRecord()?.city||'').trim();
- const key=cityKeyFromName(city);
+ const normalized=city.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
  document.body.classList.remove('city-valencia','city-madrid');
- if(key==='valencia')document.body.classList.add('city-valencia');
- if(key==='madrid')document.body.classList.add('city-madrid');
+ if(normalized.includes('valencia'))document.body.classList.add('city-valencia');
+ else if(normalized.includes('madrid'))document.body.classList.add('city-madrid');
 
  const hero=$('#homeHero'),holder=$('#cityScene'),title=$('#cityTitleWatermark');
  if(holder)holder.innerHTML='';
@@ -3270,14 +3333,14 @@ function renderCityScene(){
 }
 
 function renderGoalVisual(){
- const goal=$('#bigGoalIcon'); if(!goal) return;
+ const goal=$('#bigGoalIcon'); if(!goal)return;
  const avatar=activeChildRecord()?.avatar||'👦';
- const isGirl = avatar==='👧';
- const img = isGirl ? './objetivo-esqui-nina.png' : './objetivo-esqui.png';
- goal.style.backgroundImage=`url('${img}')`;
- goal.style.backgroundSize='cover';
- goal.style.backgroundPosition='center';
+ const img=avatar==='👧'?'./objetivo-esqui-nina.png?v=48':'./objetivo-esqui.png?v=48';
+ goal.style.setProperty('background-image',`url("${img}")`,'important');
+ goal.style.setProperty('background-size','cover','important');
+ goal.style.setProperty('background-position','center','important');
 }
+
 function renderActiveCity(){
  const city=state.profile?.city||activeChildRecord()?.city||'';
  const badge=$('#homeCityBadge'),name=$('#homeCityName');
