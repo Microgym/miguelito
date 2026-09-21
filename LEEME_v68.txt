@@ -1,0 +1,17 @@
+MIS TAREAS v68 — EVENTOS REPETITIVOS
+
+En Zona Padres > Eventos ahora un evento puede:
+- no repetirse;
+- repetirse cada semana;
+- repetirse cada 2 semanas;
+- repetirse cada mes;
+- tener fecha final opcional.
+
+Ejemplos:
+- Entrenamiento de fútbol: cada semana.
+- Partido recurrente: cada semana.
+- Actividad quincenal: cada 2 semanas.
+- Evento mensual: cada mes.
+
+Los eventos repetitivos aparecen automáticamente en Calendario e Inicio, sin crear copias manuales.
+Editar o eliminar afecta a toda la serie.

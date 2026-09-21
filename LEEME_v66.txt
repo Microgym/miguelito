@@ -1,0 +1,12 @@
+MIS TAREAS v66 — INSIGNIAS REALES Y EDITABLES
+
+- Las insignias ya se desbloquean con datos reales de cada hijo.
+- Cada insignia muestra progreso, por ejemplo 4/7.
+- El perfil muestra el número real de insignias conseguidas.
+- En Zona Padres se puede cambiar:
+  · nombre
+  · icono
+  · condición
+  · objetivo
+- También se pueden añadir y eliminar insignias.
+- Cada hijo tiene sus propias insignias y reglas.

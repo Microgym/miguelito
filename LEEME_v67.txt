@@ -1,0 +1,22 @@
+MIS TAREAS v67 — MUNDOS REALES Y EDITABLES
+
+- Los mundos se desbloquean con XP acumulado.
+- El XP no se gasta, por lo que un mundo nunca vuelve a bloquearse por canjear premios.
+- Cada mundo muestra progreso: XP actual / XP requerido.
+- Valores iniciales:
+  Inicio 0 XP
+  Bosque 250 XP
+  Montaña 600 XP
+  Isla 1000 XP
+  Castillo 1600 XP
+  Mundo secreto 2500 XP
+
+Zona Padres:
+- cambiar nombre;
+- cambiar icono;
+- cambiar XP necesario;
+- cambiar orden;
+- añadir mundos;
+- eliminar mundos.
+
+Cada hijo tiene sus propios mundos.
