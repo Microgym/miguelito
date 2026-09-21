@@ -1,0 +1,12 @@
+MIS TAREAS v80 — CALENDARIO DE CUSTODIA EN PRIMERA CONFIGURACIÓN
+
+Corregido:
+Si durante la primera configuración se indicaba que los padres viven separados
+y se configuraba el calendario antes de crear el perfil del hijo, al terminar
+el asistente se perdía ese calendario porque se creaba un estado nuevo.
+
+Ahora:
+- el calendario elegido durante el asistente se conserva;
+- al crear los perfiles se copia a sus calendarios;
+- Inicio muestra desde el primer momento Papá o Mamá según lo marcado;
+- no hace falta volver al Calendario para corregirlo.

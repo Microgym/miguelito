@@ -1,0 +1,14 @@
+MIS TAREAS v79 — ACCESOS RÁPIDOS EN INICIO
+
+Nuevo en Inicio:
+- Botón ⚙️ Gestionar.
+  Al tocarlo pide PIN parental y lleva directamente al bloque de gestión:
+  tareas, eventos, retos, objetivos, días especiales, mundos, insignias y premios.
+
+- Botón ⬇️ Exportar JSON.
+  Exporta la copia completa de toda la familia.
+
+- Botón ⬆️ Importar JSON.
+  Usa el mismo restaurador de copia completa de Zona Padres.
+
+Se mantiene toda la estructura de Zona Padres de v78.

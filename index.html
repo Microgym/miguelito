@@ -1812,6 +1812,27 @@ body.preview-first-run .first-run-cancel-preview{display:block}
 .parent-back-btn{width:100%;margin:0 0 10px}
 @media(min-width:700px){.parent-manage-grid{grid-template-columns:repeat(4,1fr)}}
 
+
+/* ===== v79 accesos rápidos Inicio ===== */
+.home-parent-tools{
+  display:grid;grid-template-columns:1fr;gap:8px;margin:0 0 10px
+}
+.home-parent-action{
+  width:100%;border:0;border-radius:18px;padding:12px 13px;
+  display:flex;align-items:center;gap:11px;text-align:left;cursor:pointer;
+  background:linear-gradient(90deg,#eef5ff,#f8fbff);
+  box-shadow:0 7px 18px rgba(35,71,108,.08);color:#20486f
+}
+.home-parent-action .bigico{font-size:27px}
+.home-parent-action b{display:block;font-size:14px}
+.home-parent-action small{display:block;font-size:9px;color:#6c8299;margin-top:2px}
+.home-backup-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.home-backup-actions button,.home-backup-actions label{
+  border:1px solid #dfe8f3;border-radius:14px;padding:10px 8px;
+  background:#fff;color:#315579;font-weight:900;font-size:10px;text-align:center;
+  cursor:pointer;box-shadow:0 5px 14px rgba(35,71,108,.06)
+}
+
 </style>
 </head>
 <body>
@@ -1866,6 +1887,18 @@ body.preview-first-run .first-run-cancel-preview{display:block}
  <button class="more-card" data-open="summary" onclick="openScreen('summary')" style="width:100%;margin:0 0 10px;background:linear-gradient(90deg,#eaf7ff,#fff7d8)">
    <span class="bigico">🌟</span>Ver resumen del día
  </button>
+
+ <div class="home-parent-tools">
+   <button class="home-parent-action manage" type="button" onclick="openManageFromHome()">
+     <span class="bigico">⚙️</span>
+     <div><b>Gestionar</b><small>Tareas, eventos, retos, premios...</small></div>
+   </button>
+   <div class="home-backup-actions">
+     <button type="button" onclick="document.getElementById('exportBackupBtn')?.click()">⬇️ Exportar JSON</button>
+     <label for="importBackupInput">⬆️ Importar JSON</label>
+   </div>
+ </div>
+
  <div class="motto">☀️ “Pequeños pasos, grandes logros”</div>
 
  <div id="familyCard" class="card family"></div>
@@ -3664,6 +3697,8 @@ function openCalendarDuringFirstRun(){
  document.body.classList.remove('first-run-active');
  $('#firstRunOverlay')?.classList.remove('show');
  familyStore.onboardingStage='custody-calendar';
+ const d=firstRunDraft();
+ d.custodyCalendar=cloneJson(state?.calendar||{});
  saveFirstRunState();
  openScreen('calendar');
  const resume=document.getElementById('firstRunResume');
@@ -3672,6 +3707,8 @@ function openCalendarDuringFirstRun(){
 function resumeFirstRunAfterCalendar(){
  const resume=document.getElementById('firstRunResume');
  if(resume)resume.style.display='none';
+ const d=firstRunDraft();
+ d.custodyCalendar=cloneJson(state?.calendar||{});
  familyStore.onboardingStage='children';
  saveFirstRunState();
  startFirstRun();
@@ -3844,9 +3881,13 @@ function renderFirstRun(){
      d.children[i]=c;
      if(i+1<d.childCount){d.childIndex=i+1;saveFirstRunState();renderFirstRun();return}
      const now=Date.now();
+     // Conserva el calendario de custodia configurado durante el asistente.
+     // Antes se creaban estados nuevos y se perdía lo elegido en Calendario.
+     const onboardingCalendar=cloneJson(d.custodyCalendar||state?.calendar||{});
      familyStore.children=d.children.map((x,j)=>{
        const st=freshChildState(x.name,x.birthDate,x.city);
        st.profile.name=x.name;st.profile.birthDate=x.birthDate;st.profile.city=x.city;
+       st.calendar=cloneJson(onboardingCalendar);
        return {id:`child-${now}-${j}`,name:x.name,avatar:x.avatar,birthDate:x.birthDate,city:x.city,state:st};
      });
      familyStore.activeChildId=familyStore.children[0].id;
@@ -4457,7 +4498,7 @@ $('#finishBook').onclick=()=>{
 
 function openScreen(name){
  try{
-   if(name==='parents'){openPin();return}
+   if(name==='parents'){openPin('parents');return}
    document.querySelectorAll('.nav button').forEach(x=>x.classList.remove('on'));
    const navBtn=document.querySelector(`.nav button[data-screen="${name}"]`);
    if(navBtn) navBtn.classList.add('on');
@@ -5668,7 +5709,9 @@ function ensureParentPin(){
 }
 ensureParentPin();
 
-function openPin(){
+let parentPinDestination='parents';
+function openPin(destination='parents'){
+ parentPinDestination=destination||'parents';
  const input=$('#pinInput'),err=$('#pinError'),lock=$('#pinLock');
  if(input)input.value='';
  if(err)err.textContent='';
@@ -5698,6 +5741,18 @@ function backToParents(){
  render();
 }
 
+
+function openManageFromHome(){
+ openPin('manage');
+}
+function showParentsManage(){
+ showParents();
+ requestAnimationFrame(()=>{
+   const card=document.querySelector('#parents .parent-manage-card');
+   if(card)card.scrollIntoView({behavior:'smooth',block:'start'});
+ });
+}
+
 function showParents(){
  document.querySelectorAll('.nav button').forEach(x=>x.classList.remove('on'));
  document.querySelector('.nav button[data-screen="more"]')?.classList.add('on');
@@ -5707,8 +5762,11 @@ function showParents(){
 }
 function tryPin(){
  if($('#pinInput').value===String(familyStore.parentPin||'1234')){
+   const destination=parentPinDestination||'parents';
+   parentPinDestination='parents';
    closePin();
-   showParents();
+   if(destination==='manage')showParentsManage();
+   else showParents();
  }else{
    $('#pinError').textContent='PIN incorrecto';
    $('#pinInput').value='';
