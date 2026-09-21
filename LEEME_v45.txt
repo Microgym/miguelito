@@ -1,9 +1,0 @@
-MIS TAREAS v45
-
-Cambios:
-- La ciudad del perfil ahora también se refleja visualmente en Inicio con un fondo ilustrado.
-- Si el hijo activo es niña, el objetivo de esquí muestra una niña esquiando.
-- Se mantiene el badge con la ciudad.
-
-Para actualizar en GitHub Pages, sustituye todos los archivos del ZIP en la raíz del repositorio.
-Si no ves cambios, recarga con Ctrl+F5 y en iPhone cierra/abre la app web.
