@@ -1,8 +1,0 @@
-MIS TAREAS v46
-
-Cambio:
-- Valencia y Madrid aparecen como opciones rápidas en el campo Ciudad.
-- Sigue siendo posible escribir otra ciudad manualmente.
-- Los fondos visuales específicos ya están preparados para Valencia y Madrid.
-
-Para actualizar GitHub, sustituye los archivos del ZIP en la raíz del repositorio.
