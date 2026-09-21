@@ -1,7 +1,7 @@
 {
-  "name": "Miguelito",
-  "short_name": "Miguelito",
-  "description": "Aventuras, tareas, lectura, premios y progreso de Miguelito.",
+  "name": "Mis Tareas",
+  "short_name": "Mis Tareas",
+  "description": "Tareas, lectura, premios, calendario y progreso para toda la familia.",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
