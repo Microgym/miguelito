@@ -1629,6 +1629,15 @@ body.preview-first-run .first-run-cancel-preview{display:block}
 .event-repeat-badge{display:inline-block;margin-left:6px;padding:2px 6px;border-radius:8px;background:#eef4fb;color:#4c6784;font-size:9px;font-weight:900}
 @media(max-width:390px){.event-repeat-form{grid-template-columns:1fr}}
 
+
+/* ===== v69 corrección visual Más / Premios ===== */
+#more.screen.active,#rewards.screen.active{
+  margin-top:0!important;
+  top:auto!important;
+  transform:none!important;
+}
+#more,#rewards{overflow-anchor:none}
+
 </style>
 </head>
 <body>
@@ -4101,11 +4110,25 @@ function openScreen(name){
    const navBtn=document.querySelector(`.nav button[data-screen="${name}"]`);
    if(navBtn) navBtn.classList.add('on');
    else document.querySelector('.nav button[data-screen="more"]')?.classList.add('on');
+   /* v69: al cambiar de pantalla volver arriba de forma inmediata.
+      Evita que pantallas cortas como Premios/Más hereden el scroll de Inicio. */
+   try{
+     if('scrollRestoration' in history) history.scrollRestoration='manual';
+     window.scrollTo(0,0);
+     document.documentElement.scrollTop=0;
+     document.body.scrollTop=0;
+   }catch(e){}
    document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
    const target=document.getElementById(name);
    if(target) target.classList.add('active');
    try{ render(); }catch(e){ console.error(e); }
-   try{ window.scrollTo({top:0,behavior:'smooth'}); }catch(e){}
+   requestAnimationFrame(()=>{
+     try{
+       window.scrollTo(0,0);
+       document.documentElement.scrollTop=0;
+       document.body.scrollTop=0;
+     }catch(e){}
+   });
  }catch(e){
    console.error(e);
  }
