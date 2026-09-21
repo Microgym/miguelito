@@ -1783,6 +1783,20 @@ body.preview-first-run .first-run-cancel-preview{display:block}
   .journal-book:before{display:none}
 }
 
+
+/* ===== v73 compatibilidad táctil iPhone/iPad ===== */
+.journal-quick,.journal-mood,#saveJournalBtn,#cancelJournalEditBtn,
+#journalPrevDay,#journalNextDay,.journal-daybtn,.journal-month-cell{
+  touch-action:manipulation;
+  -webkit-tap-highlight-color:rgba(0,0,0,0);
+}
+.journal-quick{
+  position:relative;
+  z-index:2;
+  -webkit-user-select:none;
+  user-select:none;
+}
+
 </style>
 </head>
 <body>
@@ -2041,12 +2055,12 @@ body.preview-first-run .first-run-cancel-preview{display:block}
  </div>
 
  <div class="journal-quick-grid">
-   <button class="journal-quick" data-journal-kind="sport" type="button"><span class="ico">⚽</span>Deporte</button>
-   <button class="journal-quick" data-journal-kind="school" type="button"><span class="ico">🏫</span>Cole</button>
-   <button class="journal-quick" data-journal-kind="proud" type="button"><span class="ico">🌟</span>Estoy orgulloso</button>
-   <button class="journal-quick" data-journal-kind="hard" type="button"><span class="ico">😟</span>Algo difícil</button>
-   <button class="journal-quick" data-journal-kind="home" type="button"><span class="ico">🏠</span>Casa</button>
-   <button class="journal-quick" data-journal-kind="free" type="button"><span class="ico">💭</span>Quiero contar...</button>
+   <button class="journal-quick" data-journal-kind="sport" type="button" onclick="setJournalKind('sport')"><span class="ico">⚽</span>Deporte</button>
+   <button class="journal-quick" data-journal-kind="school" type="button" onclick="setJournalKind('school')"><span class="ico">🏫</span>Cole</button>
+   <button class="journal-quick" data-journal-kind="proud" type="button" onclick="setJournalKind('proud')"><span class="ico">🌟</span>Estoy orgulloso</button>
+   <button class="journal-quick" data-journal-kind="hard" type="button" onclick="setJournalKind('hard')"><span class="ico">😟</span>Algo difícil</button>
+   <button class="journal-quick" data-journal-kind="home" type="button" onclick="setJournalKind('home')"><span class="ico">🏠</span>Casa</button>
+   <button class="journal-quick" data-journal-kind="free" type="button" onclick="setJournalKind('free')"><span class="ico">💭</span>Quiero contar...</button>
  </div>
 
  <div class="journal-form">
@@ -4973,7 +4987,11 @@ function setJournalKind(kind){
  journalDraftKind=kind;
  const info=journalKindInfo(kind);
  if($('#journalPrompt'))$('#journalPrompt').textContent=info.prompt;
- $('#journalText')?.focus();
+ const ta=$('#journalText');
+ if(ta){
+   ta.placeholder=info.prompt;
+   ta.scrollIntoView?.({block:'nearest',behavior:'smooth'});
+ }
 }
 let journalBookDate=localDateKey();
 
@@ -5084,7 +5102,7 @@ function renderJournal(){
 function escapeHtml(s=''){
  return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));
 }
-document.querySelectorAll('[data-journal-kind]').forEach(btn=>btn.onclick=()=>setJournalKind(btn.dataset.journalKind));
+
 document.querySelectorAll('.journal-mood').forEach(btn=>btn.onclick=()=>{
  journalDraftMood=btn.dataset.mood;
  document.querySelectorAll('.journal-mood').forEach(b=>b.classList.toggle('active',b===btn));
@@ -5115,6 +5133,14 @@ $('#saveJournalBtn').onclick=()=>{
  save();resetJournalForm();renderJournal();
 };
 $('#cancelJournalEditBtn').onclick=resetJournalForm;
+
+// Fallback táctil para Safari/iOS instalado como web app.
+document.addEventListener('pointerup',e=>{
+ const b=e.target.closest?.('[data-journal-kind]');
+ if(!b)return;
+ setJournalKind(b.dataset.journalKind);
+},{passive:true});
+
 
 $('#journalPrevDay').onclick=()=>{journalBookDate=shiftDateKey(journalBookDate,-1);renderJournalBook()};
 $('#journalNextDay').onclick=()=>{journalBookDate=shiftDateKey(journalBookDate,1);renderJournalBook()};

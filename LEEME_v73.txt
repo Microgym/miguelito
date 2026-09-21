@@ -1,0 +1,7 @@
+MIS TAREAS v73 — CORRECCIÓN DIARIO EN IPHONE/IPAD
+
+- Refuerzo de los botones Deporte, Cole, Orgullo, Algo difícil, Casa y Quiero contar.
+- Handler directo + fallback táctil para Safari/iOS/PWA.
+- Ya no se fuerza el teclado al tocar una categoría.
+- Se actualiza el texto/prompt y se desplaza suavemente al formulario.
+- Mantiene el diario tipo libro de v72 y todas las funciones anteriores.
