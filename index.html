@@ -1342,6 +1342,57 @@ body.city-madrid #homeHero .hero-copy{
   backdrop-filter:blur(4px);
 }
 
+
+/* ===== v49: personaje integrado en la ciudad ===== */
+body.city-valencia,
+body.city-madrid{
+  background:#d7f0ff!important;
+  background-image:none!important;
+}
+body.city-valencia::before,
+body.city-madrid::before,
+body.city-valencia::after,
+body.city-madrid::after{
+  display:none!important;
+}
+body.city-valencia .app,
+body.city-madrid .app{
+  background:transparent!important;
+  backdrop-filter:none!important;
+}
+#homeHero{
+  background-color:#ddecff!important;
+  background-size:cover!important;
+  background-repeat:no-repeat!important;
+  background-position:center!important;
+}
+#homeHero::before,
+#homeHero .avatar,
+#homeHero .mountains,
+#homeHero .skyshine,
+#homeHero #cityScene,
+#homeHero #cityTitleWatermark{
+  display:none!important;
+}
+#homeHero .hero-copy{
+  margin-left:135px;
+  padding:10px;
+  border-radius:17px;
+  background:rgba(255,255,255,.52);
+  backdrop-filter:blur(4px);
+  box-shadow:0 8px 20px rgba(31,61,105,.08);
+}
+#homeHero .hero-panels{
+  z-index:4;
+}
+#homeHero.scene-nino-valencia{background-image:url('./escena-nino-valencia.png?v=49')!important}
+#homeHero.scene-nino-madrid{background-image:url('./escena-nino-madrid.png?v=49')!important}
+#homeHero.scene-nina-valencia{background-image:url('./escena-nina-valencia.png?v=49')!important}
+#homeHero.scene-nina-madrid{background-image:url('./escena-nina-madrid.png?v=49')!important}
+@media(max-width:390px){
+  #homeHero .hero-copy{margin-left:124px;padding:8px}
+}
+
 </style>
 </head>
 <body>
@@ -3316,26 +3367,36 @@ function citySceneSvg(city=''){
 function renderCityScene(){
  const city=(state.profile?.city||activeChildRecord()?.city||'').trim();
  const normalized=city.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
- document.body.classList.remove('city-valencia','city-madrid');
- if(normalized.includes('valencia'))document.body.classList.add('city-valencia');
- else if(normalized.includes('madrid'))document.body.classList.add('city-madrid');
+ const avatar=activeChildRecord()?.avatar||'👦';
+ const gender=avatar==='👧'?'nina':'nino';
 
- const hero=$('#homeHero'),holder=$('#cityScene'),title=$('#cityTitleWatermark');
+ document.body.classList.remove('city-valencia','city-madrid');
+ const hero=$('#homeHero');
+ if(!hero)return;
+ hero.classList.remove('scene-nino-valencia','scene-nino-madrid','scene-nina-valencia','scene-nina-madrid');
+
+ let cityKey='';
+ if(normalized.includes('valencia'))cityKey='valencia';
+ else if(normalized.includes('madrid'))cityKey='madrid';
+
+ if(cityKey){
+   document.body.classList.add('city-'+cityKey);
+   hero.classList.add(`scene-${gender}-${cityKey}`);
+   hero.classList.add('has-city');
+ }else{
+   hero.classList.remove('has-city');
+ }
+
+ const title=$('#cityTitleWatermark');
+ if(title){title.style.display='none';title.textContent='';}
+ const holder=$('#cityScene');
  if(holder)holder.innerHTML='';
- if(hero){
-   if(city)hero.classList.add('has-city');
-   else hero.classList.remove('has-city');
- }
- if(title){
-   title.textContent=city;
-   title.style.display=city?'block':'none';
- }
 }
 
 function renderGoalVisual(){
- const goal=$('#bigGoalIcon'); if(!goal)return;
+ const goal=$('#bigGoalIcon');if(!goal)return;
  const avatar=activeChildRecord()?.avatar||'👦';
- const img=avatar==='👧'?'./objetivo-esqui-nina.png?v=48':'./objetivo-esqui.png?v=48';
+ const img=avatar==='👧'?'./objetivo-esqui-nina.png?v=49':'./objetivo-esqui.png?v=49';
  goal.style.setProperty('background-image',`url("${img}")`,'important');
  goal.style.setProperty('background-size','cover','important');
  goal.style.setProperty('background-position','center','important');
@@ -3351,21 +3412,15 @@ function renderActiveCity(){
 
 function renderActiveChildIdentity(){
  const c=activeChildRecord(),name=state.profile?.name||c?.name||'Hijo',avatar=c?.avatar||'👦';
- const hero=$('#homeHero'),nameEl=$('#homeChildName'),logo=$('#activeChildLogo'),avatarBox=document.querySelector('#homeHero .avatar');
+ const nameEl=$('#homeChildName'),logo=$('#activeChildLogo'),hero=$('#homeHero');
  if(nameEl)nameEl.textContent=name;
  if(logo)logo.textContent=name.toUpperCase();
- if(!hero||!avatarBox)return;
- hero.classList.remove('girl','boy','neutral');
- let src='./nino.png';
- let cls='boy';
- if(avatar==='👧'){src='./nina.png';cls='girl';}
- else if(avatar==='🧒'){src='./nino.png';cls='neutral';}
- hero.classList.add(cls);
- avatarBox.innerHTML=`<img class="child-hero-img" src="${src}" alt="${name}">`;
+ if(hero){
+   hero.classList.remove('girl','boy','neutral');
+   hero.classList.add(avatar==='👧'?'girl':(avatar==='🧒'?'neutral':'boy'));
+ }
  if($('#homeChildSubtitle')){
-   $('#homeChildSubtitle').textContent=avatar==='👧'
-    ?'Hoy es un gran día para aprender, disfrutar y conseguir tus metas.'
-    :'Hoy es un gran día para aprender y conseguir tus metas.';
+   $('#homeChildSubtitle').textContent='Hoy es un gran día para aprender, disfrutar y conseguir tus metas.';
  }
 }
 
