@@ -1092,6 +1092,46 @@ body{min-height:100%;overscroll-behavior-y:none}
   body{user-select:none;-webkit-user-select:none}
 }
 
+
+/* ===== v34: avisos + rutinas por casa + inicio inteligente ===== */
+.smart-home-card{margin:10px 0;padding:14px;border-radius:20px;background:linear-gradient(135deg,#eef8ff,#ffffff 62%,#fff5cc);border:1px solid #deebf7}
+.smart-home-top{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
+.smart-home-top h3{margin:2px 0 3px;font-size:18px}.smart-home-top p{margin:0;font-size:10px;color:var(--muted)}
+.smart-home-badge{padding:6px 9px;border-radius:12px;background:#e9f2ff;font-size:10px;font-weight:1000;color:#345e92;white-space:nowrap}
+.smart-home-list{margin-top:10px}.smart-home-task{display:flex;align-items:center;gap:8px;padding:8px 0;border-top:1px solid #e9eef5;font-size:11px}
+.smart-home-task:first-child{border-top:0}.smart-home-task .dot{width:26px;height:26px;border-radius:9px;display:grid;place-items:center;background:#eef4fb}
+.smart-home-task b{flex:1}.smart-home-empty{padding:9px 0;font-size:11px;color:var(--muted)}
+.notice-center{margin:9px 0}.notice-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:5px}
+.notice-head b{font-size:13px}.notice-count{font-size:9px;font-weight:1000;padding:4px 7px;border-radius:9px;background:#eaf3ff;color:#3d6797}
+.notice-item{display:flex;gap:9px;padding:10px 11px;margin:6px 0;border-radius:15px;background:#f7f9fc;border:1px solid #e6edf5}
+.notice-item.urgent{background:#fff0f0;border-color:#f4cccc}.notice-item.warn{background:#fff8e7;border-color:#f4e1ae}.notice-item.info{background:#eef7ff;border-color:#dbeafa}
+.notice-item .nicon{font-size:20px;line-height:1}.notice-item b{display:block;font-size:11px}.notice-item span{display:block;font-size:9px;color:var(--muted);margin-top:2px}
+.house-field{grid-column:1/-1}.task-house-pill{display:inline-block;padding:3px 6px;margin-left:4px;border-radius:8px;background:#eaf3ff;color:#3d6797;font-size:8px;font-weight:1000}
+.reminder-settings{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:8px}.reminder-settings label{display:flex;align-items:center;gap:7px;padding:9px;border-radius:12px;background:#f5f8fc;font-size:10px;font-weight:900}
+
+
+/* ===== v35: varios hijos + fecha de nacimiento ===== */
+.child-switcher{
+  display:flex;gap:8px;align-items:center;margin:8px 0 10px;padding:10px;
+  border-radius:18px;background:#eef6ff;border:1px solid #dfeaf8;overflow-x:auto
+}
+.child-chip{
+  border:0;border-radius:14px;padding:9px 11px;background:#fff;color:#34506f;
+  font-weight:1000;white-space:nowrap;cursor:pointer;border:1px solid #e1eaf4
+}
+.child-chip.active{background:linear-gradient(180deg,#3e91f5,#2d7fe4);color:#fff;border-color:transparent}
+.child-chip.add{background:#fff8df;color:#886500}
+.child-manager-row{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)}
+.child-manager-row:last-child{border-bottom:0}
+.child-avatar-small{font-size:26px}
+.child-manager-actions{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
+.child-manager-actions button{padding:7px 8px;border:0;border-radius:10px;font-size:9px;font-weight:1000;cursor:pointer}
+.child-manager-form{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}
+.child-manager-form input,.child-manager-form select{
+ width:100%;border:1px solid #dfe8f5;border-radius:12px;padding:10px;font:inherit;background:#fff;color:var(--ink)
+}
+.birth-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}
+
 </style>
 </head>
 <body>
@@ -1162,6 +1202,13 @@ body{min-height:100%;overscroll-behavior-y:none}
    <div id="weeklyChallenges"></div>
  </div>
 
+
+
+ <div id="smartHomeCard" class="smart-home-card"></div>
+ <div class="notice-center">
+   <div class="notice-head"><b>🔔 Avisos</b><span id="noticeCount" class="notice-count">0</span></div>
+   <div id="noticeList"></div>
+ </div>
 
  <div id="specialDayBanner"></div>
  <div id="smartAlerts"></div>
@@ -1285,13 +1332,14 @@ body{min-height:100%;overscroll-behavior-y:none}
   <div class="card panelcard">
     <h3 style="margin-top:0">Sobre mí</h3>
     <div class="field"><label>Nombre</label><input id="profileNameInput" value="Miguelito"></div>
-    <div class="project-grid" style="margin-top:8px">
+    <div class="birth-row">
+      <div class="field"><label>Fecha de nacimiento</label><input id="profileBirthInput" type="date"></div>
       <div class="field"><label>Edad</label><input id="profileAgeInput" type="number" min="1" max="18" value="9"></div>
-      <div class="field"><label>Mi color favorito</label>
-        <select id="profileColorInput">
-          <option>Azul</option><option>Verde</option><option>Rojo</option><option>Naranja</option><option>Morado</option>
-        </select>
-      </div>
+    </div>
+    <div class="field" style="margin-top:8px"><label>Mi color favorito</label>
+      <select id="profileColorInput">
+        <option>Azul</option><option>Verde</option><option>Rojo</option><option>Naranja</option><option>Morado</option>
+      </select>
     </div>
     <div class="field" style="margin-top:8px"><label>Lo que más me gusta</label><input id="profileLikesInput" placeholder="Ej. fútbol, Minecraft, esquiar"></div>
     <button id="saveProfileBtn" class="btn primary" style="width:100%;margin-top:10px">Guardar perfil</button>
@@ -1308,7 +1356,8 @@ body{min-height:100%;overscroll-behavior-y:none}
 </section>
 
 <section id="more" class="screen">
-  <div class="screen-title"><h1>☰ Más</h1><p>Todo lo demás de Miguelito.</p></div>
+  <div class="screen-title"><h1>☰ Más</h1><p>Perfil activo: <span data-active-child-name>Miguelito</span>.</p></div>
+  <div id="childSwitcher" class="child-switcher"></div>
   <div class="more-grid">
     <button class="more-card" data-open="summary" onclick="openScreen('summary')"><span class="bigico">🌟</span>Resumen diario</button>
 <button class="more-card" data-open="tasks" onclick="openScreen('tasks')"><span class="bigico">✅</span>Tareas diarias</button>
@@ -1603,6 +1652,11 @@ body{min-height:100%;overscroll-behavior-y:none}
   <div class="task-manager-form">
     <input id="taskStarsInput" type="number" min="0" value="5" placeholder="⭐ Estrellas">
     <input id="taskXpInput" type="number" min="0" value="10" placeholder="XP">
+    <select id="taskHouseInput" class="house-field">
+      <option value="Ambas">🏠 En ambas casas</option>
+      <option value="Papá">👨 Solo con Papá</option>
+      <option value="Mamá">👩 Solo con Mamá</option>
+    </select>
   </div>
   <button id="saveTaskBtn" class="btn primary" style="width:100%;margin-top:9px">Añadir tarea</button>
 
@@ -1610,6 +1664,38 @@ body{min-height:100%;overscroll-behavior-y:none}
  </div>
 
 
+
+
+
+ <div class="card panelcard">
+  <h3 style="margin:0 0 5px">👨‍👩‍👧‍👦 Hijos / perfiles</h3>
+  <div class="mmeta">Cada hijo tiene sus propias tareas, estrellas, premios, lectura, calendario y progreso.</div>
+  <div class="child-manager-form">
+    <input id="childNameInput" placeholder="Nombre del hijo">
+    <select id="childAvatarInput">
+      <option value="👦">👦 Niño</option>
+      <option value="👧">👧 Niña</option>
+      <option value="🧒">🧒 Infantil</option>
+    </select>
+  </div>
+  <div class="child-manager-form">
+    <input id="childBirthInput" type="date">
+    <input id="childColorInput" placeholder="Color favorito">
+  </div>
+  <button id="saveChildBtn" class="btn primary" style="width:100%;margin-top:9px">Añadir hijo</button>
+  <div id="childManagerList" style="margin-top:10px"></div>
+ </div>
+
+ <div class="card panelcard">
+  <h3 style="margin:0 0 5px">🔔 Avisos inteligentes</h3>
+  <div class="mmeta">Elige qué avisos aparecen en Inicio.</div>
+  <div class="reminder-settings">
+    <label><input id="prefPending" type="checkbox"> Tareas por aprobar</label>
+    <label><input id="prefProjects" type="checkbox"> Proyectos próximos</label>
+    <label><input id="prefTomorrow" type="checkbox"> Eventos de mañana</label>
+    <label><input id="prefRewards" type="checkbox"> Premios pendientes</label>
+  </div>
+ </div>
 
  <div class="card panelcard">
   <h3 style="margin:0 0 5px">🎯 Grandes objetivos</h3>
@@ -1737,18 +1823,50 @@ function safeLoadState(){
  try{
    const raw=window.localStorage.getItem('miguelito-v10');
    return raw?JSON.parse(raw):null;
- }catch(e){
-   return null;
- }
+ }catch(e){return null}
 }
+function loadFamilyStore(){
+ try{
+   const raw=window.localStorage.getItem('miguelito-family-v1');
+   return raw?JSON.parse(raw):null;
+ }catch(e){return null}
+}
+function saveFamilyStore(){
+ try{window.localStorage.setItem('miguelito-family-v1',JSON.stringify(familyStore))}catch(e){}
+}
+const legacyState=safeLoadState();
+let familyStore=loadFamilyStore();
+if(!familyStore){
+ const first=legacyState||{stars:185,xp:620,calendar:{},missions:seed};
+ const firstId='child-'+Date.now();
+ familyStore={
+   activeChildId:firstId,
+   children:[{
+     id:firstId,
+     name:first.profile?.name||'Miguelito',
+     avatar:'👦',
+     birthDate:first.profile?.birthDate||'',
+     state:first
+   }]
+ };
+ saveFamilyStore();
+}
+function activeChildRecord(){
+ return familyStore.children.find(c=>c.id===familyStore.activeChildId)||familyStore.children[0];
+}
+let state=activeChildRecord().state;
 function safeStoreState(){
  try{
+   const child=activeChildRecord();
+   if(child){
+     child.state=state;
+     child.name=state.profile?.name||child.name||'Hijo';
+     child.birthDate=state.profile?.birthDate||child.birthDate||'';
+   }
+   saveFamilyStore();
    window.localStorage.setItem('miguelito-v10',JSON.stringify(state));
- }catch(e){
-   // La app sigue funcionando aunque el navegador bloquee el almacenamiento local.
- }
+ }catch(e){}
 }
-let state=safeLoadState()||{stars:185,xp:620,calendar:{},missions:seed};
 let weekOffset=0;
 const $=s=>document.querySelector(s);
 
@@ -1756,6 +1874,11 @@ function localDateKey(d=new Date()){
  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
 }
 
+
+function ensureV34State(){
+ if(!state.notificationPrefs)state.notificationPrefs={pending:true,projects:true,tomorrow:true,rewards:true};
+ state.missions.forEach(m=>{if(!m.house)m.house='Ambas';});
+}
 
 function ensureV33State(){
  if(!state.bigGoals){
@@ -1767,10 +1890,14 @@ function ensureV33State(){
  state.rewardHistory.forEach(h=>{if(!h.status)h.status='delivered';});
 }
 ensureV33State();
+ensureV34State();
 
 function specialDayFor(dateKey=localDateKey()){return (state.specialDays||[]).find(x=>x.date===dateKey)||null}
 function skippedSectionsToday(){const s=specialDayFor();return new Set((s&&s.skipSections)||[])}
-function activeMissionsToday(){const skip=skippedSectionsToday();return state.missions.map((m,i)=>[m,i]).filter(([m])=>m.enabled!==false&&!skip.has(m.section))}
+function activeMissionsToday(){
+ const skip=skippedSectionsToday(),who=home(new Date());
+ return state.missions.map((m,i)=>[m,i]).filter(([m])=>m.enabled!==false&&!skip.has(m.section)&&(m.house==='Ambas'||!m.house||m.house===who));
+}
 
 function ensureEventState(){
  if(!state.events) state.events=[];
@@ -1993,7 +2120,7 @@ function renderModules(){
  const cfg=[['Mañana','morning','☀️','Un gran día empieza aquí'],['Colegio','school','🎒','Aprendo hoy, construyo mi mañana'],['Tarde','afternoon','🏠','Tiempo para crecer, jugar y ayudar']];
  cfg.forEach(([sec,cls,ico,sub])=>{
   const card=document.createElement('div');card.className='card module';
-  const skip=skippedSectionsToday();const items=state.missions.map((m,i)=>[m,i]).filter(([m])=>m.section===sec&&m.enabled!==false&&!skip.has(m.section));
+  const items=activeMissionsToday().filter(([m])=>m.section===sec);
   const done=items.filter(([m])=>m.status===1).length;
   card.innerHTML=`<div class="module-head ${cls}"><div class="mod-left"><span class="mod-icon">${ico}</span><div><div class="mod-title">${sec}</div><div class="mod-sub">${sub}</div></div></div><div class="count">${done}/${items.length} completadas</div></div><div class="missions"></div>`;
   const list=card.querySelector('.missions');
@@ -2203,6 +2330,65 @@ $('#saveSpecialBtn').onclick=()=>{
  toast(edit!==''?'Día especial actualizado':'Día especial añadido 🎉');resetSpecialForm();save();
 };
 function renderSpecialDay(){const box=$('#specialDayBanner');if(!box)return;box.innerHTML='';const s=specialDayFor();if(!s)return;box.innerHTML=`<div class="special-banner"><b>${specialIcon(s.type)} ${s.title}</b><span>${(s.skipSections||[]).length?'Hoy no aparecen las tareas de: '+s.skipSections.join(', '):'Día especial sin cambios automáticos en las tareas.'}</span></div>`}
+
+function tomorrowKey(){const d=new Date();d.setDate(d.getDate()+1);return iso(d)}
+function getNotices(){
+ const prefs=state.notificationPrefs||{},out=[];
+ if(prefs.pending){
+   const n=activeMissionsToday().filter(([m])=>m.status===2).length;
+   if(n)out.push({kind:'info',icon:'👀',title:`${n} ${n===1?'tarea pendiente':'tareas pendientes'} de aprobación`,text:'Un adulto puede revisarlas en Zona Padres.'});
+ }
+ if(prefs.projects){
+   const ps=(state.projects||[]).filter(p=>p.due&&!p.grade).map(p=>({p,left:projectDaysLeft(p)})).filter(x=>x.left>=0&&x.left<=5).sort((a,b)=>a.left-b.left);
+   if(ps.length){const x=ps[0];out.push({kind:x.left<=1?'urgent':'warn',icon:x.left<=1?'🚨':'🧩',title:x.p.name,text:x.left===0?'Se entrega hoy.':x.left===1?'Se entrega mañana.':`Quedan ${x.left} días.`})}
+ }
+ if(prefs.tomorrow){
+   const ev=eventsForDate(tomorrowKey());
+   if(ev.length){const first=ev[0],more=ev.length>1?` y ${ev.length-1} más`:'';out.push({kind:'warn',icon:'📅',title:'Mañana: '+first.title+more,text:first.time?`A las ${first.time}.`:'Tienes un evento en el calendario.'})}
+ }
+ if(prefs.rewards){
+   const n=(state.rewardHistory||[]).filter(h=>h.status==='pending').length;
+   if(n)out.push({kind:'info',icon:'🎟️',title:`${n} ${n===1?'premio pendiente':'premios pendientes'} de disfrutar`,text:'Puedes marcarlos como disfrutados desde Premios.'});
+ }
+ return out;
+}
+function renderNoticeCenter(){
+ const list=$('#noticeList'),count=$('#noticeCount');if(!list||!count)return;
+ const notices=getNotices();count.textContent=notices.length;list.innerHTML='';
+ if(!notices.length){list.innerHTML='<div class="smart-home-empty">Todo tranquilo por ahora ✨</div>';return}
+ notices.slice(0,4).forEach(n=>{const el=document.createElement('div');el.className='notice-item '+n.kind;el.innerHTML=`<div class="nicon">${n.icon}</div><div><b>${n.title}</b><span>${n.text}</span></div>`;list.appendChild(el)});
+}
+function dayPartInfo(){
+ const h=new Date().getHours();
+ if(h<13)return {section:'Mañana',icon:'☀️',title:'Buenos días',text:'Empezamos con la rutina de mañana.'};
+ if(h<20)return {section:'Tarde',icon:'🏠',title:'Esta tarde',text:'Toca avanzar un poco y luego disfrutar.'};
+ return {section:null,icon:'🌙',title:'Cerramos el día',text:'Mira cómo ha ido hoy y celebra lo conseguido.'};
+}
+function renderSmartHome(){
+ const box=$('#smartHomeCard');if(!box)return;
+ const info=dayPartInfo(),who=home(new Date());
+ if(!info.section){
+   const approved=activeMissionsToday().filter(([m])=>m.status===1).length,total=activeMissionsToday().length;
+   box.innerHTML=`<div class="smart-home-top"><div><div class="eyebrow">${info.icon} AHORA</div><h3>${info.title}</h3><p>${info.text}</p></div><div class="smart-home-badge">${who}</div></div><div class="smart-home-list"><div class="smart-home-task"><span class="dot">🌟</span><b>${approved}/${total} tareas aprobadas hoy</b><button class="smallbtn uploadbtn" type="button">Ver resumen</button></div></div>`;
+   box.querySelector('button').onclick=()=>openScreen('summary');return;
+ }
+ const pending=activeMissionsToday().filter(([m])=>m.section===info.section&&m.status!==1).slice(0,3);
+ box.innerHTML=`<div class="smart-home-top"><div><div class="eyebrow">${info.icon} AHORA</div><h3>${info.title}</h3><p>${info.text}</p></div><div class="smart-home-badge">${who}</div></div><div class="smart-home-list"></div>`;
+ const list=box.querySelector('.smart-home-list');
+ if(!pending.length)list.innerHTML='<div class="smart-home-empty">¡Este bloque está al día! ✅</div>';
+ else pending.forEach(([m])=>{const row=document.createElement('div');row.className='smart-home-task';row.innerHTML=`<span class="dot">${m.status===2?'⏳':'○'}</span><b>${m.title}</b><span>+${m.stars} ⭐</span>`;list.appendChild(row)});
+}
+function renderReminderPrefs(){
+ const p=state.notificationPrefs||{};
+ if($('#prefPending'))$('#prefPending').checked=p.pending!==false;
+ if($('#prefProjects'))$('#prefProjects').checked=p.projects!==false;
+ if($('#prefTomorrow'))$('#prefTomorrow').checked=p.tomorrow!==false;
+ if($('#prefRewards'))$('#prefRewards').checked=p.rewards!==false;
+}
+function bindReminderPref(id,key){const el=$(id);if(!el)return;el.onchange=()=>{state.notificationPrefs[key]=el.checked;save()}}
+bindReminderPref('#prefPending','pending');bindReminderPref('#prefProjects','projects');bindReminderPref('#prefTomorrow','tomorrow');bindReminderPref('#prefRewards','rewards');
+
+
 function renderSmartAlerts(){
  const box=$('#smartAlerts');if(!box)return;box.innerHTML='';
  const pending=activeMissionsToday().filter(([m])=>m.status===2).length;
@@ -2223,6 +2409,100 @@ $('#importBackupInput').onchange=async e=>{
    state=restored;ensureV33State();ensureEventState();ensureDailyGameState();ensureTaskState();ensureRewardState();state._updatedAt=Date.now();safeStoreState();render();scheduleRemotePush();$('#backupStatus').textContent='Copia restaurada correctamente.';toast('Copia restaurada ✅');
  }catch(err){$('#backupStatus').textContent='No se pudo leer esta copia.';toast('Archivo de copia no válido')}
  e.target.value='';
+};
+
+
+
+function freshChildState(name,birthDate=''){
+ const base={
+   stars:0,xp:0,calendar:{},
+   missions:seed.map(m=>({...m,status:0,enabled:true,house:'Ambas'})),
+   profile:{name:name||'Hijo',birthDate,age:ageFromBirth(birthDate)||9,color:'Azul',likes:''}
+ };
+ return base;
+}
+function switchChild(id){
+ if(id===familyStore.activeChildId)return;
+ safeStoreState();
+ familyStore.activeChildId=id;
+ state=activeChildRecord().state;
+ ensureV33State();ensureV34State();ensureEventState();ensureDailyGameState();ensureTaskState();ensureRewardHistory();ensureRewardState();ensureProjectState();ensureReadingState();ensureProfileState();
+ saveFamilyStore();
+ toast(`Perfil: ${state.profile?.name||'Hijo'}`);
+ render();
+ openScreen('today');
+}
+function renderChildSwitcher(){
+ const box=$('#childSwitcher');if(!box)return;
+ box.innerHTML='';
+ familyStore.children.forEach(c=>{
+   const b=document.createElement('button');
+   b.type='button';b.className='child-chip'+(c.id===familyStore.activeChildId?' active':'');
+   b.textContent=`${c.avatar||'🧒'} ${c.name}`;
+   b.onclick=()=>switchChild(c.id);
+   box.appendChild(b);
+ });
+ const add=document.createElement('button');
+ add.type='button';add.className='child-chip add';add.textContent='＋ Añadir';
+ add.onclick=()=>openScreen('parents');
+ box.appendChild(add);
+}
+function resetChildForm(){
+ $('#childNameInput').value='';$('#childAvatarInput').value='👦';$('#childBirthInput').value='';$('#childColorInput').value='';
+ $('#saveChildBtn').dataset.edit='';$('#saveChildBtn').textContent='Añadir hijo';
+}
+function renderChildManager(){
+ const list=$('#childManagerList');if(!list)return;list.innerHTML='';
+ familyStore.children.forEach((c,i)=>{
+   const r=document.createElement('div');r.className='child-manager-row';
+   const birth=c.birthDate?new Date(c.birthDate+'T12:00:00').toLocaleDateString('es-ES'):'Sin fecha';
+   r.innerHTML=`<div><b><span class="child-avatar-small">${c.avatar||'🧒'}</span> ${c.name}${c.id===familyStore.activeChildId?' <span class="goal-active-tag">ACTIVO</span>':''}</b><div class="mmeta">${birth}</div></div>
+   <div class="child-manager-actions">
+     <button data-childopen="${i}" style="background:#e8f2ff;color:#35618e">Abrir</button>
+     <button data-childedit="${i}" style="background:#fff4d5;color:#806000">Editar</button>
+     <button data-childdel="${i}" style="background:#ffe9ec;color:#a74354">Eliminar</button>
+   </div>`;
+   list.appendChild(r);
+ });
+ list.querySelectorAll('[data-childopen]').forEach(b=>b.onclick=()=>switchChild(familyStore.children[Number(b.dataset.childopen)].id));
+ list.querySelectorAll('[data-childedit]').forEach(b=>b.onclick=()=>{
+   const c=familyStore.children[Number(b.dataset.childedit)];
+   $('#childNameInput').value=c.name;$('#childAvatarInput').value=c.avatar||'👦';$('#childBirthInput').value=c.birthDate||'';
+   $('#childColorInput').value=c.state?.profile?.color||'';
+   $('#saveChildBtn').dataset.edit=b.dataset.childedit;$('#saveChildBtn').textContent='Guardar cambios';
+ });
+ list.querySelectorAll('[data-childdel]').forEach(b=>b.onclick=()=>{
+   if(familyStore.children.length<=1){toast('Debe quedar al menos un perfil');return}
+   const i=Number(b.dataset.childdel),c=familyStore.children[i];
+   if(confirm(`¿Eliminar el perfil de ${c.name}?`)){
+     familyStore.children.splice(i,1);
+     if(familyStore.activeChildId===c.id){
+       familyStore.activeChildId=familyStore.children[0].id;
+       state=familyStore.children[0].state;
+     }
+     saveFamilyStore();resetChildForm();render();
+   }
+ });
+}
+$('#saveChildBtn').onclick=()=>{
+ const name=$('#childNameInput').value.trim(),birth=$('#childBirthInput').value||'';
+ if(!name){toast('Escribe el nombre del hijo');return}
+ const edit=$('#saveChildBtn').dataset.edit;
+ if(edit!==''){
+   const c=familyStore.children[Number(edit)];
+   c.name=name;c.avatar=$('#childAvatarInput').value;c.birthDate=birth;
+   c.state.profile=c.state.profile||{};
+   c.state.profile.name=name;c.state.profile.birthDate=birth;
+   c.state.profile.age=ageFromBirth(birth)||c.state.profile.age||9;
+   if($('#childColorInput').value.trim())c.state.profile.color=$('#childColorInput').value.trim();
+   if(c.id===familyStore.activeChildId)state=c.state;
+   toast('Perfil actualizado');
+ }else{
+   const id='child-'+Date.now();
+   familyStore.children.push({id,name,avatar:$('#childAvatarInput').value,birthDate:birth,state:freshChildState(name,birth)});
+   toast('Hijo añadido 👨‍👩‍👧‍👦');
+ }
+ saveFamilyStore();resetChildForm();render();
 };
 
 
@@ -2616,29 +2896,57 @@ function openScreen(name){
 }
 
 
+function ageFromBirth(dateStr){
+ if(!dateStr)return null;
+ const b=new Date(dateStr+'T12:00:00'),t=new Date();
+ let age=t.getFullYear()-b.getFullYear();
+ const m=t.getMonth()-b.getMonth();
+ if(m<0||(m===0&&t.getDate()<b.getDate()))age--;
+ return age>=0?age:null;
+}
 function ensureProfileState(){
  if(!state.profile){
-   state.profile={name:'Miguelito',age:9,color:'Azul',likes:'fútbol, Minecraft, esquiar'};
+   state.profile={name:activeChildRecord()?.name||'Miguelito',age:9,birthDate:activeChildRecord()?.birthDate||'',color:'Azul',likes:''};
  }
+ if(typeof state.profile.birthDate==='undefined')state.profile.birthDate='';
+ const derived=ageFromBirth(state.profile.birthDate);
+ if(derived!==null)state.profile.age=derived;
 }
 ensureProfileState();
+
+
+function renderActiveChildName(){
+ const c=activeChildRecord(),name=state.profile?.name||c?.name||'Hijo';
+ document.querySelectorAll('[data-active-child-name]').forEach(el=>el.textContent=name);
+}
 
 function renderProfileData(){
  if(!state.profile)return;
  if($('#profileNameTitle')) $('#profileNameTitle').textContent=state.profile.name||'Miguelito';
  if($('#profileNameInput')) $('#profileNameInput').value=state.profile.name||'Miguelito';
+ if($('#profileBirthInput')) $('#profileBirthInput').value=state.profile.birthDate||'';
  if($('#profileAgeInput')) $('#profileAgeInput').value=state.profile.age||9;
  if($('#profileColorInput')) $('#profileColorInput').value=state.profile.color||'Azul';
  if($('#profileLikesInput')) $('#profileLikesInput').value=state.profile.likes||'';
 }
 
+$('#profileBirthInput').onchange=()=>{
+ const a=ageFromBirth($('#profileBirthInput').value);
+ if(a!==null)$('#profileAgeInput').value=a;
+};
+
 $('#saveProfileBtn').onclick=()=>{
+ const birthDate=$('#profileBirthInput').value||'';
+ const derivedAge=ageFromBirth(birthDate);
  state.profile={
-   name:$('#profileNameInput').value.trim()||'Miguelito',
-   age:Number($('#profileAgeInput').value)||9,
+   name:$('#profileNameInput').value.trim()||'Hijo',
+   birthDate,
+   age:derivedAge!==null?derivedAge:(Number($('#profileAgeInput').value)||9),
    color:$('#profileColorInput').value,
    likes:$('#profileLikesInput').value.trim()
  };
+ const child=activeChildRecord();
+ if(child){child.name=state.profile.name;child.birthDate=birthDate;}
  toast('Perfil guardado 👦');
  save();
 };
@@ -2889,13 +3197,14 @@ const emojiArt = h==='Mamá'
   ? '<div class="family-illus"><div class="family-emoji-wrap"><div class="family-emoji">👩</div><div class="family-emoji small-kid">👦</div></div></div>'
   : '<div class="family-illus"><div class="family-emoji-wrap"><div class="family-emoji">👨</div><div class="family-emoji small-kid">👦</div></div></div>';
 $('#familyCard').innerHTML=`${emojiArt}<div class="family-panel"><div class="eyebrow">Hoy estoy con</div><b>${h}</b><span>¡Juntos hacemos grandes cosas!</span></div>`;
- renderProjectReminders();renderModules();renderReading();renderProjects();renderCalendar();renderRewards();renderRewardAdmin();renderParents();renderExtras();renderProfileData();renderStreaks();renderTaskAdmin();renderDailySummary();renderEventAdmin();renderTodayEvents();renderRewardHistory();renderSyncConfig();renderBigGoal();renderGoalAdmin();renderSpecialAdmin();renderSpecialDay();renderSmartAlerts()
+ renderProjectReminders();renderModules();renderReading();renderProjects();renderCalendar();renderRewards();renderRewardAdmin();renderParents();renderExtras();renderProfileData();renderStreaks();renderTaskAdmin();renderDailySummary();renderEventAdmin();renderTodayEvents();renderRewardHistory();renderSyncConfig();renderBigGoal();renderGoalAdmin();renderSpecialAdmin();renderSpecialDay();renderSmartAlerts();renderSmartHome();renderNoticeCenter();renderReminderPrefs();renderChildSwitcher();renderChildManager();renderActiveChildName()
 }
 
 
 function ensureTaskState(){
  state.missions.forEach(m=>{
    if(typeof m.enabled==='undefined')m.enabled=true;
+   if(!m.house)m.house='Ambas';
  });
 }
 ensureTaskState();
@@ -2905,6 +3214,7 @@ function resetTaskForm(){
  $('#taskSectionInput').value='Mañana';
  $('#taskStarsInput').value=5;
  $('#taskXpInput').value=10;
+ $('#taskHouseInput').value='Ambas';
  $('#saveTaskBtn').dataset.edit='';
  $('#saveTaskBtn').textContent='Añadir tarea';
 }
@@ -2932,7 +3242,7 @@ function renderTaskAdmin(){
      row.innerHTML=`
        <div>
          <b>${m.title}</b>
-         <div class="task-admin-meta">${m.stars} ⭐ · ${m.xp} XP · ${m.enabled===false?'Desactivada':'Activa'}</div>
+         <div class="task-admin-meta">${m.stars} ⭐ · ${m.xp} XP · ${m.enabled===false?'Desactivada':'Activa'} <span class="task-house-pill">${m.house||'Ambas'}</span></div>
        </div>
        <div class="task-admin-actions">
          <button class="smallbtn uploadbtn" data-edittask="${i}">Editar</button>
@@ -2949,6 +3259,7 @@ function renderTaskAdmin(){
    $('#taskSectionInput').value=m.section;
    $('#taskStarsInput').value=m.stars;
    $('#taskXpInput').value=m.xp;
+   $('#taskHouseInput').value=m.house||'Ambas';
    $('#saveTaskBtn').dataset.edit=String(i);
    $('#saveTaskBtn').textContent='Guardar cambios';
  });
@@ -2978,6 +3289,7 @@ $('#saveTaskBtn').onclick=()=>{
    section:$('#taskSectionInput').value,
    stars:Math.max(0,Number($('#taskStarsInput').value)||0),
    xp:Math.max(0,Number($('#taskXpInput').value)||0),
+   house:$('#taskHouseInput').value||'Ambas',
    status:0,
    enabled:true
  };
@@ -3115,7 +3427,7 @@ $('#changePinBtn').onclick=()=>{
 
 window.openScreen=openScreen;
 $('#prev').onclick=()=>{weekOffset--;renderCalendar()};$('#next').onclick=()=>{weekOffset++;renderCalendar()};
-resetGoalForm();resetSpecialForm();
+resetGoalForm();resetSpecialForm();resetChildForm();
 render();
 </script>
 
