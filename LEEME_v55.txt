@@ -1,0 +1,9 @@
+MIS TAREAS v55 — CORRECCIÓN iPHONE
+
+Cambio importante:
+- Las imágenes del niño/niña en Valencia/Madrid ya NO se cargan como background-image CSS.
+- Ahora son etiquetas IMG reales dentro de la tarjeta.
+- La imagen de esquí también es IMG real.
+- Esto evita el problema que estaba apareciendo en Safari/iPhone.
+
+Sube todos los archivos de este ZIP a la raíz de GitHub sustituyendo los actuales.
