@@ -1,0 +1,10 @@
+MIS TAREAS v70 — CORRECCIÓN REAL DEL LAYOUT
+
+Corregido un cierre </div> sobrante dentro de la pantalla Logros/Insignias.
+Ese cierre sacaba las pantallas posteriores del contenedor principal de la app,
+por eso Más, Premios y otras pantallas se ensanchaban y aparecían desplazadas.
+
+Ahora todas las pantallas vuelven a estar dentro del contenedor de 430px,
+centradas y con el aspecto original.
+
+Mantiene todas las funciones de v69/v68.

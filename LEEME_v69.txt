@@ -1,0 +1,6 @@
+MIS TAREAS v69 — CORRECCIÓN MÁS / PREMIOS
+
+- Corrige el desplazamiento vertical heredado al cambiar desde pantallas largas.
+- Más y Premios vuelven a mostrarse desde arriba como antes.
+- El cambio de pantalla ahora coloca el scroll arriba de forma inmediata.
+- Mantiene todas las funciones de v68, incluidos eventos repetitivos.
