@@ -1638,6 +1638,66 @@ body.preview-first-run .first-run-cancel-preview{display:block}
 }
 #more,#rewards{overflow-anchor:none}
 
+
+/* ===== v71 Mi diario ===== */
+.journal-intro{
+  background:linear-gradient(135deg,#fff7d9,#f7fbff);
+  border:1px solid #e8eef6;border-radius:20px;padding:14px;margin-bottom:10px
+}
+.journal-intro b{display:block;font-size:16px;color:#173562;margin-bottom:4px}
+.journal-intro span{font-size:10px;color:var(--muted);font-weight:800}
+.journal-quick-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:10px 0
+}
+.journal-quick{
+  border:0;border-radius:16px;background:#fff;padding:11px 7px;min-height:76px;
+  font-weight:900;color:#264b73;box-shadow:0 6px 16px rgba(32,67,105,.08);cursor:pointer
+}
+.journal-quick .ico{display:block;font-size:26px;margin-bottom:5px}
+.journal-form{
+  background:#fff;border-radius:20px;padding:13px;box-shadow:0 8px 22px rgba(34,70,108,.08)
+}
+.journal-form textarea{
+  width:100%;min-height:105px;resize:vertical;border:1px solid #dce6f0;border-radius:14px;
+  padding:12px;font:inherit;background:#fbfdff
+}
+.journal-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}
+.journal-row select,.journal-row input{
+  width:100%;border:1px solid #dce6f0;border-radius:12px;padding:10px;font:inherit;background:#fff
+}
+.journal-moods{display:flex;gap:7px;flex-wrap:wrap;margin:9px 0}
+.journal-mood{
+  border:2px solid transparent;background:#f4f7fb;border-radius:13px;min-width:44px;min-height:42px;
+  font-size:22px;cursor:pointer
+}
+.journal-mood.active{border-color:#5c92d8;background:#eef6ff}
+.journal-history{margin-top:12px}
+.journal-day{margin:12px 0 6px;font-size:11px;font-weight:1000;color:#59718d}
+.journal-entry{
+  background:#fff;border-radius:17px;padding:11px 12px;margin:7px 0;
+  box-shadow:0 6px 16px rgba(35,71,108,.07);border:1px solid #e7edf5
+}
+.journal-entry-head{display:flex;align-items:center;gap:8px;margin-bottom:5px}
+.journal-entry-head .journal-ico{font-size:22px}
+.journal-entry-head b{flex:1;font-size:13px;color:#173562}
+.journal-entry-head span{font-size:9px;color:var(--muted)}
+.journal-entry p{margin:5px 0 7px;font-size:12px;line-height:1.38;color:#405a76;white-space:pre-wrap}
+.journal-tags{display:flex;gap:6px;flex-wrap:wrap}
+.journal-tag{font-size:8px;font-weight:900;background:#eef4fb;color:#56718d;border-radius:9px;padding:4px 7px}
+.journal-actions{display:flex;gap:6px;margin-top:8px}
+.journal-actions button{border:0;border-radius:10px;padding:6px 8px;font-size:9px;font-weight:900;cursor:pointer}
+.journal-edit{background:#eef5ff;color:#356296}.journal-delete{background:#fff0f1;color:#b54a56}
+.journal-counter{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin:10px 0
+}
+.journal-counter .mini{background:#fff;border-radius:14px;text-align:center;padding:9px}
+.journal-counter .mini b{display:block;font-size:17px;color:#173562}
+.journal-counter .mini span{font-size:8px;color:var(--muted)}
+@media(max-width:390px){
+  .journal-quick-grid{grid-template-columns:1fr 1fr}
+  .journal-row{grid-template-columns:1fr}
+}
+
 </style>
 </head>
 <body>
@@ -1869,6 +1929,7 @@ body.preview-first-run .first-run-cancel-preview{display:block}
     <button class="more-card" data-open="summary" onclick="openScreen('summary')"><span class="bigico">🌟</span>Resumen diario</button>
 <button class="more-card" data-open="tasks" onclick="openScreen('tasks')"><span class="bigico">✅</span>Tareas diarias</button>
 <button class="more-card" data-open="reading" onclick="openScreen('reading')"><span class="bigico">📚</span>Lectura</button>
+    <button class="more-card" data-open="journal" onclick="openScreen('journal')"><span class="bigico">📔</span>Mi diario</button>
     <button class="more-card" data-open="projects" onclick="openScreen('projects')"><span class="bigico">🧩</span>Proyectos</button>
     <button class="more-card" data-open="calendar" onclick="openScreen('calendar')"><span class="bigico">📅</span>Calendario</button>
     <button class="more-card" data-open="profile" onclick="openScreen('profile')"><span class="bigico">👦</span>Mi perfil</button>
@@ -1878,6 +1939,61 @@ body.preview-first-run .first-run-cancel-preview{display:block}
   </div>
 </section>
 
+
+
+<section id="journal" class="screen">
+ <div class="screen-title"><h1>📔 Mi diario</h1><p>Un minuto para contar cómo ha ido el día.</p></div>
+
+ <div class="journal-intro">
+   <b>Escribe solo lo que quieras recordar ✨</b>
+   <span>No hace falta escribir mucho. Una frase también vale.</span>
+ </div>
+
+ <div class="journal-counter">
+   <div class="mini"><b id="journalEntriesCount">0</b><span>entradas</span></div>
+   <div class="mini"><b id="journalGoalsCount">0</b><span>momentos de orgullo</span></div>
+   <div class="mini"><b id="journalGoalsFootball">0</b><span>goles apuntados</span></div>
+ </div>
+
+ <div class="journal-quick-grid">
+   <button class="journal-quick" data-journal-kind="sport" type="button"><span class="ico">⚽</span>Deporte</button>
+   <button class="journal-quick" data-journal-kind="school" type="button"><span class="ico">🏫</span>Cole</button>
+   <button class="journal-quick" data-journal-kind="proud" type="button"><span class="ico">🌟</span>Estoy orgulloso</button>
+   <button class="journal-quick" data-journal-kind="hard" type="button"><span class="ico">😟</span>Algo difícil</button>
+   <button class="journal-quick" data-journal-kind="home" type="button"><span class="ico">🏠</span>Casa</button>
+   <button class="journal-quick" data-journal-kind="free" type="button"><span class="ico">💭</span>Quiero contar...</button>
+ </div>
+
+ <div class="journal-form">
+   <div class="eyebrow">Nueva entrada</div>
+   <div id="journalPrompt" style="font-weight:900;color:#24486e;margin:4px 0 8px">¿Qué quieres contar hoy?</div>
+   <textarea id="journalText" maxlength="900" placeholder="Escribe aquí..."></textarea>
+
+   <div class="journal-moods" id="journalMoodPicker">
+     <button class="journal-mood" data-mood="😀" type="button">😀</button>
+     <button class="journal-mood" data-mood="🙂" type="button">🙂</button>
+     <button class="journal-mood" data-mood="😐" type="button">😐</button>
+     <button class="journal-mood" data-mood="😔" type="button">😔</button>
+     <button class="journal-mood" data-mood="😡" type="button">😡</button>
+   </div>
+
+   <div class="journal-row">
+     <select id="journalVisibility">
+       <option value="private">🔒 Solo yo</option>
+       <option value="shared">👨‍👩‍👧 Quiero enseñárselo a mis padres</option>
+     </select>
+     <input id="journalGoalsInput" type="number" min="0" max="20" placeholder="⚽ Goles (opcional)">
+   </div>
+
+   <button id="saveJournalBtn" class="btn primary" style="width:100%;margin-top:10px" type="button">Guardar en mi diario</button>
+   <button id="cancelJournalEditBtn" class="btn ghost" style="display:none;width:100%;margin-top:7px" type="button">Cancelar edición</button>
+ </div>
+
+ <div class="journal-history">
+   <div class="screen-title" style="min-height:auto;padding:13px 15px"><h1 style="font-size:20px">Mis recuerdos</h1><p>Lo que has ido apuntando.</p></div>
+   <div id="journalHistory"></div>
+ </div>
+</section>
 
 <section id="family" class="screen">
  <div class="screen-title"><h1>👨‍👩‍👧 Familia</h1><p>Datos generales y perfiles de la familia.</p></div>
@@ -2520,7 +2636,8 @@ function freshFirstRunState(){
   bigGoals:[],activeGoalId:'',specialDays:[],
   notificationPrefs:{pending:true,projects:true,tomorrow:true,rewards:true},
    badges:DEFAULT_BADGES.map(x=>({...x})),
-   worlds:DEFAULT_WORLDS.map(x=>({...x}))
+   worlds:DEFAULT_WORLDS.map(x=>({...x})),
+   journal:[]
  };
 }
 
@@ -3513,7 +3630,7 @@ function switchChild(id){
  safeStoreState();
  familyStore.activeChildId=target.id;
  state=target.state;
- ensureV33State();ensureV34State();ensureEventState();ensureDailyGameState();ensureWorldState();ensureBadgeState();ensureTaskState();ensureRewardHistory();ensureRewardState();ensureProjectState();ensureReadingState();ensureProfileState();
+ ensureV33State();ensureV34State();ensureEventState();ensureDailyGameState();ensureJournalState();ensureWorldState();ensureBadgeState();ensureTaskState();ensureRewardHistory();ensureRewardState();ensureProjectState();ensureReadingState();ensureProfileState();
  saveFamilyStore();
  render();
  openScreen('today');
@@ -4708,11 +4825,138 @@ if(parentsTogether()){
   : '<div class="family-illus"><div class="family-emoji-wrap"><div class="family-emoji">👨</div><div class="family-emoji small-kid">🧒</div></div></div>';
  familyCard.innerHTML=`${emojiArt}<div class="family-panel"><div class="eyebrow">Hoy estoy con</div><b>${person}</b><span>¡Juntos hacemos grandes cosas!</span></div>`;
 }
- renderProjectReminders();renderModules();renderReading();renderProjects();renderCalendar();renderRewards();renderRewardAdmin();renderParents();renderExtras();renderProfileData();renderStreaks();renderTaskAdmin();renderDailySummary();renderEventAdmin();renderTodayEvents();renderRewardHistory();renderSyncConfig();renderBigGoal();renderGoalAdmin();renderSpecialAdmin();renderSpecialDay();renderSmartAlerts();renderSmartHome();renderNoticeCenter();renderReminderPrefs();renderChildSwitcher();renderChildManager();renderActiveChildName();renderActiveChildIdentity();renderChildTopSwitcher();renderChallengeAdmin();renderCityScene();renderGoalVisual();renderActiveCity();renderFooterChildArt();renderFamilyPage();renderParentWeeklySummary();renderBadges();renderBadgeAdmin();renderWorlds();renderWorldAdmin()
+ renderProjectReminders();renderModules();renderReading();renderProjects();renderCalendar();renderRewards();renderRewardAdmin();renderParents();renderExtras();renderProfileData();renderStreaks();renderTaskAdmin();renderDailySummary();renderEventAdmin();renderTodayEvents();renderRewardHistory();renderSyncConfig();renderBigGoal();renderGoalAdmin();renderSpecialAdmin();renderSpecialDay();renderSmartAlerts();renderSmartHome();renderNoticeCenter();renderReminderPrefs();renderChildSwitcher();renderChildManager();renderActiveChildName();renderActiveChildIdentity();renderChildTopSwitcher();renderChallengeAdmin();renderCityScene();renderGoalVisual();renderActiveCity();renderFooterChildArt();renderFamilyPage();renderParentWeeklySummary();renderBadges();renderBadgeAdmin();renderWorlds();renderWorldAdmin();renderJournal()
 }
 
 
 
+
+
+const JOURNAL_KINDS={
+ sport:{icon:'⚽',label:'Deporte',prompt:'¿Qué ha pasado en el entrenamiento o partido?'},
+ school:{icon:'🏫',label:'Cole',prompt:'¿Qué ha pasado hoy en el cole?'},
+ proud:{icon:'🌟',label:'Estoy orgulloso',prompt:'¿De qué estás orgulloso hoy?'},
+ hard:{icon:'😟',label:'Algo difícil',prompt:'¿Qué ha pasado y cómo te has sentido?'},
+ home:{icon:'🏠',label:'Casa',prompt:'¿Qué quieres recordar de casa?'},
+ free:{icon:'💭',label:'Quiero contar...',prompt:'¿Qué quieres contar hoy?'}
+};
+let journalDraftKind='free';
+let journalDraftMood='🙂';
+let journalEditIndex=null;
+
+function ensureJournalState(){
+ if(!Array.isArray(state.journal))state.journal=[];
+}
+function journalKindInfo(kind){return JOURNAL_KINDS[kind]||JOURNAL_KINDS.free}
+function resetJournalForm(){
+ journalDraftKind='free';journalDraftMood='🙂';journalEditIndex=null;
+ if($('#journalText'))$('#journalText').value='';
+ if($('#journalVisibility'))$('#journalVisibility').value='private';
+ if($('#journalGoalsInput'))$('#journalGoalsInput').value='';
+ if($('#journalPrompt'))$('#journalPrompt').textContent=JOURNAL_KINDS.free.prompt;
+ if($('#saveJournalBtn'))$('#saveJournalBtn').textContent='Guardar en mi diario';
+ if($('#cancelJournalEditBtn'))$('#cancelJournalEditBtn').style.display='none';
+ document.querySelectorAll('.journal-mood').forEach(b=>b.classList.toggle('active',b.dataset.mood===journalDraftMood));
+}
+function setJournalKind(kind){
+ journalDraftKind=kind;
+ const info=journalKindInfo(kind);
+ if($('#journalPrompt'))$('#journalPrompt').textContent=info.prompt;
+ $('#journalText')?.focus();
+}
+function renderJournal(){
+ ensureJournalState();
+ if($('#journalEntriesCount'))$('#journalEntriesCount').textContent=state.journal.length;
+ if($('#journalGoalsCount'))$('#journalGoalsCount').textContent=state.journal.filter(x=>x.kind==='proud').length;
+ if($('#journalGoalsFootball'))$('#journalGoalsFootball').textContent=state.journal.reduce((s,x)=>s+(Number(x.goals)||0),0);
+
+ const box=$('#journalHistory');if(!box)return;
+ box.innerHTML='';
+ if(!state.journal.length){
+   box.innerHTML='<div class="card panelcard"><div class="mmeta">Todavía no has escrito nada. Cuando quieras, puedes guardar aquí un recuerdo.</div></div>';
+   return;
+ }
+ const entries=state.journal.map((x,i)=>({...x,_index:i})).sort((a,b)=>(b.createdAt||'').localeCompare(a.createdAt||''));
+ let lastDay='';
+ entries.forEach(e=>{
+   const day=(e.date||localDateKey());
+   if(day!==lastDay){
+     lastDay=day;
+     const lab=document.createElement('div');lab.className='journal-day';
+     lab.textContent=new Date(day+'T12:00:00').toLocaleDateString('es-ES',{weekday:'long',day:'numeric',month:'long'});
+     box.appendChild(lab);
+   }
+   const info=journalKindInfo(e.kind);
+   const row=document.createElement('div');row.className='journal-entry';
+   row.innerHTML=`<div class="journal-entry-head">
+     <span class="journal-ico">${info.icon}</span>
+     <b>${info.label}</b>
+     <span>${e.time||''} ${e.mood||''}</span>
+   </div>
+   <p>${escapeHtml(e.text||'')}</p>
+   <div class="journal-tags">
+     <span class="journal-tag">${e.visibility==='shared'?'👨‍👩‍👧 Compartido':'🔒 Solo yo'}</span>
+     ${Number(e.goals)>0?`<span class="journal-tag">⚽ ${e.goals} ${Number(e.goals)===1?'gol':'goles'}</span>`:''}
+   </div>
+   <div class="journal-actions">
+     <button class="journal-edit" data-journal-edit="${e._index}" type="button">Editar</button>
+     <button class="journal-delete" data-journal-delete="${e._index}" type="button">Eliminar</button>
+   </div>`;
+   box.appendChild(row);
+ });
+ box.querySelectorAll('[data-journal-edit]').forEach(btn=>btn.onclick=()=>{
+   const i=Number(btn.dataset.journalEdit),e=state.journal[i];if(!e)return;
+   journalEditIndex=i;journalDraftKind=e.kind||'free';journalDraftMood=e.mood||'🙂';
+   $('#journalText').value=e.text||'';
+   $('#journalVisibility').value=e.visibility||'private';
+   $('#journalGoalsInput').value=e.goals||'';
+   $('#journalPrompt').textContent=journalKindInfo(journalDraftKind).prompt;
+   $('#saveJournalBtn').textContent='Guardar cambios';
+   $('#cancelJournalEditBtn').style.display='block';
+   document.querySelectorAll('.journal-mood').forEach(b=>b.classList.toggle('active',b.dataset.mood===journalDraftMood));
+   $('#journalText').focus();
+ });
+ box.querySelectorAll('[data-journal-delete]').forEach(btn=>btn.onclick=()=>{
+   const i=Number(btn.dataset.journalDelete);
+   if(confirm('¿Eliminar esta entrada del diario?')){
+     state.journal.splice(i,1);save();renderJournal();toast('Entrada eliminada');
+   }
+ });
+}
+function escapeHtml(s=''){
+ return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));
+}
+document.querySelectorAll('[data-journal-kind]').forEach(btn=>btn.onclick=()=>setJournalKind(btn.dataset.journalKind));
+document.querySelectorAll('.journal-mood').forEach(btn=>btn.onclick=()=>{
+ journalDraftMood=btn.dataset.mood;
+ document.querySelectorAll('.journal-mood').forEach(b=>b.classList.toggle('active',b===btn));
+});
+$('#saveJournalBtn').onclick=()=>{
+ ensureJournalState();
+ const text=$('#journalText').value.trim();
+ if(!text){toast('Escribe algo para guardar');return}
+ const now=new Date();
+ const entry={
+   kind:journalDraftKind,
+   text,
+   mood:journalDraftMood,
+   visibility:$('#journalVisibility').value||'private',
+   goals:Math.max(0,Math.min(20,Number($('#journalGoalsInput').value)||0)),
+   date:localDateKey(),
+   time:now.toLocaleTimeString('es-ES',{hour:'2-digit',minute:'2-digit'}),
+   createdAt:now.toISOString()
+ };
+ if(journalEditIndex!==null && state.journal[journalEditIndex]){
+   const old=state.journal[journalEditIndex];
+   entry.date=old.date||entry.date;entry.createdAt=old.createdAt||entry.createdAt;entry.time=old.time||entry.time;
+   state.journal[journalEditIndex]=entry;
+   toast('Entrada actualizada ✨');
+ }else{
+   state.journal.push(entry);toast('Guardado en tu diario 📔');
+ }
+ save();resetJournalForm();renderJournal();
+};
+$('#cancelJournalEditBtn').onclick=resetJournalForm;
 
 const DEFAULT_WORLDS=[
  {id:'start',icon:'🌱',title:'Inicio de aventura',xp:0},

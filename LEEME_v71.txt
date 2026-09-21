@@ -1,0 +1,28 @@
+MIS TAREAS v71 — MI DIARIO
+
+Nuevo apartado Más > Mi diario.
+
+Pensado para uso rápido (1-2 minutos):
+- Deporte
+- Cole
+- Estoy orgulloso
+- Algo difícil
+- Casa
+- Quiero contar...
+
+Cada entrada puede guardar:
+- texto;
+- estado de ánimo;
+- si es "Solo yo" o "Quiero enseñárselo a mis padres";
+- goles opcionales;
+- fecha y hora automáticas.
+
+Incluye:
+- historial por días;
+- editar y eliminar;
+- contador de entradas;
+- momentos de orgullo;
+- total de goles apuntados.
+
+Cada hijo tiene su propio diario.
+No usa IA ni servicios externos.
