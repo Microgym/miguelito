@@ -4054,7 +4054,8 @@ function renderFamilyData(){
  if($('#familyLivingInput'))$('#familyLivingInput').value=familyStore.family?.parentsTogether===false?'separated':'together';
  if($('#familyPinInput'))$('#familyPinInput').value=String(familyStore.parentPin||'1234');
 }
-$('#saveFamilyDataBtn').onclick=()=>{
+const legacyFamilySaveBtn=$('#saveFamilyDataBtn');
+if(legacyFamilySaveBtn)legacyFamilySaveBtn.onclick=()=>{
  const father=$('#familyFatherNameInput').value.trim();
  const mother=$('#familyMotherNameInput').value.trim();
  const pin=$('#familyPinInput').value.trim();
@@ -4069,7 +4070,8 @@ $('#saveFamilyDataBtn').onclick=()=>{
  render();
  toast('Datos familiares guardados ✅');
 };
-$('#previewFirstRunBtn').onclick=()=>{
+const legacyPreviewFirstRunBtn=$('#previewFirstRunBtn');
+if(legacyPreviewFirstRunBtn)legacyPreviewFirstRunBtn.onclick=()=>{
  document.body.classList.add('preview-first-run');
  openFirstRunPreview();
 };
@@ -5667,13 +5669,15 @@ function ensureParentPin(){
 ensureParentPin();
 
 function openPin(){
- $('#pinInput').value='';
- $('#pinError').textContent='';
- $('#pinLock').style.display='flex';
- setTimeout(()=>$('#pinInput').focus(),30);
+ const input=$('#pinInput'),err=$('#pinError'),lock=$('#pinLock');
+ if(input)input.value='';
+ if(err)err.textContent='';
+ if(lock)lock.style.display='flex';
+ setTimeout(()=>input?.focus(),30);
 }
 function closePin(){
- $('#pinLock').style.display='none';
+ const lock=$('#pinLock');
+ if(lock)lock.style.display='none';
 }
 
 function openParentManager(id){

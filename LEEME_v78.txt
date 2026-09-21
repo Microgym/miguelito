@@ -1,0 +1,15 @@
+MIS TAREAS v78 — CORRECCIÓN ZONA PADRES
+
+Causa exacta:
+Al sacar "Datos familiares" de Zona Padres en v77 quedaron dos manejadores
+JavaScript apuntando a botones que ya no existían:
+- saveFamilyDataBtn
+- previewFirstRunBtn
+
+Eso detenía la ejecución del JavaScript al cargar la página. Por ese motivo:
+- no se pintaba la imagen niño/niña + ciudad;
+- Zona Padres no respondía correctamente;
+- el PIN podía quedarse bloqueado;
+- funciones posteriores podían dejar de funcionar.
+
+v78 mantiene la nueva organización de Zona Padres y corrige esos manejadores.
