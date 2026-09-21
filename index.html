@@ -3,14 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Miguelito</title>
+<title>Mis Tareas</title>
 
 <meta name="theme-color" content="#247ff2">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
-<meta name="apple-mobile-web-app-title" content="Miguelito">
+<meta name="apple-mobile-web-app-title" content="Mis Tareas">
 <meta name="mobile-web-app-capable" content="yes">
-<meta name="application-name" content="Miguelito">
+<meta name="application-name" content="Mis Tareas">
 <link rel="manifest" href="./manifest.webmanifest">
 <link rel="apple-touch-icon" href="./icon-180.png">
 <link rel="icon" type="image/png" sizes="192x192" href="./icon-192.png">
@@ -1140,11 +1140,23 @@ body{min-height:100%;overscroll-behavior-y:none}
 .hero.girl{background:linear-gradient(180deg,#ffdceb 0%,#fff1f6 58%,#dff4ff 100%)}
 .hero.neutral{background:linear-gradient(180deg,#dff4ff 0%,#f5edff 55%,#e7f7ff 100%)}
 
+
+/* v38: tareas y retos por hijo */
+.child-top-switcher{display:flex;gap:8px;align-items:center;margin:8px 0 10px;padding:9px;border-radius:16px;background:#eef6ff;border:1px solid #dfeaf8;overflow-x:auto}
+.child-top-switcher .child-chip{flex:0 0 auto}
+.assign-field{grid-column:1/-1}
+.challenge-admin-row{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)}
+.challenge-admin-actions{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
+.challenge-admin-actions button{padding:7px 8px;border:0;border-radius:10px;font-size:9px;font-weight:1000;cursor:pointer}
+.challenge-admin-form{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}
+.challenge-admin-form input,.challenge-admin-form select{width:100%;border:1px solid #dfe8f5;border-radius:12px;padding:10px;font:inherit;color:var(--ink);background:#fff}
+.scope-pill{display:inline-block;margin-left:5px;padding:3px 6px;border-radius:8px;background:#eef2ff;color:#5865a4;font-size:8px;font-weight:1000}
 </style>
 </head>
 <body>
 <div class="app">
 <section id="today" class="screen active">
+ <div id="childTopSwitcher" class="child-top-switcher"></div>
  <div class="topline"><div class="logo" id="activeChildLogo">MIGUELITO</div><div class="starpill">⭐ <span id="topstars">185</span></div></div>
  <div class="hero" id="homeHero">
   <div class="skyshine"></div>
@@ -1665,6 +1677,10 @@ body{min-height:100%;overscroll-behavior-y:none}
       <option value="Papá">👨 Solo con Papá</option>
       <option value="Mamá">👩 Solo con Mamá</option>
     </select>
+    <select id="taskAssignInput" class="assign-field">
+      <option value="current">👤 Solo hijo seleccionado</option>
+      <option value="all">👨‍👩‍👧‍👦 Todos los hijos</option>
+    </select>
   </div>
   <button id="saveTaskBtn" class="btn primary" style="width:100%;margin-top:9px">Añadir tarea</button>
 
@@ -1692,6 +1708,16 @@ body{min-height:100%;overscroll-behavior-y:none}
   </div>
   <button id="saveChildBtn" class="btn primary" style="width:100%;margin-top:9px">Añadir hijo</button>
   <div id="childManagerList" style="margin-top:10px"></div>
+ </div>
+
+ <div class="card panelcard">
+  <h3 style="margin:0 0 5px">🎯 Retos por hijo</h3>
+  <div class="mmeta">Crea retos para el hijo seleccionado o para todos.</div>
+  <div class="challenge-admin-form"><input id="challengeTitleInput" placeholder="Nombre del reto"><input id="challengeMatchInput" placeholder="Tarea relacionada, ej. Leer"></div>
+  <div class="challenge-admin-form"><input id="challengeGoalInput" type="number" min="1" value="5" placeholder="Meta"><input id="challengeStarsInput" type="number" min="0" value="20" placeholder="⭐ Bonus"></div>
+  <div class="challenge-admin-form"><input id="challengeXpInput" type="number" min="0" value="30" placeholder="XP bonus"><select id="challengeAssignInput"><option value="current">👤 Solo hijo seleccionado</option><option value="all">👨‍👩‍👧‍👦 Todos los hijos</option></select></div>
+  <button id="saveChallengeBtn" class="btn primary" style="width:100%;margin-top:9px">Añadir reto</button>
+  <div id="challengeAdminList" style="margin-top:10px"></div>
  </div>
 
  <div class="card panelcard">
@@ -1883,6 +1909,10 @@ function localDateKey(d=new Date()){
 }
 
 
+function ensureV38State(){
+ if(!state.customChallenges)state.customChallenges=[];
+ state.missions.forEach(m=>{if(!m.scope)m.scope='current';if(!m.ownerChildId)m.ownerChildId=familyStore.activeChildId;});
+}
 function ensureV34State(){
  if(!state.notificationPrefs)state.notificationPrefs={pending:true,projects:true,tomorrow:true,rewards:true};
  state.missions.forEach(m=>{if(!m.house)m.house='Ambas';});
@@ -1899,12 +1929,17 @@ function ensureV33State(){
 }
 ensureV33State();
 ensureV34State();
+ensureV38State();
 
 function specialDayFor(dateKey=localDateKey()){return (state.specialDays||[]).find(x=>x.date===dateKey)||null}
 function skippedSectionsToday(){const s=specialDayFor();return new Set((s&&s.skipSections)||[])}
 function activeMissionsToday(){
  const skip=skippedSectionsToday(),who=home(new Date());
- return state.missions.map((m,i)=>[m,i]).filter(([m])=>m.enabled!==false&&!skip.has(m.section)&&(m.house==='Ambas'||!m.house||m.house===who));
+ return state.missions.map((m,i)=>[m,i]).filter(([m])=>{
+ const houseOk=(m.house==='Ambas'||!m.house||m.house===who);
+ const childOk=(m.scope==='all'||!m.scope||m.ownerChildId===familyStore.activeChildId);
+ return m.enabled!==false&&!skip.has(m.section)&&houseOk&&childOk;
+});
 }
 
 function ensureEventState(){
@@ -2440,6 +2475,10 @@ function switchChild(id){
  render();
  openScreen('today');
 }
+function renderChildTopSwitcher(){
+ const box=$('#childTopSwitcher');if(!box)return;box.innerHTML='';
+ familyStore.children.forEach(c=>{const b=document.createElement('button');b.type='button';b.className='child-chip'+(c.id===familyStore.activeChildId?' active':'');b.textContent=`${c.avatar||'🧒'} ${c.name}`;b.onclick=()=>switchChild(c.id);box.appendChild(b)});
+}
 function renderChildSwitcher(){
  const box=$('#childSwitcher');if(!box)return;
  box.innerHTML='';
@@ -2513,6 +2552,28 @@ $('#saveChildBtn').onclick=()=>{
  saveFamilyStore();resetChildForm();render();
 };
 
+
+function resetChallengeForm(){
+ $('#challengeTitleInput').value='';$('#challengeMatchInput').value='';$('#challengeGoalInput').value=5;$('#challengeStarsInput').value=20;$('#challengeXpInput').value=30;$('#challengeAssignInput').value='current';$('#saveChallengeBtn').dataset.edit='';$('#saveChallengeBtn').textContent='Añadir reto';
+}
+function renderChallengeAdmin(){
+ const list=$('#challengeAdminList');if(!list)return;list.innerHTML='';
+ const arr=state.customChallenges||[];
+ if(!arr.length){list.innerHTML='<div class="mmeta">No hay retos personalizados para este hijo.</div>';return}
+ arr.forEach((c,i)=>{
+   const row=document.createElement('div');row.className='challenge-admin-row';
+   row.innerHTML=`<div><b>🎯 ${c.title}</b><div class="mmeta">Meta ${c.goal} · +${c.stars} ⭐ · +${c.xp} XP <span class="scope-pill">${c.scope==='all'?'Todos':'Solo '+(activeChildRecord()?.name||'hijo')}</span></div></div><div class="challenge-admin-actions"><button data-cedit="${i}" style="background:#e8f2ff;color:#35618e">Editar</button><button data-cdel="${i}" style="background:#ffe9ec;color:#a74354">Eliminar</button></div>`;
+   list.appendChild(row);
+ });
+ list.querySelectorAll('[data-cedit]').forEach(b=>b.onclick=()=>{const c=state.customChallenges[Number(b.dataset.cedit)];$('#challengeTitleInput').value=c.title;$('#challengeMatchInput').value=c.match||'';$('#challengeGoalInput').value=c.goal;$('#challengeStarsInput').value=c.stars;$('#challengeXpInput').value=c.xp;$('#challengeAssignInput').value=c.scope||'current';$('#saveChallengeBtn').dataset.edit=b.dataset.cedit;$('#saveChallengeBtn').textContent='Guardar cambios'});
+ list.querySelectorAll('[data-cdel]').forEach(b=>b.onclick=()=>{const i=Number(b.dataset.cdel);if(confirm('¿Eliminar este reto?')){state.customChallenges.splice(i,1);save()}});
+}
+$('#saveChallengeBtn').onclick=()=>{
+ const title=$('#challengeTitleInput').value.trim();if(!title){toast('Escribe un nombre para el reto');return}
+ const data={id:'challenge-'+Date.now(),title,match:$('#challengeMatchInput').value.trim().toLowerCase(),goal:Math.max(1,Number($('#challengeGoalInput').value)||1),stars:Math.max(0,Number($('#challengeStarsInput').value)||0),xp:Math.max(0,Number($('#challengeXpInput').value)||0),scope:$('#challengeAssignInput').value||'current',ownerChildId:familyStore.activeChildId};
+ const edit=$('#saveChallengeBtn').dataset.edit;if(edit!==''){data.id=state.customChallenges[Number(edit)].id;state.customChallenges[Number(edit)]=data;toast('Reto actualizado')}else{state.customChallenges.push(data);toast('Reto añadido 🎯')}
+ resetChallengeForm();save();
+};
 
 function renderParents(){
  const p=state.missions.map((m,i)=>[m,i]).filter(([m])=>m.status===2);$('#pending').innerHTML='';
@@ -3088,25 +3149,18 @@ function daysForTitle(fragment){
  return new Set(rows.map(x=>x.date)).size;
 }
 function challengeDefs(){
- return [
-   {id:'leer5',icon:'📚',title:'Leer 5 días',desc:'Lectura diaria durante cinco días',goal:5,value:daysForTitle('Leer 30 minutos'),stars:25,xp:40},
-   {id:'cama5',icon:'🛏️',title:'Hacer la cama 5 días',desc:'Empieza el día con una victoria',goal:5,value:daysForTitle('Hacer la cama'),stars:20,xp:30},
-   {id:'ayuda3',icon:'🤝',title:'Ayudar 3 días',desc:'Colabora en casa tres días',goal:3,value:daysForTitle('Ayudar a los papás'),stars:20,xp:30}
+ const base=[
+  {id:'read5',icon:'📚',title:'Leer 5 días',goal:5,stars:25,xp:40,match:'leer'},
+  {id:'bed5',icon:'🛏️',title:'Hacer la cama 5 días',goal:5,stars:20,xp:30,match:'hacer la cama'},
+  {id:'help3',icon:'🤝',title:'Ayudar 3 días',goal:3,stars:20,xp:30,match:'ayudar'}
  ];
+ const custom=(state.customChallenges||[]).filter(c=>c.scope==='all'||c.ownerChildId===familyStore.activeChildId).map(c=>({id:c.id,icon:'🎯',title:c.title,goal:c.goal,stars:c.stars,xp:c.xp,match:(c.match||'').toLowerCase()}));
+ return [...base,...custom].map(c=>{
+   const dates=new Set((state.approvalHistory||[]).filter(x=>!c.match||x.title.toLowerCase().includes(c.match)).map(x=>x.date));
+   c.value=dates.size;return c;
+ });
 }
-function claimChallenge(id){
- const w=weekKey();
- if(!state.weeklyClaims)state.weeklyClaims={};
- if(!state.weeklyClaims[w])state.weeklyClaims[w]=[];
- if(state.weeklyClaims[w].includes(id))return;
- const c=challengeDefs().find(x=>x.id===id);
- if(!c || c.value<c.goal)return;
- state.weeklyClaims[w].push(id);
- state.stars+=c.stars;
- state.xp+=c.xp;
- toast(`Reto conseguido: +${c.stars} ⭐`);
- save();
-}
+
 function renderStreaks(){
  if(!$('#streakCount'))return;
  $('#streakCount').textContent=currentStreak();
@@ -3262,7 +3316,7 @@ const emojiArt = h==='Mamá'
   ? '<div class="family-illus"><div class="family-emoji-wrap"><div class="family-emoji">👩</div><div class="family-emoji small-kid">👦</div></div></div>'
   : '<div class="family-illus"><div class="family-emoji-wrap"><div class="family-emoji">👨</div><div class="family-emoji small-kid">👦</div></div></div>';
 $('#familyCard').innerHTML=`${emojiArt}<div class="family-panel"><div class="eyebrow">Hoy estoy con</div><b>${h}</b><span>¡Juntos hacemos grandes cosas!</span></div>`;
- renderProjectReminders();renderModules();renderReading();renderProjects();renderCalendar();renderRewards();renderRewardAdmin();renderParents();renderExtras();renderProfileData();renderStreaks();renderTaskAdmin();renderDailySummary();renderEventAdmin();renderTodayEvents();renderRewardHistory();renderSyncConfig();renderBigGoal();renderGoalAdmin();renderSpecialAdmin();renderSpecialDay();renderSmartAlerts();renderSmartHome();renderNoticeCenter();renderReminderPrefs();renderChildSwitcher();renderChildManager();renderActiveChildName();renderActiveChildIdentity()
+ renderProjectReminders();renderModules();renderReading();renderProjects();renderCalendar();renderRewards();renderRewardAdmin();renderParents();renderExtras();renderProfileData();renderStreaks();renderTaskAdmin();renderDailySummary();renderEventAdmin();renderTodayEvents();renderRewardHistory();renderSyncConfig();renderBigGoal();renderGoalAdmin();renderSpecialAdmin();renderSpecialDay();renderSmartAlerts();renderSmartHome();renderNoticeCenter();renderReminderPrefs();renderChildSwitcher();renderChildManager();renderActiveChildName();renderActiveChildIdentity();renderChildTopSwitcher();renderChallengeAdmin()
 }
 
 
@@ -3280,6 +3334,7 @@ function resetTaskForm(){
  $('#taskStarsInput').value=5;
  $('#taskXpInput').value=10;
  $('#taskHouseInput').value='Ambas';
+ $('#taskAssignInput').value='current';
  $('#saveTaskBtn').dataset.edit='';
  $('#saveTaskBtn').textContent='Añadir tarea';
 }
@@ -3325,6 +3380,7 @@ function renderTaskAdmin(){
    $('#taskStarsInput').value=m.stars;
    $('#taskXpInput').value=m.xp;
    $('#taskHouseInput').value=m.house||'Ambas';
+   $('#taskAssignInput').value=m.scope||'current';
    $('#saveTaskBtn').dataset.edit=String(i);
    $('#saveTaskBtn').textContent='Guardar cambios';
  });
@@ -3355,6 +3411,8 @@ $('#saveTaskBtn').onclick=()=>{
    stars:Math.max(0,Number($('#taskStarsInput').value)||0),
    xp:Math.max(0,Number($('#taskXpInput').value)||0),
    house:$('#taskHouseInput').value||'Ambas',
+   scope:$('#taskAssignInput').value||'current',
+   ownerChildId:familyStore.activeChildId,
    status:0,
    enabled:true
  };
@@ -3492,7 +3550,7 @@ $('#changePinBtn').onclick=()=>{
 
 window.openScreen=openScreen;
 $('#prev').onclick=()=>{weekOffset--;renderCalendar()};$('#next').onclick=()=>{weekOffset++;renderCalendar()};
-resetGoalForm();resetSpecialForm();resetChildForm();
+resetGoalForm();resetSpecialForm();resetChildForm();resetChallengeForm();
 render();
 </script>
 
