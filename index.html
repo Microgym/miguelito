@@ -2177,7 +2177,7 @@ body.first-run-active .first-run-overlay{visibility:visible!important}
 
  <div class="card panelcard">
   <h3 style="margin:0 0 6px">🔐 PIN de padres</h3>
-  <div class="mmeta">PIN inicial: 1234. Puedes cambiarlo aquí.</div>
+  <div class="mmeta">PIN familiar inicial: 1234. Puedes cambiarlo aquí.</div>
   <div class="reward-admin-form" style="margin-top:10px">
     <input id="newPinInput" type="password" inputmode="numeric" maxlength="6" placeholder="Nuevo PIN">
     <input id="confirmPinInput" type="password" inputmode="numeric" maxlength="6" placeholder="Repetir PIN">
@@ -2274,11 +2274,13 @@ if(!familyStore){
    onboardingCompleted:false,
    onboardingStage:'father',
    family:{fatherName:'',motherName:'',parentsTogether:null},
+   parentPin:'1234',
    children:[{id:firstId,name:'',avatar:'👦',birthDate:'',city:'',state:first}]
  };
  saveFamilyStore();
 }else{
  if(!familyStore.family)familyStore.family={fatherName:'',motherName:'',parentsTogether:null};
+ if(!familyStore.parentPin)familyStore.parentPin=(activeChildRecord?.()?.state?.parentPin)||'1234';
  if(typeof familyStore.onboardingCompleted==='undefined'){
    const hasReal=(familyStore.children||[]).some(c=>{
      const n=(c?.name||c?.state?.profile?.name||'').trim();
@@ -3221,6 +3223,7 @@ function blankFamilyStore(){
    onboardingStage:'father',
    onboardingDraft:null,
    family:{fatherName:'',motherName:'',parentsTogether:null},
+   parentPin:'1234',
    children:[{id,name:'',avatar:'👦',birthDate:'',city:'',state:s}]
  };
 }
@@ -4310,7 +4313,10 @@ $('#saveEventBtn').onclick=()=>{
 };
 
 function ensureParentPin(){
- if(!state.parentPin) state.parentPin='1234';
+ if(!familyStore.parentPin){
+   familyStore.parentPin=state?.parentPin||'1234';
+   saveFamilyStore();
+ }
 }
 ensureParentPin();
 
@@ -4331,7 +4337,7 @@ function showParents(){
  render();
 }
 function tryPin(){
- if($('#pinInput').value===state.parentPin){
+ if($('#pinInput').value===String(familyStore.parentPin||'1234')){
    closePin();
    showParents();
  }else{
@@ -4350,7 +4356,9 @@ $('#changePinBtn').onclick=()=>{
  const b=$('#confirmPinInput').value.trim();
  if(!/^\d{4,6}$/.test(a)){toast('El PIN debe tener entre 4 y 6 números');return}
  if(a!==b){toast('Los PIN no coinciden');return}
- state.parentPin=a;
+ familyStore.parentPin=a;
+ if(state)state.parentPin=a;
+ saveFamilyStore();
  $('#newPinInput').value='';
  $('#confirmPinInput').value='';
  toast('PIN actualizado 🔐');

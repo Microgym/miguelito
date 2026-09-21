@@ -1,0 +1,10 @@
+MIS TAREAS v60 — PRIMERA CARGA MEJORADA
+
+Cambios:
+- Paso 1: nombre de Papá.
+- Paso 2: nombre de Mamá.
+- Paso 3: juntos o separados.
+- Cambiar juntos/separados YA NO borra los nombres.
+- Si viven separados, al ir al Calendario el asistente NO avanza solo.
+- En Calendario aparece “Continuar configuración →”.
+- Solo al pulsarlo se pasa a número de hijos y perfiles.

@@ -1,0 +1,9 @@
+MIS TAREAS v61 — PIN CORREGIDO
+
+El PIN de padres ahora pertenece a toda la familia, no al perfil del niño.
+
+Corregido:
+- Tras poner la app a 0, el PIN vuelve a ser 1234.
+- Tras crear nuevos perfiles, 1234 sigue funcionando.
+- Cambiar de Miguelito a Sofía no cambia ni pierde el PIN.
+- Si se cambia el PIN en Zona Padres, queda guardado como PIN familiar.
