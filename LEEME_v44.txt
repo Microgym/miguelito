@@ -1,0 +1,12 @@
+MIS TAREAS v44
+
+Novedades:
+- Ciudad propia en el perfil de cada hijo.
+- La ciudad aparece en Inicio.
+- Puedes eliminar cualquier perfil/hijo.
+- Si borras el último, queda un perfil vacío para que la app siga funcionando.
+- Botón en Zona Padres para poner TODOS los datos a cero.
+- El reinicio borra perfiles, tareas, retos, premios, estrellas, XP, lectura, proyectos, calendario, objetivos e historiales.
+- El diseño, imágenes, PIN y funciones de la app se mantienen.
+
+Para actualizar GitHub, sube todos los archivos del ZIP a la raíz sustituyendo los existentes.
