@@ -2993,7 +2993,7 @@ function firstRunDraft(){
  }
  return familyStore.onboardingDraft;
 }
-function saveFirstRunState(){if(!firstRunPreviewMode)saveFirstRunState();}
+function saveFirstRunState(){if(!firstRunPreviewMode)saveFamilyStore();}
 function firstRunProgress(step,total){
  const box=$('#firstRunProgress');if(!box)return;
  box.innerHTML='';
@@ -4329,7 +4329,7 @@ if(parentsTogether()){
 }else{
  familyCard.style.display='';
  const isMama=h==='Mamá';
- const person=isMama?motherName():fatherName();
+ const person=isMama?'Mamá':'Papá';
  const emojiArt=isMama
   ? '<div class="family-illus"><div class="family-emoji-wrap"><div class="family-emoji">👩</div><div class="family-emoji small-kid">🧒</div></div></div>'
   : '<div class="family-illus"><div class="family-emoji-wrap"><div class="family-emoji">👨</div><div class="family-emoji small-kid">🧒</div></div></div>';

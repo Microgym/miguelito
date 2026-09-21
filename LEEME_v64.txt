@@ -1,0 +1,7 @@
+MIS TAREAS v64 — ASISTENTE CORREGIDO
+
+Correcciones:
+- Arreglado el fallo al pulsar Continuar después de escribir el nombre de Papá.
+- El asistente vuelve a avanzar correctamente por todos los pasos.
+- En Inicio, cuando los padres viven separados, muestra "Papá" o "Mamá", no sus nombres reales.
+- Se mantiene el desplegable de ciudad Valencia / Madrid / Otras.
