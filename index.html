@@ -1508,6 +1508,46 @@ body.first-run-active .first-run-overlay{visibility:visible!important}
 }
 body.preview-first-run .first-run-cancel-preview{display:block}
 
+
+/* ===== v65 visual de perfiles ===== */
+.child-visual-icon{
+  width:38px!important;height:38px!important;border-radius:12px!important;
+  overflow:hidden!important;background:#eef4fb!important;display:inline-flex!important;
+  align-items:center!important;justify-content:center!important;flex:0 0 38px!important;
+}
+.child-visual-icon img{width:100%!important;height:100%!important;object-fit:cover!important;display:block!important}
+.footerart .footer-child-art{
+  position:absolute;left:10px;bottom:-3px;width:78px;height:78px;object-fit:cover;
+  object-position:center 30%;border-radius:22px;filter:drop-shadow(0 7px 7px rgba(25,59,94,.18));
+  z-index:2;border:3px solid rgba(255,255,255,.8)
+}
+.footerart:before{left:98px!important}
+
+
+.calendar-fast-tools{margin:12px 0;padding:12px;border-radius:17px;background:#f4f8fd;border:1px solid #e0e9f5}
+.calendar-fast-tools .label{font-size:11px;font-weight:1000;color:#47688d;margin-bottom:8px}
+.calendar-fast-grid{display:grid;grid-template-columns:1fr;gap:7px}
+.calendar-fast-grid button{border:0;border-radius:12px;padding:10px;background:#fff;color:#315579;font-weight:900;cursor:pointer}
+.calendar-range-box{margin-top:10px;padding-top:10px;border-top:1px solid #dfe8f3}
+.calendar-range-inputs{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin:8px 0}
+.calendar-range-inputs input{width:100%;border:1px solid #dbe6f2;border-radius:11px;padding:9px;font:inherit;background:#fff}
+@media(min-width:700px){.calendar-fast-grid{grid-template-columns:1fr 1fr 1fr}}
+
+
+.family-child-row{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--line)}
+.family-child-row:last-child{border-bottom:0}
+.family-child-row .family-avatar{width:48px;height:48px;border-radius:14px;object-fit:cover;background:#eef4fb}
+.family-child-main{flex:1}.family-child-main b{display:block;font-size:14px}.family-child-main span{font-size:10px;color:var(--muted)}
+
+
+.week-summary-row{padding:11px;border-radius:15px;background:#f7faff;margin:7px 0}
+.week-summary-head{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.week-summary-head img{width:36px;height:36px;border-radius:11px;object-fit:cover}
+.week-summary-head b{font-size:14px}
+.week-summary-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.week-mini{text-align:center;background:white;border-radius:11px;padding:7px 3px}
+.week-mini b{display:block;font-size:14px;color:#173562}.week-mini span{font-size:8px;color:var(--muted)}
+
 </style>
 </head>
 <body>
@@ -1594,7 +1634,7 @@ body.preview-first-run .first-run-cancel-preview{display:block}
  <div id="todayEvents" class="today-events"></div>
 
  <div id="projectReminders" class="project-reminders"></div>
- <div class="footerart"></div>
+ <div class="footerart"><img id="footerChildArt" class="footer-child-art" alt=""></div>
 </section>
 
 
@@ -1755,8 +1795,43 @@ body.preview-first-run .first-run-cancel-preview{display:block}
     <button class="more-card" data-open="calendar" onclick="openScreen('calendar')"><span class="bigico">📅</span>Calendario</button>
     <button class="more-card" data-open="profile" onclick="openScreen('profile')"><span class="bigico">👦</span>Mi perfil</button>
     <button class="more-card" data-open="achievements" onclick="openScreen('achievements')"><span class="bigico">🏆</span>Insignias y progreso</button>
+    <button class="more-card" data-open="family" onclick="openScreen('family')"><span class="bigico">👨‍👩‍👧</span>Familia</button>
     <button class="more-card" data-open="parents" onclick="openScreen('parents')"><span class="bigico">🛡️</span>Zona Padres</button>
   </div>
+</section>
+
+
+<section id="family" class="screen">
+ <div class="screen-title"><h1>👨‍👩‍👧 Familia</h1><p>Datos generales y perfiles de la familia.</p></div>
+
+ <div class="card panelcard">
+   <h3 style="margin:0 0 8px">Datos familiares</h3>
+   <div class="form-grid">
+     <label>Nombre de Papá<input id="familyPageFather" placeholder="Papá"></label>
+     <label>Nombre de Mamá<input id="familyPageMother" placeholder="Mamá"></label>
+   </div>
+   <div class="form-grid" style="margin-top:8px">
+     <label>Situación
+       <select id="familyPageLiving">
+         <option value="together">Viven juntos</option>
+         <option value="separated">Viven separados</option>
+       </select>
+     </label>
+     <label>PIN familiar<input id="familyPagePin" inputmode="numeric" maxlength="8" placeholder="1234"></label>
+   </div>
+   <button id="familyPageSave" class="btn primary" style="width:100%;margin-top:10px">Guardar datos familiares</button>
+ </div>
+
+ <div class="card panelcard">
+   <h3 style="margin:0 0 8px">Hijos / perfiles</h3>
+   <div id="familyPageChildren"></div>
+   <button class="btn ghost" style="width:100%;margin-top:9px" onclick="openScreen('parents')">Gestionar perfiles en Zona Padres</button>
+ </div>
+
+ <div class="card panelcard">
+   <h3 style="margin:0 0 8px">Configuración</h3>
+   <button id="familyPagePreviewOnboarding" class="btn ghost" style="width:100%">Probar configuración inicial sin borrar datos</button>
+ </div>
 </section>
 
 <section id="projects" class="screen">
@@ -1917,7 +1992,28 @@ body.preview-first-run .first-run-cancel-preview{display:block}
      <div class="week-house-note">Después puedes cambiar días concretos individualmente.</div>
    </div>
 
-   <div id="week" class="week"></div>
+   
+   <div class="calendar-fast-tools">
+     <div class="label">⚡ Planificación rápida</div>
+     <div class="calendar-fast-grid">
+       <button id="alternatePapaBtn" type="button">🔁 12 semanas · empieza Papá</button>
+       <button id="alternateMamaBtn" type="button">🔁 12 semanas · empieza Mamá</button>
+       <button id="copyWeekNextBtn" type="button">📋 Copiar esta semana a la siguiente</button>
+     </div>
+     <div class="calendar-range-box">
+       <div class="week-house-note">Vacaciones / excepciones: asigna un periodo completo.</div>
+       <div class="calendar-range-inputs">
+         <input id="calendarRangeStart" type="date">
+         <input id="calendarRangeEnd" type="date">
+       </div>
+       <div class="week-house-actions">
+         <button id="rangePapaBtn" class="papa-week" type="button">👨 Periodo con Papá</button>
+         <button id="rangeMamaBtn" class="mama-week" type="button">👩 Periodo con Mamá</button>
+       </div>
+     </div>
+   </div>
+
+<div id="week" class="week"></div>
    <div class="calendar-selected">
      <h3 id="selectedDateLabel">Eventos del día</h3>
 
@@ -2037,6 +2133,13 @@ body.preview-first-run .first-run-cancel-preview{display:block}
   </div>
   <button id="saveEventBtn" class="btn primary" style="width:100%;margin-top:9px">Añadir evento</button>
   <div id="eventAdminList" style="margin-top:10px"></div>
+ </div>
+
+ 
+ <div class="card panelcard parent-week-summary">
+   <h3 style="margin:0 0 5px">📊 Resumen semanal familiar</h3>
+   <div id="parentWeekLabel" class="mmeta"></div>
+   <div id="parentWeekSummaryList" style="margin-top:9px"></div>
  </div>
 
  <div class="card panelcard parent-day-summary">
@@ -2730,6 +2833,48 @@ function setVisibleWeekHouse(who){
 $('#setWeekPapaBtn').onclick=()=>setVisibleWeekHouse('Papá');
 $('#setWeekMamaBtn').onclick=()=>setVisibleWeekHouse('Mamá');
 
+function assignAlternatingWeeks(firstWho,weeks=12){
+ if(parentsTogether()){toast('Esta opción solo se usa si viven separados');return}
+ const start=startWeek();
+ for(let w=0;w<weeks;w++){
+   const who=(w%2===0)?firstWho:(firstWho==='Papá'?'Mamá':'Papá');
+   for(let i=0;i<7;i++){
+     const d=new Date(start);d.setDate(start.getDate()+w*7+i);
+     state.calendar[iso(d)]=who;
+   }
+ }
+ toast(`${weeks} semanas alternas guardadas ✅`);
+ save();renderCalendar();
+}
+function copyVisibleWeekToNext(){
+ if(parentsTogether()){toast('Esta opción solo se usa si viven separados');return}
+ const s=startWeek();
+ for(let i=0;i<7;i++){
+   const src=new Date(s);src.setDate(s.getDate()+i);
+   const dst=new Date(s);dst.setDate(s.getDate()+7+i);
+   state.calendar[iso(dst)]=home(src);
+ }
+ toast('Semana copiada a la siguiente ✅');save();renderCalendar();
+}
+function assignCalendarRange(who){
+ const a=$('#calendarRangeStart')?.value,b=$('#calendarRangeEnd')?.value;
+ if(!a||!b){toast('Selecciona fecha inicial y final');return}
+ let d=new Date(a+'T12:00:00'),end=new Date(b+'T12:00:00');
+ if(d>end){toast('La fecha final debe ser posterior');return}
+ let guard=0;
+ while(d<=end && guard<370){
+   state.calendar[iso(d)]=who;
+   d.setDate(d.getDate()+1);guard++;
+ }
+ toast(`Periodo asignado a ${who} ✅`);save();renderCalendar();
+}
+$('#alternatePapaBtn').onclick=()=>assignAlternatingWeeks('Papá',12);
+$('#alternateMamaBtn').onclick=()=>assignAlternatingWeeks('Mamá',12);
+$('#copyWeekNextBtn').onclick=copyVisibleWeekToNext;
+$('#rangePapaBtn').onclick=()=>assignCalendarRange('Papá');
+$('#rangeMamaBtn').onclick=()=>assignCalendarRange('Mamá');
+
+
 function renderCalendar(){
  const s=startWeek(),e=new Date(s);e.setDate(e.getDate()+6);
  $('#weeklabel').textContent=`${s.toLocaleDateString('es-ES',{day:'numeric',month:'short'})} — ${e.toLocaleDateString('es-ES',{day:'numeric',month:'short'})}`;
@@ -3234,8 +3379,8 @@ function switchChild(id){
  openScreen('today');
 }
 function childVisualThumb(c){
- const src=(c?.avatar==='👧')?'':'';
- return `<span class="child-visual-icon"><img src="${src}" alt=""></span>`;
+ const src=(c?.avatar==='👧')?'./avatar-girl.webp':'./avatar-boy.webp';
+ return `<span class="child-visual-icon"><img src="${src}" alt="" loading="eager"></span>`;
 }
 
 function renderChildTopSwitcher(){
@@ -3381,6 +3526,36 @@ $('#resetWholeAppBtn').onclick=()=>{
  toast('App reiniciada a 0 ✅');
 };
 
+
+
+function renderFamilyPage(){
+ if($('#familyPageFather'))$('#familyPageFather').value=familyStore.family?.fatherName||'';
+ if($('#familyPageMother'))$('#familyPageMother').value=familyStore.family?.motherName||'';
+ if($('#familyPageLiving'))$('#familyPageLiving').value=familyStore.family?.parentsTogether===false?'separated':'together';
+ if($('#familyPagePin'))$('#familyPagePin').value=String(familyStore.parentPin||'1234');
+ const box=$('#familyPageChildren');
+ if(box){
+   box.innerHTML='';
+   (familyStore.children||[]).forEach(c=>{
+     const city=c.city||c.state?.profile?.city||'Sin ciudad';
+     const birth=c.birthDate||c.state?.profile?.birthDate||'';
+     const avatar=c.avatar==='👧'?'./avatar-girl.webp':'./avatar-boy.webp';
+     const row=document.createElement('div');
+     row.className='family-child-row';
+     row.innerHTML=`<img class="family-avatar" src="${avatar}" alt=""><div class="family-child-main"><b>${c.name||'Perfil'}</b><span>${city}${birth?' · '+new Date(birth+'T12:00:00').toLocaleDateString('es-ES'):''}</span></div><button class="btn ghost">Abrir</button>`;
+     row.querySelector('button').onclick=()=>{switchChild(c.id);openScreen('profile')};
+     box.appendChild(row);
+   });
+ }
+}
+$('#familyPageSave').onclick=()=>{
+ const father=$('#familyPageFather').value.trim(),mother=$('#familyPageMother').value.trim(),pin=$('#familyPagePin').value.trim();
+ if(!father||!mother){toast('Escribe los nombres de Papá y Mamá');return}
+ if(!/^\d{4,8}$/.test(pin)){toast('El PIN debe tener entre 4 y 8 números');return}
+ familyStore.family={fatherName:father,motherName:mother,parentsTogether:$('#familyPageLiving').value==='together'};
+ familyStore.parentPin=pin;saveFamilyStore();render();toast('Familia actualizada ✅');
+};
+$('#familyPagePreviewOnboarding').onclick=()=>{document.body.classList.add('preview-first-run');openFirstRunPreview()};
 
 function renderFamilyData(){
  if($('#familyFatherNameInput'))$('#familyFatherNameInput').value=familyStore.family?.fatherName||'';
@@ -3984,6 +4159,12 @@ function renderActiveCity(){
  else{badge.style.display='none';name.textContent='';}
 }
 
+
+function renderFooterChildArt(){
+ const el=$('#footerChildArt');if(!el)return;
+ const avatar=activeChildRecord()?.avatar||'👦';
+ el.src=avatar==='👧'?'./avatar-girl.webp':'./avatar-boy.webp';
+}
 function renderActiveChildIdentity(){
  const c=activeChildRecord();
  const configured=hasRealProfile();
@@ -4228,6 +4409,43 @@ function summaryMessage(percent,reading,activeProjects,pending){
  return '🚀 Cada pequeña misión cuenta. Empieza por una y suma tu primera victoria.';
 }
 
+
+function currentWeekRange(){
+ const now=new Date(),day=(now.getDay()+6)%7;
+ const start=new Date(now);start.setHours(12,0,0,0);start.setDate(now.getDate()-day);
+ const end=new Date(start);end.setDate(start.getDate()+6);
+ return {start,end};
+}
+function dateKeyInRange(key,start,end){
+ const d=new Date(key+'T12:00:00');return d>=start&&d<=end;
+}
+function renderParentWeeklySummary(){
+ const box=$('#parentWeekSummaryList');if(!box)return;
+ const {start,end}=currentWeekRange();
+ if($('#parentWeekLabel'))$('#parentWeekLabel').textContent=
+   `${start.toLocaleDateString('es-ES',{day:'numeric',month:'short'})} — ${end.toLocaleDateString('es-ES',{day:'numeric',month:'short'})}`;
+ box.innerHTML='';
+ (familyStore.children||[]).forEach(c=>{
+   const st=c.state||{};
+   const approvals=(st.approvalHistory||[]).filter(x=>dateKeyInRange(x.date,start,end));
+   const stars=approvals.reduce((s,x)=>s+(Number(x.stars)||0),0);
+   const xp=approvals.reduce((s,x)=>s+(Number(x.xp)||0),0);
+   const readingDays=new Set(approvals.filter(x=>(x.title||'').toLowerCase().includes('leer 30 minutos')).map(x=>x.date)).size;
+   const projects=(st.projects||[]).filter(p=>p.due && !p.grade && dateKeyInRange(p.due,start,end)).length;
+   const avatar=c.avatar==='👧'?'./avatar-girl.webp':'./avatar-boy.webp';
+   const row=document.createElement('div');row.className='week-summary-row';
+   row.innerHTML=`<div class="week-summary-head"><img src="${avatar}" alt=""><b>${c.name||'Perfil'}</b></div>
+     <div class="week-summary-stats">
+       <div class="week-mini"><b>${approvals.length}</b><span>tareas</span></div>
+       <div class="week-mini"><b>${stars}</b><span>⭐ ganadas</span></div>
+       <div class="week-mini"><b>${readingDays}</b><span>días lectura</span></div>
+       <div class="week-mini"><b>${projects}</b><span>entregas</span></div>
+     </div>
+     <div class="mmeta" style="margin-top:7px">⚡ ${xp} XP esta semana</div>`;
+   box.appendChild(row);
+ });
+}
+
 function renderDailySummary(){
  const active=activeMissionsToday().map(([m])=>m);
  const approved=active.filter(m=>m.status===1);
@@ -4308,6 +4526,7 @@ function updateFamilyCalendarVisibility(){
  document.querySelector('.week-house-tools')?.classList.toggle('calendar-custody-hidden',hide);
  document.querySelector('.house-label')?.classList.toggle('calendar-custody-hidden',hide);
  document.querySelector('.house-switch')?.classList.toggle('calendar-custody-hidden',hide);
+ document.querySelector('.calendar-fast-tools')?.classList.toggle('calendar-custody-hidden',hide);
  const p=$('#setWeekPapaBtn'),m=$('#setWeekMamaBtn'),pd=$('#setPapaBtn'),md=$('#setMamaBtn');
  if(p)p.textContent=`👨 Semana con ${fatherName()}`;
  if(m)m.textContent=`👩 Semana con ${motherName()}`;
@@ -4335,7 +4554,7 @@ if(parentsTogether()){
   : '<div class="family-illus"><div class="family-emoji-wrap"><div class="family-emoji">👨</div><div class="family-emoji small-kid">🧒</div></div></div>';
  familyCard.innerHTML=`${emojiArt}<div class="family-panel"><div class="eyebrow">Hoy estoy con</div><b>${person}</b><span>¡Juntos hacemos grandes cosas!</span></div>`;
 }
- renderProjectReminders();renderModules();renderReading();renderProjects();renderCalendar();renderRewards();renderRewardAdmin();renderParents();renderExtras();renderProfileData();renderStreaks();renderTaskAdmin();renderDailySummary();renderEventAdmin();renderTodayEvents();renderRewardHistory();renderSyncConfig();renderBigGoal();renderGoalAdmin();renderSpecialAdmin();renderSpecialDay();renderSmartAlerts();renderSmartHome();renderNoticeCenter();renderReminderPrefs();renderChildSwitcher();renderChildManager();renderActiveChildName();renderActiveChildIdentity();renderChildTopSwitcher();renderChallengeAdmin();renderCityScene();renderGoalVisual();renderActiveCity()
+ renderProjectReminders();renderModules();renderReading();renderProjects();renderCalendar();renderRewards();renderRewardAdmin();renderParents();renderExtras();renderProfileData();renderStreaks();renderTaskAdmin();renderDailySummary();renderEventAdmin();renderTodayEvents();renderRewardHistory();renderSyncConfig();renderBigGoal();renderGoalAdmin();renderSpecialAdmin();renderSpecialDay();renderSmartAlerts();renderSmartHome();renderNoticeCenter();renderReminderPrefs();renderChildSwitcher();renderChildManager();renderActiveChildName();renderActiveChildIdentity();renderChildTopSwitcher();renderChallengeAdmin();renderCityScene();renderGoalVisual();renderActiveCity();renderFooterChildArt();renderFamilyPage();renderParentWeeklySummary()
 }
 
 

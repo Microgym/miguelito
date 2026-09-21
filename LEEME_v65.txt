@@ -1,0 +1,20 @@
+MIS TAREAS v65 — 4 MEJORAS
+
+1. Visual:
+- avatar real de niño/niña en selector superior;
+- ilustración del perfil en la tarjeta decorativa inferior;
+- fallback visual estable.
+
+2. Calendario:
+- alternar 12 semanas Papá/Mamá;
+- copiar semana actual a la siguiente;
+- asignar vacaciones/excepciones por rango de fechas.
+
+3. Familia:
+- nueva pantalla Familia desde Más;
+- datos de Papá/Mamá, juntos/separados, PIN e hijos;
+- acceso rápido a cada perfil y prueba del asistente.
+
+4. Resumen semanal para padres:
+- tareas aprobadas, estrellas, XP, días de lectura y entregas;
+- resumen de todos los hijos.
