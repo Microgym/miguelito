@@ -1214,6 +1214,21 @@ body{min-height:100%;overscroll-behavior-y:none}
   background:#fff0f2;color:#a43b47;font-weight:1000;cursor:pointer;margin-top:8px
 }
 
+
+/* ===== v45 ciudad visual + objetivo esquí por niño/niña ===== */
+.city-scene{position:absolute;inset:0;z-index:0;pointer-events:none;overflow:hidden;border-radius:inherit}
+.city-scene svg{width:100%;height:100%;display:block}
+.hero .mountains{opacity:.92;z-index:1}
+.hero.has-city .mountains{opacity:.18}
+.hero.has-city .skyshine{opacity:.78}
+.hero.has-city.boy{background:linear-gradient(180deg,#d7ecff 0%,#edf6ff 58%,#dff4ff 100%)!important}
+.hero.has-city.girl{background:linear-gradient(180deg,#ffdceb 0%,#fff2f7 58%,#e9f7ff 100%)!important}
+.hero.has-city.neutral{background:linear-gradient(180deg,#dff4ff 0%,#f5edff 55%,#e7f7ff 100%)!important}
+.hero-copy .city-badge{position:relative;z-index:3}
+.hero .city-title-watermark{position:absolute;right:18px;top:16px;font-size:46px;font-weight:1000;color:rgba(255,255,255,.18);z-index:1;letter-spacing:.02em}
+.ski-illus.dynamic-goal{background-size:cover!important;background-position:center!important}
+.ski-illus.dynamic-goal::before,.ski-illus.dynamic-goal::after,.ski-illus.dynamic-goal .snow{display:none!important}
+
 </style>
 </head>
 <body>
@@ -1223,6 +1238,8 @@ body{min-height:100%;overscroll-behavior-y:none}
  <div class="topline"><div class="logo" id="activeChildLogo">MIGUELITO</div><div class="starpill">⭐ <span id="topstars">185</span></div></div>
  <div class="hero" id="homeHero">
   <div class="skyshine"></div>
+  <div id="cityScene" class="city-scene"></div>
+  <div id="cityTitleWatermark" class="city-title-watermark" style="display:none"></div>
   <div class="mountains">
    <svg viewBox="0 0 430 220" preserveAspectRatio="none" aria-hidden="true">
     <polygon points="0,150 85,35 170,150" fill="#6fa9d8"/><polygon points="45,120 85,35 123,120" fill="#f8fdff"/>
@@ -1254,7 +1271,7 @@ body{min-height:100%;overscroll-behavior-y:none}
 
  <div id="bigGoalCard" class="card goal">
   <div><div class="eyebrow">Mi gran objetivo</div><h2 id="bigGoalTitle">Viaje a esquiar</h2><div id="bigGoalDate" class="date">📅 21 de enero</div><div class="goalbar"><i id="goalbar"></i></div><div class="goalfoot"><span id="bigGoalMessage">“Cada esfuerzo te acerca a nuevas aventuras”</span><span><b id="goalstars">185</b>/<span id="bigGoalCost">600</span> ⭐</span></div></div>
-  <div id="bigGoalIcon" class="ski-illus"><div class="snow"></div></div>
+  <div id="bigGoalIcon" class="ski-illus dynamic-goal"><div class="snow"></div></div>
  </div>
 
 
@@ -3140,6 +3157,74 @@ function neutralAvatarSvg(){
    <rect x="52" y="190" width="22" height="30" rx="8" fill="#35416d"/><rect x="83" y="190" width="22" height="30" rx="8" fill="#35416d"/>
  </svg>`;
 }
+
+function cityKeyFromName(raw=''){
+ const c=(raw||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+ if(!c)return '';
+ if(c.includes('madrid')) return 'madrid';
+ if(c.includes('valencia')) return 'valencia';
+ if(c.includes('barcelona')) return 'barcelona';
+ if(c.includes('sevilla')) return 'sevilla';
+ if(c.includes('malaga')) return 'malaga';
+ return 'generic';
+}
+function citySceneSvg(city=''){
+ const label=(city||'').trim();
+ const key=cityKeyFromName(label);
+ const palette={
+  madrid:{sky1:'#cde9ff',sky2:'#eef7ff',ground:'#dceffd',accent:'#ff8f6b',building:'#8fb3d7',building2:'#6f95bf',leaf:'#6ac28c'},
+  valencia:{sky1:'#d8efff',sky2:'#f5fbff',ground:'#def6f2',accent:'#ffb25b',building:'#8ad0df',building2:'#5baec8',leaf:'#63c593'},
+  barcelona:{sky1:'#d7ebff',sky2:'#f3f9ff',ground:'#e5f0ff',accent:'#f7bf52',building:'#95a6e8',building2:'#6f80ce',leaf:'#71c088'},
+  sevilla:{sky1:'#ffe6dd',sky2:'#fff8f1',ground:'#f3efe4',accent:'#f59d52',building:'#d8ae7b',building2:'#b98c5f',leaf:'#77be6f'},
+  malaga:{sky1:'#dff4ff',sky2:'#f8fbff',ground:'#e5f3ff',accent:'#f6b26b',building:'#8ab4df',building2:'#5c89bf',leaf:'#68bf87'},
+  generic:{sky1:'#dfefff',sky2:'#f8fbff',ground:'#e8f3ff',accent:'#f7b45e',building:'#9cc0e1',building2:'#6e93bb',leaf:'#70c08b'}
+ }[key||'generic'];
+ const landmark={
+  madrid:`<g transform="translate(215 66)"><rect x="0" y="58" width="122" height="42" rx="12" fill="${palette.building}"/><path d="M14 58 C16 25 41 12 61 12 C80 12 106 25 108 58" fill="none" stroke="${palette.building2}" stroke-width="12" stroke-linecap="round"/><path d="M38 36 L61 21 L83 36" fill="none" stroke="${palette.accent}" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/><rect x="22" y="74" width="20" height="16" rx="5" fill="#fff" opacity=".75"/><rect x="52" y="66" width="18" height="24" rx="5" fill="#fff" opacity=".82"/><rect x="80" y="74" width="20" height="16" rx="5" fill="#fff" opacity=".75"/></g><g transform="translate(90 78)"><rect x="0" y="14" width="18" height="36" rx="6" fill="${palette.building2}"/><rect x="22" y="4" width="20" height="46" rx="7" fill="${palette.building}"/><rect x="47" y="20" width="16" height="30" rx="6" fill="${palette.building2}"/></g>`,
+  valencia:`<g transform="translate(205 60)"><path d="M0 84 C35 18 118 16 158 82" fill="none" stroke="${palette.building2}" stroke-width="12" stroke-linecap="round"/><path d="M27 86 C54 42 103 40 131 86" fill="none" stroke="${palette.building}" stroke-width="10" stroke-linecap="round"/><ellipse cx="78" cy="87" rx="73" ry="12" fill="${palette.building}" opacity=".85"/></g><g transform="translate(88 92)"><path d="M0 24 C11 3 35 0 45 20 C29 20 18 22 0 24Z" fill="${palette.leaf}"/><rect x="18" y="22" width="7" height="26" rx="3" fill="#ad7c53"/></g>`,
+  barcelona:`<g transform="translate(208 42)"><rect x="10" y="52" width="118" height="50" rx="12" fill="${palette.building}"/><rect x="24" y="36" width="16" height="66" rx="8" fill="${palette.building2}"/><rect x="52" y="22" width="16" height="80" rx="8" fill="${palette.building2}"/><rect x="80" y="30" width="16" height="72" rx="8" fill="${palette.building2}"/><rect x="108" y="40" width="12" height="62" rx="6" fill="${palette.building2}"/><circle cx="32" cy="28" r="4" fill="${palette.accent}"/><circle cx="60" cy="14" r="4" fill="${palette.accent}"/><circle cx="88" cy="22" r="4" fill="${palette.accent}"/><circle cx="114" cy="32" r="4" fill="${palette.accent}"/></g>`,
+  sevilla:`<g transform="translate(222 46)"><rect x="18" y="18" width="36" height="80" rx="10" fill="${palette.building2}"/><rect x="0" y="82" width="88" height="22" rx="10" fill="${palette.building}"/><rect x="28" y="0" width="16" height="28" rx="8" fill="${palette.accent}"/><circle cx="36" cy="0" r="7" fill="${palette.accent}"/></g><g transform="translate(110 92)"><circle cx="20" cy="18" r="18" fill="#ffb35b" opacity=".95"/><rect x="16" y="30" width="8" height="20" rx="4" fill="#a87d59"/></g>`,
+  malaga:`<g transform="translate(208 56)"><rect x="0" y="54" width="130" height="42" rx="12" fill="${palette.building}"/><path d="M20 54 L45 26 L71 54" fill="${palette.building2}"/><path d="M70 54 L96 18 L123 54" fill="${palette.building2}"/><rect x="47" y="38" width="18" height="58" rx="8" fill="${palette.accent}"/></g><g transform="translate(95 87)"><path d="M14 0 C35 6 43 22 44 35 C28 31 11 18 14 0Z" fill="${palette.leaf}"/><path d="M0 12 C20 18 30 34 32 48 C14 44 1 30 0 12Z" fill="#8dd8a3"/><rect x="18" y="36" width="6" height="18" rx="3" fill="#ab7d58"/></g>`,
+  generic:`<g transform="translate(208 60)"><rect x="0" y="40" width="132" height="56" rx="14" fill="${palette.building}"/><rect x="18" y="20" width="20" height="76" rx="10" fill="${palette.building2}"/><rect x="52" y="8" width="22" height="88" rx="11" fill="${palette.building2}"/><rect x="89" y="28" width="18" height="68" rx="9" fill="${palette.building2}"/></g>`
+ }[key||'generic'];
+ return `<svg viewBox="0 0 430 320" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+   <defs><linearGradient id="g1" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="${palette.sky1}"/><stop offset="100%" stop-color="${palette.sky2}"/></linearGradient></defs>
+   <rect width="430" height="320" fill="url(#g1)"/>
+   <circle cx="353" cy="56" r="21" fill="#fff" opacity=".75"/>
+   <path d="M35 78 C54 56 79 58 93 78 C75 78 52 79 35 78Z" fill="#fff" opacity=".78"/>
+   <path d="M287 87 C301 68 327 68 344 87 C325 87 306 88 287 87Z" fill="#fff" opacity=".75"/>
+   <path d="M0 222 C56 185 128 182 198 198 C253 211 313 215 430 192 L430 320 L0 320 Z" fill="${palette.ground}"/>
+   <path d="M0 205 C70 158 130 152 194 168 C255 184 328 194 430 171 L430 194 C351 212 273 207 202 192 C126 176 67 182 0 221 Z" fill="#ffffff" opacity=".56"/>
+   ${landmark}
+   <g opacity=".92"><circle cx="66" cy="214" r="18" fill="${palette.leaf}"/><rect x="61" y="226" width="10" height="30" rx="5" fill="#b3825b"/><circle cx="94" cy="224" r="13" fill="#8ed5a6"/><rect x="90" y="233" width="8" height="21" rx="4" fill="#b3825b"/></g>
+   <path d="M0 257 C63 247 126 250 188 260 C253 271 326 271 430 257 L430 320 L0 320 Z" fill="#f8fcff" opacity=".92"/>
+  </svg>`;
+}
+function renderCityScene(){
+ const hero=$('#homeHero'), holder=$('#cityScene'), title=$('#cityTitleWatermark');
+ if(!hero||!holder||!title) return;
+ const city=state.profile?.city||activeChildRecord()?.city||'';
+ if(city){
+   holder.innerHTML=citySceneSvg(city);
+   hero.classList.add('has-city');
+   title.textContent=city;
+   title.style.display='block';
+ }else{
+   holder.innerHTML='';
+   hero.classList.remove('has-city');
+   title.style.display='none';
+   title.textContent='';
+ }
+}
+function renderGoalVisual(){
+ const goal=$('#bigGoalIcon'); if(!goal) return;
+ const avatar=activeChildRecord()?.avatar||'👦';
+ const isGirl = avatar==='👧';
+ const img = isGirl ? './objetivo-esqui-nina.png' : './objetivo-esqui.png';
+ goal.style.backgroundImage=`url('${img}')`;
+ goal.style.backgroundSize='cover';
+ goal.style.backgroundPosition='center';
+}
 function renderActiveCity(){
  const city=state.profile?.city||activeChildRecord()?.city||'';
  const badge=$('#homeCityBadge'),name=$('#homeCityName');
@@ -3202,7 +3287,7 @@ $('#saveProfileBtn').onclick=()=>{
  };
  const child=activeChildRecord();
  if(child){child.name=state.profile.name;child.birthDate=birthDate;child.city=state.profile.city;}
- toast('Perfil guardado 👦');
+ toast('Perfil guardado ✅');
  save();
 };
 
@@ -3445,7 +3530,7 @@ const emojiArt = h==='Mamá'
   ? '<div class="family-illus"><div class="family-emoji-wrap"><div class="family-emoji">👩</div><div class="family-emoji small-kid">👦</div></div></div>'
   : '<div class="family-illus"><div class="family-emoji-wrap"><div class="family-emoji">👨</div><div class="family-emoji small-kid">👦</div></div></div>';
 $('#familyCard').innerHTML=`${emojiArt}<div class="family-panel"><div class="eyebrow">Hoy estoy con</div><b>${h}</b><span>¡Juntos hacemos grandes cosas!</span></div>`;
- renderProjectReminders();renderModules();renderReading();renderProjects();renderCalendar();renderRewards();renderRewardAdmin();renderParents();renderExtras();renderProfileData();renderStreaks();renderTaskAdmin();renderDailySummary();renderEventAdmin();renderTodayEvents();renderRewardHistory();renderSyncConfig();renderBigGoal();renderGoalAdmin();renderSpecialAdmin();renderSpecialDay();renderSmartAlerts();renderSmartHome();renderNoticeCenter();renderReminderPrefs();renderChildSwitcher();renderChildManager();renderActiveChildName();renderActiveChildIdentity();renderChildTopSwitcher();renderChallengeAdmin();renderActiveCity()
+ renderProjectReminders();renderModules();renderReading();renderProjects();renderCalendar();renderRewards();renderRewardAdmin();renderParents();renderExtras();renderProfileData();renderStreaks();renderTaskAdmin();renderDailySummary();renderEventAdmin();renderTodayEvents();renderRewardHistory();renderSyncConfig();renderBigGoal();renderGoalAdmin();renderSpecialAdmin();renderSpecialDay();renderSmartAlerts();renderSmartHome();renderNoticeCenter();renderReminderPrefs();renderChildSwitcher();renderChildManager();renderActiveChildName();renderActiveChildIdentity();renderChildTopSwitcher();renderChallengeAdmin();renderCityScene();renderGoalVisual();renderActiveCity()
 }
 
 
