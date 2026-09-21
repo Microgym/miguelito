@@ -114,7 +114,7 @@ body{
 .footerart{height:70px;border-radius:20px;background:
 linear-gradient(180deg,#d7f0ff 0 45%,#9bc878 46% 100%);position:relative;overflow:hidden;margin:10px 0}
 .footerart:before{content:"PEQUEÑOS PASOS\\A GRANDES LOGROS";white-space:pre;position:absolute;left:90px;top:11px;background:#b87537;color:#1d2d45;padding:8px 12px;border-radius:6px;transform:rotate(-2deg);font-weight:1000;font-size:11px;text-align:center}
-.footerart:after{content:"“Tú puedes, Miguelito”";position:absolute;right:12px;top:22px;font-size:12px;font-weight:1000}
+.footerart:after{content:"“Tú puedes”";position:absolute;right:12px;top:22px;font-size:12px;font-weight:1000}
 
 .heroSmall{padding:18px;border-radius:27px;background:linear-gradient(135deg,#2184f3,#7b62eb);color:white;margin:8px 0 11px;box-shadow:var(--shadow)}
 .heroSmall h1{margin:0 0 4px;font-size:25px}
@@ -1132,13 +1132,21 @@ body{min-height:100%;overscroll-behavior-y:none}
 }
 .birth-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}
 
+
+/* ===== v36 identidad visual según hijo ===== */
+.hero.girl::before,.hero.neutral::before{background-image:none!important}
+.hero.girl .avatar svg,.hero.neutral .avatar svg{display:block!important}
+.hero.girl .avatar,.hero.neutral .avatar{left:10px;bottom:0;width:145px}
+.hero.girl{background:linear-gradient(180deg,#ffdceb 0%,#fff1f6 58%,#dff4ff 100%)}
+.hero.neutral{background:linear-gradient(180deg,#dff4ff 0%,#f5edff 55%,#e7f7ff 100%)}
+
 </style>
 </head>
 <body>
 <div class="app">
 <section id="today" class="screen active">
- <div class="topline"><div class="logo">MIGUELITO</div><div class="starpill">⭐ <span id="topstars">185</span></div></div>
- <div class="hero">
+ <div class="topline"><div class="logo" id="activeChildLogo">MIGUELITO</div><div class="starpill">⭐ <span id="topstars">185</span></div></div>
+ <div class="hero" id="homeHero">
   <div class="skyshine"></div>
   <div class="mountains">
    <svg viewBox="0 0 430 220" preserveAspectRatio="none" aria-hidden="true">
@@ -1162,7 +1170,7 @@ body{min-height:100%;overscroll-behavior-y:none}
     <rect x="52" y="190" width="22" height="30" rx="8" fill="#233d6b"/><rect x="83" y="190" width="22" height="30" rx="8" fill="#233d6b"/>
    </svg>
   </div>
-  <div class="hero-copy"><h1>¡Vamos,<br>Miguelito!</h1><p>Hoy es un gran día para aprender y conseguir tus metas.</p></div>
+  <div class="hero-copy"><h1>¡Vamos,<br><span id="homeChildName">Miguelito</span>!</h1><p id="homeChildSubtitle">Hoy es un gran día para aprender y conseguir tus metas.</p></div>
   <div class="hero-panels">
    <div class="glass"><div class="big">👑 Nivel <span id="level">4</span></div><div class="small">Campeón · <span id="xp">620</span> / 800 XP</div><div class="xpbar"><i id="xpbar"></i></div></div>
    <div class="glass starbox"><div style="font-size:26px">⭐</div><div class="num" id="herostars">185</div><div class="txt">estrellas</div></div>
@@ -2915,6 +2923,63 @@ function ensureProfileState(){
 ensureProfileState();
 
 
+
+function girlAvatarSvg(){
+ return `
+ <svg viewBox="0 0 150 230" aria-hidden="true">
+   <ellipse cx="76" cy="207" rx="47" ry="17" fill="#7e4b88" opacity=".20"/>
+   <path d="M34 77 Q30 35 75 24 Q120 31 119 84 L111 135 Q101 153 77 151 Q49 151 39 129Z" fill="#6b3a2a"/>
+   <rect x="42" y="117" width="69" height="83" rx="25" fill="#ef68a8"/>
+   <rect x="53" y="128" width="47" height="58" rx="18" fill="#f47fb7"/>
+   <circle cx="77" cy="83" r="40" fill="#f5b07b"/>
+   <path d="M39 72 Q43 33 78 29 Q109 31 117 66 Q104 50 90 48 Q68 54 51 46 Q48 62 39 72Z" fill="#74402c"/>
+   <path d="M49 37 Q65 17 77 34 Q91 14 108 38 Q91 38 78 49 Q64 38 49 37Z" fill="#f55f9e"/>
+   <circle cx="63" cy="83" r="4" fill="#1d2733"/><circle cx="92" cy="83" r="4" fill="#1d2733"/>
+   <path d="M65 101 Q78 112 93 100" stroke="#9c4b43" stroke-width="4" fill="none" stroke-linecap="round"/>
+   <path d="M46 122 Q27 142 31 170" stroke="#f5b07b" stroke-width="14" stroke-linecap="round"/>
+   <path d="M107 126 Q128 140 129 165" stroke="#f5b07b" stroke-width="14" stroke-linecap="round"/>
+   <path d="M67 144 L77 154 L87 144" stroke="#fff" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+   <rect x="52" y="190" width="22" height="30" rx="8" fill="#5a3d70"/><rect x="83" y="190" width="22" height="30" rx="8" fill="#5a3d70"/>
+ </svg>`;
+}
+function neutralAvatarSvg(){
+ return `
+ <svg viewBox="0 0 150 230" aria-hidden="true">
+   <ellipse cx="76" cy="207" rx="47" ry="17" fill="#235b9e" opacity=".20"/>
+   <rect x="42" y="117" width="69" height="83" rx="25" fill="#7367e8"/>
+   <rect x="53" y="128" width="47" height="58" rx="18" fill="#8d82f2"/>
+   <circle cx="77" cy="83" r="40" fill="#f5b07b"/>
+   <path d="M37 72 Q43 30 78 28 Q113 31 119 67 Q106 50 91 49 Q67 53 52 46 Q47 63 37 72Z" fill="#70452d"/>
+   <circle cx="63" cy="83" r="4" fill="#1d2733"/><circle cx="92" cy="83" r="4" fill="#1d2733"/>
+   <path d="M65 101 Q78 112 93 100" stroke="#9c4b43" stroke-width="4" fill="none" stroke-linecap="round"/>
+   <path d="M46 122 Q26 142 31 170" stroke="#f5b07b" stroke-width="14" stroke-linecap="round"/>
+   <path d="M107 126 Q128 140 129 165" stroke="#f5b07b" stroke-width="14" stroke-linecap="round"/>
+   <circle cx="77" cy="148" r="9" fill="#fff" opacity=".9"/>
+   <rect x="52" y="190" width="22" height="30" rx="8" fill="#35416d"/><rect x="83" y="190" width="22" height="30" rx="8" fill="#35416d"/>
+ </svg>`;
+}
+function renderActiveChildIdentity(){
+ const c=activeChildRecord(),name=state.profile?.name||c?.name||'Hijo',avatar=c?.avatar||'👦';
+ const hero=$('#homeHero'),nameEl=$('#homeChildName'),logo=$('#activeChildLogo'),avatarBox=document.querySelector('#homeHero .avatar');
+ if(nameEl)nameEl.textContent=name;
+ if(logo)logo.textContent=name.toUpperCase();
+ if(!hero||!avatarBox)return;
+ hero.classList.remove('girl','neutral');
+ if(avatar==='👧'){
+   hero.classList.add('girl');
+   avatarBox.innerHTML=girlAvatarSvg();
+   if($('#homeChildSubtitle'))$('#homeChildSubtitle').textContent='Hoy es un gran día para aprender, disfrutar y conseguir tus metas.';
+ }else if(avatar==='🧒'){
+   hero.classList.add('neutral');
+   avatarBox.innerHTML=neutralAvatarSvg();
+   if($('#homeChildSubtitle'))$('#homeChildSubtitle').textContent='Hoy es un gran día para aprender y conseguir tus metas.';
+ }else{
+   // Boy: restore the simple fallback SVG; the polished boy art remains in the hero background.
+   avatarBox.innerHTML=`<svg viewBox="0 0 150 230" aria-hidden="true"></svg>`;
+   if($('#homeChildSubtitle'))$('#homeChildSubtitle').textContent='Hoy es un gran día para aprender y conseguir tus metas.';
+ }
+}
+
 function renderActiveChildName(){
  const c=activeChildRecord(),name=state.profile?.name||c?.name||'Hijo';
  document.querySelectorAll('[data-active-child-name]').forEach(el=>el.textContent=name);
@@ -3197,7 +3262,7 @@ const emojiArt = h==='Mamá'
   ? '<div class="family-illus"><div class="family-emoji-wrap"><div class="family-emoji">👩</div><div class="family-emoji small-kid">👦</div></div></div>'
   : '<div class="family-illus"><div class="family-emoji-wrap"><div class="family-emoji">👨</div><div class="family-emoji small-kid">👦</div></div></div>';
 $('#familyCard').innerHTML=`${emojiArt}<div class="family-panel"><div class="eyebrow">Hoy estoy con</div><b>${h}</b><span>¡Juntos hacemos grandes cosas!</span></div>`;
- renderProjectReminders();renderModules();renderReading();renderProjects();renderCalendar();renderRewards();renderRewardAdmin();renderParents();renderExtras();renderProfileData();renderStreaks();renderTaskAdmin();renderDailySummary();renderEventAdmin();renderTodayEvents();renderRewardHistory();renderSyncConfig();renderBigGoal();renderGoalAdmin();renderSpecialAdmin();renderSpecialDay();renderSmartAlerts();renderSmartHome();renderNoticeCenter();renderReminderPrefs();renderChildSwitcher();renderChildManager();renderActiveChildName()
+ renderProjectReminders();renderModules();renderReading();renderProjects();renderCalendar();renderRewards();renderRewardAdmin();renderParents();renderExtras();renderProfileData();renderStreaks();renderTaskAdmin();renderDailySummary();renderEventAdmin();renderTodayEvents();renderRewardHistory();renderSyncConfig();renderBigGoal();renderGoalAdmin();renderSpecialAdmin();renderSpecialDay();renderSmartAlerts();renderSmartHome();renderNoticeCenter();renderReminderPrefs();renderChildSwitcher();renderChildManager();renderActiveChildName();renderActiveChildIdentity()
 }
 
 
