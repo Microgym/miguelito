@@ -1,0 +1,19 @@
+MIS TAREAS v72 — DIARIO TIPO LIBRO
+
+Mejora visual y de navegación del diario:
+- aspecto de cuaderno/libro;
+- una página por día;
+- flechas día anterior / siguiente;
+- selector de fecha;
+- tira semanal;
+- calendario mensual con puntos en los días que tienen entradas;
+- cada día muestra solo sus recuerdos;
+- se pueden editar y eliminar las entradas desde la propia página.
+
+Se mantiene todo lo anterior:
+- categorías;
+- estado de ánimo;
+- goles;
+- privado/compartido;
+- cada hijo tiene su propio diario;
+- no usa IA ni servicios externos.

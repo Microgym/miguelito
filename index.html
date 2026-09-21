@@ -1698,6 +1698,91 @@ body.preview-first-run .first-run-cancel-preview{display:block}
   .journal-row{grid-template-columns:1fr}
 }
 
+
+/* ===== v72 Diario tipo libro ===== */
+.journal-book{
+  background:linear-gradient(90deg,#efe4cf 0 12px,#fffdf7 12px calc(100% - 12px),#efe4cf calc(100% - 12px));
+  border:1px solid #dfd3bf;border-radius:24px;padding:14px 18px 18px;
+  box-shadow:0 12px 26px rgba(79,61,38,.12);position:relative
+}
+.journal-book:before{
+  content:"";position:absolute;left:50%;top:0;bottom:0;width:1px;background:rgba(139,116,84,.16);pointer-events:none
+}
+.journal-book-head{
+  display:grid;grid-template-columns:auto 1fr auto;gap:8px;align-items:center;margin-bottom:10px
+}
+.journal-book-head button{
+  border:0;border-radius:12px;background:#f2f6fb;color:#315579;min-width:42px;min-height:42px;
+  font-weight:1000;cursor:pointer
+}
+.journal-book-date{text-align:center;min-width:0}
+.journal-book-date b{display:block;font-size:16px;color:#5c462f}
+.journal-book-date span{font-size:9px;color:#8a765e}
+.journal-page{
+  background:
+   repeating-linear-gradient(to bottom,#fffefa 0,#fffefa 31px,#dce8f3 32px);
+  border-radius:17px;min-height:220px;padding:16px 14px 18px;
+  box-shadow:inset 0 0 0 1px rgba(144,126,100,.10)
+}
+.journal-page-empty{
+  text-align:center;padding:52px 15px;color:#8a7b68;font-size:12px;font-weight:800
+}
+.journal-page-entry{
+  position:relative;padding:8px 5px 10px 38px;margin:2px 0 10px;min-height:42px
+}
+.journal-page-entry .entry-icon{
+  position:absolute;left:4px;top:6px;font-size:23px
+}
+.journal-page-entry b{font-size:12px;color:#5a422d}
+.journal-page-entry .entry-time{float:right;font-size:8px;color:#9a8a76}
+.journal-page-entry p{
+  margin:4px 0 5px;font-size:12px;line-height:1.45;color:#3d4f60;white-space:pre-wrap
+}
+.journal-page-entry .entry-meta{font-size:8px;color:#7d8a96;font-weight:800}
+.journal-page-actions{display:flex;gap:5px;margin-top:6px}
+.journal-page-actions button{
+  border:0;border-radius:9px;padding:5px 8px;font-size:8px;font-weight:900;cursor:pointer
+}
+.journal-calendar-strip{
+  display:grid;grid-template-columns:repeat(7,1fr);gap:5px;margin-top:10px
+}
+.journal-daybtn{
+  border:0;border-radius:11px;background:#f3f6fa;color:#52677f;padding:7px 2px;font-size:9px;font-weight:900;
+  cursor:pointer;min-height:40px
+}
+.journal-daybtn.has-entry{background:#fff1c9;color:#795821}
+.journal-daybtn.active{outline:2px solid #6d9ed6;background:#eaf4ff;color:#2c5c90}
+.journal-calendar-head{
+  display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:14px
+}
+.journal-calendar-head input{
+  border:1px solid #dce6f0;border-radius:11px;padding:9px;background:#fff;font:inherit
+}
+.journal-month-view{
+  margin-top:12px;background:#fff;border-radius:18px;padding:12px;border:1px solid #e5ebf2
+}
+.journal-month-title{font-size:12px;font-weight:1000;color:#3f5f7e;margin-bottom:8px}
+.journal-month-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:5px}
+.journal-month-cell{
+  min-height:42px;border-radius:10px;background:#f7f9fc;display:flex;align-items:center;justify-content:center;
+  font-size:9px;color:#6e7e8f;position:relative
+}
+.journal-month-cell.has-entry{background:#fff4d5;color:#6a4b1e;font-weight:1000}
+.journal-month-cell.has-entry:after{
+  content:"•";position:absolute;bottom:2px;font-size:12px
+}
+.journal-book-cover{
+  display:flex;align-items:center;gap:12px;background:linear-gradient(135deg,#7a5835,#a97c4c);
+  color:white;border-radius:22px;padding:16px;margin-bottom:11px;box-shadow:0 10px 22px rgba(85,56,26,.16)
+}
+.journal-book-cover .cover-icon{font-size:38px}
+.journal-book-cover b{display:block;font-size:18px}
+.journal-book-cover span{font-size:10px;opacity:.9}
+@media(max-width:390px){
+  .journal-book{padding:12px 12px 16px}
+  .journal-book:before{display:none}
+}
+
 </style>
 </head>
 <body>
@@ -1990,8 +2075,34 @@ body.preview-first-run .first-run-cancel-preview{display:block}
  </div>
 
  <div class="journal-history">
-   <div class="screen-title" style="min-height:auto;padding:13px 15px"><h1 style="font-size:20px">Mis recuerdos</h1><p>Lo que has ido apuntando.</p></div>
-   <div id="journalHistory"></div>
+   <div class="journal-book-cover">
+     <div class="cover-icon">📖</div>
+     <div><b>Mi libro de recuerdos</b><span>Un día, una página.</span></div>
+   </div>
+
+   <div class="journal-book">
+     <div class="journal-book-head">
+       <button id="journalPrevDay" type="button">←</button>
+       <div class="journal-book-date">
+         <b id="journalBookDate">Hoy</b>
+         <span id="journalBookCount">0 recuerdos este día</span>
+       </div>
+       <button id="journalNextDay" type="button">→</button>
+     </div>
+
+     <div id="journalBookPage" class="journal-page"></div>
+
+     <div class="journal-calendar-head">
+       <div class="mmeta">Ir a una fecha</div>
+       <input id="journalDatePicker" type="date">
+     </div>
+     <div id="journalWeekStrip" class="journal-calendar-strip"></div>
+   </div>
+
+   <div class="journal-month-view">
+     <div id="journalMonthTitle" class="journal-month-title">Mes</div>
+     <div id="journalMonthGrid" class="journal-month-grid"></div>
+   </div>
  </div>
 </section>
 
@@ -2926,7 +3037,7 @@ function approve(i){
  state.xp+=m.xp;
  if(!state.approvalHistory)state.approvalHistory=[];
  state.approvalHistory.push({
-   date:localDateKey(),
+   date:journalBookDate||localDateKey(),
    title:m.title,
    section:m.section,
    stars:m.stars,
@@ -4864,47 +4975,86 @@ function setJournalKind(kind){
  if($('#journalPrompt'))$('#journalPrompt').textContent=info.prompt;
  $('#journalText')?.focus();
 }
-function renderJournal(){
- ensureJournalState();
- if($('#journalEntriesCount'))$('#journalEntriesCount').textContent=state.journal.length;
- if($('#journalGoalsCount'))$('#journalGoalsCount').textContent=state.journal.filter(x=>x.kind==='proud').length;
- if($('#journalGoalsFootball'))$('#journalGoalsFootball').textContent=state.journal.reduce((s,x)=>s+(Number(x.goals)||0),0);
+let journalBookDate=localDateKey();
 
- const box=$('#journalHistory');if(!box)return;
- box.innerHTML='';
- if(!state.journal.length){
-   box.innerHTML='<div class="card panelcard"><div class="mmeta">Todavía no has escrito nada. Cuando quieras, puedes guardar aquí un recuerdo.</div></div>';
-   return;
+function shiftDateKey(key,days){
+ const d=new Date(key+'T12:00:00');d.setDate(d.getDate()+days);return iso(d);
+}
+function journalEntriesForDate(key){
+ ensureJournalState();
+ return state.journal.map((x,i)=>({...x,_index:i})).filter(x=>(x.date||'')===key)
+   .sort((a,b)=>(a.createdAt||'').localeCompare(b.createdAt||''));
+}
+function monthStartKey(key){
+ const d=new Date(key+'T12:00:00');d.setDate(1);return iso(d);
+}
+function renderJournalBook(){
+ const page=$('#journalBookPage');if(!page)return;
+ const entries=journalEntriesForDate(journalBookDate);
+ const d=new Date(journalBookDate+'T12:00:00');
+ if($('#journalBookDate'))$('#journalBookDate').textContent=d.toLocaleDateString('es-ES',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+ if($('#journalBookCount'))$('#journalBookCount').textContent=`${entries.length} ${entries.length===1?'recuerdo':'recuerdos'} este día`;
+ if($('#journalDatePicker'))$('#journalDatePicker').value=journalBookDate;
+
+ page.innerHTML='';
+ if(!entries.length){
+   page.innerHTML='<div class="journal-page-empty">Esta página está en blanco.<br>Cuando quieras, puedes escribir un recuerdo de este día. ✨</div>';
+ }else{
+   entries.forEach(e=>{
+     const info=journalKindInfo(e.kind);
+     const row=document.createElement('div');
+     row.className='journal-page-entry';
+     row.innerHTML=`<span class="entry-icon">${info.icon}</span>
+       <b>${info.label}</b><span class="entry-time">${e.time||''} ${e.mood||''}</span>
+       <p>${escapeHtml(e.text||'')}</p>
+       <div class="entry-meta">${e.visibility==='shared'?'👨‍👩‍👧 Compartido':'🔒 Solo yo'}${Number(e.goals)>0?` · ⚽ ${e.goals} ${Number(e.goals)===1?'gol':'goles'}`:''}</div>
+       <div class="journal-page-actions">
+         <button class="journal-edit" data-journal-edit="${e._index}" type="button">Editar</button>
+         <button class="journal-delete" data-journal-delete="${e._index}" type="button">Eliminar</button>
+       </div>`;
+     page.appendChild(row);
+   });
  }
- const entries=state.journal.map((x,i)=>({...x,_index:i})).sort((a,b)=>(b.createdAt||'').localeCompare(a.createdAt||''));
- let lastDay='';
- entries.forEach(e=>{
-   const day=(e.date||localDateKey());
-   if(day!==lastDay){
-     lastDay=day;
-     const lab=document.createElement('div');lab.className='journal-day';
-     lab.textContent=new Date(day+'T12:00:00').toLocaleDateString('es-ES',{weekday:'long',day:'numeric',month:'long'});
-     box.appendChild(lab);
+
+ const week=$('#journalWeekStrip');
+ if(week){
+   week.innerHTML='';
+   const base=new Date(journalBookDate+'T12:00:00');
+   const monday=new Date(base);monday.setDate(base.getDate()-((base.getDay()+6)%7));
+   for(let i=0;i<7;i++){
+     const x=new Date(monday);x.setDate(monday.getDate()+i);
+     const key=iso(x),has=journalEntriesForDate(key).length>0;
+     const b=document.createElement('button');
+     b.type='button';b.className='journal-daybtn'+(has?' has-entry':'')+(key===journalBookDate?' active':'');
+     b.innerHTML=`${x.toLocaleDateString('es-ES',{weekday:'short'}).slice(0,2)}<br>${x.getDate()}`;
+     b.onclick=()=>{journalBookDate=key;renderJournalBook()};
+     week.appendChild(b);
    }
-   const info=journalKindInfo(e.kind);
-   const row=document.createElement('div');row.className='journal-entry';
-   row.innerHTML=`<div class="journal-entry-head">
-     <span class="journal-ico">${info.icon}</span>
-     <b>${info.label}</b>
-     <span>${e.time||''} ${e.mood||''}</span>
-   </div>
-   <p>${escapeHtml(e.text||'')}</p>
-   <div class="journal-tags">
-     <span class="journal-tag">${e.visibility==='shared'?'👨‍👩‍👧 Compartido':'🔒 Solo yo'}</span>
-     ${Number(e.goals)>0?`<span class="journal-tag">⚽ ${e.goals} ${Number(e.goals)===1?'gol':'goles'}</span>`:''}
-   </div>
-   <div class="journal-actions">
-     <button class="journal-edit" data-journal-edit="${e._index}" type="button">Editar</button>
-     <button class="journal-delete" data-journal-delete="${e._index}" type="button">Eliminar</button>
-   </div>`;
-   box.appendChild(row);
- });
- box.querySelectorAll('[data-journal-edit]').forEach(btn=>btn.onclick=()=>{
+ }
+
+ const grid=$('#journalMonthGrid');
+ if(grid){
+   grid.innerHTML='';
+   const first=new Date(monthStartKey(journalBookDate)+'T12:00:00');
+   const year=first.getFullYear(),month=first.getMonth();
+   if($('#journalMonthTitle'))$('#journalMonthTitle').textContent=first.toLocaleDateString('es-ES',{month:'long',year:'numeric'});
+   const offset=(first.getDay()+6)%7;
+   for(let i=0;i<offset;i++){
+     const c=document.createElement('div');c.className='journal-month-cell';grid.appendChild(c);
+   }
+   const days=new Date(year,month+1,0).getDate();
+   for(let day=1;day<=days;day++){
+     const x=new Date(year,month,day,12);
+     const key=iso(x),has=journalEntriesForDate(key).length>0;
+     const c=document.createElement('button');
+     c.type='button';c.className='journal-month-cell'+(has?' has-entry':'');
+     c.textContent=day;
+     c.onclick=()=>{journalBookDate=key;renderJournalBook()};
+     grid.appendChild(c);
+   }
+ }
+
+ page.querySelectorAll('[data-journal-edit]').forEach(btn=>btn.onclick=()=>{
    const i=Number(btn.dataset.journalEdit),e=state.journal[i];if(!e)return;
    journalEditIndex=i;journalDraftKind=e.kind||'free';journalDraftMood=e.mood||'🙂';
    $('#journalText').value=e.text||'';
@@ -4916,12 +5066,20 @@ function renderJournal(){
    document.querySelectorAll('.journal-mood').forEach(b=>b.classList.toggle('active',b.dataset.mood===journalDraftMood));
    $('#journalText').focus();
  });
- box.querySelectorAll('[data-journal-delete]').forEach(btn=>btn.onclick=()=>{
+ page.querySelectorAll('[data-journal-delete]').forEach(btn=>btn.onclick=()=>{
    const i=Number(btn.dataset.journalDelete);
    if(confirm('¿Eliminar esta entrada del diario?')){
      state.journal.splice(i,1);save();renderJournal();toast('Entrada eliminada');
    }
  });
+}
+function renderJournal(){
+ ensureJournalState();
+ if(!journalBookDate)journalBookDate=localDateKey();
+ if($('#journalEntriesCount'))$('#journalEntriesCount').textContent=state.journal.length;
+ if($('#journalGoalsCount'))$('#journalGoalsCount').textContent=state.journal.filter(x=>x.kind==='proud').length;
+ if($('#journalGoalsFootball'))$('#journalGoalsFootball').textContent=state.journal.reduce((s,x)=>s+(Number(x.goals)||0),0);
+ renderJournalBook();
 }
 function escapeHtml(s=''){
  return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));
@@ -4957,6 +5115,14 @@ $('#saveJournalBtn').onclick=()=>{
  save();resetJournalForm();renderJournal();
 };
 $('#cancelJournalEditBtn').onclick=resetJournalForm;
+
+$('#journalPrevDay').onclick=()=>{journalBookDate=shiftDateKey(journalBookDate,-1);renderJournalBook()};
+$('#journalNextDay').onclick=()=>{journalBookDate=shiftDateKey(journalBookDate,1);renderJournalBook()};
+$('#journalDatePicker').onchange=()=>{
+ const v=$('#journalDatePicker').value;
+ if(v){journalBookDate=v;renderJournalBook()}
+};
+
 
 const DEFAULT_WORLDS=[
  {id:'start',icon:'🌱',title:'Inicio de aventura',xp:0},
