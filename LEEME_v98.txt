@@ -1,0 +1,8 @@
+MIS TAREAS v98 — EDITAR CON SALTO DIRECTO
+
+Al pulsar Editar:
+- la pantalla hace scroll automáticamente hasta el formulario correspondiente;
+- el primer campo queda centrado y recibe el foco;
+- se aplica un pequeño destello visual para localizarlo rápido.
+
+Aplicado a tareas, retos, grandes objetivos, eventos, días especiales y perfiles de hijos.

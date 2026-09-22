@@ -2260,6 +2260,17 @@ body.preview-first-run .first-run-cancel-preview{display:block}
 .world-logic-note b{display:block;font-size:9px;margin-bottom:2px}
 .world-logic-note span{display:block;font-size:8px;line-height:1.35;font-weight:800}
 
+
+/* ===== v98 Editar: salto directo al formulario ===== */
+.edit-focus-flash{
+ animation:editFocusFlash 1.15s ease
+}
+@keyframes editFocusFlash{
+ 0%{box-shadow:0 0 0 0 rgba(52,128,220,.28)}
+ 40%{box-shadow:0 0 0 7px rgba(52,128,220,.12)}
+ 100%{box-shadow:0 0 0 0 rgba(52,128,220,0)}
+}
+
 </style>
 </head>
 <body>
@@ -3810,6 +3821,16 @@ function save(){
  render();
  scheduleRemotePush();
 }
+
+function focusEditTarget(selector){
+ const el=$(selector);if(!el)return;
+ requestAnimationFrame(()=>{
+   try{el.scrollIntoView({behavior:'smooth',block:'center'});}catch(e){el.scrollIntoView();}
+   el.classList.remove('edit-focus-flash');void el.offsetWidth;el.classList.add('edit-focus-flash');
+   setTimeout(()=>{try{el.focus({preventScroll:true});}catch(e){try{el.focus();}catch(_){}}},320);
+ });
+}
+
 function toast(msg){const t=$('#toast');t.textContent=msg;t.style.display='block';clearTimeout(window.tt);window.tt=setTimeout(()=>t.style.display='none',1600)}
 
 function loadSyncConfig(){
@@ -4325,6 +4346,7 @@ function renderGoalAdmin(){
  if($('#goalShowHomeInput'))$('#goalShowHomeInput').checked=g.id===state.activeGoalId;
  $('#saveGoalBtn').dataset.edit=b.dataset.goaledit;
  $('#saveGoalBtn').textContent='Guardar cambios';
+ focusEditTarget('#goalNameInput');
 });
  list.querySelectorAll('[data-goaldel]').forEach(b=>b.onclick=()=>{const i=Number(b.dataset.goaldel),g=state.bigGoals[i];if(confirm(`¿Eliminar "${g.name}"?`)){state.bigGoals.splice(i,1);if(state.activeGoalId===g.id)state.activeGoalId=state.bigGoals[0]?.id||'';save()}});
 }
@@ -4365,7 +4387,7 @@ function renderSpecialAdmin(){
    row.innerHTML=`<div><b>${specialIcon(s.type)} ${s.title}</b><div class="mmeta">${new Date(s.date+'T12:00:00').toLocaleDateString('es-ES')} · Pausa: ${(s.skipSections||[]).join(', ')||'ninguna'}</div></div><div class="task-admin-actions"><button class="smallbtn uploadbtn" data-specialedit="${i}">Editar</button><button class="smallbtn" style="background:#ffe9ec;color:#a74354" data-specialdel="${i}">Eliminar</button></div>`;
    list.appendChild(row);
  });
- list.querySelectorAll('[data-specialedit]').forEach(b=>b.onclick=()=>{const s=state.specialDays[Number(b.dataset.specialedit)];$('#specialTitleInput').value=s.title;$('#specialDateInput').value=s.date;$('#specialTypeInput').value=s.type;$('#skipMorningInput').checked=(s.skipSections||[]).includes('Mañana');$('#skipSchoolInput').checked=(s.skipSections||[]).includes('Colegio');$('#skipAfternoonInput').checked=(s.skipSections||[]).includes('Tarde');$('#saveSpecialBtn').dataset.edit=b.dataset.specialedit;$('#saveSpecialBtn').textContent='Guardar cambios'});
+ list.querySelectorAll('[data-specialedit]').forEach(b=>b.onclick=()=>{const s=state.specialDays[Number(b.dataset.specialedit)];$('#specialTitleInput').value=s.title;$('#specialDateInput').value=s.date;$('#specialTypeInput').value=s.type;$('#skipMorningInput').checked=(s.skipSections||[]).includes('Mañana');$('#skipSchoolInput').checked=(s.skipSections||[]).includes('Colegio');$('#skipAfternoonInput').checked=(s.skipSections||[]).includes('Tarde');$('#saveSpecialBtn').dataset.edit=b.dataset.specialedit;$('#saveSpecialBtn').textContent='Guardar cambios';focusEditTarget('#specialTitleInput')});
  list.querySelectorAll('[data-specialdel]').forEach(b=>b.onclick=()=>{const i=Number(b.dataset.specialdel);if(confirm('¿Eliminar este día especial?')){state.specialDays.splice(i,1);save()}});
 }
 $('#saveSpecialBtn').onclick=()=>{
@@ -4898,6 +4920,7 @@ function renderChildManager(){
    const cityValue=c.city||c.state?.profile?.city||'';$('#childCityInput').value=cityValue;setCityPickerValue('#childCitySelect','#childCityCustom',cityValue);
    $('#childColorInput').value=c.state?.profile?.color||'';
    $('#saveChildBtn').dataset.edit=b.dataset.childedit;$('#saveChildBtn').textContent='Guardar cambios';
+   focusEditTarget('#childNameInput');
  });
  list.querySelectorAll('[data-childcopy]').forEach(b=>b.onclick=()=>copyChildConfig(familyStore.children[Number(b.dataset.childcopy)].id));
  list.querySelectorAll('[data-childdel]').forEach(b=>b.onclick=()=>{
@@ -4998,6 +5021,7 @@ function renderChallengeAdmin(){
  populateWorldLinkSelect('#challengeWorldInput',c.worldId||'');
  $('#saveChallengeBtn').dataset.edit=b.dataset.cedit;
  $('#saveChallengeBtn').textContent='Guardar cambios';
+ focusEditTarget('#challengeTitleInput');
 });
  list.querySelectorAll('[data-cdel]').forEach(b=>b.onclick=()=>{const i=Number(b.dataset.cdel);if(confirm('¿Eliminar este reto?')){state.customChallenges.splice(i,1);save()}});
 }
@@ -7238,6 +7262,7 @@ function renderTaskAdmin(){
    populateTaskWorldSelect(taskWorldId(m));
    $('#saveTaskBtn').dataset.edit=String(i);
    $('#saveTaskBtn').textContent='Guardar cambios';
+   focusEditTarget('#taskNameInput');
  });
 
  list.querySelectorAll('[data-toggletask]').forEach(b=>b.onclick=()=>{
@@ -7344,6 +7369,7 @@ function renderEventAdmin(){
    $('#eventRepeatUntilInput').value=e.repeatUntil||'';
    $('#saveEventBtn').dataset.edit=String(i);
    $('#saveEventBtn').textContent='Guardar cambios';
+   focusEditTarget('#eventTitleInput');
  });
  list.querySelectorAll('[data-delevent]').forEach(b=>b.onclick=()=>{
    const i=Number(b.dataset.delevent);
