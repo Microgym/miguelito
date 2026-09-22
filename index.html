@@ -2304,6 +2304,11 @@ body.preview-first-run .first-run-cancel-preview{display:block}
 }
 .goal-category-pill.home{font-size:8px;margin-left:5px;vertical-align:3px;white-space:nowrap}
 
+
+/* ===== v101 Iconos Escolar / Personal en Grandes Objetivos ===== */
+.goal-icon-field{display:flex;flex-direction:column;gap:4px;font-size:8px;font-weight:1000;color:#52708c}
+.goal-icon-field select{width:100%;box-sizing:border-box;border:1px solid #dfe8f5;border-radius:12px;padding:10px;font:inherit;color:var(--ink);background:#fff}
+
 </style>
 </head>
 <body>
@@ -3257,10 +3262,20 @@ body.preview-first-run .first-run-cancel-preview{display:block}
 </div>
 <div class="goal-admin-form">
 <label class="goal-date-field"><span>Fecha objetivo (opcional)</span><input id="goalDateInput" type="date"/></label>
-<select id="goalIconInput">
-<option value="🎿">🎿 Esquí</option><option value="⚽">⚽ Fútbol</option><option value="🎮">🎮 Videojuegos</option>
-<option value="🎢">🎢 Aventura</option><option value="🎁">🎁 Regalo</option><option value="✈️">✈️ Viaje</option>
-</select>
+<label class="goal-icon-field">
+ <span>Icono / tema visual</span>
+ <select id="goalIconInput">
+  <option value="🎓">🎓 Escolar</option>
+  <option value="🌱">🌱 Personal</option>
+  <option value="🎯">🎯 General</option>
+  <option value="🎿">🎿 Esquí</option>
+  <option value="⚽">⚽ Fútbol</option>
+  <option value="🎮">🎮 Videojuegos</option>
+  <option value="🎢">🎢 Aventura</option>
+  <option value="🎁">🎁 Regalo</option>
+  <option value="✈️">✈️ Viaje</option>
+ </select>
+</label>
 </div>
 <input id="goalMessageInput" placeholder="Mensaje motivador" style="width:100%;margin-top:8px;border:1px solid #dfe8f5;border-radius:12px;padding:10px;font:inherit"/>
 <div class="world-link-field">
@@ -4430,7 +4445,13 @@ function updateGoalMeasureUI(){
 const goalMeasureTypeInput=$('#goalMeasureTypeInput');
 if(goalMeasureTypeInput)goalMeasureTypeInput.onchange=updateGoalMeasureUI;
 const goalCategoryInput=$('#goalCategoryInput');
-if(goalCategoryInput)goalCategoryInput.onchange=updateGoalCategoryHelp;
+if(goalCategoryInput)goalCategoryInput.onchange=()=>{
+ updateGoalCategoryHelp();
+ const icon=$('#goalIconInput');
+ if(icon && $('#saveGoalBtn')?.dataset.edit===''){
+   icon.value=goalCategoryInput.value==='school'?'🎓':goalCategoryInput.value==='personal'?'🌱':'🎯';
+ }
+};
 
 function renderBigGoal(){
  const g=activeGoal(),card=$('#bigGoalCard');if(!card)return;
@@ -4460,7 +4481,7 @@ function resetGoalForm(){
  $('#goalTargetGradeInput').value='B';
  $('#goalAchievedInput').checked=false;
  $('#goalDateInput').value='';
- $('#goalIconInput').value='🎿';
+ $('#goalIconInput').value='🎯';
  $('#goalMessageInput').value='';
  populateWorldLinkSelect('#goalWorldInput','');
  if($('#goalShowHomeInput'))$('#goalShowHomeInput').checked=!(state.bigGoals||[]).length;

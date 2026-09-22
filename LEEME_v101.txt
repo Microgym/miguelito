@@ -1,0 +1,19 @@
+MIS TAREAS v101 — ICONOS ESCOLAR / PERSONAL EN GRANDES OBJETIVOS
+
+En el selector visual donde antes aparecía “Esquí” ahora también puedes elegir:
+- 🎓 Escolar
+- 🌱 Personal
+- 🎯 General
+- 🎿 Esquí
+- ⚽ Fútbol
+- 🎮 Videojuegos
+- 🎢 Aventura
+- 🎁 Regalo
+- ✈️ Viaje
+
+Además, al elegir el tipo de objetivo en uno nuevo:
+- Escolar → propone 🎓
+- Personal → propone 🌱
+- General → propone 🎯
+
+Puedes cambiar el icono manualmente después.
