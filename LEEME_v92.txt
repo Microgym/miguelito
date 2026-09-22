@@ -1,0 +1,11 @@
+MIS TAREAS v92 — MUNDOS MÁS CLAROS
+
+- Cada mundo explica claramente qué trabaja.
+- Desde Zona Padres > Mundos, cada mundo incluye:
+  + Añadir tarea
+  + Añadir reto
+  + Añadir gran objetivo
+- Al pulsar uno de esos botones se abre el formulario correspondiente con ese mundo ya seleccionado.
+- Dentro del mundo del niño también aparece la explicación “Este mundo trabaja…”.
+- Las tareas siguen haciendo avanzar las fases al ser aprobadas.
+- Los retos y grandes objetivos aparecen vinculados dentro del mundo, como en v91.

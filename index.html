@@ -2097,6 +2097,60 @@ body.preview-first-run .first-run-cancel-preview{display:block}
  .home-quick-links .home-tile{min-height:86px;font-size:11px}
 }
 
+
+/* ===== v91 Retos y grandes objetivos vinculados a Mundos ===== */
+.world-link-field{
+ margin-top:8px;padding:9px 10px;border-radius:13px;background:#f2f7fc;border:1px solid #dce8f3
+}
+.world-link-field label{display:block;font-size:9px;font-weight:1000;color:#335e85;margin-bottom:5px}
+.world-link-field select{
+ width:100%;border:1px solid #d9e4ee;border-radius:10px;padding:9px;background:#fff;color:#294e72;font:inherit
+}
+.world-link-field small{display:block;font-size:8px;color:#72879a;margin-top:4px;font-weight:800}
+.world-link-pill{
+ display:inline-block;padding:3px 6px;border-radius:8px;background:#eaf4ff;color:#315f8a;font-size:8px;font-weight:1000
+}
+.world-linked-group{margin-top:12px;padding-top:10px;border-top:1px solid #edf1f5}
+.world-linked-group:first-of-type{margin-top:8px;padding-top:0;border-top:0}
+.world-linked-group h3{margin:0 0 5px;font-size:11px;color:#315a80}
+.world-linked-group h3 small{display:block;font-size:7px;color:#7a8da0;font-weight:800;margin-top:2px}
+.world-linked-row{
+ display:grid;grid-template-columns:32px 1fr auto;gap:8px;align-items:center;padding:9px 0;border-bottom:1px solid #edf1f5
+}
+.world-linked-row:last-child{border-bottom:0}
+.world-linked-icon{font-size:20px}
+.world-linked-row b{display:block;font-size:10px;color:#294f74}
+.world-linked-row small{display:block;font-size:8px;color:#788da2;margin-top:2px}
+.world-linked-bar{height:5px;background:#e8edf3;border-radius:5px;overflow:hidden;margin-top:5px}
+.world-linked-bar i{display:block;height:100%;border-radius:5px;background:linear-gradient(90deg,#49b86a,#7ad887)}
+.goal-link .world-linked-bar i{background:linear-gradient(90deg,#ffbd3f,#ffd968)}
+.world-empty.compact{padding:9px 10px}
+
+
+/* ===== v92 Mundos como centro de creación ===== */
+.world-purpose-admin{
+ margin:8px 0;padding:9px 10px;border-radius:12px;background:#eef7ff;color:#4b6e8d;
+ font-size:9px;line-height:1.35
+}
+.world-purpose-admin b{color:#244f78}
+.world-create-actions{
+ display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:8px 0 10px
+}
+.world-create-actions button{
+ border:1px solid #d8e5f1;background:#fff;color:#315d85;border-radius:11px;padding:8px 5px;
+ font-size:8px;font-weight:1000;cursor:pointer
+}
+.world-create-actions button:active{transform:translateY(1px)}
+.world-purpose-note{
+ margin:-1px 0 10px;padding:9px 11px;border-radius:13px;background:#edf7ff;border:1px solid #dcecf7;
+ color:#56738e;font-size:9px;line-height:1.35
+}
+.world-purpose-note b{color:#294f74}
+@media(max-width:390px){
+ .world-create-actions{grid-template-columns:1fr}
+ .world-create-actions button{text-align:left;padding:9px 10px}
+}
+
 </style>
 </head>
 <body>
@@ -2319,6 +2373,8 @@ body.preview-first-run .first-run-cancel-preview{display:block}
   <button class="btn ghost world-detail-back" type="button" onclick="openScreen('worlds')">← Volver a Mundos</button>
   <div id="worldDetailHero" class="world-detail-hero"></div>
 
+  <div id="worldPurposeNote" class="world-purpose-note"></div>
+
   <div class="world-detail-summary">
     <div><b id="worldDetailStage">Explorador</b><span>fase actual</span></div>
     <div><b id="worldDetailCount">0</b><span>misiones aprobadas</span></div>
@@ -2337,10 +2393,21 @@ body.preview-first-run .first-run-cancel-preview{display:block}
 
   <div class="card world-missions-card">
     <div class="world-section-head">
-      <div><div class="eyebrow">🎯 MISIONES DEL MUNDO</div><h2>Lo que suma aquí</h2></div>
-      <span id="worldMissionCountPill" class="world-count-pill">0 tareas</span>
+      <div><div class="eyebrow">🎯 CONTENIDO DEL MUNDO</div><h2>Tareas, retos y objetivos</h2></div>
+      <span id="worldMissionCountPill" class="world-count-pill">0 elementos</span>
     </div>
-    <div id="worldMissionList"></div>
+    <div class="world-linked-group">
+      <h3>✅ Tareas <small>Las aprobadas hacen avanzar las fases</small></h3>
+      <div id="worldMissionList"></div>
+    </div>
+    <div class="world-linked-group">
+      <h3>🎯 Retos vinculados</h3>
+      <div id="worldChallengeList"></div>
+    </div>
+    <div class="world-linked-group">
+      <h3>⭐ Grandes objetivos vinculados</h3>
+      <div id="worldGoalList"></div>
+    </div>
   </div>
 
   <div id="worldMasterCard" class="card world-master-card"></div>
@@ -2826,7 +2893,7 @@ body.preview-first-run .first-run-cancel-preview{display:block}
 
 <div class="card panelcard task-manager-card">
 <h3 style="margin:0 0 5px">✅ Gestionar tareas</h3>
-<div class="mmeta">Crear, editar, activar/desactivar o eliminar tareas diarias.</div>
+<div class="mmeta">Crear, editar, activar/desactivar o eliminar tareas diarias. Cada tarea puede pertenecer a un mundo y sus aprobaciones hacen avanzar las fases de ese mundo.</div>
 <div class="task-manager-form">
 <input id="taskNameInput" placeholder="Nombre de la tarea"/>
 <select id="taskSectionInput">
@@ -2853,7 +2920,7 @@ body.preview-first-run .first-run-cancel-preview{display:block}
 <option value="weekend">🎈 Fin de semana</option>
 <option value="vacation">🏖️ Vacaciones</option>
 </select>
-<select id="taskWorldInput" title="Mundo al que suma esta tarea">
+<select id="taskWorldInput" title="Mundo al que pertenece esta tarea">
 <option value="mountain">🏔️ Montaña de los Logros</option>
 <option value="maze">🧩 Laberinto del Ingenio</option>
 <option value="jungle">🌿 Selva de Aventuras</option>
@@ -2907,10 +2974,15 @@ body.preview-first-run .first-run-cancel-preview{display:block}
  <button class="btn ghost parent-back-btn" type="button" onclick="backToParents()">← Volver a Zona Padres</button>
  <div class="card panelcard">
 <h3 style="margin:0 0 5px">🎯 Retos por hijo</h3>
-<div class="mmeta">Crea retos para el hijo seleccionado o para todos.</div>
+<div class="mmeta">Crea retos para el hijo seleccionado o para todos. Puedes vincularlos a un mundo para que aparezcan dentro de esa aventura.</div>
 <div class="challenge-admin-form"><input id="challengeTitleInput" placeholder="Nombre del reto"/><input id="challengeMatchInput" placeholder="Tarea relacionada, ej. Leer"/></div>
 <div class="challenge-admin-form"><input id="challengeGoalInput" min="1" placeholder="Meta" type="number" value="5"/><input id="challengeStarsInput" min="0" placeholder="⭐ Bonus" type="number" value="20"/></div>
 <div class="challenge-admin-form"><input id="challengeXpInput" min="0" placeholder="XP bonus" type="number" value="30"/><select id="challengeAssignInput"><option value="current">👤 Solo hijo seleccionado</option><option value="all">👨‍👩‍👧‍👦 Todos los hijos</option></select></div>
+<div class="world-link-field">
+ <label for="challengeWorldInput">🌍 Mundo vinculado</label>
+ <select id="challengeWorldInput"><option value="">Sin mundo</option></select>
+ <small>El reto aparecerá dentro de ese mundo.</small>
+</div>
 <button class="btn primary" id="saveChallengeBtn" style="width:100%;margin-top:9px">Añadir reto</button>
 <div id="challengeAdminList" style="margin-top:10px"></div>
 </div>
@@ -2920,7 +2992,7 @@ body.preview-first-run .first-run-cancel-preview{display:block}
  <button class="btn ghost parent-back-btn" type="button" onclick="backToParents()">← Volver a Zona Padres</button>
  <div class="card panelcard">
 <h3 style="margin:0 0 5px">🎯 Grandes objetivos</h3>
-<div class="mmeta">Crea objetivos grandes y elige cuál aparece en Inicio.</div>
+<div class="mmeta">Crea objetivos grandes, elige cuál aparece en Inicio y, si quieres, vincúlalo a un mundo.</div>
 <div class="goal-admin-form">
 <input id="goalNameInput" placeholder="Nombre del objetivo"/>
 <input id="goalCostInput" min="1" placeholder="⭐ Meta" type="number"/>
@@ -2933,6 +3005,11 @@ body.preview-first-run .first-run-cancel-preview{display:block}
 </select>
 </div>
 <input id="goalMessageInput" placeholder="Mensaje motivador" style="width:100%;margin-top:8px;border:1px solid #dfe8f5;border-radius:12px;padding:10px;font:inherit"/>
+<div class="world-link-field">
+ <label for="goalWorldInput">🌍 Mundo vinculado</label>
+ <select id="goalWorldInput"><option value="">Sin mundo</option></select>
+ <small>El gran objetivo aparecerá también dentro del mundo elegido.</small>
+</div>
 <label class="goal-home-choice"><input id="goalShowHomeInput" type="checkbox" checked> <span><b>Mostrar en Inicio</b><small>Este será el gran objetivo que verá el niño en la pantalla principal.</small></span></label>
 <button class="btn primary" id="saveGoalBtn" style="width:100%;margin-top:9px">Añadir objetivo</button>
 <div id="goalAdminList" style="margin-top:9px"></div>
@@ -3868,16 +3945,18 @@ function resetGoalForm(){
  $('#goalDateInput').value='';
  $('#goalIconInput').value='🎿';
  $('#goalMessageInput').value='';
+ populateWorldLinkSelect('#goalWorldInput','');
  if($('#goalShowHomeInput'))$('#goalShowHomeInput').checked=!(state.bigGoals||[]).length;
  $('#saveGoalBtn').dataset.edit='';
  $('#saveGoalBtn').textContent='Añadir objetivo';
 }
 function renderGoalAdmin(){
+ populateWorldLinkSelect('#goalWorldInput',$('#goalWorldInput')?.value||'');
  const list=$('#goalAdminList');if(!list)return;list.innerHTML='';
  if(!state.bigGoals.length){list.innerHTML='<div class="mmeta">No hay objetivos creados.</div>';return}
  state.bigGoals.forEach((g,i)=>{
    const row=document.createElement('div');row.className='goal-admin-row';
-   row.innerHTML=`<div><b>${g.icon||'🎯'} ${g.name}${g.id===state.activeGoalId?'<span class="goal-active-tag">EN INICIO</span>':''}</b><div class="mmeta">${g.cost} ⭐${g.date?' · '+new Date(g.date+'T12:00:00').toLocaleDateString('es-ES'):''}</div></div><div class="task-admin-actions"><button class="smallbtn uploadbtn" data-goalactive="${i}" ${g.id===state.activeGoalId?'disabled':''}>${g.id===state.activeGoalId?'✓ En Inicio':'Mostrar en Inicio'}</button><button class="smallbtn uploadbtn" data-goaledit="${i}">Editar</button><button class="smallbtn" style="background:#ffe9ec;color:#a74354" data-goaldel="${i}">Eliminar</button></div>`;
+   row.innerHTML=`<div><b>${g.icon||'🎯'} ${g.name}${g.id===state.activeGoalId?'<span class="goal-active-tag">EN INICIO</span>':''}</b><div class="mmeta">${g.cost} ⭐${g.date?' · '+new Date(g.date+'T12:00:00').toLocaleDateString('es-ES'):''}${g.worldId?` · <span class="world-link-pill">${worldLinkLabel(g.worldId)}</span>`:''}</div></div><div class="task-admin-actions"><button class="smallbtn uploadbtn" data-goalactive="${i}" ${g.id===state.activeGoalId?'disabled':''}>${g.id===state.activeGoalId?'✓ En Inicio':'Mostrar en Inicio'}</button><button class="smallbtn uploadbtn" data-goaledit="${i}">Editar</button><button class="smallbtn" style="background:#ffe9ec;color:#a74354" data-goaldel="${i}">Eliminar</button></div>`;
    list.appendChild(row);
  });
  list.querySelectorAll('[data-goalactive]').forEach(b=>b.onclick=()=>{state.activeGoalId=state.bigGoals[Number(b.dataset.goalactive)].id;toast('Objetivo mostrado en Inicio 🎯');save()});
@@ -3888,6 +3967,7 @@ function renderGoalAdmin(){
  $('#goalDateInput').value=g.date||'';
  $('#goalIconInput').value=g.icon||'🎿';
  $('#goalMessageInput').value=g.message||'';
+ populateWorldLinkSelect('#goalWorldInput',g.worldId||'');
  if($('#goalShowHomeInput'))$('#goalShowHomeInput').checked=g.id===state.activeGoalId;
  $('#saveGoalBtn').dataset.edit=b.dataset.goaledit;
  $('#saveGoalBtn').textContent='Guardar cambios';
@@ -3898,7 +3978,7 @@ $('#saveGoalBtn').onclick=()=>{
  const name=$('#goalNameInput').value.trim(),cost=Number($('#goalCostInput').value);
  if(!name||!cost||cost<1){toast('Escribe nombre y meta de estrellas');return}
  if(!Array.isArray(state.bigGoals))state.bigGoals=[];
- const data={name,cost,date:$('#goalDateInput').value||'',icon:$('#goalIconInput').value,message:$('#goalMessageInput').value.trim()};
+ const data={name,cost,date:$('#goalDateInput').value||'',icon:$('#goalIconInput').value,message:$('#goalMessageInput').value.trim(),worldId:$('#goalWorldInput')?.value||''};
  const edit=$('#saveGoalBtn').dataset.edit;
  const showHome=$('#goalShowHomeInput')?.checked===true;
  let savedGoal=null;
@@ -4491,24 +4571,59 @@ $('#saveChildBtn').onclick=()=>{
 };
 
 
+
+function worldLinkLabel(worldId){
+ if(!worldId)return '';
+ ensureWorldState();
+ const w=(state.worlds||[]).find(x=>x.id===worldId);
+ return w?`${w.icon||'🌍'} ${w.title||'Mundo'}`:'';
+}
+function populateWorldLinkSelect(selector,selected=''){
+ const sel=$(selector);if(!sel)return;
+ ensureWorldState();
+ const current=selected||'';
+ sel.innerHTML='<option value="">Sin mundo</option>'+(state.worlds||[]).map(w=>`<option value="${w.id}">${w.icon||'🌍'} ${w.title||'Mundo'}</option>`).join('');
+ sel.value=[...sel.options].some(o=>o.value===current)?current:'';
+}
+
 function resetChallengeForm(){
- $('#challengeTitleInput').value='';$('#challengeMatchInput').value='';$('#challengeGoalInput').value=5;$('#challengeStarsInput').value=20;$('#challengeXpInput').value=30;$('#challengeAssignInput').value='current';$('#saveChallengeBtn').dataset.edit='';$('#saveChallengeBtn').textContent='Añadir reto';
+ $('#challengeTitleInput').value='';
+ $('#challengeMatchInput').value='';
+ $('#challengeGoalInput').value=5;
+ $('#challengeStarsInput').value=20;
+ $('#challengeXpInput').value=30;
+ $('#challengeAssignInput').value='current';
+ populateWorldLinkSelect('#challengeWorldInput','');
+ $('#saveChallengeBtn').dataset.edit='';
+ $('#saveChallengeBtn').textContent='Añadir reto';
 }
 function renderChallengeAdmin(){
+ populateWorldLinkSelect('#challengeWorldInput',$('#challengeWorldInput')?.value||'');
  const list=$('#challengeAdminList');if(!list)return;list.innerHTML='';
  const arr=state.customChallenges||[];
  if(!arr.length){list.innerHTML='<div class="mmeta">No hay retos personalizados para este hijo.</div>';return}
  arr.forEach((c,i)=>{
    const row=document.createElement('div');row.className='challenge-admin-row';
-   row.innerHTML=`<div><b>🎯 ${c.title}</b><div class="mmeta">Meta ${c.goal} · +${c.stars} ⭐ · +${c.xp} XP <span class="scope-pill">${c.scope==='all'?'Todos':'Solo '+(activeChildRecord()?.name||'hijo')}</span></div></div><div class="challenge-admin-actions"><button data-cedit="${i}" style="background:#e8f2ff;color:#35618e">Editar</button><button data-cdel="${i}" style="background:#ffe9ec;color:#a74354">Eliminar</button></div>`;
+   row.innerHTML=`<div><b>🎯 ${c.title}</b><div class="mmeta">Meta ${c.goal} · +${c.stars} ⭐ · +${c.xp} XP <span class="scope-pill">${c.scope==='all'?'Todos':'Solo '+(activeChildRecord()?.name||'hijo')}</span>${c.worldId?` <span class="world-link-pill">${worldLinkLabel(c.worldId)}</span>`:''}</div></div><div class="challenge-admin-actions"><button data-cedit="${i}" style="background:#e8f2ff;color:#35618e">Editar</button><button data-cdel="${i}" style="background:#ffe9ec;color:#a74354">Eliminar</button></div>`;
    list.appendChild(row);
  });
- list.querySelectorAll('[data-cedit]').forEach(b=>b.onclick=()=>{const c=state.customChallenges[Number(b.dataset.cedit)];$('#challengeTitleInput').value=c.title;$('#challengeMatchInput').value=c.match||'';$('#challengeGoalInput').value=c.goal;$('#challengeStarsInput').value=c.stars;$('#challengeXpInput').value=c.xp;$('#challengeAssignInput').value=c.scope||'current';$('#saveChallengeBtn').dataset.edit=b.dataset.cedit;$('#saveChallengeBtn').textContent='Guardar cambios'});
+ list.querySelectorAll('[data-cedit]').forEach(b=>b.onclick=()=>{
+ const c=state.customChallenges[Number(b.dataset.cedit)];
+ $('#challengeTitleInput').value=c.title;
+ $('#challengeMatchInput').value=c.match||'';
+ $('#challengeGoalInput').value=c.goal;
+ $('#challengeStarsInput').value=c.stars;
+ $('#challengeXpInput').value=c.xp;
+ $('#challengeAssignInput').value=c.scope||'current';
+ populateWorldLinkSelect('#challengeWorldInput',c.worldId||'');
+ $('#saveChallengeBtn').dataset.edit=b.dataset.cedit;
+ $('#saveChallengeBtn').textContent='Guardar cambios';
+});
  list.querySelectorAll('[data-cdel]').forEach(b=>b.onclick=()=>{const i=Number(b.dataset.cdel);if(confirm('¿Eliminar este reto?')){state.customChallenges.splice(i,1);save()}});
 }
 $('#saveChallengeBtn').onclick=()=>{
  const title=$('#challengeTitleInput').value.trim();if(!title){toast('Escribe un nombre para el reto');return}
- const data={id:'challenge-'+Date.now(),title,match:$('#challengeMatchInput').value.trim().toLowerCase(),goal:Math.max(1,Number($('#challengeGoalInput').value)||1),stars:Math.max(0,Number($('#challengeStarsInput').value)||0),xp:Math.max(0,Number($('#challengeXpInput').value)||0),scope:$('#challengeAssignInput').value||'current',ownerChildId:familyStore.activeChildId};
+ const data={id:'challenge-'+Date.now(),title,match:$('#challengeMatchInput').value.trim().toLowerCase(),goal:Math.max(1,Number($('#challengeGoalInput').value)||1),stars:Math.max(0,Number($('#challengeStarsInput').value)||0),xp:Math.max(0,Number($('#challengeXpInput').value)||0),scope:$('#challengeAssignInput').value||'current',ownerChildId:familyStore.activeChildId,worldId:$('#challengeWorldInput')?.value||''};
  const edit=$('#saveChallengeBtn').dataset.edit;if(edit!==''){data.id=state.customChallenges[Number(edit)].id;state.customChallenges[Number(edit)]=data;toast('Reto actualizado')}else{state.customChallenges.push(data);toast('Reto añadido 🎯')}
  resetChallengeForm();save();
 };
@@ -5386,7 +5501,7 @@ function challengeDefs(){
   {id:'bed5',icon:'🛏️',title:'Hacer la cama 5 días',goal:5,stars:20,xp:30,match:'hacer la cama'},
   {id:'help3',icon:'🤝',title:'Ayudar 3 días',goal:3,stars:20,xp:30,match:'ayudar'}
  ];
- const custom=(state.customChallenges||[]).filter(c=>c.scope==='all'||c.ownerChildId===familyStore.activeChildId).map(c=>({id:c.id,icon:'🎯',title:c.title,goal:c.goal,stars:c.stars,xp:c.xp,match:(c.match||'').toLowerCase()}));
+ const custom=(state.customChallenges||[]).filter(c=>c.scope==='all'||c.ownerChildId===familyStore.activeChildId).map(c=>({id:c.id,icon:'🎯',title:c.title,goal:c.goal,stars:c.stars,xp:c.xp,match:(c.match||'').toLowerCase(),worldId:c.worldId||''}));
  return [...base,...custom].map(c=>{
    const dates=new Set((state.approvalHistory||[]).filter(x=>!c.match||x.title.toLowerCase().includes(c.match)).map(x=>x.date));
    c.value=dates.size;return c;
@@ -5423,7 +5538,7 @@ function renderStreaks(){
    row.innerHTML=`
      <div class="challenge-top">
        <div class="challenge-icon">${c.icon}</div>
-       <div class="challenge-main"><b>${c.title}</b><span>${c.desc}</span></div>
+       <div class="challenge-main"><b>${c.title}</b><span>${c.desc||''}${c.worldId?` · ${worldLinkLabel(c.worldId)}`:''}</span></div>
        <b>${done}/${c.goal}</b>
      </div>
      <div class="challenge-progress"><i style="width:${Math.round(done/c.goal*100)}%"></i></div>
@@ -6117,6 +6232,8 @@ function renderWorldDetail(worldId=activeWorldDetailId){
  ensureWorldState();ensureWorldClaims();
  const world=currentWorldById(worldId);if(!world)return;
  const idx=(state.worlds||[]).indexOf(world),v=worldVisual(world,idx),ss=worldStageState(world);
+ const purpose=$('#worldPurposeNote');
+ if(purpose)purpose.innerHTML=`<b>Este mundo trabaja:</b> ${worldPurpose(world)}.`;
  const hero=$('#worldDetailHero');
  if(hero){
    hero.style.backgroundImage=v.image?`url('${v.image}')`:'';
@@ -6166,14 +6283,52 @@ function renderWorldDetail(worldId=activeWorldDetailId){
  const tasks=(state.missions||[]).filter(m=>taskWorldId(m)===world.id);
  const list=$('#worldMissionList');
  if(list){
-   if(!tasks.length)list.innerHTML='<div class="world-empty">Todavía no hay tareas asignadas a este mundo. Los padres pueden asignarlas desde <b>Gestionar tareas</b>.</div>';
+   if(!tasks.length)list.innerHTML='<div class="world-empty compact">Todavía no hay tareas asignadas a este mundo.</div>';
    else list.innerHTML=tasks.map(m=>`<div class="world-mission-row">
      <span class="world-mission-check">${m.status===1?'✅':m.status===2?'⏳':'○'}</span>
      <div><b>${m.title}</b><small>${m.section} · ${m.stars} ⭐ · ${m.xp} XP</small></div>
      <span class="world-mission-state">${m.status===1?'Aprobada':m.status===2?'Pendiente':'Por hacer'}</span>
    </div>`).join('');
  }
- if($('#worldMissionCountPill'))$('#worldMissionCountPill').textContent=`${tasks.length} tarea${tasks.length===1?'':'s'}`;
+ const linkedChallenges=(state.customChallenges||[]).filter(c=>c.worldId===world.id&&(c.scope==='all'||c.ownerChildId===familyStore.activeChildId));
+ const challengeList=$('#worldChallengeList');
+ if(challengeList){
+   if(!linkedChallenges.length){
+     challengeList.innerHTML='<div class="world-empty compact">No hay retos vinculados a este mundo.</div>';
+   }else{
+     const defs=challengeDefs();
+     const wk=weekKey(),claimed=(state.weeklyClaims?.[wk])||[];
+     challengeList.innerHTML=linkedChallenges.map(c=>{
+       const d=defs.find(x=>x.id===c.id)||{value:0,goal:c.goal};
+       const value=Math.min(Number(d.value)||0,Number(c.goal)||1);
+       const pct=Math.min(100,Math.round(value/Math.max(1,Number(c.goal)||1)*100));
+       const done=claimed.includes(c.id);
+       return `<div class="world-linked-row challenge-link">
+         <span class="world-linked-icon">🎯</span>
+         <div><b>${c.title}</b><small>${value}/${c.goal} · +${c.stars} ⭐ · +${c.xp} XP</small><div class="world-linked-bar"><i style="width:${pct}%"></i></div></div>
+         <span class="world-mission-state">${done?'Conseguido ✓':pct>=100?'Listo para cobrar':'En progreso'}</span>
+       </div>`;
+     }).join('');
+   }
+ }
+ const linkedGoals=(state.bigGoals||[]).filter(g=>g.worldId===world.id);
+ const goalList=$('#worldGoalList');
+ if(goalList){
+   if(!linkedGoals.length){
+     goalList.innerHTML='<div class="world-empty compact">No hay grandes objetivos vinculados a este mundo.</div>';
+   }else{
+     goalList.innerHTML=linkedGoals.map(g=>{
+       const pct=Math.min(100,Math.round((Number(state.stars)||0)/Math.max(1,Number(g.cost)||1)*100));
+       return `<div class="world-linked-row goal-link">
+         <span class="world-linked-icon">${g.icon||'⭐'}</span>
+         <div><b>${g.name}</b><small>${Math.min(Number(state.stars)||0,Number(g.cost)||0)}/${g.cost} ⭐${g.date?' · '+new Date(g.date+'T12:00:00').toLocaleDateString('es-ES'):''}</small><div class="world-linked-bar"><i style="width:${pct}%"></i></div></div>
+         <span class="world-mission-state">${pct>=100?'Objetivo alcanzado':' '+pct+'%'}</span>
+       </div>`;
+     }).join('');
+   }
+ }
+ const linkedTotal=tasks.length+linkedChallenges.length+linkedGoals.length;
+ if($('#worldMissionCountPill'))$('#worldMissionCountPill').textContent=`${linkedTotal} elemento${linkedTotal===1?'':'s'}`;
 
  const master=$('#worldMasterCard');if(master){
    if(ss.conquered){
@@ -6240,6 +6395,42 @@ function renderWorlds(){
    grid.appendChild(card);
  });
 }
+
+const WORLD_PURPOSES={
+ mountain:'hábitos personales, constancia y esfuerzo diario',
+ maze:'colegio, deberes, lectura, estudio y aprendizaje',
+ jungle:'deporte, movimiento y actividad física',
+ castle:'casa, orden, autonomía y responsabilidades',
+ ocean:'emociones, calma, convivencia y comunicación',
+ space:'grandes metas, sueños y proyectos de largo plazo'
+};
+function worldPurpose(world){
+ const key=world?.theme||world?.id||'';
+ return WORLD_PURPOSES[key]||'una aventura personalizada con las acciones que decidáis vincular aquí';
+}
+function openCreateFromWorld(kind,worldId){
+ ensureWorldState();
+ const w=(state.worlds||[]).find(x=>x.id===worldId);if(!w)return;
+ if(kind==='task'){
+   openParentManager('parentTasks');
+   resetTaskForm();
+   populateTaskWorldSelect(worldId);
+   $('#taskNameInput')?.focus();
+ }else if(kind==='challenge'){
+   openParentManager('parentChallenges');
+   resetChallengeForm();
+   populateWorldLinkSelect('#challengeWorldInput',worldId);
+   $('#challengeTitleInput')?.focus();
+ }else if(kind==='goal'){
+   openParentManager('parentGoals');
+   resetGoalForm();
+   populateWorldLinkSelect('#goalWorldInput',worldId);
+   $('#goalNameInput')?.focus();
+ }
+ toast(`${w.icon||'🌍'} Creando dentro de ${w.title}`);
+}
+window.openCreateFromWorld=openCreateFromWorld;
+
 function renderWorldAdmin(){
  ensureWorldState();
  const box=$('#worldAdminList');if(!box)return;
@@ -6277,6 +6468,12 @@ function renderWorldAdmin(){
     <div class="world-admin-visual-fields">
       <input data-world-tagline="${i}" value="${String(w.tagline||'').replace(/"/g,'&quot;')}" placeholder="Frase del mundo">
       <input data-world-reward="${i}" value="${String(w.reward||'').replace(/"/g,'&quot;')}" placeholder="Premio final">
+    </div>
+    <div class="world-purpose-admin"><b>Este mundo trabaja:</b> ${worldPurpose(w)}.</div>
+    <div class="world-create-actions">
+      <button type="button" onclick="openCreateFromWorld('task','${w.id}')">＋ ✅ Tarea</button>
+      <button type="button" onclick="openCreateFromWorld('challenge','${w.id}')">＋ 🎯 Reto</button>
+      <button type="button" onclick="openCreateFromWorld('goal','${w.id}')">＋ ⭐ Gran objetivo</button>
     </div>
     <div class="world-feature-actions">
       <button type="button" class="smallbtn ${w.id===state.featuredWorldId?'featured-on':'uploadbtn'}" data-world-feature="${i}" ${status==='paused'?'disabled':''}>${w.id===state.featuredWorldId?'⭐ Destacado en Inicio':'☆ Destacar en Inicio'}</button>

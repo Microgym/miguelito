@@ -1,0 +1,11 @@
+MIS TAREAS v91 — RETOS Y GRANDES OBJETIVOS VINCULADOS A MUNDOS
+
+- Los retos personalizados pueden vincularse a un mundo desde Zona Padres.
+- Los grandes objetivos pueden vincularse a un mundo desde Zona Padres.
+- En las listas de gestión se muestra el mundo vinculado.
+- En los Retos semanales aparece el mundo del reto.
+- Dentro de cada mundo se muestran tres bloques:
+  tareas, retos vinculados y grandes objetivos vinculados.
+- Los retos muestran su progreso semanal.
+- Los grandes objetivos muestran su progreso en estrellas.
+- El avance de las fases sigue basándose en tareas aprobadas del mundo, evitando cambiar de golpe el progreso existente.
