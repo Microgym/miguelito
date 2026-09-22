@@ -1,0 +1,9 @@
+MIS TAREAS v81 — AMIGOS Y CUMPLEAÑOS
+
+Nuevo:
+- Más > Amigos y cumpleaños.
+- Puedes guardar amigos y familiares.
+- Nombre, relación, fecha de cumpleaños y nota.
+- Los cumpleaños aparecen automáticamente cada año en Calendario.
+- Si hoy es el cumpleaños de alguien, aparece un aviso en Inicio.
+- Se incluyen en las copias JSON porque forman parte del estado del hijo.

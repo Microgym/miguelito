@@ -1,0 +1,14 @@
+MIS TAREAS v83 — MUNDOS VISUALES
+
+Nueva pantalla Mundos con seis aventuras ilustradas:
+- La Montaña de los Logros
+- El Laberinto del Ingenio
+- La Selva de Aventuras
+- El Castillo de las Rutinas
+- El Océano de la Calma
+- El Espacio de los Sueños
+
+Incluye imagen, frase, XP, progreso, etiquetas y premio final.
+Los mundos antiguos por defecto se migran automáticamente.
+Los mundos personalizados se conservan.
+Zona Padres permite editar también la frase y el premio final.

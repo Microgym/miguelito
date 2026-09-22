@@ -1,10 +1,10 @@
-const CACHE='mis-tareas-pwa-v80';
+const CACHE='mis-tareas-pwa-v85';
 const ASSETS=['./avatar-girl.webp','./avatar-boy.webp',
 './','./index.html','./manifest.webmanifest',
 './icon-180.png','./icon-192.png','./icon-512.png','./icon-maskable-512.png',
 './hero-boy-valencia.webp','./hero-boy-madrid.webp',
 './hero-girl-valencia.webp','./hero-girl-madrid.webp',
-'./ski-boy.webp','./ski-girl.webp'
+'./ski-boy.webp','./ski-girl.webp','./world-space.webp','./world-ocean.webp','./world-castle.webp','./world-jungle.webp','./world-maze.webp','./world-mountain.webp'
 ];
 self.addEventListener('install',e=>{
   self.skipWaiting();

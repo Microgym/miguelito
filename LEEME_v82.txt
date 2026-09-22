@@ -1,0 +1,10 @@
+MIS TAREAS v82 — PAQUETE DE MEJORAS
+
+Incluye:
+- Rutinas por tipo de día: todos, colegio, fin de semana o vacaciones.
+- Modo vacaciones: oculta tareas de Colegio y muestra las de Vacaciones.
+- Preparar mañana: checklist reutilizable para mochila, equipación, autorizaciones, etc.
+- Resumen semanal del niño en Inicio.
+- Hitos visuales 25/50/75/100% en el gran objetivo.
+- Copiar configuración entre hijos: tareas, premios, retos, objetivos, mundos, insignias y preferencias.
+  No copia progreso, estrellas, calendario, diario ni historiales.

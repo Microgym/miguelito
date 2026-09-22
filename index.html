@@ -1833,6 +1833,161 @@ body.preview-first-run .first-run-cancel-preview{display:block}
   cursor:pointer;box-shadow:0 5px 14px rgba(35,71,108,.06)
 }
 
+
+/* v81 cumpleaños */
+#birthdays .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+@media(max-width:520px){#birthdays .form-grid{grid-template-columns:1fr}}
+
+
+/* ===== v82 mejoras familiares ===== */
+.goal-milestones{margin:-2px 0 11px;padding:0 4px}
+.milestone-track{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}
+.milestone{background:#f2f5f8;border:1px solid #e2e9f1;border-radius:12px;padding:7px 3px;text-align:center;font-size:9px;color:#7b8da0}
+.milestone span{display:block;font-size:15px}.milestone.on{background:#fff7cf;color:#806000;border-color:#f0df8c}
+.child-week-card{margin:0 0 11px}.child-week-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-top:8px}
+.child-week-grid>div{background:#f5f8fc;border-radius:12px;padding:8px 4px;text-align:center}.child-week-grid b{display:block;font-size:16px;color:#234d78}.child-week-grid span{font-size:8px;color:#75889c}
+.tomorrow-home-card{width:100%;margin:0 0 10px;display:flex;align-items:center;gap:10px;text-align:left}.tomorrow-home-card span:nth-child(2){display:flex;flex-direction:column}.tomorrow-home-card small{font-size:9px;color:#6f8499;margin-top:2px}
+.tomorrow-add{display:grid;grid-template-columns:1fr auto;gap:8px}.tomorrow-add input{min-width:0}
+.tomorrow-row{display:flex;align-items:center;gap:8px;padding:9px 0;border-bottom:1px solid #eef2f6}.tomorrow-row:last-child{border-bottom:0}.tomorrow-row.done b{text-decoration:line-through;opacity:.55}
+.tomorrow-check{width:34px;height:34px;border-radius:50%;border:1px solid #cfdae6;background:#fff;font-weight:1000;color:#3771a6}
+.vacation-mode-card{margin-bottom:10px}.vacation-mode-row{display:flex;align-items:center;justify-content:space-between;gap:12px}.switchline{white-space:nowrap;font-weight:900;font-size:11px}
+#taskDayTypeInput{min-width:0}
+
+
+/* ===== v83 Mundos visuales ===== */
+#worlds{padding-bottom:90px}
+.worlds-hero-title{
+ display:flex;align-items:center;justify-content:space-between;gap:10px;
+ background:linear-gradient(135deg,#e7f5ff,#f8fbff);border:1px solid #dcecf8;
+ border-radius:24px;padding:14px 15px;margin:3px 0 11px;box-shadow:0 10px 24px rgba(40,94,140,.08)
+}
+.worlds-hero-title>div{display:grid;grid-template-columns:auto 1fr;column-gap:9px;align-items:center}
+.worlds-hero-title .worlds-globe{font-size:35px;grid-row:1/3}
+.worlds-hero-title h1{margin:0;font-size:29px;color:#163d73;line-height:1}
+.worlds-hero-title p{margin:4px 0 0;font-size:11px;color:#69829c;font-weight:800}
+.worlds-hero-note{max-width:135px;text-align:right;font-size:9px;line-height:1.25;color:#55728e;font-weight:900}
+#worlds .worlds-summary{margin-bottom:10px}
+#worlds .world-grid{display:grid;grid-template-columns:1fr;gap:12px}
+.adventure-world-card{
+ overflow:hidden;background:#fff;border-radius:23px;border:1px solid #e4edf5;
+ box-shadow:0 12px 28px rgba(31,71,109,.12)
+}
+.adventure-world-card.locked{opacity:.76;filter:saturate(.68)}
+.adventure-world-image{
+ min-height:190px;background-size:cover;background-position:center;position:relative;
+ display:flex;align-items:flex-end;padding:14px
+}
+.adventure-world-shade{
+ position:absolute;inset:0;background:linear-gradient(180deg,rgba(13,32,60,.03) 30%,rgba(10,34,65,.8) 100%)
+}
+.adventure-world-status{
+ position:absolute;top:10px;right:10px;background:rgba(255,255,255,.94);border-radius:12px;
+ padding:5px 8px;font-size:9px;font-weight:1000;color:#27577c;box-shadow:0 4px 12px rgba(0,0,0,.12)
+}
+.adventure-world-title{position:relative;z-index:1;color:#fff;text-shadow:0 2px 5px rgba(0,0,0,.35)}
+.adventure-world-title small{font-size:22px;display:block;margin-bottom:3px}
+.adventure-world-title b{font-size:22px;line-height:1.05;display:block;max-width:300px}
+.adventure-world-title span{display:block;font-size:10px;font-weight:800;margin-top:5px;opacity:.95}
+.adventure-world-body{padding:11px 12px 12px}
+.adventure-progress-head{display:flex;justify-content:space-between;align-items:center;font-size:10px;color:#6c8298}
+.adventure-progress-head b{font-size:12px;color:#284f76}
+.adventure-world-bar{height:10px;background:#e9eef4;border-radius:10px;overflow:hidden;margin:7px 0 10px}
+.adventure-world-bar i{display:block;height:100%;border-radius:10px;background:linear-gradient(90deg,#35bf62,#78db6e)}
+.adventure-world-card:nth-child(2) .adventure-world-bar i{background:linear-gradient(90deg,#ff9d28,#ffbb44)}
+.adventure-world-card:nth-child(4) .adventure-world-bar i{background:linear-gradient(90deg,#2f83e9,#5aa9ff)}
+.adventure-world-card:nth-child(5) .adventure-world-bar i{background:linear-gradient(90deg,#5b60e8,#a55bed)}
+.adventure-world-card:nth-child(6) .adventure-world-bar i{background:linear-gradient(90deg,#dc3e9d,#ff5aa9)}
+.adventure-world-info{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:8px}
+.adventure-world-info>div{background:#f4f8fc;border-radius:12px;padding:8px;display:flex;gap:7px;align-items:center}
+.adventure-world-info strong{font-size:18px}.adventure-world-info span{font-size:8px;line-height:1.2;color:#536e89;font-weight:900}
+.adventure-world-tags{display:flex;gap:5px;overflow-x:auto;padding-bottom:7px;scrollbar-width:none}
+.adventure-world-tags::-webkit-scrollbar{display:none}
+.adventure-world-tags span{white-space:nowrap;background:#eef7f8;border-radius:10px;padding:5px 7px;font-size:8px;font-weight:900;color:#40667b}
+.adventure-world-action{
+ width:100%;border:0;border-radius:15px;padding:11px 12px;background:linear-gradient(90deg,#30b85a,#4ccc66);
+ color:#fff;font-weight:1000;font-size:12px;cursor:pointer;display:flex;justify-content:center;gap:8px;align-items:center
+}
+.adventure-world-action span{font-size:20px;line-height:.5}.adventure-world-action:disabled{background:#aab6c2;cursor:default}
+.world-admin-visual-fields{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:7px}
+.world-admin-visual-fields input{width:100%;border:1px solid #dce6f0;border-radius:11px;padding:9px;font:inherit;background:#fff}
+@media(min-width:700px){
+ #worlds .world-grid{grid-template-columns:1fr 1fr}
+ .adventure-world-image{min-height:210px}
+}
+@media(max-width:390px){
+ .worlds-hero-note{display:none}
+ .adventure-world-title b{font-size:20px}
+ .world-admin-visual-fields{grid-template-columns:1fr}
+}
+
+
+/* ===== v84 Interior de Mundos + fases ===== */
+#worldDetail{padding-bottom:92px}
+.world-detail-back{margin:2px 0 10px}
+.world-detail-hero{
+ min-height:235px;border-radius:25px;background-size:cover;background-position:center;position:relative;overflow:hidden;
+ box-shadow:0 14px 30px rgba(30,70,110,.16);display:flex;align-items:flex-end;padding:17px;margin-bottom:10px
+}
+.world-detail-hero-shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(7,27,48,.03) 25%,rgba(8,31,60,.83))}
+.world-detail-hero-copy{position:relative;z-index:1;color:white;display:flex;gap:10px;align-items:flex-end;max-width:72%}
+.world-detail-hero-copy>span{font-size:31px}.world-detail-hero-copy h1{margin:0;font-size:27px;line-height:1.04}
+.world-detail-hero-copy p{margin:5px 0 0;font-size:10px;font-weight:800}
+.world-detail-total{position:absolute;z-index:2;right:13px;bottom:14px;background:rgba(255,255,255,.94);border-radius:16px;padding:9px 10px;text-align:center;color:#234e77}
+.world-detail-total b{display:block;font-size:18px}.world-detail-total small{font-size:7px;font-weight:900}
+.world-detail-summary{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-bottom:10px}
+.world-detail-summary>div{background:#fff;border-radius:16px;padding:10px 5px;text-align:center;box-shadow:0 6px 16px rgba(34,70,108,.08)}
+.world-detail-summary b{display:block;color:#173562;font-size:14px}.world-detail-summary span{font-size:8px;color:#718399;font-weight:800}
+.world-stage-card,.world-current-stage,.world-missions-card,.world-master-card{padding:14px;margin-bottom:10px}
+.world-stage-card-head,.world-section-head,.world-current-head{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+.world-stage-card h2,.world-current-stage h2,.world-missions-card h2,.world-master-card h2{margin:2px 0 0;color:#173562;font-size:20px}
+.world-conquered-pill,.world-count-pill{background:#eef8ed;color:#37804a;border-radius:12px;padding:6px 8px;font-size:8px;font-weight:1000}
+.world-stage-path{position:relative;margin-top:12px}
+.world-stage-path:before{content:"";position:absolute;left:22px;top:23px;bottom:23px;width:4px;border-radius:5px;background:#e1e8ef}
+.world-stage-node{position:relative;z-index:1;display:grid;grid-template-columns:46px 1fr auto;gap:9px;align-items:center;padding:8px 0}
+.stage-node-icon{width:46px;height:46px;border-radius:50%;background:#edf1f5;display:grid;place-items:center;font-size:20px;font-weight:1000;color:#8796a6;border:4px solid #fff;box-shadow:0 3px 10px rgba(45,70,95,.12)}
+.world-stage-node.done .stage-node-icon{background:#57c976;color:#fff}
+.world-stage-node.active .stage-node-icon{background:#ffd65a;color:#805f00;box-shadow:0 0 0 4px #fff4c7}
+.stage-node-copy b{display:block;color:#264e74;font-size:12px}.stage-node-copy span{display:block;font-size:10px;font-weight:900;color:#617990}.stage-node-copy small{font-size:8px;color:#8798aa}
+.stage-node-reward{font-size:8px;font-weight:900;color:#6b8095;text-align:right;max-width:72px}
+.world-current-stage{background:linear-gradient(135deg,#fff8d8,#fff)}
+.world-current-head p{margin:4px 0 0;font-size:10px;color:#687f96;font-weight:800}.world-current-head>b{font-size:24px;color:#e38d23}
+.world-current-bar{height:12px;border-radius:12px;background:#e9edf1;overflow:hidden;margin:12px 0 7px}.world-current-bar i{display:block;height:100%;background:linear-gradient(90deg,#ffb43d,#ffd85f);border-radius:12px}
+.world-current-foot{display:flex;justify-content:space-between;gap:8px;font-size:8px;font-weight:900;color:#647b91}
+.world-claim-btn{width:100%;margin-top:11px}
+.world-finish-banner{display:flex;gap:12px;align-items:center}.world-finish-banner>span{font-size:44px}.world-finish-banner p{margin:4px 0;font-size:10px;color:#617890;font-weight:800}
+.world-mission-row{display:grid;grid-template-columns:30px 1fr auto;gap:8px;align-items:center;padding:9px 0;border-bottom:1px solid #edf1f5}
+.world-mission-row:last-child{border-bottom:0}.world-mission-check{font-size:18px}.world-mission-row b{display:block;font-size:11px;color:#294e72}.world-mission-row small{display:block;font-size:8px;color:#788da2;margin-top:2px}
+.world-mission-state{font-size:8px;background:#f2f6fa;border-radius:9px;padding:5px 6px;color:#668097;font-weight:900}
+.world-empty{background:#f6f9fc;border-radius:14px;padding:12px;font-size:9px;line-height:1.4;color:#627a92}
+.world-master-card{display:flex;gap:12px;align-items:center;background:linear-gradient(135deg,#eef0ff,#fff)}
+.world-master-icon{width:54px;height:54px;flex:0 0 54px;border-radius:18px;background:#e6e8ff;display:grid;place-items:center;font-size:28px}.world-master-card p{margin:4px 0;font-size:9px;line-height:1.35;color:#657d95}.world-master-card b{font-size:9px;color:#4a6390}
+#taskWorldInput{min-width:0}
+@media(max-width:390px){
+ .world-detail-hero{min-height:210px}.world-detail-hero-copy{max-width:75%}.world-detail-hero-copy h1{font-size:23px}
+ .world-stage-node{grid-template-columns:42px 1fr}.stage-node-icon{width:42px;height:42px}.stage-node-reward{grid-column:2;text-align:left;max-width:none}
+ .world-current-foot{flex-direction:column}
+}
+
+
+.stage-node-reward button{
+ border:0;border-radius:9px;background:#fff1b8;color:#8a6514;padding:5px 7px;
+ font-size:8px;font-weight:1000;cursor:pointer;box-shadow:0 2px 7px rgba(105,82,22,.12)
+}
+
+
+/* ===== v85 corrección Grandes objetivos ===== */
+.goal-home-choice{
+ display:flex;align-items:center;gap:10px;margin-top:9px;padding:11px 12px;border-radius:14px;
+ background:#eef7ff;border:1px solid #d8eafb;color:#244d79;cursor:pointer
+}
+.goal-home-choice input{width:20px;height:20px;flex:0 0 auto}
+.goal-home-choice span{display:block}.goal-home-choice b{display:block;font-size:11px}
+.goal-home-choice small{display:block;font-size:8px;color:#69819a;margin-top:2px;font-weight:800}
+.goal-date-field{display:flex;flex-direction:column;gap:4px}
+.goal-date-field>span{font-size:8px;font-weight:900;color:#6b8198;padding-left:2px}
+.goal-date-field input{width:100%}
+[data-goalactive]:disabled{opacity:1;background:#e7f7ed!important;color:#247342!important;cursor:default}
+
 </style>
 </head>
 <body>
@@ -1877,6 +2032,19 @@ body.preview-first-run .first-run-cancel-preview{display:block}
   <div><div class="eyebrow">Mi gran objetivo</div><h2 id="bigGoalTitle">Viaje a esquiar</h2><div id="bigGoalDate" class="date">📅 21 de enero</div><div class="goalbar"><i id="goalbar"></i></div><div class="goalfoot"><span id="bigGoalMessage">“Cada esfuerzo te acerca a nuevas aventuras”</span><span><b id="goalstars">185</b>/<span id="bigGoalCost">600</span> ⭐</span></div></div>
   <div id="bigGoalIcon" class="ski-illus dynamic-goal"><div class="snow"></div></div>
  </div>
+
+ <div id="goalMilestones" class="goal-milestones"></div>
+
+ <div class="card child-week-card">
+   <div class="eyebrow">📊 MI SEMANA</div>
+   <div id="childWeekSummary"></div>
+ </div>
+
+ <button class="more-card tomorrow-home-card" type="button" onclick="openScreen('tomorrow')">
+   <span class="bigico">🎒</span>
+   <span><b>Preparar mañana</b><small id="tomorrowHomeSummary">Mochila, equipación y cosas importantes</small></span>
+ </button>
+
 
 
  <div class="tiles3" style="margin:11px 0">
@@ -1984,13 +2152,45 @@ body.preview-first-run .first-run-cancel-preview{display:block}
 
 
 <section id="worlds" class="screen">
- <div class="screen-title"><h1>🌍 Mundos</h1><p>Tu aventura crece con la experiencia que vas ganando.</p></div>
+ <div class="worlds-hero-title"><div><span class="worlds-globe">🌍</span><h1>Mundos</h1><p>Elige tu próxima aventura</p></div><span class="worlds-hero-note">✨ Cada pequeño paso te lleva a un gran lugar</span></div>
  <div class="worlds-summary">
    <div class="mini"><b id="worldTotalXp">0</b><span>⚡ XP acumulado</span></div>
    <div class="mini"><b id="worldUnlockedCount">0</b><span>mundos desbloqueados</span></div>
  </div>
  <div id="worldGrid" class="world-grid"></div>
 </section>
+
+<section id="worldDetail" class="screen">
+  <button class="btn ghost world-detail-back" type="button" onclick="openScreen('worlds')">← Volver a Mundos</button>
+  <div id="worldDetailHero" class="world-detail-hero"></div>
+
+  <div class="world-detail-summary">
+    <div><b id="worldDetailStage">Explorador</b><span>fase actual</span></div>
+    <div><b id="worldDetailCount">0</b><span>misiones aprobadas</span></div>
+    <div><b id="worldDetailPct">0%</b><span>aventura</span></div>
+  </div>
+
+  <div class="card world-stage-card">
+    <div class="world-stage-card-head">
+      <div><div class="eyebrow">🗺️ CAMINO DE AVENTURA</div><h2>Las 4 fases</h2></div>
+      <div id="worldConqueredPill" class="world-conquered-pill" style="display:none">🏆 Mundo conquistado</div>
+    </div>
+    <div id="worldStagePath" class="world-stage-path"></div>
+  </div>
+
+  <div id="worldCurrentStageCard" class="card world-current-stage"></div>
+
+  <div class="card world-missions-card">
+    <div class="world-section-head">
+      <div><div class="eyebrow">🎯 MISIONES DEL MUNDO</div><h2>Lo que suma aquí</h2></div>
+      <span id="worldMissionCountPill" class="world-count-pill">0 tareas</span>
+    </div>
+    <div id="worldMissionList"></div>
+  </div>
+
+  <div id="worldMasterCard" class="card world-master-card"></div>
+</section>
+
 
 <section id="achievements" class="screen">
   <div class="screen-title"><h1>🏆 Insignias</h1><p>Tus logros te hacen único.</p></div>
@@ -2069,6 +2269,21 @@ body.preview-first-run .first-run-cancel-preview{display:block}
   </div>
 </section>
 
+
+<section id="tomorrow" class="screen">
+ <div class="heroSmall"><h1>🎒 Preparar mañana</h1><div>Una lista sencilla para no olvidar nada.</div></div>
+ <div class="card panelcard">
+   <div class="tomorrow-add">
+     <input id="tomorrowItemInput" placeholder="Ej. Mochila, equipación, autorización...">
+     <button id="addTomorrowItemBtn" class="btn primary" type="button">Añadir</button>
+   </div>
+   <div class="mmeta" style="margin-top:7px">La lista se mantiene como plantilla y las marcas se reinician cada día.</div>
+ </div>
+ <div class="card panelcard">
+   <div id="tomorrowList"></div>
+ </div>
+</section>
+
 <section id="more" class="screen">
   <div class="screen-title"><h1>☰ Más</h1><p>Perfil activo: <span data-active-child-name>Miguelito</span>.</p></div>
   <div id="childSwitcher" class="child-switcher"></div>
@@ -2084,6 +2299,7 @@ body.preview-first-run .first-run-cancel-preview{display:block}
     <button class="more-card" data-open="family" onclick="openScreen('family')"><span class="bigico">👨‍👩‍👧</span>Familia</button>
     <button class="more-card" data-open="parents" onclick="openScreen('parents')"><span class="bigico">🛡️</span>Zona Padres</button>
   </div>
+ <button class="more-card" data-open="birthdays" onclick="openScreen('birthdays')"><span class="bigico">🎂</span>Amigos y cumpleaños</button>
 </section>
 
 
@@ -2165,6 +2381,30 @@ body.preview-first-run .first-run-cancel-preview{display:block}
      <div id="journalMonthTitle" class="journal-month-title">Mes</div>
      <div id="journalMonthGrid" class="journal-month-grid"></div>
    </div>
+ </div>
+</section>
+
+
+<section id="birthdays" class="screen">
+ <div class="heroSmall"><h1>🎂 Amigos y cumpleaños</h1><div>Guarda amigos y familiares importantes.</div></div>
+ <div class="card panelcard">
+  <h3 style="margin:0 0 5px">Añadir persona</h3>
+  <div class="form-grid">
+   <input id="birthdayNameInput" placeholder="Nombre">
+   <select id="birthdayRelationInput">
+    <option value="friend">🧑‍🤝‍🧑 Amigo/a</option>
+    <option value="family">👨‍👩‍👧 Familia</option>
+   </select>
+  </div>
+  <div class="form-grid" style="margin-top:8px">
+   <input id="birthdayDateInput" type="date">
+   <input id="birthdayNoteInput" placeholder="Nota opcional">
+  </div>
+  <button id="saveBirthdayBtn" class="btn primary" style="width:100%;margin-top:9px">Añadir cumpleaños</button>
+ </div>
+ <div class="card panelcard">
+  <h3 style="margin:0 0 5px">Personas guardadas</h3>
+  <div id="birthdayList"></div>
  </div>
 </section>
 
@@ -2421,7 +2661,15 @@ body.preview-first-run .first-run-cancel-preview{display:block}
 <section id="parentTasks" class="screen parent-manager-screen">
  <div class="screen-title"><h1>✅ Gestionar tareas</h1><p>Crear, editar, activar o eliminar tareas.</p></div>
  <button class="btn ghost parent-back-btn" type="button" onclick="backToParents()">← Volver a Zona Padres</button>
- <div class="card panelcard task-manager-card">
+ 
+<div class="card panelcard vacation-mode-card">
+ <div class="vacation-mode-row">
+  <div><b>🏖️ Modo vacaciones</b><div class="mmeta">Oculta automáticamente las tareas de Colegio y activa las tareas marcadas para Vacaciones.</div></div>
+  <label class="switchline"><input id="vacationModeToggle" type="checkbox"> Activo</label>
+ </div>
+</div>
+
+<div class="card panelcard task-manager-card">
 <h3 style="margin:0 0 5px">✅ Gestionar tareas</h3>
 <div class="mmeta">Crear, editar, activar/desactivar o eliminar tareas diarias.</div>
 <div class="task-manager-form">
@@ -2443,6 +2691,20 @@ body.preview-first-run .first-run-cancel-preview{display:block}
 <select class="assign-field" id="taskAssignInput">
 <option value="current">👤 Solo hijo seleccionado</option>
 <option value="all">👨‍👩‍👧‍👦 Todos los hijos</option>
+</select>
+<select id="taskDayTypeInput">
+<option value="all">📅 Todos los días</option>
+<option value="school">🎒 Días de colegio</option>
+<option value="weekend">🎈 Fin de semana</option>
+<option value="vacation">🏖️ Vacaciones</option>
+</select>
+<select id="taskWorldInput" title="Mundo al que suma esta tarea">
+<option value="mountain">🏔️ Montaña de los Logros</option>
+<option value="maze">🧩 Laberinto del Ingenio</option>
+<option value="jungle">🌿 Selva de Aventuras</option>
+<option value="castle">🏰 Castillo de las Rutinas</option>
+<option value="ocean">🌊 Océano de la Calma</option>
+<option value="space">🚀 Espacio de los Sueños</option>
 </select>
 </div>
 <button class="btn primary" id="saveTaskBtn" style="width:100%;margin-top:9px">Añadir tarea</button>
@@ -2509,13 +2771,14 @@ body.preview-first-run .first-run-cancel-preview{display:block}
 <input id="goalCostInput" min="1" placeholder="⭐ Meta" type="number"/>
 </div>
 <div class="goal-admin-form">
-<input id="goalDateInput" type="date"/>
+<label class="goal-date-field"><span>Fecha objetivo (opcional)</span><input id="goalDateInput" type="date"/></label>
 <select id="goalIconInput">
 <option value="🎿">🎿 Esquí</option><option value="⚽">⚽ Fútbol</option><option value="🎮">🎮 Videojuegos</option>
 <option value="🎢">🎢 Aventura</option><option value="🎁">🎁 Regalo</option><option value="✈️">✈️ Viaje</option>
 </select>
 </div>
 <input id="goalMessageInput" placeholder="Mensaje motivador" style="width:100%;margin-top:8px;border:1px solid #dfe8f5;border-radius:12px;padding:10px;font:inherit"/>
+<label class="goal-home-choice"><input id="goalShowHomeInput" type="checkbox" checked> <span><b>Mostrar en Inicio</b><small>Este será el gran objetivo que verá el niño en la pantalla principal.</small></span></label>
 <button class="btn primary" id="saveGoalBtn" style="width:100%;margin-top:9px">Añadir objetivo</button>
 <div id="goalAdminList" style="margin-top:9px"></div>
 </div>
@@ -2775,12 +3038,12 @@ function saveFamilyStore(){
 
 function defaultWorldsData(){
  return [
-  {id:'start',icon:'🌱',title:'Inicio de aventura',xp:0},
-  {id:'forest',icon:'🌳',title:'Bosque',xp:250},
-  {id:'mountain',icon:'🏔️',title:'Montaña',xp:600},
-  {id:'island',icon:'🌊',title:'Isla',xp:1000},
-  {id:'castle',icon:'🏰',title:'Castillo',xp:1600},
-  {id:'secret',icon:'🌌',title:'Mundo secreto',xp:2500}
+  {id:'mountain',icon:'🏔️',title:'La Montaña de los Logros',xp:0,theme:'mountain',tagline:'Paso a paso llegas muy alto.',reward:'Insignia Escalador'},
+  {id:'maze',icon:'🧩',title:'El Laberinto del Ingenio',xp:250,theme:'maze',tagline:'Piensa, descubre y encuentra la salida.',reward:'Cofre del Saber'},
+  {id:'jungle',icon:'🌿',title:'La Selva de Aventuras',xp:600,theme:'jungle',tagline:'Cada aventura te hace más fuerte.',reward:'Medalla Aventurera'},
+  {id:'castle',icon:'🏰',title:'El Castillo de las Rutinas',xp:1000,theme:'castle',tagline:'Con orden y constancia se cuida el reino.',reward:'Llave Dorada'},
+  {id:'ocean',icon:'🌊',title:'El Océano de la Calma',xp:1600,theme:'ocean',tagline:'Respira, navega y encuentra tu calma.',reward:'Perla de la Calma'},
+  {id:'space',icon:'🚀',title:'El Espacio de los Sueños',xp:2500,theme:'space',tagline:'Sueña en grande y despega.',reward:'Insignia Astronauta'}
  ];
 }
 function defaultBadgesData(){
@@ -2807,9 +3070,12 @@ function freshFirstRunState(){
   customChallenges:[],defaultChallengesEnabled:false,
   bigGoals:[],activeGoalId:'',specialDays:[],
   notificationPrefs:{pending:true,projects:true,tomorrow:true,rewards:true},
+  vacationMode:false,tomorrowList:[],tomorrowCheckDate:'',
    badges:defaultBadgesData(),
    worlds:defaultWorldsData(),
-   journal:[]
+   worldStageClaims:{},
+   journal:[],
+   birthdays:[]
  };
 }
 
@@ -2935,18 +3201,30 @@ ensureV38State();
 
 function specialDayFor(dateKey=localDateKey()){return (state.specialDays||[]).find(x=>x.date===dateKey)||null}
 function skippedSectionsToday(){const s=specialDayFor();return new Set((s&&s.skipSections)||[])}
+function currentRoutineType(date=new Date()){
+ if(state.vacationMode===true)return 'vacation';
+ const special=specialDayFor(iso(date));
+ if(special?.type==='vacation')return 'vacation';
+ const day=date.getDay();
+ return (day===0||day===6)?'weekend':'school';
+}
 function activeMissionsToday(){
- const skip=skippedSectionsToday(),who=home(new Date());
+ const skip=skippedSectionsToday(),who=home(new Date()),routine=currentRoutineType();
  return state.missions.map((m,i)=>[m,i]).filter(([m])=>{
  const houseOk=(m.house==='Ambas'||!m.house||m.house===who);
  const childOk=(m.scope==='all'||!m.scope||m.ownerChildId===familyStore.activeChildId);
- return m.enabled!==false&&!skip.has(m.section)&&houseOk&&childOk;
-});
+ const dayType=m.dayType||'all';
+ const routineOk=dayType==='all'||dayType===routine;
+ const vacationSchoolOk=!(routine==='vacation' && m.section==='Colegio' && dayType!=='vacation');
+ return m.enabled!==false&&!skip.has(m.section)&&houseOk&&childOk&&routineOk&&vacationSchoolOk;
+ });
 }
 
 function ensureEventState(){
  if(!state.events) state.events=[];
 }
+function ensureBirthdayState(){if(!Array.isArray(state.birthdays))state.birthdays=[]}
+ensureBirthdayState();
 ensureEventState();
 
 let selectedCalendarDate=localDateKey();
@@ -3137,7 +3415,8 @@ function approve(i){
    title:m.title,
    section:m.section,
    stars:m.stars,
-   xp:m.xp
+   xp:m.xp,
+   worldId:taskWorldId(m)
  });
  toast(`+${m.stars} ⭐ · +${m.xp} XP`);
  save();
@@ -3183,10 +3462,10 @@ function renderModules(){
 }
 
 function eventIcon(type){
- return {exam:'📝',football:'⚽',madrid:'⚪',special:'🎉',project:'🧩',other:'📌'}[type]||'📌';
+ return {exam:'📝',football:'⚽',madrid:'⚪',special:'🎉',project:'🧩',birthday:'🎂',other:'📌'}[type]||'📌';
 }
 function eventTypeLabel(type){
- return {exam:'Examen',football:'Fútbol',madrid:'Real Madrid',special:'Especial',project:'Proyecto',other:'Otro'}[type]||'Evento';
+ return {exam:'Examen',football:'Fútbol',madrid:'Real Madrid',special:'Especial',project:'Proyecto',birthday:'Cumpleaños',other:'Otro'}[type]||'Evento';
 }
 function dateOnlyUtc(key){
  const [y,m,d]=key.split('-').map(Number);
@@ -3231,8 +3510,26 @@ function projectEventsForDate(dateKey){
    subject:p.subject
  }));
 }
+
+function birthdayOccursOnDate(person,dateKey){
+ if(!person?.date)return false;
+ const md=person.date.slice(5);
+ return dateKey.slice(5)===md;
+}
+function birthdayEventsForDate(dateKey){
+ return (state.birthdays||[]).filter(p=>birthdayOccursOnDate(p,dateKey)).map(p=>({
+   title:`Cumpleaños de ${p.name}`,
+   type:'birthday',
+   date:dateKey,
+   time:'',
+   auto:true,
+   birthday:true,
+   relation:p.relation||'friend'
+ }));
+}
+
 function eventsForDate(dateKey){
- return [...manualEventsForDate(dateKey),...projectEventsForDate(dateKey)];
+ return [...manualEventsForDate(dateKey),...projectEventsForDate(dateKey),...birthdayEventsForDate(dateKey)];
 }
 
 function setSelectedDayHouse(who){
@@ -3397,30 +3694,73 @@ function renderRewardHistory(){
 function activeGoal(){return (state.bigGoals||[]).find(g=>g.id===state.activeGoalId)||(state.bigGoals||[])[0]||null}
 function renderBigGoal(){
  const g=activeGoal(),card=$('#bigGoalCard');if(!card)return;
- if(!g){card.innerHTML='<div class="goal-empty">Todavía no hay un gran objetivo. Puedes crear uno en Zona Padres.</div>';return}
- $('#bigGoalTitle').textContent=g.name;$('#bigGoalCost').textContent=g.cost;$('#bigGoalMessage').textContent='“'+(g.message||'Cada esfuerzo te acerca a nuevas aventuras')+'”';
- $('#bigGoalIcon').innerHTML=`<div style="font-size:58px;display:grid;place-items:center;height:100%">${g.icon||'🎯'}</div>`;
- $('#bigGoalDate').textContent=g.date?'📅 '+new Date(g.date+'T12:00:00').toLocaleDateString('es-ES',{day:'numeric',month:'long'}):'🎯 Sin fecha límite';
- $('#goalbar').style.width=Math.min(100,(state.stars/Math.max(1,Number(g.cost)||1))*100)+'%';
+ if(!g){
+   card.style.display='none';
+   return;
+ }
+ card.style.display='';
+ const title=$('#bigGoalTitle'),cost=$('#bigGoalCost'),message=$('#bigGoalMessage'),icon=$('#bigGoalIcon'),date=$('#bigGoalDate'),bar=$('#goalbar');
+ if(title)title.textContent=g.name;
+ if(cost)cost.textContent=g.cost;
+ if(message)message.textContent='“'+(g.message||'Cada esfuerzo te acerca a nuevas aventuras')+'”';
+ if(icon)icon.innerHTML=`<div style="font-size:58px;display:grid;place-items:center;height:100%">${g.icon||'🎯'}</div>`;
+ if(date)date.textContent=g.date?'📅 '+new Date(g.date+'T12:00:00').toLocaleDateString('es-ES',{day:'numeric',month:'long'}):'🎯 Sin fecha límite';
+ if(bar)bar.style.width=Math.min(100,(state.stars/Math.max(1,Number(g.cost)||1))*100)+'%';
 }
-function resetGoalForm(){$('#goalNameInput').value='';$('#goalCostInput').value='';$('#goalDateInput').value='';$('#goalIconInput').value='🎿';$('#goalMessageInput').value='';$('#saveGoalBtn').dataset.edit='';$('#saveGoalBtn').textContent='Añadir objetivo'}
+function resetGoalForm(){
+ $('#goalNameInput').value='';
+ $('#goalCostInput').value='';
+ $('#goalDateInput').value='';
+ $('#goalIconInput').value='🎿';
+ $('#goalMessageInput').value='';
+ if($('#goalShowHomeInput'))$('#goalShowHomeInput').checked=!(state.bigGoals||[]).length;
+ $('#saveGoalBtn').dataset.edit='';
+ $('#saveGoalBtn').textContent='Añadir objetivo';
+}
 function renderGoalAdmin(){
  const list=$('#goalAdminList');if(!list)return;list.innerHTML='';
  if(!state.bigGoals.length){list.innerHTML='<div class="mmeta">No hay objetivos creados.</div>';return}
  state.bigGoals.forEach((g,i)=>{
    const row=document.createElement('div');row.className='goal-admin-row';
-   row.innerHTML=`<div><b>${g.icon||'🎯'} ${g.name}${g.id===state.activeGoalId?'<span class="goal-active-tag">EN INICIO</span>':''}</b><div class="mmeta">${g.cost} ⭐${g.date?' · '+new Date(g.date+'T12:00:00').toLocaleDateString('es-ES'):''}</div></div><div class="task-admin-actions"><button class="smallbtn uploadbtn" data-goalactive="${i}">Mostrar</button><button class="smallbtn uploadbtn" data-goaledit="${i}">Editar</button><button class="smallbtn" style="background:#ffe9ec;color:#a74354" data-goaldel="${i}">Eliminar</button></div>`;
+   row.innerHTML=`<div><b>${g.icon||'🎯'} ${g.name}${g.id===state.activeGoalId?'<span class="goal-active-tag">EN INICIO</span>':''}</b><div class="mmeta">${g.cost} ⭐${g.date?' · '+new Date(g.date+'T12:00:00').toLocaleDateString('es-ES'):''}</div></div><div class="task-admin-actions"><button class="smallbtn uploadbtn" data-goalactive="${i}" ${g.id===state.activeGoalId?'disabled':''}>${g.id===state.activeGoalId?'✓ En Inicio':'Mostrar en Inicio'}</button><button class="smallbtn uploadbtn" data-goaledit="${i}">Editar</button><button class="smallbtn" style="background:#ffe9ec;color:#a74354" data-goaldel="${i}">Eliminar</button></div>`;
    list.appendChild(row);
  });
  list.querySelectorAll('[data-goalactive]').forEach(b=>b.onclick=()=>{state.activeGoalId=state.bigGoals[Number(b.dataset.goalactive)].id;toast('Objetivo mostrado en Inicio 🎯');save()});
- list.querySelectorAll('[data-goaledit]').forEach(b=>b.onclick=()=>{const g=state.bigGoals[Number(b.dataset.goaledit)];$('#goalNameInput').value=g.name;$('#goalCostInput').value=g.cost;$('#goalDateInput').value=g.date||'';$('#goalIconInput').value=g.icon||'🎿';$('#goalMessageInput').value=g.message||'';$('#saveGoalBtn').dataset.edit=b.dataset.goaledit;$('#saveGoalBtn').textContent='Guardar cambios'});
+ list.querySelectorAll('[data-goaledit]').forEach(b=>b.onclick=()=>{
+ const g=state.bigGoals[Number(b.dataset.goaledit)];
+ $('#goalNameInput').value=g.name;
+ $('#goalCostInput').value=g.cost;
+ $('#goalDateInput').value=g.date||'';
+ $('#goalIconInput').value=g.icon||'🎿';
+ $('#goalMessageInput').value=g.message||'';
+ if($('#goalShowHomeInput'))$('#goalShowHomeInput').checked=g.id===state.activeGoalId;
+ $('#saveGoalBtn').dataset.edit=b.dataset.goaledit;
+ $('#saveGoalBtn').textContent='Guardar cambios';
+});
  list.querySelectorAll('[data-goaldel]').forEach(b=>b.onclick=()=>{const i=Number(b.dataset.goaldel),g=state.bigGoals[i];if(confirm(`¿Eliminar "${g.name}"?`)){state.bigGoals.splice(i,1);if(state.activeGoalId===g.id)state.activeGoalId=state.bigGoals[0]?.id||'';save()}});
 }
 $('#saveGoalBtn').onclick=()=>{
- const name=$('#goalNameInput').value.trim(),cost=Number($('#goalCostInput').value);if(!name||!cost||cost<1){toast('Escribe nombre y meta de estrellas');return}
- const data={name,cost,date:$('#goalDateInput').value||'',icon:$('#goalIconInput').value,message:$('#goalMessageInput').value.trim()},edit=$('#saveGoalBtn').dataset.edit;
- if(edit!==''){Object.assign(state.bigGoals[Number(edit)],data);toast('Objetivo actualizado')}else{data.id='goal-'+Date.now();state.bigGoals.push(data);if(!state.activeGoalId)state.activeGoalId=data.id;toast('Objetivo añadido 🎯')}
- resetGoalForm();save();
+ const name=$('#goalNameInput').value.trim(),cost=Number($('#goalCostInput').value);
+ if(!name||!cost||cost<1){toast('Escribe nombre y meta de estrellas');return}
+ if(!Array.isArray(state.bigGoals))state.bigGoals=[];
+ const data={name,cost,date:$('#goalDateInput').value||'',icon:$('#goalIconInput').value,message:$('#goalMessageInput').value.trim()};
+ const edit=$('#saveGoalBtn').dataset.edit;
+ const showHome=$('#goalShowHomeInput')?.checked===true;
+ let savedGoal=null;
+ if(edit!==''){
+   savedGoal=state.bigGoals[Number(edit)];
+   if(!savedGoal)return;
+   Object.assign(savedGoal,data);
+   toast('Objetivo actualizado ✅');
+ }else{
+   data.id='goal-'+Date.now();
+   state.bigGoals.push(data);
+   savedGoal=data;
+   toast('Objetivo añadido 🎯');
+ }
+ if(showHome||!state.activeGoalId)state.activeGoalId=savedGoal.id;
+ resetGoalForm();
+ save();
 };
 
 function specialIcon(type){return {'no-school':'🏖️',vacation:'🌴',excursion:'🚌',birthday:'🎂',holiday:'🎉',other:'✨'}[type]||'✨'}
@@ -3451,6 +3791,11 @@ function renderSpecialDay(){const box=$('#specialDayBanner');if(!box)return;box.
 function tomorrowKey(){const d=new Date();d.setDate(d.getDate()+1);return iso(d)}
 function getNotices(){
  const prefs=state.notificationPrefs||{},out=[];
+ const todayBirthdays=birthdayEventsForDate(localDateKey());
+ if(todayBirthdays.length){
+   const names=todayBirthdays.map(x=>x.title.replace('Cumpleaños de ','')).join(', ');
+   out.push({kind:'info',icon:'🎂',title:`Hoy cumple ${names}`,text:'¡No olvides felicitarle!'});
+ }
  if(prefs.pending){
    const n=activeMissionsToday().filter(([m])=>m.status===2).length;
    if(n)out.push({kind:'info',icon:'👀',title:`${n} ${n===1?'tarea pendiente':'tareas pendientes'} de aprobación`,text:'Un adulto puede revisarlas en Zona Padres.'});
@@ -3541,7 +3886,7 @@ function restoreFullFamilyBackup(data){
    familyStore.activeChildId=active.id;
    state=active.state||freshChildState(active.name||'Perfil',active.birthDate||'',active.city||'');
  }
- ensureV33State();ensureV34State();ensureEventState();ensureDailyGameState();ensureJournalState();ensureWorldState();ensureBadgeState();ensureTaskState();ensureRewardHistory();ensureRewardState();ensureProjectState();ensureReadingState();ensureProfileState();
+ ensureV33State();ensureV34State();ensureEventState();ensureBirthdayState();ensureDailyGameState();ensureJournalState();ensureWorldState();ensureBadgeState();ensureTaskState();ensureV82State();ensureRewardHistory();ensureRewardState();ensureProjectState();ensureReadingState();ensureProfileState();
  state._updatedAt=Date.now();
  safeStoreState();
  if(data.settings?.syncConfig && typeof syncConfig!=='undefined'){
@@ -3570,7 +3915,7 @@ $('#importBackupInput').onchange=async e=>{
      restoreFullFamilyBackup(data);
    }else{
      state=legacy;
-     ensureV33State();ensureV34State();ensureEventState();ensureDailyGameState();ensureJournalState();ensureWorldState();ensureBadgeState();ensureTaskState();ensureRewardHistory();ensureRewardState();ensureProjectState();ensureReadingState();ensureProfileState();
+     ensureV33State();ensureV34State();ensureEventState();ensureBirthdayState();ensureDailyGameState();ensureJournalState();ensureWorldState();ensureBadgeState();ensureTaskState();ensureV82State();ensureRewardHistory();ensureRewardState();ensureProjectState();ensureReadingState();ensureProfileState();
      repairImportedTaskOwnershipForActiveChild();
      state._updatedAt=Date.now();safeStoreState();
    }
@@ -3597,9 +3942,12 @@ function freshChildState(name,birthDate='',city=''){
    customChallenges:[],defaultChallengesEnabled:false,
    bigGoals:[],activeGoalId:'',specialDays:[],
    notificationPrefs:{pending:true,projects:true,tomorrow:true,rewards:true},
+   vacationMode:false,tomorrowList:[],tomorrowCheckDate:'',
    badges:defaultBadgesData(),
    worlds:defaultWorldsData(),
-   journal:[]
+   worldStageClaims:{},
+   journal:[],
+   birthdays:[]
  };
 }
 
@@ -3947,6 +4295,7 @@ function renderChildManager(){
    <div class="child-manager-actions">
      <button data-childopen="${i}" style="background:#e8f2ff;color:#35618e">Abrir</button>
      <button data-childedit="${i}" style="background:#fff4d5;color:#806000">Editar</button>
+     <button data-childcopy="${i}" style="background:#eaf7ef;color:#34714a">Copiar config.</button>
      <button data-childdel="${i}" style="background:#ffe9ec;color:#a74354">Eliminar</button>
    </div>`;
    list.appendChild(r);
@@ -3959,6 +4308,7 @@ function renderChildManager(){
    $('#childColorInput').value=c.state?.profile?.color||'';
    $('#saveChildBtn').dataset.edit=b.dataset.childedit;$('#saveChildBtn').textContent='Guardar cambios';
  });
+ list.querySelectorAll('[data-childcopy]').forEach(b=>b.onclick=()=>copyChildConfig(familyStore.children[Number(b.dataset.childcopy)].id));
  list.querySelectorAll('[data-childdel]').forEach(b=>b.onclick=()=>{
    const c=familyStore.children[Number(b.dataset.childdel)];
    deleteChildProfileById(c.id);
@@ -4515,6 +4865,7 @@ function openScreen(name){
    const target=document.getElementById(name);
    if(target) target.classList.add('active');
    try{ render(); }catch(e){ console.error(e); }
+   if(name==='worldDetail'&&activeWorldDetailId)renderWorldDetail(activeWorldDetailId);
    requestAnimationFrame(()=>{
      try{
        window.scrollTo(0,0);
@@ -5084,6 +5435,126 @@ function updateFamilyCalendarVisibility(){
  if(md)md.textContent=`👩 ${motherName()}`;
 }
 
+
+function resetBirthdayForm(){
+ if($('#birthdayNameInput'))$('#birthdayNameInput').value='';
+ if($('#birthdayRelationInput'))$('#birthdayRelationInput').value='friend';
+ if($('#birthdayDateInput'))$('#birthdayDateInput').value='';
+ if($('#birthdayNoteInput'))$('#birthdayNoteInput').value='';
+ if($('#saveBirthdayBtn')){$('#saveBirthdayBtn').dataset.edit='';$('#saveBirthdayBtn').textContent='Añadir cumpleaños'}
+}
+function renderBirthdays(){
+ const list=$('#birthdayList');if(!list)return;
+ list.innerHTML='';
+ const arr=(state.birthdays||[]).slice().sort((a,b)=>(a.date||'').slice(5).localeCompare((b.date||'').slice(5)));
+ if(!arr.length){list.innerHTML='<div class="mmeta">Todavía no has añadido a nadie.</div>';return}
+ arr.forEach(p=>{
+   const i=state.birthdays.indexOf(p);
+   const d=p.date?new Date(p.date+'T12:00:00').toLocaleDateString('es-ES',{day:'numeric',month:'long'}):'Sin fecha';
+   const row=document.createElement('div');row.className='task-admin-row';
+   row.innerHTML=`<div><b>${p.relation==='family'?'👨‍👩‍👧':'🧑‍🤝‍🧑'} ${p.name}</b><div class="mmeta">🎂 ${d}${p.note?' · '+p.note:''}</div></div><div class="task-admin-actions"><button class="smallbtn uploadbtn" data-bedit="${i}">Editar</button><button class="smallbtn" style="background:#ffe9ec;color:#a74354" data-bdel="${i}">Eliminar</button></div>`;
+   list.appendChild(row);
+ });
+ list.querySelectorAll('[data-bedit]').forEach(b=>b.onclick=()=>{
+   const p=state.birthdays[Number(b.dataset.bedit)];
+   $('#birthdayNameInput').value=p.name;$('#birthdayRelationInput').value=p.relation||'friend';$('#birthdayDateInput').value=p.date||'';$('#birthdayNoteInput').value=p.note||'';
+   $('#saveBirthdayBtn').dataset.edit=b.dataset.bedit;$('#saveBirthdayBtn').textContent='Guardar cambios';
+ });
+ list.querySelectorAll('[data-bdel]').forEach(b=>b.onclick=()=>{const i=Number(b.dataset.bdel);if(confirm(`¿Eliminar a ${state.birthdays[i].name}?`)){state.birthdays.splice(i,1);save()}});
+}
+const saveBirthdayBtn=$('#saveBirthdayBtn');
+if(saveBirthdayBtn)saveBirthdayBtn.onclick=()=>{
+ const name=$('#birthdayNameInput').value.trim(),date=$('#birthdayDateInput').value;
+ if(!name){toast('Escribe el nombre');return}
+ if(!date){toast('Elige la fecha de cumpleaños');return}
+ const data={name,date,relation:$('#birthdayRelationInput').value||'friend',note:$('#birthdayNoteInput').value.trim()};
+ const edit=$('#saveBirthdayBtn').dataset.edit;
+ if(edit!=='')state.birthdays[Number(edit)]=data;else state.birthdays.push(data);
+ toast(edit!==''?'Cumpleaños actualizado 🎂':'Cumpleaños añadido 🎂');
+ resetBirthdayForm();save();
+};
+
+
+function ensureTomorrowChecks(){
+ const today=localDateKey();
+ if(state.tomorrowCheckDate!==today){
+   state.tomorrowList.forEach(x=>x.done=false);
+   state.tomorrowCheckDate=today;
+ }
+}
+function renderTomorrowList(){
+ ensureTomorrowChecks();
+ const list=$('#tomorrowList');if(list){
+   list.innerHTML='';
+   if(!state.tomorrowList.length)list.innerHTML='<div class="mmeta">Añade lo que quieras preparar para mañana.</div>';
+   state.tomorrowList.forEach((x,i)=>{
+     const row=document.createElement('div');row.className='tomorrow-row'+(x.done?' done':'');
+     row.innerHTML=`<button class="tomorrow-check" data-tcheck="${i}">${x.done?'✓':'○'}</button><div class="grow"><b>${x.text}</b></div><button class="smallbtn" data-tdel="${i}">Eliminar</button>`;
+     list.appendChild(row);
+   });
+   list.querySelectorAll('[data-tcheck]').forEach(b=>b.onclick=()=>{const i=Number(b.dataset.tcheck);state.tomorrowList[i].done=!state.tomorrowList[i].done;save()});
+   list.querySelectorAll('[data-tdel]').forEach(b=>b.onclick=()=>{state.tomorrowList.splice(Number(b.dataset.tdel),1);save()});
+ }
+ const summary=$('#tomorrowHomeSummary');
+ if(summary){
+   const total=state.tomorrowList.length,done=state.tomorrowList.filter(x=>x.done).length;
+   summary.textContent=total?`${done}/${total} preparado${total===1?'':'s'}`:'Mochila, equipación y cosas importantes';
+ }
+}
+const addTomorrowItemBtn=$('#addTomorrowItemBtn');
+if(addTomorrowItemBtn)addTomorrowItemBtn.onclick=()=>{
+ const input=$('#tomorrowItemInput'),text=input.value.trim();
+ if(!text){toast('Escribe algo para preparar');return}
+ state.tomorrowList.push({text,done:false});
+ input.value='';save();
+};
+function renderChildWeekSummary(){
+ const box=$('#childWeekSummary');if(!box)return;
+ const {start,end}=currentWeekRange();
+ const approvals=(state.approvalHistory||[]).filter(x=>dateKeyInRange(x.date,start,end));
+ const stars=approvals.reduce((s,x)=>s+(Number(x.stars)||0),0);
+ const readingDays=new Set(approvals.filter(x=>(x.title||'').toLowerCase().includes('leer 30 minutos')).map(x=>x.date)).size;
+ const days=new Set(approvals.map(x=>x.date)).size;
+ box.innerHTML=`<div class="child-week-grid">
+   <div><b>${approvals.length}</b><span>tareas</span></div>
+   <div><b>${stars}</b><span>⭐ ganadas</span></div>
+   <div><b>${readingDays}</b><span>días lectura</span></div>
+   <div><b>${days}</b><span>días activos</span></div>
+ </div><div class="mmeta" style="margin-top:8px">${approvals.length?'¡Buen trabajo esta semana! Sigue sumando pequeños logros.':'Todavía estás a tiempo de empezar la semana con una misión.'}</div>`;
+}
+function renderGoalMilestones(){
+ const box=$('#goalMilestones');if(!box)return;
+ const g=activeGoal();
+ if(!g){box.innerHTML='';return}
+ const pct=Math.min(100,Math.round((state.stars/Math.max(1,Number(g.cost)||1))*100));
+ const marks=[25,50,75,100];
+ box.innerHTML='<div class="milestone-track">'+marks.map(n=>`<div class="milestone ${pct>=n?'on':''}"><span>${pct>=n?'✓':'○'}</span><b>${n}%</b></div>`).join('')+'</div>';
+}
+function copyChildConfig(sourceId){
+ const source=(familyStore.children||[]).find(c=>String(c.id)===String(sourceId));
+ const targets=(familyStore.children||[]).filter(c=>String(c.id)!==String(sourceId));
+ if(!source||!targets.length){toast('Necesitas al menos dos perfiles');return}
+ const options=targets.map((c,i)=>`${i+1}. ${c.name||'Perfil'}`).join('\n');
+ const pick=Number(prompt(`Copiar configuración de ${source.name||'este perfil'} a:\n${options}\n\nEscribe el número:`))-1;
+ if(!Number.isInteger(pick)||pick<0||pick>=targets.length)return;
+ const target=targets[pick];
+ if(!confirm(`¿Copiar tareas, premios, retos, objetivos, mundos e insignias a ${target.name}? No se copiarán estrellas, calendario, diario ni progreso.`))return;
+ const s=source.state||{},t=target.state||freshChildState(target.name,target.birthDate,target.city);
+ t.missions=cloneJson(s.missions||[]).map(m=>({...m,status:0,ownerChildId:target.id}));
+ t.rewards=cloneJson(s.rewards||[]);
+ t.customChallenges=cloneJson(s.customChallenges||[]).map(c=>({...c,ownerChildId:target.id}));
+ t.defaultChallengesEnabled=s.defaultChallengesEnabled;
+ t.bigGoals=cloneJson(s.bigGoals||[]);
+ t.activeGoalId=s.activeGoalId||t.bigGoals?.[0]?.id||'';
+ t.worlds=cloneJson(s.worlds||defaultWorldsData());
+ t.badges=cloneJson(s.badges||defaultBadgesData());
+ t.notificationPrefs=cloneJson(s.notificationPrefs||{pending:true,projects:true,tomorrow:true,rewards:true});
+ t.tomorrowList=cloneJson(s.tomorrowList||[]).map(x=>({...x,done:false}));
+ target.state=t;
+ if(target.id===familyStore.activeChildId)state=t;
+ saveFamilyStore();safeStoreState();render();toast(`Configuración copiada a ${target.name} ✅`);
+}
+
 function render(){
  updateBigGoalVisibility();
  renderFamilyData();
@@ -5104,7 +5575,7 @@ if(parentsTogether()){
   : '<div class="family-illus"><div class="family-emoji-wrap"><div class="family-emoji">👨</div><div class="family-emoji small-kid">🧒</div></div></div>';
  familyCard.innerHTML=`${emojiArt}<div class="family-panel"><div class="eyebrow">Hoy estoy con</div><b>${person}</b><span>¡Juntos hacemos grandes cosas!</span></div>`;
 }
- renderProjectReminders();renderModules();renderReading();renderProjects();renderCalendar();renderRewards();renderRewardAdmin();renderParents();renderExtras();renderProfileData();renderStreaks();renderTaskAdmin();renderDailySummary();renderEventAdmin();renderTodayEvents();renderRewardHistory();renderSyncConfig();renderBigGoal();renderGoalAdmin();renderSpecialAdmin();renderSpecialDay();renderSmartAlerts();renderSmartHome();renderNoticeCenter();renderReminderPrefs();renderChildSwitcher();renderChildManager();renderActiveChildName();renderActiveChildIdentity();renderChildTopSwitcher();renderChallengeAdmin();renderCityScene();renderGoalVisual();renderActiveCity();renderFooterChildArt();renderFamilyPage();renderParentWeeklySummary();renderBadges();renderBadgeAdmin();renderWorlds();renderWorldAdmin();renderJournal()
+ renderProjectReminders();renderModules();renderReading();renderProjects();renderCalendar();renderRewards();renderRewardAdmin();renderParents();renderExtras();renderProfileData();renderStreaks();renderTaskAdmin();renderDailySummary();renderEventAdmin();renderTodayEvents();renderRewardHistory();renderSyncConfig();renderBigGoal();renderGoalAdmin();renderSpecialAdmin();renderSpecialDay();renderSmartAlerts();renderSmartHome();renderNoticeCenter();renderReminderPrefs();renderChildSwitcher();renderChildManager();renderActiveChildName();renderActiveChildIdentity();renderChildTopSwitcher();renderChallengeAdmin();renderCityScene();renderGoalVisual();renderActiveCity();renderFooterChildArt();renderFamilyPage();renderParentWeeklySummary();renderBadges();renderBadgeAdmin();renderWorlds();renderWorldAdmin();renderJournal();renderBirthdays();renderVacationMode();renderTomorrowList();renderChildWeekSummary();renderGoalMilestones()
 }
 
 
@@ -5305,11 +5776,195 @@ $('#journalDatePicker').onchange=()=>{
 
 
 const DEFAULT_WORLDS=defaultWorldsData();
+const WORLD_VISUALS={
+ mountain:{image:'./world-mountain.webp',tags:['🏔️ Hábitos','⭐ Constancia','🏕️ Rutina'],action:'Seguir subiendo'},
+ maze:{image:'./world-maze.webp',tags:['📚 Cole','🧠 Pensar','✏️ Aprender'],action:'Resolver misiones'},
+ jungle:{image:'./world-jungle.webp',tags:['⚽ Deporte','🏃 Movimiento','🌿 Energía'],action:'Ir a la aventura'},
+ castle:{image:'./world-castle.webp',tags:['🏠 Casa','🧹 Orden','👑 Responsabilidad'],action:'Entrar al castillo'},
+ ocean:{image:'./world-ocean.webp',tags:['💙 Emociones','🌊 Calma','🤝 Convivencia'],action:'Navegar ahora'},
+ space:{image:'./world-space.webp',tags:['🚀 Grandes metas','🌟 Sueños','🪐 Objetivos largos'],action:'Despegar'}
+};
 function ensureWorldState(){
  if(!Array.isArray(state.worlds)||!state.worlds.length){
    state.worlds=DEFAULT_WORLDS.map(x=>({...x}));
+   return;
+ }
+ const oldDefaults=['Inicio de aventura','Bosque','Montaña','Isla','Castillo','Mundo secreto'];
+ const looksOld=state.worlds.length===6 && state.worlds.every((w,i)=>oldDefaults[i]===w.title);
+ if(looksOld){
+   state.worlds=DEFAULT_WORLDS.map((x,i)=>({...x,xp:Number(state.worlds[i]?.xp??x.xp)}));
+   return;
+ }
+ state.worlds.forEach((w,i)=>{
+   const d=DEFAULT_WORLDS[i]||{};
+   if(!w.theme && d.theme)w.theme=d.theme;
+   if(!w.tagline && d.tagline)w.tagline=d.tagline;
+   if(!w.reward && d.reward)w.reward=d.reward;
+ });
+}
+function worldVisual(w,index=0){
+ const theme=w.theme||DEFAULT_WORLDS[index]?.theme||'';
+ return WORLD_VISUALS[theme]||{image:'',tags:['🌍 Aventura'],action:'Ver mundo'};
+}
+
+const WORLD_STAGE_BASE=[
+ {key:'explorer',name:'Explorador',icon:'🧭',target:5,stars:5,xp:10},
+ {key:'adventurer',name:'Aventurero',icon:'🎒',target:15,stars:10,xp:20},
+ {key:'champion',name:'Campeón',icon:'🏆',target:30,stars:15,xp:30},
+ {key:'legend',name:'Leyenda',icon:'👑',target:50,stars:25,xp:50}
+];
+const WORLD_STAGE_PLACES={
+ mountain:['Campamento Base','Bosque Alto','Camino de las Nubes','La Gran Cima'],
+ maze:['Entrada del Laberinto','Pasillos Mágicos','Sala de Pistas','Tesoro Final'],
+ jungle:['Sendero Verde','Puente Colgante','Gran Cascada','Templo Escondido'],
+ castle:['El Patio','La Torre','Salón Real','Torre Dorada'],
+ ocean:['Isla Serena','Isla del Respeto','Isla del Valor','Isla de la Calma'],
+ space:['Planeta Inicio','Planeta Constancia','Planeta Superación','Planeta de los Sueños']
+};
+function inferTaskWorld(task){
+ const t=((task?.title||'')+' '+(task?.section||'')).toLowerCase();
+ if(/deber|cole|agenda|libro|leer|lectura|estudi|matem|mochila|material|examen/.test(t))return 'maze';
+ if(/fútbol|futbol|deporte|entrena|correr|bici|nadar|paseo|ejercicio|estir/.test(t))return 'jungle';
+ if(/ayudar|recoger|orden|ropa|mesa|habitación|habitacion|limpiar|cama|pijama|desayuno/.test(t))return 'castle';
+ if(/calma|respir|perdón|perdon|sentir|emoción|emocion|pelea|respeto|conviv/.test(t))return 'ocean';
+ if(/objetivo|proyecto|meta|sueño|sueno/.test(t))return 'space';
+ return 'mountain';
+}
+function taskWorldId(task){return task?.worldId||inferTaskWorld(task)}
+function approvalWorldId(item){
+ if(item?.worldId)return item.worldId;
+ return inferTaskWorld({title:item?.title||'',section:item?.section||''});
+}
+function worldMissionApprovals(worldId){
+ return (state.approvalHistory||[]).filter(x=>approvalWorldId(x)===worldId);
+}
+function worldStagesFor(world){
+ const theme=world?.theme||world?.id||'mountain';
+ const places=WORLD_STAGE_PLACES[theme]||['Primer paso','Nueva ruta','Gran reto','Meta final'];
+ return WORLD_STAGE_BASE.map((s,i)=>({...s,place:places[i]}));
+}
+function worldStageState(world){
+ const count=worldMissionApprovals(world.id).length;
+ const stages=worldStagesFor(world);
+ let currentIndex=stages.findIndex(s=>count<s.target);
+ if(currentIndex<0)currentIndex=stages.length-1;
+ const conquered=count>=stages[stages.length-1].target;
+ const current=stages[currentIndex];
+ const prev=currentIndex?stages[currentIndex-1].target:0;
+ const span=Math.max(1,current.target-prev);
+ const within=conquered?span:Math.max(0,count-prev);
+ const pct=conquered?100:Math.min(100,Math.round(within/span*100));
+ const totalPct=Math.min(100,Math.round(count/stages[stages.length-1].target*100));
+ return {count,stages,currentIndex,current,conquered,pct,totalPct};
+}
+function ensureWorldClaims(){
+ if(!state.worldStageClaims||typeof state.worldStageClaims!=='object')state.worldStageClaims={};
+}
+function worldClaimed(worldId,key){
+ ensureWorldClaims();
+ return !!state.worldStageClaims[`${worldId}:${key}`];
+}
+function claimWorldStage(worldId,key){
+ ensureWorldState();ensureWorldClaims();
+ const world=(state.worlds||[]).find(w=>w.id===worldId);if(!world)return;
+ const ss=worldStageState(world),stage=ss.stages.find(s=>s.key===key);if(!stage)return;
+ if(ss.count<stage.target){toast('Todavía falta un poco para superar esta fase');return}
+ const claimKey=`${worldId}:${key}`;
+ if(state.worldStageClaims[claimKey]){toast('Este premio ya está recogido ✅');return}
+ state.worldStageClaims[claimKey]=Date.now();
+ state.stars=(Number(state.stars)||0)+stage.stars;
+ state.xp=(Number(state.xp)||0)+stage.xp;
+ toast(`¡Fase superada! +${stage.stars} ⭐ · +${stage.xp} XP 🎉`);
+ save();
+ renderWorldDetail(worldId);
+}
+function currentWorldById(id){return (state.worlds||[]).find(w=>w.id===id)}
+let activeWorldDetailId='';
+function openWorldDetail(worldId){
+ ensureWorldState();
+ const w=currentWorldById(worldId);if(!w)return;
+ if(!worldProgress(w).done){toast(`Necesitas ${w.xp} XP para abrir este mundo`);return}
+ activeWorldDetailId=worldId;
+ document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+ $('#worldDetail')?.classList.add('active');
+ document.querySelectorAll('.nav button').forEach(x=>x.classList.remove('on'));
+ document.querySelector('.nav button[data-screen="worlds"]')?.classList.add('on');
+ renderWorldDetail(worldId);
+ try{window.scrollTo(0,0)}catch(e){}
+}
+function renderWorldDetail(worldId=activeWorldDetailId){
+ if(!worldId)return;
+ ensureWorldState();ensureWorldClaims();
+ const world=currentWorldById(worldId);if(!world)return;
+ const idx=(state.worlds||[]).indexOf(world),v=worldVisual(world,idx),ss=worldStageState(world);
+ const hero=$('#worldDetailHero');
+ if(hero){
+   hero.style.backgroundImage=v.image?`url('${v.image}')`:'';
+   hero.innerHTML=`<div class="world-detail-hero-shade"></div>
+     <div class="world-detail-hero-copy">
+       <span>${world.icon||'🌍'}</span>
+       <div><h1>${world.title||'Mundo'}</h1><p>${world.tagline||'Tu aventura continúa.'}</p></div>
+     </div>
+     <div class="world-detail-total"><b>${ss.totalPct}%</b><small>aventura completa</small></div>`;
+ }
+ if($('#worldDetailStage'))$('#worldDetailStage').textContent=ss.conquered?'Leyenda':ss.current.name;
+ if($('#worldDetailCount'))$('#worldDetailCount').textContent=ss.count;
+ if($('#worldDetailPct'))$('#worldDetailPct').textContent=ss.totalPct+'%';
+ const pill=$('#worldConqueredPill');if(pill)pill.style.display=ss.conquered?'block':'none';
+
+ const path=$('#worldStagePath');if(path){
+   path.innerHTML=ss.stages.map((s,i)=>{
+     const done=ss.count>=s.target,active=!ss.conquered&&i===ss.currentIndex;
+     const claimed=worldClaimed(world.id,s.key);
+     return `<div class="world-stage-node ${done?'done':''} ${active?'active':''}">
+       <div class="stage-node-icon">${done?'✓':s.icon}</div>
+       <div class="stage-node-copy"><b>${s.name}</b><span>${s.place}</span><small>${Math.min(ss.count,s.target)}/${s.target} misiones</small></div>
+       <div class="stage-node-reward">${claimed?'🎁 Recogido':done?`<button type="button" onclick="claimWorldStage('${world.id}','${s.key}')">🎁 Recoger</button>`:`🔒 ${s.target}`}</div>
+     </div>`;
+   }).join('');
+ }
+
+ const currentCard=$('#worldCurrentStageCard');if(currentCard){
+   const targetStage=ss.conquered?ss.stages[3]:ss.current;
+   const prev=ss.currentIndex?ss.stages[ss.currentIndex-1].target:0;
+   const stageCount=ss.conquered?targetStage.target:Math.max(0,ss.count-prev);
+   const stageNeed=ss.conquered?targetStage.target:targetStage.target-prev;
+   const rewardReady=ss.count>=targetStage.target&&!worldClaimed(world.id,targetStage.key);
+   currentCard.innerHTML=ss.conquered?`
+     <div class="world-finish-banner"><span>🏆</span><div><div class="eyebrow">MUNDO CONQUISTADO</div><h2>¡Eres Leyenda!</h2><p>Has completado la historia principal. Las misiones de este mundo siguen contando.</p></div></div>
+     ${rewardReady?`<button class="btn primary world-claim-btn" onclick="claimWorldStage('${world.id}','${targetStage.key}')">🎁 Recoger premio Leyenda · ${targetStage.stars} ⭐ + ${targetStage.xp} XP</button>`:''}
+   `:`
+     <div class="world-current-head"><div><div class="eyebrow">FASE ACTUAL</div><h2>${targetStage.icon} ${targetStage.name}</h2><p>${targetStage.place}</p></div><b>${ss.pct}%</b></div>
+     <div class="world-current-bar"><i style="width:${ss.pct}%"></i></div>
+     <div class="world-current-foot"><span>${stageCount}/${stageNeed} pasos de esta fase</span><span>🎁 ${targetStage.stars} ⭐ + ${targetStage.xp} XP</span></div>
+     ${rewardReady?`<button class="btn primary world-claim-btn" onclick="claimWorldStage('${world.id}','${targetStage.key}')">🎉 Superar fase y recoger premio</button>`:''}
+   `;
+ }
+
+ const tasks=(state.missions||[]).filter(m=>taskWorldId(m)===world.id);
+ const list=$('#worldMissionList');
+ if(list){
+   if(!tasks.length)list.innerHTML='<div class="world-empty">Todavía no hay tareas asignadas a este mundo. Los padres pueden asignarlas desde <b>Gestionar tareas</b>.</div>';
+   else list.innerHTML=tasks.map(m=>`<div class="world-mission-row">
+     <span class="world-mission-check">${m.status===1?'✅':m.status===2?'⏳':'○'}</span>
+     <div><b>${m.title}</b><small>${m.section} · ${m.stars} ⭐ · ${m.xp} XP</small></div>
+     <span class="world-mission-state">${m.status===1?'Aprobada':m.status===2?'Pendiente':'Por hacer'}</span>
+   </div>`).join('');
+ }
+ if($('#worldMissionCountPill'))$('#worldMissionCountPill').textContent=`${tasks.length} tarea${tasks.length===1?'':'s'}`;
+
+ const master=$('#worldMasterCard');if(master){
+   if(ss.conquered){
+     const extra=Math.max(0,ss.count-ss.stages[3].target);
+     master.innerHTML=`<div class="world-master-icon">✨</div><div><div class="eyebrow">MODO LEYENDA</div><h2>Misiones libres</h2><p>El mundo no termina: sigue haciendo sus misiones y mejora tu marca personal.</p><b>${extra} misiones extra desde que conquistaste el mundo</b></div>`;
+   }else{
+     master.innerHTML=`<div class="world-master-icon">🔒</div><div><div class="eyebrow">MODO LEYENDA</div><h2>Se abre al conquistar el mundo</h2><p>Después de Leyenda podrás seguir jugando este mundo con misiones libres.</p></div>`;
+   }
  }
 }
+window.openWorldDetail=openWorldDetail;
+window.claimWorldStage=claimWorldStage;
+
 function totalEarnedXp(){
  const hist=state.approvalHistory||[];
  const histXp=hist.reduce((s,x)=>s+(Number(x.xp)||0),0);
@@ -5329,22 +5984,33 @@ function renderWorlds(){
  const grid=$('#worldGrid');if(!grid)return;
  const xp=totalEarnedXp();
  if($('#worldTotalXp'))$('#worldTotalXp').textContent=xp;
- const unlocked=state.worlds.filter(w=>worldProgress(w).done).length;
+ const sorted=[...state.worlds].sort((a,b)=>(Number(a.xp)||0)-(Number(b.xp)||0));
+ const unlocked=sorted.filter(w=>worldProgress(w).done).length;
  if($('#worldUnlockedCount'))$('#worldUnlockedCount').textContent=unlocked;
  grid.innerHTML='';
- [...state.worlds].sort((a,b)=>(Number(a.xp)||0)-(Number(b.xp)||0)).forEach(w=>{
-   const p=worldProgress(w);
-   const card=document.createElement('div');
-   card.className='world '+(p.done?'':'locked');
+ sorted.forEach((w,index)=>{
+   const p=worldProgress(w),v=worldVisual(w,index);
+   const card=document.createElement('article');
+   card.className='adventure-world-card '+(p.done?'unlocked':'locked');
+   const tags=(v.tags||[]).map(t=>`<span>${t}</span>`).join('');
    card.innerHTML=`
-     ${p.done?'<div class="world-unlocked">✓ Abierto</div>':''}
-     <div class="world-icon">${w.icon||'🌍'}</div>
-     <div class="world-copy">
-       <b>${w.title||'Mundo'}</b>
-       <span>${p.done?'Desbloqueado':`Se abre con ${p.target} XP`}</span>
-       <div class="world-progress">${Math.min(p.xp,p.target||p.xp)} / ${p.target} XP</div>
-       <div class="world-bar"><i style="width:${p.pct}%"></i></div>
+     <div class="adventure-world-image" ${v.image?`style="background-image:url('${v.image}')"`:''}>
+       <div class="adventure-world-shade"></div>
+       <div class="adventure-world-status">${p.done?'✓ Abierto':`🔒 ${p.target} XP`}</div>
+       <div class="adventure-world-title"><small>${w.icon||'🌍'}</small><b>${w.title||'Mundo'}</b><span>${w.tagline||'Tu próxima aventura te espera.'}</span></div>
+     </div>
+     <div class="adventure-world-body">
+       <div class="adventure-progress-head"><b>${p.pct}%</b><span>${p.done?'Mundo desbloqueado':`${Math.min(p.xp,p.target)} / ${p.target} XP`}</span></div>
+       <div class="adventure-world-bar"><i style="width:${p.pct}%"></i></div>
+       <div class="adventure-world-info">
+         <div><strong>${p.done?'🌟':'⚡'}</strong><span>${p.done?'Listo para explorar':'Sigue ganando XP'}</span></div>
+         <div><strong>🎁</strong><span>${w.reward||'Premio especial'}</span></div>
+       </div>
+       <div class="adventure-world-tags">${tags}</div>
+       <button class="adventure-world-action" type="button" ${p.done?'':'disabled'}>${p.done?(v.action||'Entrar'):`Se abre con ${p.target} XP`} <span>›</span></button>
      </div>`;
+   const btn=card.querySelector('.adventure-world-action');
+   if(p.done)btn.onclick=()=>openWorldDetail(w.id);
    grid.appendChild(card);
  });
 }
@@ -5362,6 +6028,10 @@ function renderWorldAdmin(){
       <input data-world-title="${i}" value="${String(w.title||'').replace(/"/g,'&quot;')}" placeholder="Nombre del mundo">
       <input data-world-xp="${i}" type="number" min="0" step="10" value="${Number(w.xp)||0}" title="XP necesarios">
     </div>
+    <div class="world-admin-visual-fields">
+      <input data-world-tagline="${i}" value="${String(w.tagline||'').replace(/"/g,'&quot;')}" placeholder="Frase del mundo">
+      <input data-world-reward="${i}" value="${String(w.reward||'').replace(/"/g,'&quot;')}" placeholder="Premio final">
+    </div>
     <div class="world-admin-bottom">
       <div class="mmeta">${p.done?'✅ Desbloqueado':'🔒 Bloqueado'} · ${p.xp}/${p.target} XP</div>
       <input data-world-order="${i}" type="number" min="1" value="${i+1}" title="Orden">
@@ -5369,13 +6039,15 @@ function renderWorldAdmin(){
     </div>`;
    box.appendChild(row);
  });
- box.querySelectorAll('[data-world-icon],[data-world-title],[data-world-xp]').forEach(el=>{
+ box.querySelectorAll('[data-world-icon],[data-world-title],[data-world-xp],[data-world-tagline],[data-world-reward]').forEach(el=>{
    el.onchange=()=>{
      const attr=[...el.attributes].find(a=>a.name.startsWith('data-world-') && a.name!=='data-world-del' && a.name!=='data-world-order');
      const i=Number(attr.value),w=state.worlds[i];if(!w)return;
      if(el.hasAttribute('data-world-icon'))w.icon=el.value.trim()||'🌍';
      if(el.hasAttribute('data-world-title'))w.title=el.value.trim()||'Mundo';
      if(el.hasAttribute('data-world-xp'))w.xp=Math.max(0,Number(el.value)||0);
+     if(el.hasAttribute('data-world-tagline'))w.tagline=el.value.trim();
+     if(el.hasAttribute('data-world-reward'))w.reward=el.value.trim();
      state.worlds.sort((a,b)=>(Number(a.xp)||0)-(Number(b.xp)||0));
      save();renderWorlds();renderWorldAdmin();
    };
@@ -5398,7 +6070,7 @@ function renderWorldAdmin(){
 $('#addWorldBtn').onclick=()=>{
  ensureWorldState();
  const last=Math.max(0,...state.worlds.map(w=>Number(w.xp)||0));
- state.worlds.push({id:'world-'+Date.now(),icon:'🌍',title:'Nuevo mundo',xp:last+500});
+ state.worlds.push({id:'world-'+Date.now(),icon:'🌍',title:'Nuevo mundo',xp:last+500,theme:'',tagline:'Una nueva aventura te espera.',reward:'Premio especial'});
  save();renderWorlds();renderWorldAdmin();
 };
 
@@ -5514,14 +6186,42 @@ $('#addBadgeBtn').onclick=()=>{
  save();renderBadges();renderBadgeAdmin();
 };
 
+
+function ensureV82State(){
+ if(typeof state.vacationMode!=='boolean')state.vacationMode=false;
+ if(!Array.isArray(state.tomorrowList))state.tomorrowList=[];
+ if(typeof state.tomorrowCheckDate!=='string')state.tomorrowCheckDate='';
+ if(!state.worldStageClaims||typeof state.worldStageClaims!=='object')state.worldStageClaims={};
+ state.missions.forEach(m=>{if(!m.dayType)m.dayType='all';if(!m.worldId)m.worldId=inferTaskWorld(m);});
+}
+
 function ensureTaskState(){
  state.missions.forEach(m=>{
    if(typeof m.enabled==='undefined')m.enabled=true;
    if(!m.house)m.house='Ambas';
  });
 }
-ensureTaskState();
+ensureTaskState();ensureV82State();
 
+
+function renderVacationMode(){
+ const t=$('#vacationModeToggle');if(t)t.checked=state.vacationMode===true;
+}
+const vacationModeToggle=$('#vacationModeToggle');
+if(vacationModeToggle)vacationModeToggle.onchange=()=>{
+ state.vacationMode=vacationModeToggle.checked;
+ toast(state.vacationMode?'Modo vacaciones activado 🏖️':'Modo vacaciones desactivado');
+ save();
+};
+
+function populateTaskWorldSelect(selected=''){
+ const sel=$('#taskWorldInput');if(!sel)return;
+ ensureWorldState();
+ const current=selected||sel.value||'mountain';
+ sel.innerHTML=(state.worlds||[]).map(w=>`<option value="${w.id}">${w.icon||'🌍'} ${w.title||'Mundo'}</option>`).join('');
+ if([...sel.options].some(o=>o.value===current))sel.value=current;
+ else if(sel.options.length)sel.selectedIndex=0;
+}
 function resetTaskForm(){
  $('#taskNameInput').value='';
  $('#taskSectionInput').value='Mañana';
@@ -5529,11 +6229,14 @@ function resetTaskForm(){
  $('#taskXpInput').value=10;
  $('#taskHouseInput').value='Ambas';
  $('#taskAssignInput').value='current';
+ $('#taskDayTypeInput').value='all';
+ populateTaskWorldSelect('mountain');
  $('#saveTaskBtn').dataset.edit='';
  $('#saveTaskBtn').textContent='Añadir tarea';
 }
 
 function renderTaskAdmin(){
+ populateTaskWorldSelect($('#taskWorldInput')?.value||'');
  const list=$('#taskAdminList');
  if(!list)return;
  list.innerHTML='';
@@ -5556,7 +6259,7 @@ function renderTaskAdmin(){
      row.innerHTML=`
        <div>
          <b>${m.title}</b>
-         <div class="task-admin-meta">${m.stars} ⭐ · ${m.xp} XP · ${m.enabled===false?'Desactivada':'Activa'} <span class="task-house-pill">${m.house||'Ambas'}</span></div>
+         <div class="task-admin-meta">${m.stars} ⭐ · ${m.xp} XP · ${m.enabled===false?'Desactivada':'Activa'} <span class="task-house-pill">${m.house||'Ambas'}</span> <span class="task-house-pill">${({all:'Todos los días',school:'Colegio',weekend:'Fin de semana',vacation:'Vacaciones'})[m.dayType||'all']}</span> <span class="task-house-pill">${({'mountain':'🏔️ Montaña','maze':'🧩 Laberinto','jungle':'🌿 Selva','castle':'🏰 Castillo','ocean':'🌊 Océano','space':'🚀 Espacio'})[taskWorldId(m)]||'🌍 Mundo'}</span></div>
        </div>
        <div class="task-admin-actions">
          <button class="smallbtn uploadbtn" data-edittask="${i}">Editar</button>
@@ -5575,6 +6278,8 @@ function renderTaskAdmin(){
    $('#taskXpInput').value=m.xp;
    $('#taskHouseInput').value=m.house||'Ambas';
    $('#taskAssignInput').value=m.scope||'current';
+   $('#taskDayTypeInput').value=m.dayType||'all';
+   populateTaskWorldSelect(taskWorldId(m));
    $('#saveTaskBtn').dataset.edit=String(i);
    $('#saveTaskBtn').textContent='Guardar cambios';
  });
@@ -5607,6 +6312,8 @@ $('#saveTaskBtn').onclick=()=>{
    house:$('#taskHouseInput').value||'Ambas',
    scope:$('#taskAssignInput').value||'current',
    ownerChildId:familyStore.activeChildId,
+   dayType:$('#taskDayTypeInput').value||'all',
+   worldId:$('#taskWorldInput')?.value||inferTaskWorld({title,section:$('#taskSectionInput').value}),
    status:0,
    enabled:true
  };
@@ -5615,6 +6322,7 @@ $('#saveTaskBtn').onclick=()=>{
    const prev=state.missions[Number(edit)];
    task.status=prev.status||0;
    task.enabled=prev.enabled!==false;
+   if(!task.worldId)task.worldId=prev.worldId||inferTaskWorld(prev);
    state.missions[Number(edit)]=task;
    toast('Tarea actualizada ✅');
  }else{

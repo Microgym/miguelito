@@ -1,0 +1,8 @@
+MIS TAREAS v85 — CORRECCIÓN GRANDES OBJETIVOS
+
+- Corregido el fallo real al crear el primer gran objetivo cuando no existía ninguno.
+- El objetivo ya se guarda y aparece inmediatamente en la lista.
+- Opción visible “Mostrar en Inicio” al crear/editar.
+- En la lista, botón “Mostrar en Inicio” y etiqueta “EN INICIO”.
+- El campo de fecha queda identificado como opcional.
+- Se mantiene todo lo añadido en v84 (Mundos con fases).

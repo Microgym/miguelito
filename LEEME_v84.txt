@@ -1,0 +1,13 @@
+MIS TAREAS v84 — MUNDOS CON FASES
+
+Novedades:
+- Cada mundo tiene pantalla interior.
+- 4 fases: Explorador, Aventurero, Campeón y Leyenda.
+- Cada fase tiene escenario temático según el mundo.
+- Las tareas se asignan a un mundo desde Gestionar tareas.
+- Las tareas antiguas se clasifican automáticamente según su nombre/sección.
+- Las aprobaciones suman progreso al mundo correspondiente.
+- Premios por fase: estrellas + XP, recogibles una sola vez.
+- Tras Leyenda: Mundo conquistado + Modo Leyenda con misiones libres.
+- Los mundos siguen siendo utilizables después de conquistarlos.
+- XP global sigue desbloqueando mundos; las fases progresan por misiones aprobadas del propio mundo.
