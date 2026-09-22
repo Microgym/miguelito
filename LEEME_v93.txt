@@ -1,0 +1,11 @@
+MIS TAREAS v93 — RETOS MÁS CLAROS
+
+- Los campos de crear reto ahora tienen etiquetas visibles.
+- Se explica qué significa “Qué tareas cuentan”.
+- Se explica qué significa la meta numérica.
+- Estrellas y XP están claramente separados.
+- El selector se llama “Mundo del reto”.
+- Debajo del mundo aparece una explicación dinámica con ejemplos.
+- Se diferencia especialmente:
+  Castillo = rutinas, orden y autonomía.
+  Montaña = constancia, rachas y superación.

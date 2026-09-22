@@ -2151,6 +2151,47 @@ body.preview-first-run .first-run-cancel-preview{display:block}
  .world-create-actions button{text-align:left;padding:9px 10px}
 }
 
+
+/* ===== v93 Retos: campos claros y ayuda de Mundos ===== */
+.challenge-clear-grid{
+ display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px
+}
+.challenge-field{
+ display:flex;flex-direction:column;gap:4px;font-size:9px;font-weight:1000;color:#315d85
+}
+.challenge-field span{padding-left:2px}
+.challenge-field em{font-style:normal;font-weight:800;color:#8194a6}
+.challenge-field input,.challenge-field select{
+ width:100%;box-sizing:border-box;border:1px solid #dce5ef;border-radius:11px;padding:10px;background:#fff;
+ color:#294f74;font:inherit;font-weight:700
+}
+.challenge-field small{
+ font-size:7px;line-height:1.35;color:#7b8fa2;font-weight:700;padding:0 2px
+}
+.challenge-world-field{margin-top:10px}
+.challenge-world-help{
+ margin-top:7px;padding:9px 10px;border-radius:11px;background:#fff;border:1px solid #dce7f1
+}
+.challenge-world-help b{display:block;font-size:9px;color:#284f75;margin-bottom:2px}
+.challenge-world-help span{display:block;font-size:8px;color:#5f7890;font-weight:800}
+.challenge-world-help small{display:block;font-size:7px;color:#8193a4;margin-top:3px;font-weight:700}
+@media(max-width:420px){
+ .challenge-clear-grid{grid-template-columns:1fr}
+}
+
+
+/* ===== v94 Pack inicial de tareas y retos por Mundos ===== */
+.starter-pack-note{
+ margin:9px 0 4px;padding:10px 11px;border-radius:13px;background:#fff8dd;border:1px solid #f1df9a;
+ color:#725f20
+}
+.starter-pack-note b{display:block;font-size:9px;margin-bottom:2px}
+.starter-pack-note span{display:block;font-size:8px;line-height:1.35;font-weight:800}
+.starter-pack-pill{
+ display:inline-block;margin-left:4px;padding:2px 5px;border-radius:7px;background:#fff1b8;color:#7a651c;
+ font-size:7px;font-weight:1000;vertical-align:1px
+}
+
 </style>
 </head>
 <body>
@@ -2974,14 +3015,39 @@ body.preview-first-run .first-run-cancel-preview{display:block}
  <button class="btn ghost parent-back-btn" type="button" onclick="backToParents()">← Volver a Zona Padres</button>
  <div class="card panelcard">
 <h3 style="margin:0 0 5px">🎯 Retos por hijo</h3>
-<div class="mmeta">Crea retos para el hijo seleccionado o para todos. Puedes vincularlos a un mundo para que aparezcan dentro de esa aventura.</div>
-<div class="challenge-admin-form"><input id="challengeTitleInput" placeholder="Nombre del reto"/><input id="challengeMatchInput" placeholder="Tarea relacionada, ej. Leer"/></div>
-<div class="challenge-admin-form"><input id="challengeGoalInput" min="1" placeholder="Meta" type="number" value="5"/><input id="challengeStarsInput" min="0" placeholder="⭐ Bonus" type="number" value="20"/></div>
-<div class="challenge-admin-form"><input id="challengeXpInput" min="0" placeholder="XP bonus" type="number" value="30"/><select id="challengeAssignInput"><option value="current">👤 Solo hijo seleccionado</option><option value="all">👨‍👩‍👧‍👦 Todos los hijos</option></select></div>
-<div class="world-link-field">
- <label for="challengeWorldInput">🌍 Mundo vinculado</label>
+<div class="mmeta">Un reto es una meta corta construida sobre varias tareas aprobadas. Elige qué tareas cuentan, cuántas hacen falta y a qué mundo pertenece.</div>
+<div class="challenge-clear-grid">
+ <label class="challenge-field">
+  <span>Nombre del reto</span>
+  <input id="challengeTitleInput" placeholder="Ej. Preparar la mochila 5 días"/>
+ </label>
+ <label class="challenge-field">
+  <span>Qué tareas cuentan <em>(opcional)</em></span>
+  <input id="challengeMatchInput" placeholder="Ej. Preparar la mochila"/>
+  <small>Escribe una palabra o frase que aparezca en la tarea. Si lo dejas vacío, contará cualquier tarea aprobada.</small>
+ </label>
+ <label class="challenge-field">
+  <span>Número necesario para completarlo</span>
+  <input id="challengeGoalInput" min="1" type="number" value="5"/>
+  <small>Ej. 5 = completar esa tarea en 5 días distintos.</small>
+ </label>
+ <label class="challenge-field">
+  <span>Premio en estrellas ⭐</span>
+  <input id="challengeStarsInput" min="0" type="number" value="20"/>
+ </label>
+ <label class="challenge-field">
+  <span>Premio en XP ⚡</span>
+  <input id="challengeXpInput" min="0" type="number" value="30"/>
+ </label>
+ <label class="challenge-field">
+  <span>Para quién</span>
+  <select id="challengeAssignInput"><option value="current">👤 Solo hijo seleccionado</option><option value="all">👨‍👩‍👧‍👦 Todos los hijos</option></select>
+ </label>
+</div>
+<div class="world-link-field challenge-world-field">
+ <label for="challengeWorldInput">🌍 Mundo del reto</label>
  <select id="challengeWorldInput"><option value="">Sin mundo</option></select>
- <small>El reto aparecerá dentro de ese mundo.</small>
+ <div id="challengeWorldHelp" class="challenge-world-help"></div>
 </div>
 <button class="btn primary" id="saveChallengeBtn" style="width:100%;margin-top:9px">Añadir reto</button>
 <div id="challengeAdminList" style="margin-top:10px"></div>
@@ -3050,7 +3116,8 @@ body.preview-first-run .first-run-cancel-preview{display:block}
  <button class="btn ghost parent-back-btn" type="button" onclick="backToParents()">← Volver a Zona Padres</button>
  <div class="card panelcard">
 <h3 style="margin:0 0 5px">🌍 Mundos</h3>
-<div class="mmeta">Puede haber varios mundos activos a la vez. El XP los desbloquea; las misiones hacen avanzar sus fases. Elige uno para destacarlo en Inicio.</div>
+<div class="mmeta">Puede haber varios mundos activos a la vez. El XP los desbloquea; las tareas aprobadas hacen avanzar sus fases. Elige uno para destacarlo en Inicio.</div>
+<div class="starter-pack-note"><b>📦 Pack inicial cargado</b><span>He añadido tareas y retos de ejemplo repartidos por mundos. Son normales: puedes editarlos, desactivarlos o borrarlos cuando quieras.</span></div>
 <div id="worldAdminList" style="margin-top:9px"></div>
 <button class="btn ghost" id="addWorldBtn" style="width:100%;margin-top:8px" type="button">+ Añadir mundo</button>
 </div>
@@ -3311,6 +3378,114 @@ function freshFirstRunState(){
  };
 }
 
+
+const WORLD_STARTER_TASKS_V94=[
+ // 🏰 Castillo de las Rutinas
+ {title:'Hacer la cama',section:'Mañana',stars:5,xp:10,worldId:'castle',dayType:'all'},
+ {title:'Recoger el pijama',section:'Mañana',stars:3,xp:5,worldId:'castle',dayType:'all'},
+ {title:'Recoger el desayuno',section:'Mañana',stars:3,xp:5,worldId:'castle',dayType:'all'},
+ {title:'Preparar la mochila',section:'Mañana',stars:5,xp:10,worldId:'castle',dayType:'school'},
+ {title:'Ayudar en casa',section:'Tarde',stars:5,xp:10,worldId:'castle',dayType:'all'},
+ {title:'Recoger la ropa',section:'Tarde',stars:3,xp:5,worldId:'castle',dayType:'all'},
+
+ // 🧩 Laberinto del Ingenio
+ {title:'Traer la agenda',section:'Colegio',stars:4,xp:8,worldId:'maze',dayType:'school'},
+ {title:'Traer todos los libros necesarios',section:'Colegio',stars:4,xp:8,worldId:'maze',dayType:'school'},
+ {title:'Traer el material organizado y limpio',section:'Colegio',stars:4,xp:8,worldId:'maze',dayType:'school'},
+ {title:'Hacer los deberes',section:'Tarde',stars:6,xp:12,worldId:'maze',dayType:'school'},
+ {title:'Leer 30 minutos',section:'Tarde',stars:6,xp:12,worldId:'maze',dayType:'all'},
+ {title:'Ver la tele en inglés',section:'Tarde',stars:4,xp:8,worldId:'maze',dayType:'all'},
+
+ // 🌿 Selva de Aventuras
+ {title:'Hacer 20 minutos de actividad física',section:'Tarde',stars:5,xp:10,worldId:'jungle',dayType:'all'},
+ {title:'Preparar la equipación de deporte',section:'Tarde',stars:4,xp:8,worldId:'jungle',dayType:'all'},
+
+ // 🌊 Océano de la Calma
+ {title:'Contar cómo me he sentido hoy',section:'Tarde',stars:4,xp:8,worldId:'ocean',dayType:'all'},
+ {title:'Hacer 5 minutos de calma o respiración',section:'Tarde',stars:4,xp:8,worldId:'ocean',dayType:'all'}
+];
+
+const WORLD_STARTER_CHALLENGES_V94=[
+ // 🏔️ Montaña: constancia y superación
+ {title:'Cumplir tareas 5 días distintos',match:'',goal:5,stars:20,xp:30,worldId:'mountain'},
+ {title:'Mantener una racha de lectura de 5 días',match:'leer',goal:5,stars:25,xp:40,worldId:'mountain'},
+
+ // 🏰 Castillo: rutinas, orden y autonomía
+ {title:'Hacer la cama 5 días',match:'hacer la cama',goal:5,stars:20,xp:30,worldId:'castle'},
+ {title:'Preparar la mochila 5 días',match:'preparar la mochila',goal:5,stars:20,xp:30,worldId:'castle'},
+
+ // 🧩 Laberinto: estudio y aprendizaje
+ {title:'Leer 5 días',match:'leer',goal:5,stars:25,xp:40,worldId:'maze'},
+ {title:'Hacer los deberes 4 días',match:'hacer los deberes',goal:4,stars:20,xp:35,worldId:'maze'},
+
+ // 🌿 Selva: deporte y movimiento
+ {title:'Moverme 3 días',match:'actividad física',goal:3,stars:20,xp:30,worldId:'jungle'},
+ {title:'Preparar mi equipación 3 días',match:'equipación de deporte',goal:3,stars:15,xp:25,worldId:'jungle'},
+
+ // 🌊 Océano: calma y emociones
+ {title:'Practicar la calma 5 días',match:'calma',goal:5,stars:20,xp:35,worldId:'ocean'},
+ {title:'Contar cómo me siento 4 días',match:'cómo me he sentido',goal:4,stars:20,xp:30,worldId:'ocean'},
+
+ // 🚀 Espacio: pasos hacia metas largas
+ {title:'Dar 5 pasos hacia mis grandes metas',match:'',goal:5,stars:25,xp:40,worldId:'space'}
+];
+
+function normalizeStarterText(v=''){
+ return String(v).trim().toLowerCase()
+   .normalize('NFD').replace(/[\u0300-\u036f]/g,'')
+   .replace(/\s+/g,' ');
+}
+function applyWorldStarterPackV94ToState(st,childId){
+ if(!st||st.worldStarterPackV94Loaded===true)return false;
+ if(!Array.isArray(st.missions))st.missions=[];
+ if(!Array.isArray(st.customChallenges))st.customChallenges=[];
+ const taskTitles=new Set(st.missions.map(m=>normalizeStarterText(m.title)));
+ WORLD_STARTER_TASKS_V94.forEach((t,n)=>{
+   if(taskTitles.has(normalizeStarterText(t.title)))return;
+   st.missions.push({
+     id:`starter-task-v94-${t.worldId}-${n}`,
+     title:t.title,
+     section:t.section,
+     stars:t.stars,
+     xp:t.xp,
+     house:'Ambas',
+     scope:'current',
+     ownerChildId:childId,
+     dayType:t.dayType||'all',
+     worldId:t.worldId,
+     status:0,
+     enabled:true,
+     starterPack:'v94'
+   });
+ });
+ const challengeTitles=new Set(st.customChallenges.map(c=>normalizeStarterText(c.title)));
+ WORLD_STARTER_CHALLENGES_V94.forEach((c,n)=>{
+   if(challengeTitles.has(normalizeStarterText(c.title)))return;
+   st.customChallenges.push({
+     id:`starter-challenge-v94-${c.worldId}-${n}`,
+     title:c.title,
+     match:c.match,
+     goal:c.goal,
+     stars:c.stars,
+     xp:c.xp,
+     scope:'current',
+     ownerChildId:childId,
+     worldId:c.worldId,
+     starterPack:'v94'
+   });
+ });
+ st.defaultChallengesEnabled=false;
+ st.worldStarterPackV94Loaded=true;
+ return true;
+}
+function applyWorldStarterPackV94ToFamily(store){
+ let changed=false;
+ (store?.children||[]).forEach(c=>{
+   if(applyWorldStarterPackV94ToState(c.state,c.id))changed=true;
+ });
+ return changed;
+}
+
 const legacyState=safeLoadState();
 let familyStore=loadFamilyStore();
 if(!familyStore){
@@ -3342,10 +3517,13 @@ function activeChildRecord(){
  if(!familyStore||!Array.isArray(familyStore.children))return null;
  return familyStore.children.find(c=>c.id===familyStore.activeChildId)||familyStore.children[0]||null;
 }
+if(applyWorldStarterPackV94ToFamily(familyStore))saveFamilyStore();
+
 let state=activeChildRecord()?.state;
 if(!state){
  const fallbackId='child-'+Date.now();
  state=freshFirstRunState();
+ applyWorldStarterPackV94ToState(state,fallbackId);
  familyStore={
    activeChildId:fallbackId,
    onboardingCompleted:false,
@@ -4468,10 +4646,12 @@ function renderFirstRun(){
      // Antes se creaban estados nuevos y se perdía lo elegido en Calendario.
      const onboardingCalendar=cloneJson(d.custodyCalendar||state?.calendar||{});
      familyStore.children=d.children.map((x,j)=>{
+       const id=`child-${now}-${j}`;
        const st=freshChildState(x.name,x.birthDate,x.city);
        st.profile.name=x.name;st.profile.birthDate=x.birthDate;st.profile.city=x.city;
        st.calendar=cloneJson(onboardingCalendar);
-       return {id:`child-${now}-${j}`,name:x.name,avatar:x.avatar,birthDate:x.birthDate,city:x.city,state:st};
+       applyWorldStarterPackV94ToState(st,id);
+       return {id,name:x.name,avatar:x.avatar,birthDate:x.birthDate,city:x.city,state:st};
      });
      familyStore.activeChildId=familyStore.children[0].id;
      state=familyStore.children[0].state;
@@ -4564,7 +4744,9 @@ $('#saveChildBtn').onclick=()=>{
    toast('Perfil actualizado');
  }else{
    const id='child-'+Date.now();
-   familyStore.children.push({id,name,avatar:$('#childAvatarInput').value,birthDate:birth,city,state:freshChildState(name,birth,city)});
+   const childState=freshChildState(name,birth,city);
+   applyWorldStarterPackV94ToState(childState,id);
+   familyStore.children.push({id,name,avatar:$('#childAvatarInput').value,birthDate:birth,city,state:childState});
    toast('Hijo añadido 👨‍👩‍👧‍👦');
  }
  saveFamilyStore();resetChildForm();render();
@@ -4578,12 +4760,34 @@ function worldLinkLabel(worldId){
  const w=(state.worlds||[]).find(x=>x.id===worldId);
  return w?`${w.icon||'🌍'} ${w.title||'Mundo'}`:'';
 }
+const CHALLENGE_WORLD_HELP={
+ mountain:{title:'🏔️ Montaña de los Logros',text:'Constancia, rachas y superación personal.',example:'Ej.: cumplir 5 días seguidos o superar tu mejor racha.'},
+ maze:{title:'🧩 Laberinto del Ingenio',text:'Colegio, lectura, estudio y aprendizaje.',example:'Ej.: leer 5 días o hacer los deberes 4 días.'},
+ jungle:{title:'🌿 Selva de Aventuras',text:'Deporte, movimiento y actividad física.',example:'Ej.: entrenar 3 días esta semana.'},
+ castle:{title:'🏰 Castillo de las Rutinas',text:'Rutinas, orden, casa y autonomía.',example:'Ej.: preparar la mochila 5 días o hacer la cama 7 días.'},
+ ocean:{title:'🌊 Océano de la Calma',text:'Emociones, calma, convivencia y comunicación.',example:'Ej.: practicar 5 momentos de calma o ayudar a resolver conflictos.'},
+ space:{title:'🚀 Espacio de los Sueños',text:'Metas grandes y proyectos de largo plazo.',example:'Normalmente aquí encajan mejor los grandes objetivos que los retos cortos.'}
+};
+function renderChallengeWorldHelp(){
+ const box=$('#challengeWorldHelp'),sel=$('#challengeWorldInput');
+ if(!box||!sel)return;
+ const info=CHALLENGE_WORLD_HELP[sel.value];
+ if(!info){
+   box.innerHTML='<b>¿Qué mundo elegir?</b><span>Elige el mundo según lo que trabaja el reto. Si no encaja en ninguno, puedes dejarlo sin mundo.</span>';
+   return;
+ }
+ box.innerHTML=`<b>${info.title}</b><span>${info.text}</span><small>${info.example}</small>`;
+}
 function populateWorldLinkSelect(selector,selected=''){
  const sel=$(selector);if(!sel)return;
  ensureWorldState();
  const current=selected||'';
  sel.innerHTML='<option value="">Sin mundo</option>'+(state.worlds||[]).map(w=>`<option value="${w.id}">${w.icon||'🌍'} ${w.title||'Mundo'}</option>`).join('');
  sel.value=[...sel.options].some(o=>o.value===current)?current:'';
+ if(selector==='#challengeWorldInput'){
+   sel.onchange=renderChallengeWorldHelp;
+   renderChallengeWorldHelp();
+ }
 }
 
 function resetChallengeForm(){
@@ -4604,7 +4808,7 @@ function renderChallengeAdmin(){
  if(!arr.length){list.innerHTML='<div class="mmeta">No hay retos personalizados para este hijo.</div>';return}
  arr.forEach((c,i)=>{
    const row=document.createElement('div');row.className='challenge-admin-row';
-   row.innerHTML=`<div><b>🎯 ${c.title}</b><div class="mmeta">Meta ${c.goal} · +${c.stars} ⭐ · +${c.xp} XP <span class="scope-pill">${c.scope==='all'?'Todos':'Solo '+(activeChildRecord()?.name||'hijo')}</span>${c.worldId?` <span class="world-link-pill">${worldLinkLabel(c.worldId)}</span>`:''}</div></div><div class="challenge-admin-actions"><button data-cedit="${i}" style="background:#e8f2ff;color:#35618e">Editar</button><button data-cdel="${i}" style="background:#ffe9ec;color:#a74354">Eliminar</button></div>`;
+   row.innerHTML=`<div><b>🎯 ${c.title} ${c.starterPack==='v94'?'<span class="starter-pack-pill">EJEMPLO</span>':''}</b><div class="mmeta">Meta ${c.goal} · +${c.stars} ⭐ · +${c.xp} XP <span class="scope-pill">${c.scope==='all'?'Todos':'Solo '+(activeChildRecord()?.name||'hijo')}</span>${c.worldId?` <span class="world-link-pill">${worldLinkLabel(c.worldId)}</span>`:''}</div></div><div class="challenge-admin-actions"><button data-cedit="${i}" style="background:#e8f2ff;color:#35618e">Editar</button><button data-cdel="${i}" style="background:#ffe9ec;color:#a74354">Eliminar</button></div>`;
    list.appendChild(row);
  });
  list.querySelectorAll('[data-cedit]').forEach(b=>b.onclick=()=>{
@@ -6744,7 +6948,7 @@ function renderTaskAdmin(){
      row.innerHTML=`
        <div>
          <b>${m.title}</b>
-         <div class="task-admin-meta">${m.stars} ⭐ · ${m.xp} XP · ${m.enabled===false?'Desactivada':'Activa'} <span class="task-house-pill">${m.house||'Ambas'}</span> <span class="task-house-pill">${({all:'Todos los días',school:'Colegio',weekend:'Fin de semana',vacation:'Vacaciones'})[m.dayType||'all']}</span> <span class="task-house-pill">${({'mountain':'🏔️ Montaña','maze':'🧩 Laberinto','jungle':'🌿 Selva','castle':'🏰 Castillo','ocean':'🌊 Océano','space':'🚀 Espacio'})[taskWorldId(m)]||'🌍 Mundo'}</span></div>
+         <div class="task-admin-meta">${m.stars} ⭐ · ${m.xp} XP · ${m.enabled===false?'Desactivada':'Activa'} ${m.starterPack==='v94'?'<span class="starter-pack-pill">EJEMPLO</span>':''} <span class="task-house-pill">${m.house||'Ambas'}</span> <span class="task-house-pill">${({all:'Todos los días',school:'Colegio',weekend:'Fin de semana',vacation:'Vacaciones'})[m.dayType||'all']}</span> <span class="task-house-pill">${({'mountain':'🏔️ Montaña','maze':'🧩 Laberinto','jungle':'🌿 Selva','castle':'🏰 Castillo','ocean':'🌊 Océano','space':'🚀 Espacio'})[taskWorldId(m)]||'🌍 Mundo'}</span></div>
        </div>
        <div class="task-admin-actions">
          <button class="smallbtn uploadbtn" data-edittask="${i}">Editar</button>

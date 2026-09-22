@@ -1,0 +1,11 @@
+MIS TAREAS v94 — PACK INICIAL POR MUNDOS
+
+Se carga una sola vez en cada perfil:
+- Tareas de ejemplo repartidas entre Castillo, Laberinto, Selva y Océano.
+- Retos de ejemplo repartidos entre los 6 mundos.
+- Los elementos del pack llevan la etiqueta “EJEMPLO” en Zona Padres.
+- Puedes editar, desactivar o borrar cualquier elemento.
+- Si borras uno, no vuelve a aparecer automáticamente.
+- Se evitan duplicados por nombre al instalar esta versión sobre datos existentes.
+
+Las fases de los mundos siguen avanzando con tareas aprobadas.
