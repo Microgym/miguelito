@@ -1,0 +1,7 @@
+MIS TAREAS v90 — CORRECCIÓN DE MAQUETACIÓN DE INICIO
+
+- Corregida la estructura HTML rota de v89.
+- Gran objetivo vuelve a ocupar todo su ancho correctamente.
+- “Progreso de mi gran objetivo” queda justo debajo, también a ancho completo.
+- Mundo destacado, retos, resumen y Mi semana vuelven a apilarse verticalmente.
+- Se mantienen los accesos rápidos de Lectura, Premios y Mis logros.
