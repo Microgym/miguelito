@@ -1,0 +1,21 @@
+MIS TAREAS v87 — INICIO REORGANIZADO
+
+Nuevo orden de Inicio:
+1. Portada ¡Vamos!
+2. Gestionar
+3. Hoy estoy con Papá/Mamá
+4. Avisos
+5. Preparar mañana
+6. Tareas del día según la hora + acceso a todas las tareas
+7. Gran objetivo
+8. Mundo destacado
+9. Retos de esta semana
+10. Resumen del día
+11. Mi semana
+12. Progreso del gran objetivo (25/50/75/100)
+13. Mi racha
+14. Frase motivadora
+15. Exportar / Importar JSON
+16. Dibujo final + frase motivadora
+
+Se mantiene toda la funcionalidad previa de v86.

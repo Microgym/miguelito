@@ -1,0 +1,8 @@
+MIS TAREAS v88 — ACCESOS RÁPIDOS EN INICIO
+
+- Se restauran en Inicio los accesos directos a:
+  📖 Lectura
+  🎮 Premios
+  ✅ Mis logros
+- Se colocan justo después de “Tareas del día” y antes del Gran objetivo.
+- Se mantiene íntegra la reorganización de Inicio de v87.

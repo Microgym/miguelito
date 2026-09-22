@@ -2044,6 +2044,59 @@ body.preview-first-run .first-run-cancel-preview{display:block}
  .world-admin-headline{align-items:flex-start}
 }
 
+
+/* ===== v87 Inicio reorganizado ===== */
+#today .home-section{margin:0 0 10px}
+#today .home-manage-section{margin-top:10px}
+#today .home-parent-action{margin:0}
+.home-section-title{display:flex;align-items:center;gap:9px;margin:2px 2px 7px}
+.home-section-title>span{font-size:22px}
+.home-section-title b{display:block;font-size:14px;color:#234c76}
+.home-section-title small{display:block;font-size:8px;color:#73889e;font-weight:800;margin-top:1px}
+.home-section-title.compact{margin-bottom:8px}
+#today .notice-center{margin:0}
+#today .smart-home-card{margin:0}
+.home-see-other-tasks{
+ width:100%;border:1px solid #dbe7f2;background:#fff;color:#315d88;border-radius:13px;
+ padding:10px 12px;margin-top:7px;font:inherit;font-size:10px;font-weight:1000;cursor:pointer;
+ display:flex;align-items:center;justify-content:space-between
+}
+.home-see-other-tasks span{font-size:18px;line-height:.7}
+.home-summary-card{
+ width:100%;margin:0 0 10px;background:linear-gradient(90deg,#eaf7ff,#fff7d8);
+ display:flex;align-items:center;gap:10px;text-align:left
+}
+.home-summary-card>span:nth-child(2){display:flex;flex-direction:column}
+.home-summary-card b{font-size:13px;color:#264f79}.home-summary-card small{font-size:9px;color:#71869b;margin-top:2px}
+.home-goal-progress-card{padding:12px 12px 10px;margin:0 0 10px}
+.home-goal-progress-card .goal-milestones{margin:0;padding:0}
+.home-main-motto{margin:10px 0}
+.home-backup-block{
+ margin:0 0 10px;padding:12px;border:1px solid #e0e9f2;border-radius:18px;background:#f9fbfd;
+ box-shadow:0 6px 16px rgba(35,71,108,.05)
+}
+.home-footer-motivation{margin-top:4px;text-align:center}
+.home-footer-motivation .footerart{margin-bottom:4px}
+.home-footer-quote{
+ margin:0 auto 10px;max-width:360px;padding:10px 12px;border-radius:15px;background:#fff8dd;
+ color:#765f21;font-size:10px;font-weight:1000;line-height:1.35
+}
+#today #familyCard{margin:0 0 10px}
+#today #bigGoalCard,#today #featuredWorldHome,#today .challenge-card,#today .child-week-card,#today .streak-card{margin-bottom:10px}
+
+
+/* ===== v88 accesos rápidos restaurados ===== */
+.home-quick-links{
+ display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:0 0 10px
+}
+.home-quick-links .home-tile{
+ width:100%;min-height:92px;margin:0
+}
+@media(max-width:390px){
+ .home-quick-links{gap:6px}
+ .home-quick-links .home-tile{min-height:86px;font-size:11px}
+}
+
 </style>
 </head>
 <body>
@@ -2084,51 +2137,84 @@ body.preview-first-run .first-run-cancel-preview{display:block}
   </div>
  </div>
 
- <div id="bigGoalCard" class="card goal">
-  <div><div class="eyebrow">Mi gran objetivo</div><h2 id="bigGoalTitle">Viaje a esquiar</h2><div id="bigGoalDate" class="date">📅 21 de enero</div><div class="goalbar"><i id="goalbar"></i></div><div class="goalfoot"><span id="bigGoalMessage">“Cada esfuerzo te acerca a nuevas aventuras”</span><span><b id="goalstars">185</b>/<span id="bigGoalCost">600</span> ⭐</span></div></div>
-  <div id="bigGoalIcon" class="ski-illus dynamic-goal"><div class="snow"></div></div>
+ <!-- 1. Gestionar -->
+ <div class="home-section home-manage-section">
+   <button class="home-parent-action manage" type="button" onclick="openManageFromHome()">
+     <span class="bigico">⚙️</span>
+     <div><b>Gestionar</b><small>Tareas, eventos, retos, premios...</small></div>
+   </button>
  </div>
 
- <div id="goalMilestones" class="goal-milestones"></div>
+ <!-- 2. Hoy estoy con -->
+ <div id="familyCard" class="card family"></div>
 
- <div id="featuredWorldHome" class="card featured-world-home" style="display:none"></div>
-
- <div class="card child-week-card">
-   <div class="eyebrow">📊 MI SEMANA</div>
-   <div id="childWeekSummary"></div>
+ <!-- 3. Avisos -->
+ <div class="home-section">
+   <div class="home-section-title"><span>🔔</span><div><b>Avisos</b><small>Lo importante de hoy</small></div></div>
+   <div class="notice-center">
+     <div class="notice-head"><b>Hoy</b><span id="noticeCount" class="notice-count">0</span></div>
+     <div id="noticeList"></div>
+   </div>
+   <div id="specialDayBanner"></div>
+   <div id="smartAlerts"></div>
+   <div id="todayEvents" class="today-events"></div>
+   <div id="projectReminders" class="project-reminders"></div>
  </div>
 
+ <!-- 4. Preparar mañana -->
  <button class="more-card tomorrow-home-card" type="button" onclick="openScreen('tomorrow')">
    <span class="bigico">🎒</span>
    <span><b>Preparar mañana</b><small id="tomorrowHomeSummary">Mochila, equipación y cosas importantes</small></span>
  </button>
 
-
-
- <div class="tiles3" style="margin:11px 0">
-  <button class="home-tile green" data-open="reading" onclick="openScreen('reading')"><span class="bigico">📖</span>Lectura<br><small>y estudio</small></button>
-  <button class="home-tile red" data-open="rewards" onclick="openScreen('rewards')"><span class="bigico">🎮</span>Premios<br><small>y canjes</small></button>
-  <button class="home-tile blue" data-open="achievements" onclick="openScreen('achievements')"><span class="bigico">✅</span>Mis logros<br><small>y progreso</small></button>
+ <!-- 5. Tareas del día según la hora -->
+ <div class="home-section home-today-tasks">
+   <div class="home-section-title"><span>✅</span><div><b>Tareas del día</b><small>Primero, lo que toca ahora</small></div></div>
+   <div id="smartHomeCard" class="smart-home-card"></div>
+   <button class="home-see-other-tasks" type="button" onclick="openScreen('tasks')">Ver otras tareas de hoy <span>›</span></button>
  </div>
- <button class="more-card" data-open="summary" onclick="openScreen('summary')" style="width:100%;margin:0 0 10px;background:linear-gradient(90deg,#eaf7ff,#fff7d8)">
-   <span class="bigico">🌟</span>Ver resumen del día
+
+ <!-- Accesos rápidos -->
+ <div class="home-quick-links">
+  <button class="home-tile green" data-open="reading" onclick="openScreen('reading')" type="button"><span class="bigico">📖</span>Lectura<br><small>y estudio</small></button>
+  <button class="home-tile red" data-open="rewards" onclick="openScreen('rewards')" type="button"><span class="bigico">🎮</span>Premios<br><small>y canjes</small></button>
+  <button class="home-tile blue" data-open="achievements" onclick="openScreen('achievements')" type="button"><span class="bigico">✅</span>Mis logros<br><small>y progreso</small></button>
+ </div>
+
+ <!-- 6. Gran objetivo -->
+ <div id="bigGoalCard" class="card goal">
+  <div><div class="eyebrow">Mi gran objetivo</div><h2 id="bigGoalTitle">Viaje a esquiar</h2><div id="bigGoalDate" class="date">📅 21 de enero</div><div class="goalbar"><i id="goalbar"></i></div><div class="goalfoot"><span id="bigGoalMessage">“Cada esfuerzo te acerca a nuevas aventuras”</span><span><b id="goalstars">185</b>/<span id="bigGoalCost">600</span> ⭐</span></div></div>
+  <div id="bigGoalIcon" class="ski-illus dynamic-goal"><div class="snow"></div></div>
+ </div>
+
+ <!-- 7. Mundo destacado -->
+ <div id="featuredWorldHome" class="card featured-world-home" style="display:none"></div>
+
+ <!-- 8. Retos -->
+ <div class="card challenge-card">
+   <h3>🎯 Retos de esta semana</h3>
+   <div id="weeklyChallenges"></div>
+ </div>
+
+ <!-- 9. Resumen del día -->
+ <button class="more-card home-summary-card" data-open="summary" onclick="openScreen('summary')" type="button">
+   <span class="bigico">🌟</span>
+   <span><b>Resumen del día</b><small>Mira todo lo que has conseguido hoy</small></span>
  </button>
 
- <div class="home-parent-tools">
-   <button class="home-parent-action manage" type="button" onclick="openManageFromHome()">
-     <span class="bigico">⚙️</span>
-     <div><b>Gestionar</b><small>Tareas, eventos, retos, premios...</small></div>
-   </button>
-   <div class="home-backup-actions">
-     <button type="button" onclick="document.getElementById('exportBackupBtn')?.click()">⬇️ Exportar JSON</button>
-     <label for="importBackupInput">⬆️ Importar JSON</label>
-   </div>
+ <!-- 10. Mi semana -->
+ <div class="card child-week-card">
+   <div class="eyebrow">📊 MI SEMANA</div>
+   <div id="childWeekSummary"></div>
  </div>
 
- <div class="motto">☀️ “Pequeños pasos, grandes logros”</div>
+ <!-- 11. Porcentajes del gran objetivo -->
+ <div id="goalMilestoneCard" class="card home-goal-progress-card">
+   <div class="home-section-title compact"><span>🎯</span><div><b>Progreso de mi gran objetivo</b><small>25% · 50% · 75% · 100%</small></div></div>
+   <div id="goalMilestones" class="goal-milestones"></div>
+ </div>
 
- <div id="familyCard" class="card family"></div>
-
+ <!-- 12. Mi racha -->
  <div class="card streak-card">
    <div class="streak-flame">🔥</div>
    <div class="streak-main">
@@ -2139,25 +2225,23 @@ body.preview-first-run .first-run-cancel-preview{display:block}
    </div>
  </div>
 
- <div class="card challenge-card">
-   <h3>🎯 Retos de esta semana</h3>
-   <div id="weeklyChallenges"></div>
+ <!-- 13. Frase motivadora -->
+ <div class="motto home-main-motto">☀️ “Pequeños pasos, grandes logros”</div>
+
+ <!-- 14. Copias JSON -->
+ <div class="home-backup-block">
+   <div class="home-section-title compact"><span>💾</span><div><b>Copia de seguridad</b><small>Guarda o recupera todos los datos de la familia</small></div></div>
+   <div class="home-backup-actions">
+     <button type="button" onclick="document.getElementById('exportBackupBtn')?.click()">⬇️ Exportar JSON</button>
+     <label for="importBackupInput">⬆️ Importar JSON</label>
+   </div>
  </div>
 
-
-
- <div id="smartHomeCard" class="smart-home-card"></div>
- <div class="notice-center">
-   <div class="notice-head"><b>🔔 Avisos</b><span id="noticeCount" class="notice-count">0</span></div>
-   <div id="noticeList"></div>
+ <!-- 15. Dibujo final -->
+ <div class="home-footer-motivation">
+   <div class="footerart"><img id="footerChildArt" class="footer-child-art" alt=""></div>
+   <div class="home-footer-quote">✨ “Cada esfuerzo de hoy construye una gran aventura mañana”</div>
  </div>
-
- <div id="specialDayBanner"></div>
- <div id="smartAlerts"></div>
- <div id="todayEvents" class="today-events"></div>
-
- <div id="projectReminders" class="project-reminders"></div>
- <div class="footerart"><img id="footerChildArt" class="footer-child-art" alt=""></div>
 </section>
 
 
@@ -3889,11 +3973,11 @@ function renderSmartHome(){
  const info=dayPartInfo(),who=home(new Date());
  if(!info.section){
    const approved=activeMissionsToday().filter(([m])=>m.status===1).length,total=activeMissionsToday().length;
-   box.innerHTML=`<div class="smart-home-top"><div><div class="eyebrow">${info.icon} AHORA</div><h3>${info.title}</h3><p>${info.text}</p></div><div class="smart-home-badge">${who}</div></div><div class="smart-home-list"><div class="smart-home-task"><span class="dot">🌟</span><b>${approved}/${total} tareas aprobadas hoy</b><button class="smallbtn uploadbtn" type="button">Ver resumen</button></div></div>`;
+   box.innerHTML=`<div class="smart-home-top"><div><div class="eyebrow">${info.icon} AHORA</div><h3>${info.title}</h3><p>${info.text}</p></div><div class="smart-home-badge">${approved}/${total} hechas</div></div><div class="smart-home-list"><div class="smart-home-task"><span class="dot">🌟</span><b>Has terminado ${approved} de ${total} tareas de hoy</b><button class="smallbtn uploadbtn" type="button">Resumen</button></div></div>`;
    box.querySelector('button').onclick=()=>openScreen('summary');return;
  }
  const pending=activeMissionsToday().filter(([m])=>m.section===info.section&&m.status!==1).slice(0,3);
- box.innerHTML=`<div class="smart-home-top"><div><div class="eyebrow">${info.icon} AHORA</div><h3>${info.title}</h3><p>${info.text}</p></div><div class="smart-home-badge">${who}</div></div><div class="smart-home-list"></div>`;
+ box.innerHTML=`<div class="smart-home-top"><div><div class="eyebrow">${info.icon} AHORA</div><h3>${info.title}</h3><p>${info.text}</p></div><div class="smart-home-badge">${info.section}</div></div><div class="smart-home-list"></div>`;
  const list=box.querySelector('.smart-home-list');
  if(!pending.length)list.innerHTML='<div class="smart-home-empty">¡Este bloque está al día! ✅</div>';
  else pending.forEach(([m])=>{const row=document.createElement('div');row.className='smart-home-task';row.innerHTML=`<span class="dot">${m.status===2?'⏳':'○'}</span><b>${m.title}</b><span>+${m.stars} ⭐</span>`;list.appendChild(row)});
@@ -5582,8 +5666,10 @@ function renderChildWeekSummary(){
 }
 function renderGoalMilestones(){
  const box=$('#goalMilestones');if(!box)return;
+ const card=$('#goalMilestoneCard');
  const g=activeGoal();
- if(!g){box.innerHTML='';return}
+ if(!g){box.innerHTML='';if(card)card.style.display='none';return}
+ if(card)card.style.display='';
  const pct=Math.min(100,Math.round((state.stars/Math.max(1,Number(g.cost)||1))*100));
  const marks=[25,50,75,100];
  box.innerHTML='<div class="milestone-track">'+marks.map(n=>`<div class="milestone ${pct>=n?'on':''}"><span>${pct>=n?'✓':'○'}</span><b>${n}%</b></div>`).join('')+'</div>';
