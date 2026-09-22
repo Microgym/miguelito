@@ -1,0 +1,14 @@
+MIS TAREAS v97 — MONTAÑA = TAREAS DIARIAS / CASTILLO = CONSTANCIA
+
+Nueva lógica:
+- 🏔️ Montaña de los Logros avanza con cada tarea aprobada del día.
+- 🏰 Castillo de las Rutinas avanza por constancia acumulada.
+- En cada tarea puedes definir “cada X aprobaciones”.
+- Cuando se alcanza ese bloque, el Castillo recibe +1 progreso.
+- La tarea no se duplica.
+- Ejemplo: “Preparar mochila” puede pertenecer a su mundo temático; cada 5 aprobaciones añade +1 al Castillo.
+- Se conserva la programación por días de semana o fecha concreta de v96.
+
+Migración:
+- Si existía una regla antigua “mountainEvery”, se convierte automáticamente en “castleEvery”.
+- El historial derivado anterior se reutiliza como historial de Castillo para no perder progreso.

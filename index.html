@@ -2235,10 +2235,10 @@ body.preview-first-run .first-run-cancel-preview{display:block}
 
 
 /* ===== v96 Fechas de tareas + constancia para Montaña ===== */
-.task-schedule-card,.task-mountain-rule{margin-top:9px;padding:10px 11px;border-radius:14px;border:1px solid #dce8f3;background:#f7fbff}
+.task-schedule-card,.task-castle-rule{margin-top:9px;padding:10px 11px;border-radius:14px;border:1px solid #dce8f3;background:#f7fbff}
 .task-schedule-head{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center}
-.task-schedule-head b,.task-mountain-rule b{display:block;font-size:10px;color:#294f74}
-.task-schedule-head small,.task-mountain-rule small{display:block;font-size:8px;color:#71879b;line-height:1.35;margin-top:2px;font-weight:800}
+.task-schedule-head b,.task-castle-rule b{display:block;font-size:10px;color:#294f74}
+.task-schedule-head small,.task-castle-rule small{display:block;font-size:8px;color:#71879b;line-height:1.35;margin-top:2px;font-weight:800}
 .task-schedule-head select{border:1px solid #d9e4ee;border-radius:10px;padding:8px;background:#fff;color:#315d85;font:inherit;font-weight:900}
 .task-weekdays{grid-template-columns:repeat(7,1fr);gap:5px;margin-top:9px}
 .task-weekdays label{display:grid;place-items:center;padding:7px 2px;border-radius:9px;background:#fff;border:1px solid #dce6ef;font-size:9px;font-weight:1000;color:#41627f}
@@ -2246,12 +2246,19 @@ body.preview-first-run .first-run-cancel-preview{display:block}
 .task-exact-date{margin-top:9px}
 .task-exact-date label{display:flex;gap:8px;align-items:center;font-size:8px;font-weight:1000;color:#55718b}
 .task-exact-date input{flex:1;border:1px solid #d9e4ee;border-radius:10px;padding:8px;background:#fff;font:inherit}
-.task-mountain-rule{background:#fff9e9;border-color:#f1e0a8}
-.task-mountain-rule>label{display:flex;align-items:center;gap:7px;margin-top:8px;font-size:9px;font-weight:1000;color:#735d19}
-.task-mountain-rule input{width:74px;border:1px solid #e5d28d;border-radius:9px;padding:8px;background:#fff;font:inherit;text-align:center}
-.mountain-rule-example{margin-top:6px!important}
-.task-mountain-pill{display:inline-block;padding:3px 6px;border-radius:8px;background:#fff0b5;color:#775f10;font-size:8px;font-weight:1000}
+.task-castle-rule{background:#fff9e9;border-color:#f1e0a8}
+.task-castle-rule>label{display:flex;align-items:center;gap:7px;margin-top:8px;font-size:9px;font-weight:1000;color:#735d19}
+.task-castle-rule input{width:74px;border:1px solid #e5d28d;border-radius:9px;padding:8px;background:#fff;font:inherit;text-align:center}
+.castle-rule-example{margin-top:6px!important}
+.task-castle-pill{display:inline-block;padding:3px 6px;border-radius:8px;background:#fff0b5;color:#775f10;font-size:8px;font-weight:1000}
 @media(max-width:420px){.task-schedule-head{grid-template-columns:1fr}.task-schedule-head select{width:100%}.task-weekdays{gap:3px}}
+
+
+.world-logic-note{
+ margin:8px 0 4px;padding:10px 11px;border-radius:13px;background:#eef7ff;border:1px solid #dceaf6;color:#385f82
+}
+.world-logic-note b{display:block;font-size:9px;margin-bottom:2px}
+.world-logic-note span{display:block;font-size:8px;line-height:1.35;font-weight:800}
 
 </style>
 </head>
@@ -3055,10 +3062,10 @@ body.preview-first-run .first-run-cancel-preview{display:block}
  </div>
 </div>
 
-<div class="task-mountain-rule">
- <div><b>🏔️ También suma a Montaña</b><small>La tarea sigue en su mundo normal. La constancia puede generar progreso extra en Montaña.</small></div>
- <label><span>Cada</span><input id="taskMountainEveryInput" type="number" min="0" value="0"><span>aprobaciones</span></label>
- <small class="mountain-rule-example">0 = no usar. Ej.: 5 → cada 5 aprobaciones de esta tarea, +1 logro en Montaña.</small>
+<div class="task-castle-rule">
+ <div><b>🏰 También suma al Castillo de las Rutinas</b><small>La tarea sigue siendo una tarea diaria. Cuando se repite varias veces, genera progreso de constancia para el Castillo.</small></div>
+ <label><span>Cada</span><input id="taskCastleEveryInput" type="number" min="0" value="0"><span>aprobaciones</span></label>
+ <small class="castle-rule-example">0 = no usar. Ej.: 5 → cada 5 aprobaciones de esta tarea, +1 progreso en Castillo.</small>
 </div>
 
 <button class="btn primary" id="saveTaskBtn" style="width:100%;margin-top:9px">Añadir tarea</button>
@@ -3221,6 +3228,10 @@ body.preview-first-run .first-run-cancel-preview{display:block}
 <h3 style="margin:0 0 5px">🌍 Mundos</h3>
 <div class="mmeta">Puede haber varios mundos activos a la vez. El XP los desbloquea; las tareas aprobadas hacen avanzar sus fases. Elige uno para destacarlo en Inicio.</div>
 <div class="starter-pack-note"><b>📦 Pack inicial cargado</b><span>He añadido tareas y retos de ejemplo repartidos por mundos. Son normales: puedes editarlos, desactivarlos o borrarlos cuando quieras.</span></div>
+<div class="world-logic-note">
+ <b>🧭 Cómo funcionan ahora Montaña y Castillo</b>
+ <span>🏔️ Montaña avanza con cada tarea aprobada del día. 🏰 Castillo avanza cuando una tarea alcanza el número de repeticiones que hayas configurado.</span>
+</div>
 <div id="worldAdminList" style="margin-top:9px"></div>
 <button class="btn ghost" id="addWorldBtn" style="width:100%;margin-top:8px" type="button">+ Añadir mundo</button>
 </div>
@@ -3468,7 +3479,7 @@ function freshFirstRunState(){
   profile:{name:'',birthDate:'',city:'',age:9,color:'Azul',likes:''},
   rewards:[],rewardHistory:[],projects:[],
   reading:{active:null,history:[]},
-  events:[],approvalHistory:[],mountainHistory:[],weeklyClaims:{},
+  events:[],approvalHistory:[],castleHistory:[],weeklyClaims:{},
   customChallenges:[],defaultChallengesEnabled:false,
   bigGoals:[],activeGoalId:'',specialDays:[],
   notificationPrefs:{pending:true,projects:true,tomorrow:true,rewards:true},
@@ -3747,12 +3758,15 @@ function taskScheduleLabel(task){
  }
  return ({all:'📅 Cualquier día',school:'🎒 Colegio',weekend:'🎈 Fin de semana',vacation:'🏖️ Vacaciones'})[task?.dayType||'all'];
 }
-function taskMountainEvery(task){
- const n=Math.max(0,Number(task?.mountainEvery)||0);
+function taskCastleEvery(task){
+ const legacy=Number(task?.mountainEvery)||0;
+ const n=Math.max(0,Number(task?.castleEvery ?? legacy)||0);
  return n>=2?n:0;
 }
-function ensureMountainHistory(){
- if(!Array.isArray(state.mountainHistory))state.mountainHistory=[];
+function ensureCastleHistory(){
+ if(!Array.isArray(state.castleHistory)){
+   state.castleHistory=Array.isArray(state.mountainHistory)?state.mountainHistory.map(x=>({...x,legacyFromMountain:true})):[];
+ }
 }
 
 function activeMissionsToday(){
@@ -3969,25 +3983,28 @@ function approve(i){
    taskId:m.id||'',
    worldId:worldAcceptsProgress(taskWorldId(m))?taskWorldId(m):'none'
  });
- let mountainMsg='';
- const every=taskMountainEvery(m);
- if(every && taskWorldId(m)!=='mountain' && worldAcceptsProgress('mountain')){
+ let castleMsg='';
+ const every=taskCastleEvery(m);
+ if(every && worldAcceptsProgress('castle')){
    const approvedCount=state.approvalHistory.filter(x=>x.taskId&&x.taskId===m.id).length;
    if(approvedCount>0 && approvedCount%every===0){
-     ensureMountainHistory();
-     state.mountainHistory.push({
-       id:`mountain-${m.id}-${approvedCount}`,
-       date:approvalDate,
-       taskId:m.id,
-       title:`Constancia: ${m.title}`,
-       sourceTitle:m.title,
-       block:approvedCount/every,
-       every
-     });
-     mountainMsg=' · 🏔️ +1 logro';
+     ensureCastleHistory();
+     const milestoneId=`castle-${m.id}-${approvedCount}`;
+     if(!state.castleHistory.some(x=>x.id===milestoneId)){
+       state.castleHistory.push({
+         id:milestoneId,
+         date:approvalDate,
+         taskId:m.id,
+         title:`Rutina consolidada: ${m.title}`,
+         sourceTitle:m.title,
+         block:approvedCount/every,
+         every
+       });
+       castleMsg=' · 🏰 +1 rutina';
+     }
    }
  }
- toast(`+${m.stars} ⭐ · +${m.xp} XP${mountainMsg}`);
+ toast(`+${m.stars} ⭐ · +${m.xp} XP${castleMsg}`);
  save();
 }
 function reject(i){const m=state.missions[i];if(m.status!==2)return;m.status=0;toast('Devuelta a Miguelito');save()}
@@ -4920,10 +4937,10 @@ function worldLinkLabel(worldId){
  return w?`${w.icon||'🌍'} ${w.title||'Mundo'}`:'';
 }
 const CHALLENGE_WORLD_HELP={
- mountain:{title:'🏔️ Montaña de los Logros',text:'Constancia, rachas y superación personal.',example:'Ej.: cumplir 5 días seguidos o superar tu mejor racha.'},
+ mountain:{title:'🏔️ Montaña de los Logros',text:'Las tareas del día y el avance paso a paso.',example:'Cada tarea aprobada hace avanzar la Montaña.'},
  maze:{title:'🧩 Laberinto del Ingenio',text:'Colegio, lectura, estudio y aprendizaje.',example:'Ej.: leer 5 días o hacer los deberes 4 días.'},
  jungle:{title:'🌿 Selva de Aventuras',text:'Deporte, movimiento y actividad física.',example:'Ej.: entrenar 3 días esta semana.'},
- castle:{title:'🏰 Castillo de las Rutinas',text:'Rutinas, orden, casa y autonomía.',example:'Ej.: preparar la mochila 5 días o hacer la cama 7 días.'},
+ castle:{title:'🏰 Castillo de las Rutinas',text:'Constancia acumulada y hábitos que se consolidan.',example:'Ej.: preparar la mochila 5 veces o hacer la cama 7 veces.'},
  ocean:{title:'🌊 Océano de la Calma',text:'Emociones, calma, convivencia y comunicación.',example:'Ej.: practicar 5 momentos de calma o ayudar a resolver conflictos.'},
  space:{title:'🚀 Espacio de los Sueños',text:'Metas grandes y proyectos de largo plazo.',example:'Normalmente aquí encajan mejor los grandes objetivos que los retos cortos.'}
 };
@@ -6501,10 +6518,18 @@ function approvalWorldId(item){
  return inferTaskWorld({title:item?.title||'',section:item?.section||''});
 }
 function worldMissionApprovals(worldId){
- const direct=(state.approvalHistory||[]).filter(x=>approvalWorldId(x)===worldId);
- if(worldId!=='mountain')return direct;
- ensureMountainHistory();
- return [...direct,...state.mountainHistory.map(x=>({...x,worldId:'mountain',mountainDerived:true}))];
+ const approvals=state.approvalHistory||[];
+ // 🏔️ Montaña = todas las tareas diarias aprobadas, sin importar su mundo temático.
+ if(worldId==='mountain'){
+   return approvals.map(x=>({...x,worldId:'mountain',dailyProgress:true}));
+ }
+ // 🏰 Castillo = constancia acumulada: bloques de repeticiones configurados en tareas.
+ if(worldId==='castle'){
+   ensureCastleHistory();
+   return state.castleHistory.map(x=>({...x,worldId:'castle',castleDerived:true}));
+ }
+ // El resto de mundos conserva su progreso temático habitual.
+ return approvals.filter(x=>approvalWorldId(x)===worldId);
 }
 function worldStagesFor(world){
  const theme=world?.theme||world?.id||'mountain';
@@ -6763,10 +6788,10 @@ function renderWorlds(){
 }
 
 const WORLD_PURPOSES={
- mountain:'hábitos personales, constancia y esfuerzo diario',
+ mountain:'las tareas del día y el progreso paso a paso',
  maze:'colegio, deberes, lectura, estudio y aprendizaje',
  jungle:'deporte, movimiento y actividad física',
- castle:'casa, orden, autonomía y responsabilidades',
+ castle:'la constancia acumulada y las rutinas que se consolidan con repetición',
  ocean:'emociones, calma, convivencia y comunicación',
  space:'grandes metas, sueños y proyectos de largo plazo'
 };
@@ -7048,7 +7073,7 @@ function ensureV82State(){
 
 function ensureTaskState(){
  if(!Array.isArray(state.missions))state.missions=[];
- ensureMountainHistory();
+ ensureCastleHistory();
  state.missions.forEach((m,i)=>{
    if(!m.id)m.id=`task-${Date.now()}-${i}-${Math.random().toString(36).slice(2,7)}`;
    if(typeof m.enabled==='undefined')m.enabled=true;
@@ -7056,7 +7081,9 @@ function ensureTaskState(){
    if(!m.scheduleType)m.scheduleType='routine';
    if(!Array.isArray(m.weekdays))m.weekdays=[];
    if(typeof m.exactDate!=='string')m.exactDate='';
-   if(typeof m.mountainEvery==='undefined')m.mountainEvery=0;
+   if(typeof m.castleEvery==='undefined'){
+     m.castleEvery=Math.max(0,Number(m.mountainEvery)||0);
+   }
  });
 }
 ensureTaskState();ensureV82State();
@@ -7107,7 +7134,7 @@ function resetTaskForm(){
  $('#taskScheduleTypeInput').value='routine';
  setTaskWeekdays([]);
  $('#taskExactDateInput').value='';
- $('#taskMountainEveryInput').value=0;
+ $('#taskCastleEveryInput').value=0;
  populateTaskWorldSelect('mountain');
  updateTaskScheduleUI();
  $('#saveTaskBtn').dataset.edit='';
@@ -7148,7 +7175,7 @@ function renderTaskAdmin(){
      <div class="task-admin-main">
        <b>${m.title}</b>
        <div class="task-admin-meta">${m.section} · ${m.stars} ⭐ · ${m.xp} XP · ${m.enabled===false?'Desactivada':'Activa'} ${m.starterPack==='v94'?'<span class="starter-pack-pill">EJEMPLO</span>':''}</div>
-       <div class="task-admin-meta"><span class="task-house-pill">${m.house||'Ambas'}</span> <span class="task-house-pill">${taskScheduleLabel(m)}</span>${taskMountainEvery(m)?` <span class="task-mountain-pill">🏔️ cada ${taskMountainEvery(m)}</span>`:''}</div>
+       <div class="task-admin-meta"><span class="task-house-pill">${m.house||'Ambas'}</span> <span class="task-house-pill">${taskScheduleLabel(m)}</span>${taskCastleEvery(m)?` <span class="task-castle-pill">🏰 cada ${taskCastleEvery(m)}</span>`:''}</div>
        <label class="task-world-move">
          <span>Mover a mundo</span>
          <select data-task-world-move="${i}">${taskWorldOptions(wid)}</select>
@@ -7206,7 +7233,7 @@ function renderTaskAdmin(){
    $('#taskScheduleTypeInput').value=m.scheduleType||'routine';
    setTaskWeekdays(m.weekdays||[]);
    $('#taskExactDateInput').value=m.exactDate||'';
-   $('#taskMountainEveryInput').value=taskMountainEvery(m)||0;
+   $('#taskCastleEveryInput').value=taskCastleEvery(m)||0;
    updateTaskScheduleUI();
    populateTaskWorldSelect(taskWorldId(m));
    $('#saveTaskBtn').dataset.edit=String(i);
@@ -7238,8 +7265,8 @@ $('#saveTaskBtn').onclick=()=>{
  const exactDate=$('#taskExactDateInput')?.value||'';
  if(scheduleType==='weekdays'&&!weekdays.length){toast('Selecciona al menos un día de la semana');return}
  if(scheduleType==='date'&&!exactDate){toast('Selecciona la fecha concreta');return}
- const mountainEveryRaw=Math.max(0,Number($('#taskMountainEveryInput')?.value)||0);
- if(mountainEveryRaw===1){toast('Para Montaña usa 0 o un número de 2 en adelante');return}
+ const castleEveryRaw=Math.max(0,Number($('#taskCastleEveryInput')?.value)||0);
+ if(castleEveryRaw===1){toast('Para Castillo usa 0 o un número de 2 en adelante');return}
  const task={
    id:`task-${Date.now()}-${Math.random().toString(36).slice(2,7)}`,
    title,
@@ -7253,7 +7280,7 @@ $('#saveTaskBtn').onclick=()=>{
    scheduleType,
    weekdays:scheduleType==='weekdays'?weekdays:[],
    exactDate:scheduleType==='date'?exactDate:'',
-   mountainEvery:mountainEveryRaw,
+   castleEvery:castleEveryRaw,
    worldId:$('#taskWorldInput')?.value||inferTaskWorld({title,section:$('#taskSectionInput').value}),
    status:0,
    enabled:true
