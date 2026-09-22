@@ -1,0 +1,17 @@
+MIS TAREAS v99 — GRANDES OBJETIVOS CON DISTINTAS MEDIDAS
+
+Ahora un Gran Objetivo puede medirse de cuatro formas:
+- ⭐ Estrellas: progreso automático según las estrellas disponibles.
+- 🔢 Cantidad: valor actual / meta, con unidad opcional.
+- 🎓 Nota / valoración: A, B, C o D. Permite definir una valoración mínima.
+- ✅ Conseguido / no conseguido.
+
+Ejemplo:
+- “Sacar una media mínima de actitud B en el cole”
+- Tipo: Nota / valoración
+- Objetivo mínimo: B
+- Mundo: 🚀 Espacio de los Sueños
+- La valoración actual se actualiza al editar el objetivo.
+
+Los objetivos antiguos siguen interpretándose como objetivos de estrellas.
+El progreso se muestra correctamente en Inicio, hitos 25/50/75/100 y dentro del Mundo vinculado.

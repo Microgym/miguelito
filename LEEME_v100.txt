@@ -1,0 +1,22 @@
+MIS TAREAS v100 — TIPO DE GRAN OBJETIVO
+
+Nuevo campo “Tipo de objetivo”:
+- 🎯 General
+- 🌱 Personal
+- 🎓 Escolar
+
+Es independiente de cómo se mide el objetivo:
+- ⭐ Estrellas
+- 🔢 Cantidad
+- 🎓 Nota / valoración
+- ✅ Conseguido / no conseguido
+
+Ejemplo:
+“Sacar una media mínima de actitud B en el cole”
+- Tipo: 🎓 Escolar
+- Medición: 🎓 Nota / valoración
+- Objetivo mínimo: B
+- Mundo: 🚀 Espacio de los Sueños
+
+Los objetivos antiguos se consideran “General” automáticamente.
+La categoría aparece en Zona Padres, Inicio y dentro del Mundo vinculado.

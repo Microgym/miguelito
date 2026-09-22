@@ -2271,6 +2271,39 @@ body.preview-first-run .first-run-cancel-preview{display:block}
  100%{box-shadow:0 0 0 0 rgba(52,128,220,0)}
 }
 
+
+/* ===== v99 Grandes objetivos con distintos tipos de medida ===== */
+#goalMeasureTypeInput{
+ width:100%;border:1px solid #dfe8f5;border-radius:12px;padding:10px;font:inherit;color:var(--ink);background:#fff
+}
+.goal-measure-fields{margin-top:8px}
+.goal-measure-panel{
+ grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;padding:10px;border:1px solid #dfe8f5;border-radius:13px;background:#f8fbff
+}
+.goal-measure-panel>label{display:flex;flex-direction:column;gap:4px;font-size:8px;font-weight:1000;color:#52708c}
+.goal-measure-panel input,.goal-measure-panel select{
+ width:100%;box-sizing:border-box;border:1px solid #dfe8f5;border-radius:10px;padding:9px;font:inherit;color:var(--ink);background:#fff
+}
+.goal-measure-panel>small{grid-column:1/-1;font-size:7px;line-height:1.35;color:#788da1;font-weight:800}
+.goal-unit-field{grid-column:1/-1}
+.goal-check-state{grid-column:1/-1;flex-direction:row!important;align-items:center!important;padding:8px 4px}
+.goal-check-state input{width:auto}
+@media(max-width:420px){.goal-measure-panel{grid-template-columns:1fr}.goal-unit-field{grid-column:auto}}
+
+
+/* ===== v100 Categorías de Grandes Objetivos ===== */
+.goal-category-help{
+ min-height:42px;display:flex;flex-direction:column;justify-content:center;padding:8px 10px;border-radius:12px;
+ border:1px solid #dfe8f5;background:#f8fbff;color:#5b748b
+}
+.goal-category-help b{font-size:8px;color:#365d80}
+.goal-category-help span{font-size:7px;line-height:1.35;font-weight:800;margin-top:2px}
+.goal-category-pill{
+ display:inline-block;padding:2px 6px;border-radius:8px;background:#edf5ff;color:#426b91;font-size:7px;font-weight:1000;
+ vertical-align:1px
+}
+.goal-category-pill.home{font-size:8px;margin-left:5px;vertical-align:3px;white-space:nowrap}
+
 </style>
 </head>
 <body>
@@ -2364,7 +2397,7 @@ body.preview-first-run .first-run-cancel-preview{display:block}
    <div class="goalbar"><i id="goalbar"></i></div>
    <div class="goalfoot">
     <span id="bigGoalMessage">“Cada esfuerzo te acerca a nuevas aventuras”</span>
-    <span><b id="goalstars">185</b>/<span id="bigGoalCost">600</span> ⭐</span>
+    <span id="bigGoalProgressText">185/600 ⭐</span>
    </div>
   </div>
   <div id="bigGoalIcon" class="ski-illus dynamic-goal"><div class="snow"></div></div>
@@ -3179,10 +3212,48 @@ body.preview-first-run .first-run-cancel-preview{display:block}
  <button class="btn ghost parent-back-btn" type="button" onclick="backToParents()">← Volver a Zona Padres</button>
  <div class="card panelcard">
 <h3 style="margin:0 0 5px">🎯 Grandes objetivos</h3>
-<div class="mmeta">Crea objetivos grandes, elige cuál aparece en Inicio y, si quieres, vincúlalo a un mundo.</div>
+<div class="mmeta">Crea objetivos de medio o largo plazo. Además puedes clasificarlos como General, Personal o Escolar y elegir cómo se mide su progreso.</div>
 <div class="goal-admin-form">
 <input id="goalNameInput" placeholder="Nombre del objetivo"/>
-<input id="goalCostInput" min="1" placeholder="⭐ Meta" type="number"/>
+<select id="goalCategoryInput" title="Tipo de objetivo">
+ <option value="general">🎯 General</option>
+ <option value="personal">🌱 Personal</option>
+ <option value="school">🎓 Escolar</option>
+</select>
+</div>
+<div class="goal-admin-form">
+<select id="goalMeasureTypeInput">
+ <option value="stars">⭐ Estrellas</option>
+ <option value="number">🔢 Cantidad</option>
+ <option value="grade">🎓 Nota / valoración</option>
+ <option value="check">✅ Conseguido / no conseguido</option>
+</select>
+<div class="goal-category-help"><b>Tipo de objetivo</b><span id="goalCategoryHelpText">General: cualquier objetivo que no sea específicamente personal o escolar.</span></div>
+</div>
+
+<div id="goalMeasureFields" class="goal-measure-fields">
+ <div id="goalStarsFields" class="goal-measure-panel">
+  <label><span>Meta en estrellas</span><input id="goalCostInput" min="1" placeholder="Ej. 600" type="number"/></label>
+  <small>El progreso se calcula automáticamente con las ⭐ disponibles.</small>
+ </div>
+ <div id="goalNumberFields" class="goal-measure-panel" style="display:none">
+  <label><span>Valor actual</span><input id="goalCurrentNumberInput" min="0" type="number" step="any" placeholder="Ej. 1"/></label>
+  <label><span>Meta</span><input id="goalTargetNumberInput" min="0" type="number" step="any" placeholder="Ej. 3"/></label>
+  <label class="goal-unit-field"><span>Unidad (opcional)</span><input id="goalUnitInput" placeholder="libros, palabras, km..."/></label>
+ </div>
+ <div id="goalGradeFields" class="goal-measure-panel" style="display:none">
+  <label><span>Valoración actual</span>
+   <select id="goalCurrentGradeInput"><option value="">Sin valorar</option><option value="D">D</option><option value="C">C</option><option value="B">B</option><option value="A">A</option></select>
+  </label>
+  <label><span>Objetivo mínimo</span>
+   <select id="goalTargetGradeInput"><option value="D">D</option><option value="C">C</option><option value="B" selected>B</option><option value="A">A</option></select>
+  </label>
+  <small>Ejemplo: “Sacar una media mínima B de actitud en el cole”. A se considera superior a B.</small>
+ </div>
+ <div id="goalCheckFields" class="goal-measure-panel" style="display:none">
+  <label class="goal-check-state"><input id="goalAchievedInput" type="checkbox"> <span>Objetivo conseguido</span></label>
+  <small>Úsalo cuando el objetivo no necesite una cifra concreta.</small>
+ </div>
 </div>
 <div class="goal-admin-form">
 <label class="goal-date-field"><span>Fecha objetivo (opcional)</span><input id="goalDateInput" type="date"/></label>
@@ -3723,7 +3794,7 @@ function ensureV34State(){
 
 function ensureV33State(){
  if(!state.bigGoals){
-   state.bigGoals=[{id:'goal-ski',name:'Viaje a esquiar',cost:600,date:'',icon:'🎿',message:'Cada esfuerzo te acerca a nuevas aventuras'}];
+   state.bigGoals=[{id:'goal-ski',name:'Viaje a esquiar',category:'general',measureType:'stars',cost:600,date:'',icon:'🎿',message:'Cada esfuerzo te acerca a nuevas aventuras'}];
  }
  if(!state.activeGoalId && state.bigGoals.length)state.activeGoalId=state.bigGoals[0].id;
  if(!state.specialDays)state.specialDays=[];
@@ -4299,6 +4370,68 @@ function renderRewardHistory(){
 
 
 function activeGoal(){return (state.bigGoals||[]).find(g=>g.id===state.activeGoalId)||(state.bigGoals||[])[0]||null}
+function goalMeasureType(g){return g?.measureType||'stars'}
+function goalGradeRank(v){return ({D:1,C:2,B:3,A:4})[String(v||'').toUpperCase()]||0}
+function goalProgressData(g){
+ const type=goalMeasureType(g);
+ if(type==='number'){
+   const current=Math.max(0,Number(g.currentValue)||0),target=Math.max(0,Number(g.targetValue)||0);
+   const unit=(g.unit||'').trim();
+   return {pct:target>0?Math.min(100,Math.round(current/target*100)):0,current,target,label:`${current}/${target}${unit?' '+unit:''}`,done:target>0&&current>=target};
+ }
+ if(type==='grade'){
+   const current=String(g.currentGrade||'').toUpperCase(),target=String(g.targetGrade||'B').toUpperCase();
+   const cr=goalGradeRank(current),tr=Math.max(1,goalGradeRank(target));
+   return {pct:current?Math.min(100,Math.round(cr/tr*100)):0,current:current||'—',target,label:`${current||'—'} / mínimo ${target}`,done:cr>=tr};
+ }
+ if(type==='check'){
+   const done=g.achieved===true;
+   return {pct:done?100:0,current:done?'Conseguido':'Pendiente',target:'Conseguido',label:done?'✅ Conseguido':'○ Pendiente',done};
+ }
+ const target=Math.max(1,Number(g.cost)||1),current=Math.max(0,Number(state.stars)||0);
+ return {pct:Math.min(100,Math.round(current/target*100)),current,target,label:`${Math.min(current,target)}/${target} ⭐`,done:current>=target};
+}
+function goalMeasureLabel(g){
+ const type=goalMeasureType(g),p=goalProgressData(g);
+ if(type==='number')return `🔢 ${p.label}`;
+ if(type==='grade')return `🎓 ${p.label}`;
+ if(type==='check')return p.label;
+ return `⭐ ${p.label}`;
+}
+
+function goalCategory(g){
+ const v=String(g?.category||'general');
+ return ['general','personal','school'].includes(v)?v:'general';
+}
+function goalCategoryLabel(g){
+ const c=goalCategory(g);
+ return c==='personal'?'🌱 Personal':c==='school'?'🎓 Escolar':'🎯 General';
+}
+function updateGoalCategoryHelp(){
+ const c=$('#goalCategoryInput')?.value||'general';
+ const box=$('#goalCategoryHelpText');if(!box)return;
+ box.textContent=c==='personal'
+   ?'Personal: autonomía, hábitos personales, confianza, deporte personal o metas propias.'
+   :c==='school'
+   ?'Escolar: notas, actitud, estudio, lectura, deberes, proyectos o progreso del colegio.'
+   :'General: cualquier objetivo que no sea específicamente personal o escolar.';
+}
+
+function updateGoalMeasureUI(){
+ const type=$('#goalMeasureTypeInput')?.value||'stars';
+ const panels={
+   stars:$('#goalStarsFields'),
+   number:$('#goalNumberFields'),
+   grade:$('#goalGradeFields'),
+   check:$('#goalCheckFields')
+ };
+ Object.entries(panels).forEach(([k,el])=>{if(el)el.style.display=k===type?'grid':'none'});
+}
+const goalMeasureTypeInput=$('#goalMeasureTypeInput');
+if(goalMeasureTypeInput)goalMeasureTypeInput.onchange=updateGoalMeasureUI;
+const goalCategoryInput=$('#goalCategoryInput');
+if(goalCategoryInput)goalCategoryInput.onchange=updateGoalCategoryHelp;
+
 function renderBigGoal(){
  const g=activeGoal(),card=$('#bigGoalCard');if(!card)return;
  if(!g){
@@ -4306,22 +4439,33 @@ function renderBigGoal(){
    return;
  }
  card.style.display='';
- const title=$('#bigGoalTitle'),cost=$('#bigGoalCost'),message=$('#bigGoalMessage'),icon=$('#bigGoalIcon'),date=$('#bigGoalDate'),bar=$('#goalbar');
- if(title)title.textContent=g.name;
- if(cost)cost.textContent=g.cost;
+ const p=goalProgressData(g);
+ const title=$('#bigGoalTitle'),progress=$('#bigGoalProgressText'),message=$('#bigGoalMessage'),icon=$('#bigGoalIcon'),date=$('#bigGoalDate'),bar=$('#goalbar');
+ if(title)title.innerHTML=`${g.name} <span class="goal-category-pill home">${goalCategoryLabel(g)}</span>`;
+ if(progress)progress.textContent=goalMeasureLabel(g);
  if(message)message.textContent='“'+(g.message||'Cada esfuerzo te acerca a nuevas aventuras')+'”';
  if(icon)icon.innerHTML=`<div style="font-size:58px;display:grid;place-items:center;height:100%">${g.icon||'🎯'}</div>`;
  if(date)date.textContent=g.date?'📅 '+new Date(g.date+'T12:00:00').toLocaleDateString('es-ES',{day:'numeric',month:'long'}):'🎯 Sin fecha límite';
- if(bar)bar.style.width=Math.min(100,(state.stars/Math.max(1,Number(g.cost)||1))*100)+'%';
+ if(bar)bar.style.width=p.pct+'%';
 }
 function resetGoalForm(){
  $('#goalNameInput').value='';
+ $('#goalCategoryInput').value='general';
+ $('#goalMeasureTypeInput').value='stars';
  $('#goalCostInput').value='';
+ $('#goalCurrentNumberInput').value='';
+ $('#goalTargetNumberInput').value='';
+ $('#goalUnitInput').value='';
+ $('#goalCurrentGradeInput').value='';
+ $('#goalTargetGradeInput').value='B';
+ $('#goalAchievedInput').checked=false;
  $('#goalDateInput').value='';
  $('#goalIconInput').value='🎿';
  $('#goalMessageInput').value='';
  populateWorldLinkSelect('#goalWorldInput','');
  if($('#goalShowHomeInput'))$('#goalShowHomeInput').checked=!(state.bigGoals||[]).length;
+ updateGoalMeasureUI();
+ updateGoalCategoryHelp();
  $('#saveGoalBtn').dataset.edit='';
  $('#saveGoalBtn').textContent='Añadir objetivo';
 }
@@ -4331,37 +4475,73 @@ function renderGoalAdmin(){
  if(!state.bigGoals.length){list.innerHTML='<div class="mmeta">No hay objetivos creados.</div>';return}
  state.bigGoals.forEach((g,i)=>{
    const row=document.createElement('div');row.className='goal-admin-row';
-   row.innerHTML=`<div><b>${g.icon||'🎯'} ${g.name}${g.id===state.activeGoalId?'<span class="goal-active-tag">EN INICIO</span>':''}</b><div class="mmeta">${g.cost} ⭐${g.date?' · '+new Date(g.date+'T12:00:00').toLocaleDateString('es-ES'):''}${g.worldId?` · <span class="world-link-pill">${worldLinkLabel(g.worldId)}</span>`:''}</div></div><div class="task-admin-actions"><button class="smallbtn uploadbtn" data-goalactive="${i}" ${g.id===state.activeGoalId?'disabled':''}>${g.id===state.activeGoalId?'✓ En Inicio':'Mostrar en Inicio'}</button><button class="smallbtn uploadbtn" data-goaledit="${i}">Editar</button><button class="smallbtn" style="background:#ffe9ec;color:#a74354" data-goaldel="${i}">Eliminar</button></div>`;
+   const p=goalProgressData(g);
+   row.innerHTML=`<div><b>${g.icon||'🎯'} ${g.name}${g.id===state.activeGoalId?'<span class="goal-active-tag">EN INICIO</span>':''}</b><div class="mmeta"><span class="goal-category-pill">${goalCategoryLabel(g)}</span> · ${goalMeasureLabel(g)} · ${p.pct}%${g.date?' · '+new Date(g.date+'T12:00:00').toLocaleDateString('es-ES'):''}${g.worldId?` · <span class="world-link-pill">${worldLinkLabel(g.worldId)}</span>`:''}</div></div><div class="task-admin-actions"><button class="smallbtn uploadbtn" data-goalactive="${i}" ${g.id===state.activeGoalId?'disabled':''}>${g.id===state.activeGoalId?'✓ En Inicio':'Mostrar en Inicio'}</button><button class="smallbtn uploadbtn" data-goaledit="${i}">Editar</button><button class="smallbtn" style="background:#ffe9ec;color:#a74354" data-goaldel="${i}">Eliminar</button></div>`;
    list.appendChild(row);
  });
  list.querySelectorAll('[data-goalactive]').forEach(b=>b.onclick=()=>{state.activeGoalId=state.bigGoals[Number(b.dataset.goalactive)].id;toast('Objetivo mostrado en Inicio 🎯');save()});
  list.querySelectorAll('[data-goaledit]').forEach(b=>b.onclick=()=>{
- const g=state.bigGoals[Number(b.dataset.goaledit)];
- $('#goalNameInput').value=g.name;
- $('#goalCostInput').value=g.cost;
- $('#goalDateInput').value=g.date||'';
- $('#goalIconInput').value=g.icon||'🎿';
- $('#goalMessageInput').value=g.message||'';
- populateWorldLinkSelect('#goalWorldInput',g.worldId||'');
- if($('#goalShowHomeInput'))$('#goalShowHomeInput').checked=g.id===state.activeGoalId;
- $('#saveGoalBtn').dataset.edit=b.dataset.goaledit;
- $('#saveGoalBtn').textContent='Guardar cambios';
- focusEditTarget('#goalNameInput');
-});
+   const g=state.bigGoals[Number(b.dataset.goaledit)];
+   $('#goalNameInput').value=g.name;
+   $('#goalCategoryInput').value=goalCategory(g);
+   $('#goalMeasureTypeInput').value=goalMeasureType(g);
+   $('#goalCostInput').value=g.cost||'';
+   $('#goalCurrentNumberInput').value=g.currentValue??'';
+   $('#goalTargetNumberInput').value=g.targetValue??'';
+   $('#goalUnitInput').value=g.unit||'';
+   $('#goalCurrentGradeInput').value=g.currentGrade||'';
+   $('#goalTargetGradeInput').value=g.targetGrade||'B';
+   $('#goalAchievedInput').checked=g.achieved===true;
+   $('#goalDateInput').value=g.date||'';
+   $('#goalIconInput').value=g.icon||'🎿';
+   $('#goalMessageInput').value=g.message||'';
+   populateWorldLinkSelect('#goalWorldInput',g.worldId||'');
+   if($('#goalShowHomeInput'))$('#goalShowHomeInput').checked=g.id===state.activeGoalId;
+   updateGoalMeasureUI();
+   updateGoalCategoryHelp();
+   $('#saveGoalBtn').dataset.edit=b.dataset.goaledit;
+   $('#saveGoalBtn').textContent='Guardar cambios';
+   focusEditTarget('#goalNameInput');
+ });
  list.querySelectorAll('[data-goaldel]').forEach(b=>b.onclick=()=>{const i=Number(b.dataset.goaldel),g=state.bigGoals[i];if(confirm(`¿Eliminar "${g.name}"?`)){state.bigGoals.splice(i,1);if(state.activeGoalId===g.id)state.activeGoalId=state.bigGoals[0]?.id||'';save()}});
 }
 $('#saveGoalBtn').onclick=()=>{
- const name=$('#goalNameInput').value.trim(),cost=Number($('#goalCostInput').value);
- if(!name||!cost||cost<1){toast('Escribe nombre y meta de estrellas');return}
+ const name=$('#goalNameInput').value.trim();
+ if(!name){toast('Escribe el nombre del objetivo');return}
+ const measureType=$('#goalMeasureTypeInput')?.value||'stars';
+ const data={
+   name,measureType,
+   category:$('#goalCategoryInput')?.value||'general',
+   date:$('#goalDateInput').value||'',
+   icon:$('#goalIconInput').value,
+   message:$('#goalMessageInput').value.trim(),
+   worldId:$('#goalWorldInput')?.value||''
+ };
+ if(measureType==='stars'){
+   const cost=Math.max(0,Number($('#goalCostInput').value)||0);
+   if(cost<1){toast('Escribe la meta de estrellas');return}
+   data.cost=cost;
+ }else if(measureType==='number'){
+   const current=Math.max(0,Number($('#goalCurrentNumberInput').value)||0);
+   const target=Math.max(0,Number($('#goalTargetNumberInput').value)||0);
+   if(target<=0){toast('Escribe una meta numérica mayor que 0');return}
+   data.currentValue=current;data.targetValue=target;data.unit=$('#goalUnitInput').value.trim();
+ }else if(measureType==='grade'){
+   data.currentGrade=$('#goalCurrentGradeInput').value||'';
+   data.targetGrade=$('#goalTargetGradeInput').value||'B';
+ }else if(measureType==='check'){
+   data.achieved=$('#goalAchievedInput').checked===true;
+ }
  if(!Array.isArray(state.bigGoals))state.bigGoals=[];
- const data={name,cost,date:$('#goalDateInput').value||'',icon:$('#goalIconInput').value,message:$('#goalMessageInput').value.trim(),worldId:$('#goalWorldInput')?.value||''};
  const edit=$('#saveGoalBtn').dataset.edit;
  const showHome=$('#goalShowHomeInput')?.checked===true;
  let savedGoal=null;
  if(edit!==''){
    savedGoal=state.bigGoals[Number(edit)];
    if(!savedGoal)return;
-   Object.assign(savedGoal,data);
+   const keepId=savedGoal.id;
+   Object.keys(savedGoal).forEach(k=>{if(!['id'].includes(k))delete savedGoal[k]});
+   Object.assign(savedGoal,{id:keepId,...data});
    toast('Objetivo actualizado ✅');
  }else{
    data.id='goal-'+Date.now();
@@ -4373,7 +4553,6 @@ $('#saveGoalBtn').onclick=()=>{
  resetGoalForm();
  save();
 };
-
 function specialIcon(type){return {'no-school':'🏖️',vacation:'🌴',excursion:'🚌',birthday:'🎂',holiday:'🎉',other:'✨'}[type]||'✨'}
 function specialDefaults(){const type=$('#specialTypeInput').value;$('#skipMorningInput').checked=false;$('#skipAfternoonInput').checked=false;$('#skipSchoolInput').checked=['no-school','vacation','holiday'].includes(type)}
 $('#specialTypeInput').onchange=specialDefaults;
@@ -6202,7 +6381,7 @@ function renderGoalMilestones(){
  const g=activeGoal();
  if(!g){box.innerHTML='';if(card)card.style.display='none';return}
  if(card)card.style.display='';
- const pct=Math.min(100,Math.round((state.stars/Math.max(1,Number(g.cost)||1))*100));
+ const pct=goalProgressData(g).pct;
  const marks=[25,50,75,100];
  box.innerHTML='<div class="milestone-track">'+marks.map(n=>`<div class="milestone ${pct>=n?'on':''}"><span>${pct>=n?'✓':'○'}</span><b>${n}%</b></div>`).join('')+'</div>';
 }
@@ -6733,11 +6912,11 @@ function renderWorldDetail(worldId=activeWorldDetailId){
      goalList.innerHTML='<div class="world-empty compact">No hay grandes objetivos vinculados a este mundo.</div>';
    }else{
      goalList.innerHTML=linkedGoals.map(g=>{
-       const pct=Math.min(100,Math.round((Number(state.stars)||0)/Math.max(1,Number(g.cost)||1)*100));
+       const p=goalProgressData(g),pct=p.pct;
        return `<div class="world-linked-row goal-link">
          <span class="world-linked-icon">${g.icon||'⭐'}</span>
-         <div><b>${g.name}</b><small>${Math.min(Number(state.stars)||0,Number(g.cost)||0)}/${g.cost} ⭐${g.date?' · '+new Date(g.date+'T12:00:00').toLocaleDateString('es-ES'):''}</small><div class="world-linked-bar"><i style="width:${pct}%"></i></div></div>
-         <span class="world-mission-state">${pct>=100?'Objetivo alcanzado':' '+pct+'%'}</span>
+         <div><b>${g.name}</b><small>${goalCategoryLabel(g)} · ${goalMeasureLabel(g)}${g.date?' · '+new Date(g.date+'T12:00:00').toLocaleDateString('es-ES'):''}</small><div class="world-linked-bar"><i style="width:${pct}%"></i></div></div>
+         <span class="world-mission-state">${p.done?'Objetivo alcanzado':' '+pct+'%'}</span>
        </div>`;
      }).join('');
    }
