@@ -2192,6 +2192,67 @@ body.preview-first-run .first-run-cancel-preview{display:block}
  font-size:7px;font-weight:1000;vertical-align:1px
 }
 
+
+/* ===== v95 Organizar tareas por Mundos ===== */
+.task-organize-bar{
+ display:grid;grid-template-columns:1fr auto;gap:9px;align-items:center;margin:12px 0 5px;
+ padding:10px 11px;border-radius:14px;background:#eef6ff;border:1px solid #dce9f6
+}
+.task-organize-bar b{display:block;font-size:10px;color:#294f74}
+.task-organize-bar small{display:block;font-size:8px;color:#70869a;line-height:1.35;margin-top:2px;font-weight:800}
+.task-organize-bar select{
+ border:1px solid #d4e1ee;border-radius:11px;background:#fff;padding:9px 10px;color:#315d85;font:inherit;font-weight:900
+}
+.task-world-group-head{
+ display:flex;justify-content:space-between;gap:9px;align-items:center;
+ margin:13px 0 0;padding:10px 11px;border-radius:13px;background:linear-gradient(90deg,#eaf5ff,#f8fbff);
+ border:1px solid #dce9f5
+}
+.task-world-group-head b{display:block;font-size:11px;color:#294f74}
+.task-world-group-head small{display:block;font-size:8px;color:#72879a;margin-top:2px;font-weight:800}
+.task-world-group-head>span{
+ white-space:nowrap;padding:4px 7px;border-radius:9px;background:#fff;color:#4d6e8c;font-size:8px;font-weight:1000
+}
+.task-world-group-head.section-mode{background:linear-gradient(90deg,#f5f8fb,#fff)}
+.task-admin-organizable{align-items:start}
+.task-admin-main{min-width:0}
+.task-world-move{
+ display:flex;align-items:center;gap:6px;margin-top:7px;padding-top:7px;border-top:1px dashed #e0e8f0
+}
+.task-world-move span{font-size:8px;color:#6e8497;font-weight:1000;white-space:nowrap}
+.task-world-move select{
+ min-width:0;flex:1;border:1px solid #d9e4ee;border-radius:9px;padding:7px 8px;background:#fff;
+ color:#315d85;font-size:8px;font-weight:900
+}
+@media(max-width:420px){
+ .task-organize-bar{grid-template-columns:1fr}
+ .task-organize-bar select{width:100%}
+ .task-admin-organizable{grid-template-columns:1fr}
+ .task-admin-actions{justify-content:flex-start}
+ .task-world-move{align-items:stretch;flex-direction:column}
+ .task-world-move select{width:100%}
+}
+
+
+/* ===== v96 Fechas de tareas + constancia para Montaña ===== */
+.task-schedule-card,.task-mountain-rule{margin-top:9px;padding:10px 11px;border-radius:14px;border:1px solid #dce8f3;background:#f7fbff}
+.task-schedule-head{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center}
+.task-schedule-head b,.task-mountain-rule b{display:block;font-size:10px;color:#294f74}
+.task-schedule-head small,.task-mountain-rule small{display:block;font-size:8px;color:#71879b;line-height:1.35;margin-top:2px;font-weight:800}
+.task-schedule-head select{border:1px solid #d9e4ee;border-radius:10px;padding:8px;background:#fff;color:#315d85;font:inherit;font-weight:900}
+.task-weekdays{grid-template-columns:repeat(7,1fr);gap:5px;margin-top:9px}
+.task-weekdays label{display:grid;place-items:center;padding:7px 2px;border-radius:9px;background:#fff;border:1px solid #dce6ef;font-size:9px;font-weight:1000;color:#41627f}
+.task-weekdays input{margin:0 0 3px}
+.task-exact-date{margin-top:9px}
+.task-exact-date label{display:flex;gap:8px;align-items:center;font-size:8px;font-weight:1000;color:#55718b}
+.task-exact-date input{flex:1;border:1px solid #d9e4ee;border-radius:10px;padding:8px;background:#fff;font:inherit}
+.task-mountain-rule{background:#fff9e9;border-color:#f1e0a8}
+.task-mountain-rule>label{display:flex;align-items:center;gap:7px;margin-top:8px;font-size:9px;font-weight:1000;color:#735d19}
+.task-mountain-rule input{width:74px;border:1px solid #e5d28d;border-radius:9px;padding:8px;background:#fff;font:inherit;text-align:center}
+.mountain-rule-example{margin-top:6px!important}
+.task-mountain-pill{display:inline-block;padding:3px 6px;border-radius:8px;background:#fff0b5;color:#775f10;font-size:8px;font-weight:1000}
+@media(max-width:420px){.task-schedule-head{grid-template-columns:1fr}.task-schedule-head select{width:100%}.task-weekdays{gap:3px}}
+
 </style>
 </head>
 <body>
@@ -2934,7 +2995,7 @@ body.preview-first-run .first-run-cancel-preview{display:block}
 
 <div class="card panelcard task-manager-card">
 <h3 style="margin:0 0 5px">✅ Gestionar tareas</h3>
-<div class="mmeta">Crear, editar, activar/desactivar o eliminar tareas diarias. Cada tarea puede pertenecer a un mundo y sus aprobaciones hacen avanzar las fases de ese mundo.</div>
+<div class="mmeta">Crear, editar, activar/desactivar o eliminar tareas diarias. Después de crearlas puedes organizarlas por mundo y moverlas cuando quieras.</div>
 <div class="task-manager-form">
 <input id="taskNameInput" placeholder="Nombre de la tarea"/>
 <select id="taskSectionInput">
@@ -2956,10 +3017,10 @@ body.preview-first-run .first-run-cancel-preview{display:block}
 <option value="all">👨‍👩‍👧‍👦 Todos los hijos</option>
 </select>
 <select id="taskDayTypeInput">
-<option value="all">📅 Todos los días</option>
-<option value="school">🎒 Días de colegio</option>
-<option value="weekend">🎈 Fin de semana</option>
-<option value="vacation">🏖️ Vacaciones</option>
+<option value="all">📅 Cualquier tipo de día</option>
+<option value="school">🎒 Solo días de colegio</option>
+<option value="weekend">🎈 Solo fin de semana</option>
+<option value="vacation">🏖️ Solo vacaciones</option>
 </select>
 <select id="taskWorldInput" title="Mundo al que pertenece esta tarea">
 <option value="mountain">🏔️ Montaña de los Logros</option>
@@ -2970,7 +3031,49 @@ body.preview-first-run .first-run-cancel-preview{display:block}
 <option value="space">🚀 Espacio de los Sueños</option>
 </select>
 </div>
+
+<div class="task-schedule-card">
+ <div class="task-schedule-head">
+  <div><b>📆 Cuándo aparece esta tarea</b><small>Ejemplo: golf solo los domingos, o una tarea para una fecha concreta.</small></div>
+  <select id="taskScheduleTypeInput">
+   <option value="routine">Según el tipo de día de arriba</option>
+   <option value="weekdays">Días concretos de la semana</option>
+   <option value="date">Una fecha concreta</option>
+  </select>
+ </div>
+ <div id="taskWeekdaysWrap" class="task-weekdays" style="display:none">
+  <label><input type="checkbox" value="1">L</label>
+  <label><input type="checkbox" value="2">M</label>
+  <label><input type="checkbox" value="3">X</label>
+  <label><input type="checkbox" value="4">J</label>
+  <label><input type="checkbox" value="5">V</label>
+  <label><input type="checkbox" value="6">S</label>
+  <label><input type="checkbox" value="0">D</label>
+ </div>
+ <div id="taskExactDateWrap" class="task-exact-date" style="display:none">
+  <label><span>Fecha concreta</span><input id="taskExactDateInput" type="date"></label>
+ </div>
+</div>
+
+<div class="task-mountain-rule">
+ <div><b>🏔️ También suma a Montaña</b><small>La tarea sigue en su mundo normal. La constancia puede generar progreso extra en Montaña.</small></div>
+ <label><span>Cada</span><input id="taskMountainEveryInput" type="number" min="0" value="0"><span>aprobaciones</span></label>
+ <small class="mountain-rule-example">0 = no usar. Ej.: 5 → cada 5 aprobaciones de esta tarea, +1 logro en Montaña.</small>
+</div>
+
 <button class="btn primary" id="saveTaskBtn" style="width:100%;margin-top:9px">Añadir tarea</button>
+
+<div class="task-organize-bar">
+ <div>
+  <b>🗂️ Organizar tareas</b>
+  <small>Puedes verlas por mundo y moverlas de uno a otro sin editar toda la tarea.</small>
+ </div>
+ <select id="taskAdminGroupMode">
+  <option value="world">🌍 Por mundos</option>
+  <option value="section">🕒 Por momento del día</option>
+ </select>
+</div>
+
 <div id="taskAdminList" style="margin-top:10px"></div>
 </div>
 </section>
@@ -3365,7 +3468,7 @@ function freshFirstRunState(){
   profile:{name:'',birthDate:'',city:'',age:9,color:'Azul',likes:''},
   rewards:[],rewardHistory:[],projects:[],
   reading:{active:null,history:[]},
-  events:[],approvalHistory:[],weeklyClaims:{},
+  events:[],approvalHistory:[],mountainHistory:[],weeklyClaims:{},
   customChallenges:[],defaultChallengesEnabled:false,
   bigGoals:[],activeGoalId:'',specialDays:[],
   notificationPrefs:{pending:true,projects:true,tomorrow:true,rewards:true},
@@ -3618,15 +3721,51 @@ function currentRoutineType(date=new Date()){
  const day=date.getDay();
  return (day===0||day===6)?'weekend':'school';
 }
+
+function normalizeTaskWeekdays(days){
+ if(!Array.isArray(days))return [];
+ return [...new Set(days.map(Number).filter(n=>n>=0&&n<=6))];
+}
+function taskScheduleMatchesDate(task,date=new Date()){
+ const type=task?.scheduleType||'routine';
+ if(type==='weekdays'){
+   const days=normalizeTaskWeekdays(task.weekdays);
+   return days.length?days.includes(date.getDay()):true;
+ }
+ if(type==='date')return !!task.exactDate && task.exactDate===localDateKey(date);
+ return true;
+}
+function taskScheduleLabel(task){
+ const type=task?.scheduleType||'routine';
+ if(type==='date'&&task.exactDate){
+   return `📅 ${new Date(task.exactDate+'T12:00:00').toLocaleDateString('es-ES')}`;
+ }
+ if(type==='weekdays'){
+   const names={1:'L',2:'M',3:'X',4:'J',5:'V',6:'S',0:'D'};
+   const days=normalizeTaskWeekdays(task.weekdays);
+   if(days.length)return `📆 ${days.map(d=>names[d]).join(' · ')}`;
+ }
+ return ({all:'📅 Cualquier día',school:'🎒 Colegio',weekend:'🎈 Fin de semana',vacation:'🏖️ Vacaciones'})[task?.dayType||'all'];
+}
+function taskMountainEvery(task){
+ const n=Math.max(0,Number(task?.mountainEvery)||0);
+ return n>=2?n:0;
+}
+function ensureMountainHistory(){
+ if(!Array.isArray(state.mountainHistory))state.mountainHistory=[];
+}
+
 function activeMissionsToday(){
- const skip=skippedSectionsToday(),who=home(new Date()),routine=currentRoutineType();
+ const now=new Date(),skip=skippedSectionsToday(),who=home(now),routine=currentRoutineType(now);
  return state.missions.map((m,i)=>[m,i]).filter(([m])=>{
- const houseOk=(m.house==='Ambas'||!m.house||m.house===who);
- const childOk=(m.scope==='all'||!m.scope||m.ownerChildId===familyStore.activeChildId);
- const dayType=m.dayType||'all';
- const routineOk=dayType==='all'||dayType===routine;
- const vacationSchoolOk=!(routine==='vacation' && m.section==='Colegio' && dayType!=='vacation');
- return m.enabled!==false&&!skip.has(m.section)&&houseOk&&childOk&&routineOk&&vacationSchoolOk;
+   const houseOk=(m.house==='Ambas'||!m.house||m.house===who);
+   const childOk=(m.scope==='all'||!m.scope||m.ownerChildId===familyStore.activeChildId);
+   const scheduleType=m.scheduleType||'routine';
+   const dayType=m.dayType||'all';
+   const routineOk=scheduleType==='routine'?(dayType==='all'||dayType===routine):true;
+   const scheduleOk=taskScheduleMatchesDate(m,now);
+   const vacationSchoolOk=!(routine==='vacation' && m.section==='Colegio' && dayType!=='vacation' && scheduleType==='routine');
+   return m.enabled!==false&&!skip.has(m.section)&&houseOk&&childOk&&routineOk&&scheduleOk&&vacationSchoolOk;
  });
 }
 
@@ -3820,15 +3959,35 @@ function approve(i){
  state.stars+=m.stars;
  state.xp+=m.xp;
  if(!state.approvalHistory)state.approvalHistory=[];
+ const approvalDate=journalBookDate||localDateKey();
  state.approvalHistory.push({
-   date:journalBookDate||localDateKey(),
+   date:approvalDate,
    title:m.title,
    section:m.section,
    stars:m.stars,
    xp:m.xp,
+   taskId:m.id||'',
    worldId:worldAcceptsProgress(taskWorldId(m))?taskWorldId(m):'none'
  });
- toast(`+${m.stars} ⭐ · +${m.xp} XP`);
+ let mountainMsg='';
+ const every=taskMountainEvery(m);
+ if(every && taskWorldId(m)!=='mountain' && worldAcceptsProgress('mountain')){
+   const approvedCount=state.approvalHistory.filter(x=>x.taskId&&x.taskId===m.id).length;
+   if(approvedCount>0 && approvedCount%every===0){
+     ensureMountainHistory();
+     state.mountainHistory.push({
+       id:`mountain-${m.id}-${approvedCount}`,
+       date:approvalDate,
+       taskId:m.id,
+       title:`Constancia: ${m.title}`,
+       sourceTitle:m.title,
+       block:approvedCount/every,
+       every
+     });
+     mountainMsg=' · 🏔️ +1 logro';
+   }
+ }
+ toast(`+${m.stars} ⭐ · +${m.xp} XP${mountainMsg}`);
  save();
 }
 function reject(i){const m=state.missions[i];if(m.status!==2)return;m.status=0;toast('Devuelta a Miguelito');save()}
@@ -6016,7 +6175,7 @@ function copyChildConfig(sourceId){
  const target=targets[pick];
  if(!confirm(`¿Copiar tareas, premios, retos, objetivos, mundos e insignias a ${target.name}? No se copiarán estrellas, calendario, diario ni progreso.`))return;
  const s=source.state||{},t=target.state||freshChildState(target.name,target.birthDate,target.city);
- t.missions=cloneJson(s.missions||[]).map(m=>({...m,status:0,ownerChildId:target.id}));
+ t.missions=cloneJson(s.missions||[]).map((m,i)=>({...m,id:`task-${Date.now()}-${i}-${Math.random().toString(36).slice(2,7)}`,status:0,ownerChildId:target.id}));
  t.rewards=cloneJson(s.rewards||[]);
  t.customChallenges=cloneJson(s.customChallenges||[]).map(c=>({...c,ownerChildId:target.id}));
  t.defaultChallengesEnabled=s.defaultChallengesEnabled;
@@ -6342,7 +6501,10 @@ function approvalWorldId(item){
  return inferTaskWorld({title:item?.title||'',section:item?.section||''});
 }
 function worldMissionApprovals(worldId){
- return (state.approvalHistory||[]).filter(x=>approvalWorldId(x)===worldId);
+ const direct=(state.approvalHistory||[]).filter(x=>approvalWorldId(x)===worldId);
+ if(worldId!=='mountain')return direct;
+ ensureMountainHistory();
+ return [...direct,...state.mountainHistory.map(x=>({...x,worldId:'mountain',mountainDerived:true}))];
 }
 function worldStagesFor(world){
  const theme=world?.theme||world?.id||'mountain';
@@ -6885,9 +7047,16 @@ function ensureV82State(){
 }
 
 function ensureTaskState(){
- state.missions.forEach(m=>{
+ if(!Array.isArray(state.missions))state.missions=[];
+ ensureMountainHistory();
+ state.missions.forEach((m,i)=>{
+   if(!m.id)m.id=`task-${Date.now()}-${i}-${Math.random().toString(36).slice(2,7)}`;
    if(typeof m.enabled==='undefined')m.enabled=true;
    if(!m.house)m.house='Ambas';
+   if(!m.scheduleType)m.scheduleType='routine';
+   if(!Array.isArray(m.weekdays))m.weekdays=[];
+   if(typeof m.exactDate!=='string')m.exactDate='';
+   if(typeof m.mountainEvery==='undefined')m.mountainEvery=0;
  });
 }
 ensureTaskState();ensureV82State();
@@ -6911,6 +7080,22 @@ function populateTaskWorldSelect(selected=''){
  if([...sel.options].some(o=>o.value===current))sel.value=current;
  else if(sel.options.length)sel.selectedIndex=0;
 }
+
+function selectedTaskWeekdays(){
+ return [...document.querySelectorAll('#taskWeekdaysWrap input[type="checkbox"]:checked')].map(x=>Number(x.value));
+}
+function setTaskWeekdays(days=[]){
+ const set=new Set(normalizeTaskWeekdays(days));
+ document.querySelectorAll('#taskWeekdaysWrap input[type="checkbox"]').forEach(x=>x.checked=set.has(Number(x.value)));
+}
+function updateTaskScheduleUI(){
+ const type=$('#taskScheduleTypeInput')?.value||'routine';
+ const weekdays=$('#taskWeekdaysWrap'),exact=$('#taskExactDateWrap'),dayType=$('#taskDayTypeInput');
+ if(weekdays)weekdays.style.display=type==='weekdays'?'grid':'none';
+ if(exact)exact.style.display=type==='date'?'block':'none';
+ if(dayType)dayType.disabled=type!=='routine';
+}
+
 function resetTaskForm(){
  $('#taskNameInput').value='';
  $('#taskSectionInput').value='Mañana';
@@ -6919,11 +7104,29 @@ function resetTaskForm(){
  $('#taskHouseInput').value='Ambas';
  $('#taskAssignInput').value='current';
  $('#taskDayTypeInput').value='all';
+ $('#taskScheduleTypeInput').value='routine';
+ setTaskWeekdays([]);
+ $('#taskExactDateInput').value='';
+ $('#taskMountainEveryInput').value=0;
  populateTaskWorldSelect('mountain');
+ updateTaskScheduleUI();
  $('#saveTaskBtn').dataset.edit='';
  $('#saveTaskBtn').textContent='Añadir tarea';
 }
 
+const taskScheduleTypeControl=$('#taskScheduleTypeInput');
+if(taskScheduleTypeControl)taskScheduleTypeControl.onchange=updateTaskScheduleUI;
+const taskAdminGroupMode=$('#taskAdminGroupMode');
+if(taskAdminGroupMode)taskAdminGroupMode.onchange=()=>renderTaskAdmin();
+
+function taskWorldOptions(selected=''){
+ ensureWorldState();
+ return (state.worlds||[]).map(w=>`<option value="${w.id}" ${w.id===selected?'selected':''}>${w.icon||'🌍'} ${w.title||'Mundo'}</option>`).join('');
+}
+function taskWorldShortLabel(worldId){
+ const w=(state.worlds||[]).find(x=>x.id===worldId);
+ return w?`${w.icon||'🌍'} ${w.title||'Mundo'}`:'🌍 Mundo';
+}
 function renderTaskAdmin(){
  populateTaskWorldSelect($('#taskWorldInput')?.value||'');
  const list=$('#taskAdminList');
@@ -6933,30 +7136,62 @@ function renderTaskAdmin(){
    list.innerHTML='<div class="mmeta">No hay tareas creadas.</div>';
    return;
  }
- const order=['Mañana','Colegio','Tarde'];
- order.forEach(sec=>{
-   const rows=state.missions.map((m,i)=>[m,i]).filter(([m])=>m.section===sec);
-   if(!rows.length)return;
-   const h=document.createElement('div');
-   h.className='eyebrow';
-   h.style.marginTop='10px';
-   h.textContent=sec;
-   list.appendChild(h);
-   rows.forEach(([m,i])=>{
-     const row=document.createElement('div');
-     row.className='task-admin-row';
-     row.innerHTML=`
-       <div>
-         <b>${m.title}</b>
-         <div class="task-admin-meta">${m.stars} ⭐ · ${m.xp} XP · ${m.enabled===false?'Desactivada':'Activa'} ${m.starterPack==='v94'?'<span class="starter-pack-pill">EJEMPLO</span>':''} <span class="task-house-pill">${m.house||'Ambas'}</span> <span class="task-house-pill">${({all:'Todos los días',school:'Colegio',weekend:'Fin de semana',vacation:'Vacaciones'})[m.dayType||'all']}</span> <span class="task-house-pill">${({'mountain':'🏔️ Montaña','maze':'🧩 Laberinto','jungle':'🌿 Selva','castle':'🏰 Castillo','ocean':'🌊 Océano','space':'🚀 Espacio'})[taskWorldId(m)]||'🌍 Mundo'}</span></div>
-       </div>
-       <div class="task-admin-actions">
-         <button class="smallbtn uploadbtn" data-edittask="${i}">Editar</button>
-         <button class="smallbtn togglebtn ${m.enabled===false?'off':'on'}" data-toggletask="${i}">${m.enabled===false?'Activar':'Desactivar'}</button>
-         <button class="smallbtn" style="background:#ffe9ec;color:#a74354" data-deltask="${i}">Eliminar</button>
-       </div>`;
-     list.appendChild(row);
+
+ const mode=$('#taskAdminGroupMode')?.value||'world';
+ const indexed=state.missions.map((m,i)=>[m,i]);
+
+ function appendTaskRow(m,i){
+   const row=document.createElement('div');
+   row.className='task-admin-row task-admin-organizable';
+   const wid=taskWorldId(m);
+   row.innerHTML=`
+     <div class="task-admin-main">
+       <b>${m.title}</b>
+       <div class="task-admin-meta">${m.section} · ${m.stars} ⭐ · ${m.xp} XP · ${m.enabled===false?'Desactivada':'Activa'} ${m.starterPack==='v94'?'<span class="starter-pack-pill">EJEMPLO</span>':''}</div>
+       <div class="task-admin-meta"><span class="task-house-pill">${m.house||'Ambas'}</span> <span class="task-house-pill">${taskScheduleLabel(m)}</span>${taskMountainEvery(m)?` <span class="task-mountain-pill">🏔️ cada ${taskMountainEvery(m)}</span>`:''}</div>
+       <label class="task-world-move">
+         <span>Mover a mundo</span>
+         <select data-task-world-move="${i}">${taskWorldOptions(wid)}</select>
+       </label>
+     </div>
+     <div class="task-admin-actions">
+       <button class="smallbtn uploadbtn" data-edittask="${i}">Editar</button>
+       <button class="smallbtn togglebtn ${m.enabled===false?'off':'on'}" data-toggletask="${i}">${m.enabled===false?'Activar':'Desactivar'}</button>
+       <button class="smallbtn" style="background:#ffe9ec;color:#a74354" data-deltask="${i}">Eliminar</button>
+     </div>`;
+   list.appendChild(row);
+ }
+
+ if(mode==='world'){
+   ensureWorldState();
+   (state.worlds||[]).forEach(w=>{
+     const rows=indexed.filter(([m])=>taskWorldId(m)===w.id);
+     if(!rows.length)return;
+     const group=document.createElement('div');
+     group.className='task-world-group-head';
+     group.innerHTML=`<div><b>${w.icon||'🌍'} ${w.title||'Mundo'}</b><small>${worldPurpose(w)}</small></div><span>${rows.length} tarea${rows.length===1?'':'s'}</span>`;
+     list.appendChild(group);
+     rows.forEach(([m,i])=>appendTaskRow(m,i));
    });
+ }else{
+   const order=['Mañana','Colegio','Tarde'];
+   order.forEach(sec=>{
+     const rows=indexed.filter(([m])=>m.section===sec);
+     if(!rows.length)return;
+     const h=document.createElement('div');
+     h.className='task-world-group-head section-mode';
+     h.innerHTML=`<div><b>${sec==='Mañana'?'🌅':sec==='Colegio'?'🎒':'🌇'} ${sec}</b><small>Organizadas por momento del día</small></div><span>${rows.length} tarea${rows.length===1?'':'s'}</span>`;
+     list.appendChild(h);
+     rows.forEach(([m,i])=>appendTaskRow(m,i));
+   });
+ }
+
+ list.querySelectorAll('[data-task-world-move]').forEach(sel=>sel.onchange=()=>{
+   const i=Number(sel.dataset.taskWorldMove),m=state.missions[i];
+   if(!m)return;
+   m.worldId=sel.value;
+   toast(`Movida a ${taskWorldShortLabel(sel.value)} ✅`);
+   save();
  });
 
  list.querySelectorAll('[data-edittask]').forEach(b=>b.onclick=()=>{
@@ -6968,6 +7203,11 @@ function renderTaskAdmin(){
    $('#taskHouseInput').value=m.house||'Ambas';
    $('#taskAssignInput').value=m.scope||'current';
    $('#taskDayTypeInput').value=m.dayType||'all';
+   $('#taskScheduleTypeInput').value=m.scheduleType||'routine';
+   setTaskWeekdays(m.weekdays||[]);
+   $('#taskExactDateInput').value=m.exactDate||'';
+   $('#taskMountainEveryInput').value=taskMountainEvery(m)||0;
+   updateTaskScheduleUI();
    populateTaskWorldSelect(taskWorldId(m));
    $('#saveTaskBtn').dataset.edit=String(i);
    $('#saveTaskBtn').textContent='Guardar cambios';
@@ -6993,7 +7233,15 @@ $('#saveTaskBtn').dataset.edit='';
 $('#saveTaskBtn').onclick=()=>{
  const title=$('#taskNameInput').value.trim();
  if(!title){toast('Escribe el nombre de la tarea');return}
+ const scheduleType=$('#taskScheduleTypeInput')?.value||'routine';
+ const weekdays=selectedTaskWeekdays();
+ const exactDate=$('#taskExactDateInput')?.value||'';
+ if(scheduleType==='weekdays'&&!weekdays.length){toast('Selecciona al menos un día de la semana');return}
+ if(scheduleType==='date'&&!exactDate){toast('Selecciona la fecha concreta');return}
+ const mountainEveryRaw=Math.max(0,Number($('#taskMountainEveryInput')?.value)||0);
+ if(mountainEveryRaw===1){toast('Para Montaña usa 0 o un número de 2 en adelante');return}
  const task={
+   id:`task-${Date.now()}-${Math.random().toString(36).slice(2,7)}`,
    title,
    section:$('#taskSectionInput').value,
    stars:Math.max(0,Number($('#taskStarsInput').value)||0),
@@ -7002,6 +7250,10 @@ $('#saveTaskBtn').onclick=()=>{
    scope:$('#taskAssignInput').value||'current',
    ownerChildId:familyStore.activeChildId,
    dayType:$('#taskDayTypeInput').value||'all',
+   scheduleType,
+   weekdays:scheduleType==='weekdays'?weekdays:[],
+   exactDate:scheduleType==='date'?exactDate:'',
+   mountainEvery:mountainEveryRaw,
    worldId:$('#taskWorldInput')?.value||inferTaskWorld({title,section:$('#taskSectionInput').value}),
    status:0,
    enabled:true
@@ -7009,6 +7261,7 @@ $('#saveTaskBtn').onclick=()=>{
  const edit=$('#saveTaskBtn').dataset.edit;
  if(edit!==''){
    const prev=state.missions[Number(edit)];
+   task.id=prev.id||task.id;
    task.status=prev.status||0;
    task.enabled=prev.enabled!==false;
    if(!task.worldId)task.worldId=prev.worldId||inferTaskWorld(prev);
@@ -7021,7 +7274,6 @@ $('#saveTaskBtn').onclick=()=>{
  resetTaskForm();
  save();
 };
-
 
 function resetEventForm(){
  $('#eventTitleInput').value='';
