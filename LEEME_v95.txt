@@ -1,0 +1,9 @@
+MIS TAREAS v95 — ORGANIZAR TAREAS POR MUNDOS
+
+- Zona Padres > Gestionar tareas tiene ahora un organizador.
+- Vista por defecto: “Por mundos”.
+- Vista alternativa: “Por momento del día”.
+- Cada tarea tiene un selector “Mover a mundo”.
+- Cambiar el selector reasigna la tarea inmediatamente sin abrir Editar.
+- Se mantienen editar, activar/desactivar y eliminar.
+- Se mantienen el pack inicial v94 y todas las funciones anteriores.

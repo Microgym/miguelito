@@ -1,0 +1,14 @@
+MIS TAREAS v96
+
+NUEVO: programación de tareas
+- Según tipo de día.
+- Días concretos de la semana (L M X J V S D). Ej.: Golf solo D.
+- Una fecha concreta.
+
+NUEVO: constancia para Montaña
+- Una tarea permanece en su mundo principal.
+- Puedes indicar “cada X aprobaciones”.
+- Cada bloque completado añade +1 logro a Montaña sin duplicar la tarea.
+- Si Montaña está pausada, no suma ese logro adicional.
+
+También se corrigió la colocación del selector de organización de tareas de v95.
