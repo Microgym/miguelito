@@ -1988,6 +1988,62 @@ body.preview-first-run .first-run-cancel-preview{display:block}
 .goal-date-field input{width:100%}
 [data-goalactive]:disabled{opacity:1;background:#e7f7ed!important;color:#247342!important;cursor:default}
 
+
+/* ===== v86 gestión avanzada de Mundos ===== */
+.world-featured-ribbon{
+ position:absolute;left:10px;top:10px;z-index:2;background:#fff2b8;color:#795800;
+ border-radius:11px;padding:5px 8px;font-size:8px;font-weight:1000;box-shadow:0 4px 12px rgba(0,0,0,.12)
+}
+.adventure-world-card.world-paused{filter:saturate(.72)}
+.adventure-world-card.world-conquered{box-shadow:0 12px 30px rgba(199,148,30,.22)}
+.world-detail-state{
+ position:absolute;z-index:2;right:13px;top:13px;border-radius:12px;padding:6px 8px;
+ background:rgba(255,255,255,.94);font-size:8px;font-weight:1000;color:#2b587e
+}
+.world-detail-state.conquered{background:#fff1b8;color:#7d5b00}
+.world-detail-state.paused{background:#edf1f5;color:#63778b}
+.world-paused-notice{
+ margin-bottom:10px;padding:9px 10px;border-radius:12px;background:#eef1f5;color:#62778c;
+ font-size:9px;line-height:1.35;font-weight:900
+}
+.featured-world-home{
+ min-height:160px;margin:10px 0;padding:15px;color:#fff;background-size:cover;background-position:center;
+ border:0;box-shadow:0 13px 27px rgba(28,70,110,.16)
+}
+.featured-world-kicker{font-size:8px;font-weight:1000;letter-spacing:.08em;opacity:.9}
+.featured-world-main{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;margin-top:5px}
+.featured-world-main h2{margin:0;font-size:20px;line-height:1.08}.featured-world-main p{font-size:9px;margin:5px 0 0;font-weight:800;opacity:.9}
+.featured-world-main>b{font-size:23px}
+.featured-world-progress{height:9px;border-radius:9px;background:rgba(255,255,255,.3);overflow:hidden;margin:12px 0 9px}
+.featured-world-progress i{display:block;height:100%;border-radius:9px;background:#ffd65a}
+.featured-world-foot{display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:9px;font-weight:900}
+.featured-world-foot button{border:0;border-radius:11px;background:#fff;color:#214e79;padding:8px 10px;font-weight:1000;cursor:pointer}
+.world-admin-v86{border:1px solid #dde8f2!important;background:#fbfdff!important;margin:11px 0!important}
+.world-admin-headline{display:flex;justify-content:space-between;gap:9px;align-items:center;margin-bottom:9px}
+.world-admin-headline b{display:block;color:#173562;font-size:13px}.world-admin-headline span{display:block;color:#71859a;font-size:8px;margin-top:2px;font-weight:800}
+.world-status-select,.world-admin-status{border:1px solid #dae4ee;border-radius:11px;background:#fff;padding:8px;font:inherit;font-size:9px;font-weight:900;color:#355b7c}
+.world-admin-status.conquered{background:#fff5cf;color:#795c0c;border-color:#f2dda0}
+.world-feature-actions{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:8px 0}
+.world-feature-actions>span{font-size:8px;color:#6c8297;font-weight:900}
+.world-feature-actions button:disabled{opacity:.5;cursor:default}
+.featured-on{background:#fff0b6!important;color:#725600!important}
+.world-stage-editor{margin-top:9px;border-radius:13px;background:#f2f6fb;padding:9px}
+.world-stage-editor summary{cursor:pointer;font-size:10px;font-weight:1000;color:#315b83}
+.world-stage-edit-row{
+ display:grid;grid-template-columns:88px 1fr 1fr repeat(3,82px);gap:6px;align-items:end;
+ padding:9px 0;border-bottom:1px solid #dfe7ef
+}
+.world-stage-edit-row:last-child{border-bottom:0}
+.stage-edit-title{font-size:9px;font-weight:1000;color:#345d83;align-self:center}
+.world-stage-edit-row input{width:100%;border:1px solid #d7e2ed;border-radius:9px;padding:7px;font:inherit;font-size:9px;background:#fff}
+.world-stage-edit-row label{font-size:7px;font-weight:900;color:#718499}
+.world-stage-edit-row label input{display:block;margin-top:3px}
+@media(max-width:720px){
+ .world-stage-edit-row{grid-template-columns:1fr 1fr}
+ .stage-edit-title{grid-column:1/-1}
+ .world-admin-headline{align-items:flex-start}
+}
+
 </style>
 </head>
 <body>
@@ -2034,6 +2090,8 @@ body.preview-first-run .first-run-cancel-preview{display:block}
  </div>
 
  <div id="goalMilestones" class="goal-milestones"></div>
+
+ <div id="featuredWorldHome" class="card featured-world-home" style="display:none"></div>
 
  <div class="card child-week-card">
    <div class="eyebrow">📊 MI SEMANA</div>
@@ -2814,11 +2872,11 @@ body.preview-first-run .first-run-cancel-preview{display:block}
 </div>
 </section>
 <section id="parentWorlds" class="screen parent-manager-screen">
- <div class="screen-title"><h1>🌍 Mundos</h1><p>Configura los mundos y el XP necesario.</p></div>
+ <div class="screen-title"><h1>🌍 Mundos</h1><p>Activa, pausa, destaca y configura las fases de cada aventura.</p></div>
  <button class="btn ghost parent-back-btn" type="button" onclick="backToParents()">← Volver a Zona Padres</button>
  <div class="card panelcard">
 <h3 style="margin:0 0 5px">🌍 Mundos</h3>
-<div class="mmeta">Los mundos se desbloquean por XP acumulado. Gastar estrellas no los vuelve a bloquear.</div>
+<div class="mmeta">Puede haber varios mundos activos a la vez. El XP los desbloquea; las misiones hacen avanzar sus fases. Elige uno para destacarlo en Inicio.</div>
 <div id="worldAdminList" style="margin-top:9px"></div>
 <button class="btn ghost" id="addWorldBtn" style="width:100%;margin-top:8px" type="button">+ Añadir mundo</button>
 </div>
@@ -3038,12 +3096,12 @@ function saveFamilyStore(){
 
 function defaultWorldsData(){
  return [
-  {id:'mountain',icon:'🏔️',title:'La Montaña de los Logros',xp:0,theme:'mountain',tagline:'Paso a paso llegas muy alto.',reward:'Insignia Escalador'},
-  {id:'maze',icon:'🧩',title:'El Laberinto del Ingenio',xp:250,theme:'maze',tagline:'Piensa, descubre y encuentra la salida.',reward:'Cofre del Saber'},
-  {id:'jungle',icon:'🌿',title:'La Selva de Aventuras',xp:600,theme:'jungle',tagline:'Cada aventura te hace más fuerte.',reward:'Medalla Aventurera'},
-  {id:'castle',icon:'🏰',title:'El Castillo de las Rutinas',xp:1000,theme:'castle',tagline:'Con orden y constancia se cuida el reino.',reward:'Llave Dorada'},
-  {id:'ocean',icon:'🌊',title:'El Océano de la Calma',xp:1600,theme:'ocean',tagline:'Respira, navega y encuentra tu calma.',reward:'Perla de la Calma'},
-  {id:'space',icon:'🚀',title:'El Espacio de los Sueños',xp:2500,theme:'space',tagline:'Sueña en grande y despega.',reward:'Insignia Astronauta'}
+  {id:'mountain',icon:'🏔️',title:'La Montaña de los Logros',xp:0,theme:'mountain',tagline:'Paso a paso llegas muy alto.',reward:'Insignia Escalador',status:'active'},
+  {id:'maze',icon:'🧩',title:'El Laberinto del Ingenio',xp:250,theme:'maze',tagline:'Piensa, descubre y encuentra la salida.',reward:'Cofre del Saber',status:'active'},
+  {id:'jungle',icon:'🌿',title:'La Selva de Aventuras',xp:600,theme:'jungle',tagline:'Cada aventura te hace más fuerte.',reward:'Medalla Aventurera',status:'active'},
+  {id:'castle',icon:'🏰',title:'El Castillo de las Rutinas',xp:1000,theme:'castle',tagline:'Con orden y constancia se cuida el reino.',reward:'Llave Dorada',status:'active'},
+  {id:'ocean',icon:'🌊',title:'El Océano de la Calma',xp:1600,theme:'ocean',tagline:'Respira, navega y encuentra tu calma.',reward:'Perla de la Calma',status:'active'},
+  {id:'space',icon:'🚀',title:'El Espacio de los Sueños',xp:2500,theme:'space',tagline:'Sueña en grande y despega.',reward:'Insignia Astronauta',status:'active'}
  ];
 }
 function defaultBadgesData(){
@@ -3073,7 +3131,7 @@ function freshFirstRunState(){
   vacationMode:false,tomorrowList:[],tomorrowCheckDate:'',
    badges:defaultBadgesData(),
    worlds:defaultWorldsData(),
-   worldStageClaims:{},
+   worldStageClaims:{},featuredWorldId:'mountain',
    journal:[],
    birthdays:[]
  };
@@ -3416,7 +3474,7 @@ function approve(i){
    section:m.section,
    stars:m.stars,
    xp:m.xp,
-   worldId:taskWorldId(m)
+   worldId:worldAcceptsProgress(taskWorldId(m))?taskWorldId(m):'none'
  });
  toast(`+${m.stars} ⭐ · +${m.xp} XP`);
  save();
@@ -3945,7 +4003,7 @@ function freshChildState(name,birthDate='',city=''){
    vacationMode:false,tomorrowList:[],tomorrowCheckDate:'',
    badges:defaultBadgesData(),
    worlds:defaultWorldsData(),
-   worldStageClaims:{},
+   worldStageClaims:{},featuredWorldId:'mountain',
    journal:[],
    birthdays:[]
  };
@@ -5547,12 +5605,37 @@ function copyChildConfig(sourceId){
  t.bigGoals=cloneJson(s.bigGoals||[]);
  t.activeGoalId=s.activeGoalId||t.bigGoals?.[0]?.id||'';
  t.worlds=cloneJson(s.worlds||defaultWorldsData());
+ t.featuredWorldId=s.featuredWorldId||t.worlds?.find(w=>w.status!=='paused')?.id||'';
+ t.worldStageClaims={};
  t.badges=cloneJson(s.badges||defaultBadgesData());
  t.notificationPrefs=cloneJson(s.notificationPrefs||{pending:true,projects:true,tomorrow:true,rewards:true});
  t.tomorrowList=cloneJson(s.tomorrowList||[]).map(x=>({...x,done:false}));
  target.state=t;
  if(target.id===familyStore.activeChildId)state=t;
  saveFamilyStore();safeStoreState();render();toast(`Configuración copiada a ${target.name} ✅`);
+}
+
+
+function renderFeaturedWorldHome(){
+ const card=$('#featuredWorldHome');if(!card)return;
+ ensureWorldState();
+ const w=(state.worlds||[]).find(x=>x.id===state.featuredWorldId);
+ if(!w||w.status==='paused'){card.style.display='none';card.innerHTML='';return}
+ const index=(state.worlds||[]).indexOf(w),v=worldVisual(w,index),unlock=worldProgress(w),ss=worldStageState(w),status=worldDisplayStatus(w);
+ card.style.display='';
+ card.style.backgroundImage=v.image?`linear-gradient(90deg,rgba(10,39,72,.90),rgba(10,39,72,.55)),url('${v.image}')`:'';
+ const opened=unlock.done;
+ const label=!opened?`🔒 Se abre con ${unlock.target} XP`:status==='conquered'?'🏆 Mundo conquistado':`${ss.current.icon} ${ss.current.name}`;
+ const pct=opened?ss.totalPct:unlock.pct;
+ card.innerHTML=`
+   <div class="featured-world-kicker">⭐ MUNDO DESTACADO</div>
+   <div class="featured-world-main">
+     <div><h2>${w.icon||'🌍'} ${w.title}</h2><p>${w.tagline||'Tu próxima aventura te espera.'}</p></div>
+     <b>${pct}%</b>
+   </div>
+   <div class="featured-world-progress"><i style="width:${pct}%"></i></div>
+   <div class="featured-world-foot"><span>${label}</span><button type="button">${opened?'Entrar':'Ver mundos'} ›</button></div>`;
+ card.querySelector('button').onclick=()=>opened?openWorldDetail(w.id):openScreen('worlds');
 }
 
 function render(){
@@ -5575,7 +5658,7 @@ if(parentsTogether()){
   : '<div class="family-illus"><div class="family-emoji-wrap"><div class="family-emoji">👨</div><div class="family-emoji small-kid">🧒</div></div></div>';
  familyCard.innerHTML=`${emojiArt}<div class="family-panel"><div class="eyebrow">Hoy estoy con</div><b>${person}</b><span>¡Juntos hacemos grandes cosas!</span></div>`;
 }
- renderProjectReminders();renderModules();renderReading();renderProjects();renderCalendar();renderRewards();renderRewardAdmin();renderParents();renderExtras();renderProfileData();renderStreaks();renderTaskAdmin();renderDailySummary();renderEventAdmin();renderTodayEvents();renderRewardHistory();renderSyncConfig();renderBigGoal();renderGoalAdmin();renderSpecialAdmin();renderSpecialDay();renderSmartAlerts();renderSmartHome();renderNoticeCenter();renderReminderPrefs();renderChildSwitcher();renderChildManager();renderActiveChildName();renderActiveChildIdentity();renderChildTopSwitcher();renderChallengeAdmin();renderCityScene();renderGoalVisual();renderActiveCity();renderFooterChildArt();renderFamilyPage();renderParentWeeklySummary();renderBadges();renderBadgeAdmin();renderWorlds();renderWorldAdmin();renderJournal();renderBirthdays();renderVacationMode();renderTomorrowList();renderChildWeekSummary();renderGoalMilestones()
+ renderProjectReminders();renderModules();renderReading();renderProjects();renderCalendar();renderRewards();renderRewardAdmin();renderParents();renderExtras();renderProfileData();renderStreaks();renderTaskAdmin();renderDailySummary();renderEventAdmin();renderTodayEvents();renderRewardHistory();renderSyncConfig();renderBigGoal();renderGoalAdmin();renderSpecialAdmin();renderSpecialDay();renderSmartAlerts();renderSmartHome();renderNoticeCenter();renderReminderPrefs();renderChildSwitcher();renderChildManager();renderActiveChildName();renderActiveChildIdentity();renderChildTopSwitcher();renderChallengeAdmin();renderCityScene();renderGoalVisual();renderActiveCity();renderFooterChildArt();renderFamilyPage();renderParentWeeklySummary();renderBadges();renderBadgeAdmin();renderWorlds();renderWorldAdmin();renderJournal();renderBirthdays();renderVacationMode();renderTomorrowList();renderChildWeekSummary();renderGoalMilestones();renderFeaturedWorldHome()
 }
 
 
@@ -5787,20 +5870,25 @@ const WORLD_VISUALS={
 function ensureWorldState(){
  if(!Array.isArray(state.worlds)||!state.worlds.length){
    state.worlds=DEFAULT_WORLDS.map(x=>({...x}));
-   return;
  }
  const oldDefaults=['Inicio de aventura','Bosque','Montaña','Isla','Castillo','Mundo secreto'];
  const looksOld=state.worlds.length===6 && state.worlds.every((w,i)=>oldDefaults[i]===w.title);
  if(looksOld){
    state.worlds=DEFAULT_WORLDS.map((x,i)=>({...x,xp:Number(state.worlds[i]?.xp??x.xp)}));
-   return;
  }
  state.worlds.forEach((w,i)=>{
    const d=DEFAULT_WORLDS[i]||{};
    if(!w.theme && d.theme)w.theme=d.theme;
    if(!w.tagline && d.tagline)w.tagline=d.tagline;
    if(!w.reward && d.reward)w.reward=d.reward;
+   if(w.status!=='paused'&&w.status!=='active')w.status='active';
  });
+ if(typeof state.featuredWorldId!=='string')state.featuredWorldId='';
+ if(state.featuredWorldId && !state.worlds.some(w=>w.id===state.featuredWorldId))state.featuredWorldId='';
+ if(!state.featuredWorldId){
+   const firstActive=state.worlds.find(w=>w.status!=='paused');
+   state.featuredWorldId=firstActive?.id||'';
+ }
 }
 function worldVisual(w,index=0){
  const theme=w.theme||DEFAULT_WORLDS[index]?.theme||'';
@@ -5841,7 +5929,40 @@ function worldMissionApprovals(worldId){
 function worldStagesFor(world){
  const theme=world?.theme||world?.id||'mountain';
  const places=WORLD_STAGE_PLACES[theme]||['Primer paso','Nueva ruta','Gran reto','Meta final'];
- return WORLD_STAGE_BASE.map((s,i)=>({...s,place:places[i]}));
+ const source=Array.isArray(world?.stages)&&world.stages.length===4?world.stages:WORLD_STAGE_BASE;
+ let previous=0;
+ return source.map((s,i)=>{
+   const base=WORLD_STAGE_BASE[i];
+   const target=Math.max(previous+1,Number(s.target)||base.target);
+   previous=target;
+   return {
+     key:base.key,
+     name:(s.name||base.name).trim(),
+     icon:s.icon||base.icon,
+     target,
+     stars:Math.max(0,Number(s.stars??base.stars)||0),
+     xp:Math.max(0,Number(s.xp??base.xp)||0),
+     place:(s.place||places[i]||base.name).trim()
+   };
+ });
+}
+function persistWorldStages(world){
+ world.stages=worldStagesFor(world).map(s=>({...s}));
+ return world.stages;
+}
+function worldDisplayStatus(world){
+ const ss=worldStageState(world);
+ if(ss.conquered)return 'conquered';
+ return world.status==='paused'?'paused':'active';
+}
+function worldAcceptsProgress(worldId){
+ const w=(state.worlds||[]).find(x=>x.id===worldId);
+ if(!w)return true;
+ return w.status!=='paused';
+}
+function chooseNextFeaturedWorld(){
+ const candidates=(state.worlds||[]).filter(w=>w.status!=='paused');
+ state.featuredWorldId=candidates[0]?.id||'';
 }
 function worldStageState(world){
  const count=worldMissionApprovals(world.id).length;
@@ -5905,6 +6026,7 @@ function renderWorldDetail(worldId=activeWorldDetailId){
        <span>${world.icon||'🌍'}</span>
        <div><h1>${world.title||'Mundo'}</h1><p>${world.tagline||'Tu aventura continúa.'}</p></div>
      </div>
+     <div class="world-detail-state ${worldDisplayStatus(world)}">${worldDisplayStatus(world)==='conquered'?'🏆 Conquistado':worldDisplayStatus(world)==='paused'?'⏸ Pausado':'▶ Activo'}</div>
      <div class="world-detail-total"><b>${ss.totalPct}%</b><small>aventura completa</small></div>`;
  }
  if($('#worldDetailStage'))$('#worldDetailStage').textContent=ss.conquered?'Leyenda':ss.current.name;
@@ -5925,12 +6047,13 @@ function renderWorldDetail(worldId=activeWorldDetailId){
  }
 
  const currentCard=$('#worldCurrentStageCard');if(currentCard){
+   const pausedNotice=world.status==='paused'&&!ss.conquered?'<div class="world-paused-notice">⏸ Este mundo está pausado. Puedes verlo, pero las nuevas tareas no hacen avanzar sus fases.</div>':'';
    const targetStage=ss.conquered?ss.stages[3]:ss.current;
    const prev=ss.currentIndex?ss.stages[ss.currentIndex-1].target:0;
    const stageCount=ss.conquered?targetStage.target:Math.max(0,ss.count-prev);
    const stageNeed=ss.conquered?targetStage.target:targetStage.target-prev;
    const rewardReady=ss.count>=targetStage.target&&!worldClaimed(world.id,targetStage.key);
-   currentCard.innerHTML=ss.conquered?`
+   currentCard.innerHTML=pausedNotice+(ss.conquered?`
      <div class="world-finish-banner"><span>🏆</span><div><div class="eyebrow">MUNDO CONQUISTADO</div><h2>¡Eres Leyenda!</h2><p>Has completado la historia principal. Las misiones de este mundo siguen contando.</p></div></div>
      ${rewardReady?`<button class="btn primary world-claim-btn" onclick="claimWorldStage('${world.id}','${targetStage.key}')">🎁 Recoger premio Leyenda · ${targetStage.stars} ⭐ + ${targetStage.xp} XP</button>`:''}
    `:`
@@ -5938,7 +6061,7 @@ function renderWorldDetail(worldId=activeWorldDetailId){
      <div class="world-current-bar"><i style="width:${ss.pct}%"></i></div>
      <div class="world-current-foot"><span>${stageCount}/${stageNeed} pasos de esta fase</span><span>🎁 ${targetStage.stars} ⭐ + ${targetStage.xp} XP</span></div>
      ${rewardReady?`<button class="btn primary world-claim-btn" onclick="claimWorldStage('${world.id}','${targetStage.key}')">🎉 Superar fase y recoger premio</button>`:''}
-   `;
+   `);
  }
 
  const tasks=(state.missions||[]).filter(m=>taskWorldId(m)===world.id);
@@ -5989,28 +6112,32 @@ function renderWorlds(){
  if($('#worldUnlockedCount'))$('#worldUnlockedCount').textContent=unlocked;
  grid.innerHTML='';
  sorted.forEach((w,index)=>{
-   const p=worldProgress(w),v=worldVisual(w,index);
+   const p=worldProgress(w),v=worldVisual(w,index),ss=worldStageState(w),status=worldDisplayStatus(w);
+   const opened=p.done;
+   const adventurePct=opened?ss.totalPct:p.pct;
+   const statusLabel=!opened?`🔒 ${p.target} XP`:status==='conquered'?'🏆 Conquistado':status==='paused'?'⏸ Pausado':'▶ Activo';
    const card=document.createElement('article');
-   card.className='adventure-world-card '+(p.done?'unlocked':'locked');
+   card.className=`adventure-world-card ${opened?'unlocked':'locked'} world-${status}`;
    const tags=(v.tags||[]).map(t=>`<span>${t}</span>`).join('');
    card.innerHTML=`
      <div class="adventure-world-image" ${v.image?`style="background-image:url('${v.image}')"`:''}>
        <div class="adventure-world-shade"></div>
-       <div class="adventure-world-status">${p.done?'✓ Abierto':`🔒 ${p.target} XP`}</div>
+       <div class="adventure-world-status">${statusLabel}</div>
+       ${w.id===state.featuredWorldId?'<div class="world-featured-ribbon">⭐ En Inicio</div>':''}
        <div class="adventure-world-title"><small>${w.icon||'🌍'}</small><b>${w.title||'Mundo'}</b><span>${w.tagline||'Tu próxima aventura te espera.'}</span></div>
      </div>
      <div class="adventure-world-body">
-       <div class="adventure-progress-head"><b>${p.pct}%</b><span>${p.done?'Mundo desbloqueado':`${Math.min(p.xp,p.target)} / ${p.target} XP`}</span></div>
-       <div class="adventure-world-bar"><i style="width:${p.pct}%"></i></div>
+       <div class="adventure-progress-head"><b>${adventurePct}%</b><span>${opened?(ss.conquered?'Historia completada':`${ss.current.name} · ${ss.count}/${ss.stages[3].target} misiones`):`${Math.min(p.xp,p.target)} / ${p.target} XP`}</span></div>
+       <div class="adventure-world-bar"><i style="width:${adventurePct}%"></i></div>
        <div class="adventure-world-info">
-         <div><strong>${p.done?'🌟':'⚡'}</strong><span>${p.done?'Listo para explorar':'Sigue ganando XP'}</span></div>
+         <div><strong>${ss.conquered?'🏆':status==='paused'?'⏸':'🌟'}</strong><span>${ss.conquered?'Modo Leyenda disponible':status==='paused'?'Progreso en pausa':opened?'Aventura en marcha':'Sigue ganando XP'}</span></div>
          <div><strong>🎁</strong><span>${w.reward||'Premio especial'}</span></div>
        </div>
        <div class="adventure-world-tags">${tags}</div>
-       <button class="adventure-world-action" type="button" ${p.done?'':'disabled'}>${p.done?(v.action||'Entrar'):`Se abre con ${p.target} XP`} <span>›</span></button>
+       <button class="adventure-world-action" type="button" ${opened?'':'disabled'}>${opened?(status==='paused'?'Ver mundo pausado':v.action||'Entrar'):`Se abre con ${p.target} XP`} <span>›</span></button>
      </div>`;
    const btn=card.querySelector('.adventure-world-action');
-   if(p.done)btn.onclick=()=>openWorldDetail(w.id);
+   if(opened)btn.onclick=()=>openWorldDetail(w.id);
    grid.appendChild(card);
  });
 }
@@ -6019,10 +6146,30 @@ function renderWorldAdmin(){
  const box=$('#worldAdminList');if(!box)return;
  box.innerHTML='';
  state.worlds.forEach((w,i)=>{
-   const p=worldProgress(w);
+   const p=worldProgress(w),ss=worldStageState(w),status=worldDisplayStatus(w);
+   const stages=worldStagesFor(w);
    const row=document.createElement('div');
-   row.className='world-admin-row';
+   row.className='world-admin-row world-admin-v86';
+   const statusControl=status==='conquered'
+     ? `<div class="world-admin-status conquered">🏆 Conquistado</div>`
+     : `<select data-world-status="${i}" class="world-status-select">
+          <option value="active" ${w.status!=='paused'?'selected':''}>▶ Activo</option>
+          <option value="paused" ${w.status==='paused'?'selected':''}>⏸ Pausado</option>
+        </select>`;
+   const stageRows=stages.map((s,si)=>`
+      <div class="world-stage-edit-row">
+        <div class="stage-edit-title">${s.icon} Fase ${si+1}</div>
+        <input data-stage-name="${i}:${si}" value="${String(s.name).replace(/"/g,'&quot;')}" placeholder="Nombre">
+        <input data-stage-place="${i}:${si}" value="${String(s.place).replace(/"/g,'&quot;')}" placeholder="Lugar / etapa">
+        <label>Misiones<input data-stage-target="${i}:${si}" type="number" min="1" value="${s.target}"></label>
+        <label>⭐ Premio<input data-stage-stars="${i}:${si}" type="number" min="0" value="${s.stars}"></label>
+        <label>⚡ XP<input data-stage-xp="${i}:${si}" type="number" min="0" value="${s.xp}"></label>
+      </div>`).join('');
    row.innerHTML=`
+    <div class="world-admin-headline">
+      <div><b>${w.icon||'🌍'} ${w.title||'Mundo'}</b><span>${status==='conquered'?'Historia completada':status==='paused'?'No suma progreso mientras esté pausado':'Puede avanzar junto con otros mundos activos'}</span></div>
+      ${statusControl}
+    </div>
     <div class="world-admin-top">
       <input data-world-icon="${i}" value="${w.icon||'🌍'}" maxlength="4" title="Icono">
       <input data-world-title="${i}" value="${String(w.title||'').replace(/"/g,'&quot;')}" placeholder="Nombre del mundo">
@@ -6032,47 +6179,89 @@ function renderWorldAdmin(){
       <input data-world-tagline="${i}" value="${String(w.tagline||'').replace(/"/g,'&quot;')}" placeholder="Frase del mundo">
       <input data-world-reward="${i}" value="${String(w.reward||'').replace(/"/g,'&quot;')}" placeholder="Premio final">
     </div>
+    <div class="world-feature-actions">
+      <button type="button" class="smallbtn ${w.id===state.featuredWorldId?'featured-on':'uploadbtn'}" data-world-feature="${i}" ${status==='paused'?'disabled':''}>${w.id===state.featuredWorldId?'⭐ Destacado en Inicio':'☆ Destacar en Inicio'}</button>
+      <span>${p.done?`${ss.count} misiones · ${ss.totalPct}%`:`🔒 ${p.xp}/${p.target} XP`}</span>
+    </div>
+    <details class="world-stage-editor">
+      <summary>🎮 Editar las 4 fases</summary>
+      <div class="mmeta">Personaliza nombre, escenario, misiones necesarias y premio de cada fase.</div>
+      ${stageRows}
+    </details>
     <div class="world-admin-bottom">
-      <div class="mmeta">${p.done?'✅ Desbloqueado':'🔒 Bloqueado'} · ${p.xp}/${p.target} XP</div>
+      <div class="mmeta">Orden del mundo</div>
       <input data-world-order="${i}" type="number" min="1" value="${i+1}" title="Orden">
       <button class="world-admin-del" data-world-del="${i}" type="button">Eliminar</button>
     </div>`;
    box.appendChild(row);
  });
+
  box.querySelectorAll('[data-world-icon],[data-world-title],[data-world-xp],[data-world-tagline],[data-world-reward]').forEach(el=>{
    el.onchange=()=>{
-     const attr=[...el.attributes].find(a=>a.name.startsWith('data-world-') && a.name!=='data-world-del' && a.name!=='data-world-order');
+     const attr=[...el.attributes].find(a=>a.name.startsWith('data-world-') && !['data-world-del','data-world-order','data-world-status','data-world-feature'].includes(a.name));
      const i=Number(attr.value),w=state.worlds[i];if(!w)return;
      if(el.hasAttribute('data-world-icon'))w.icon=el.value.trim()||'🌍';
      if(el.hasAttribute('data-world-title'))w.title=el.value.trim()||'Mundo';
      if(el.hasAttribute('data-world-xp'))w.xp=Math.max(0,Number(el.value)||0);
      if(el.hasAttribute('data-world-tagline'))w.tagline=el.value.trim();
      if(el.hasAttribute('data-world-reward'))w.reward=el.value.trim();
-     state.worlds.sort((a,b)=>(Number(a.xp)||0)-(Number(b.xp)||0));
-     save();renderWorlds();renderWorldAdmin();
+     save();
    };
  });
- box.querySelectorAll('[data-world-order]').forEach(el=>{
-   el.onchange=()=>{
-     const from=Number(el.dataset.worldOrder),to=Math.max(1,Math.min(state.worlds.length,Number(el.value)||1))-1;
-     if(from===to)return;
-     const [item]=state.worlds.splice(from,1);state.worlds.splice(to,0,item);
-     save();renderWorlds();renderWorldAdmin();
-   };
+
+ box.querySelectorAll('[data-world-status]').forEach(el=>el.onchange=()=>{
+   const i=Number(el.dataset.worldStatus),w=state.worlds[i];if(!w)return;
+   w.status=el.value==='paused'?'paused':'active';
+   if(w.status==='paused'&&state.featuredWorldId===w.id)chooseNextFeaturedWorld();
+   toast(w.status==='paused'?'Mundo pausado ⏸':'Mundo activo ▶');
+   save();
+ });
+
+ box.querySelectorAll('[data-world-feature]').forEach(btn=>btn.onclick=()=>{
+   const i=Number(btn.dataset.worldFeature),w=state.worlds[i];if(!w||w.status==='paused')return;
+   state.featuredWorldId=w.id;
+   toast(`${w.icon||'🌍'} ${w.title} destacado en Inicio`);
+   save();
+ });
+
+ box.querySelectorAll('[data-stage-name],[data-stage-place],[data-stage-target],[data-stage-stars],[data-stage-xp]').forEach(el=>el.onchange=()=>{
+   const attr=[...el.attributes].find(a=>a.name.startsWith('data-stage-'));
+   if(!attr)return;
+   const [wi,si]=attr.value.split(':').map(Number),w=state.worlds[wi];if(!w)return;
+   const stages=persistWorldStages(w),s=stages[si];if(!s)return;
+   if(el.hasAttribute('data-stage-name'))s.name=el.value.trim()||WORLD_STAGE_BASE[si].name;
+   if(el.hasAttribute('data-stage-place'))s.place=el.value.trim()||s.place;
+   if(el.hasAttribute('data-stage-target'))s.target=Math.max(si?stages[si-1].target+1:1,Number(el.value)||1);
+   if(el.hasAttribute('data-stage-stars'))s.stars=Math.max(0,Number(el.value)||0);
+   if(el.hasAttribute('data-stage-xp'))s.xp=Math.max(0,Number(el.value)||0);
+   w.stages=stages;
+   // Keep targets strictly increasing after an edit.
+   for(let j=1;j<w.stages.length;j++)w.stages[j].target=Math.max(w.stages[j].target,w.stages[j-1].target+1);
+   save();
+ });
+
+ box.querySelectorAll('[data-world-order]').forEach(el=>el.onchange=()=>{
+   const from=Number(el.dataset.worldOrder),to=Math.max(1,Math.min(state.worlds.length,Number(el.value)||1))-1;
+   if(from===to)return;
+   const [item]=state.worlds.splice(from,1);state.worlds.splice(to,0,item);
+   save();
  });
  box.querySelectorAll('[data-world-del]').forEach(btn=>btn.onclick=()=>{
-   const i=Number(btn.dataset.worldDel);
-   if(confirm('¿Eliminar este mundo?')){
-     state.worlds.splice(i,1);save();renderWorlds();renderWorldAdmin();
+   const i=Number(btn.dataset.worldDel),w=state.worlds[i];if(!w)return;
+   if(confirm(`¿Eliminar "${w.title}"?`)){
+     state.worlds.splice(i,1);
+     if(state.featuredWorldId===w.id)chooseNextFeaturedWorld();
+     save();
    }
  });
 }
 $('#addWorldBtn').onclick=()=>{
  ensureWorldState();
  const last=Math.max(0,...state.worlds.map(w=>Number(w.xp)||0));
- state.worlds.push({id:'world-'+Date.now(),icon:'🌍',title:'Nuevo mundo',xp:last+500,theme:'',tagline:'Una nueva aventura te espera.',reward:'Premio especial'});
- save();renderWorlds();renderWorldAdmin();
+ state.worlds.push({id:'world-'+Date.now(),icon:'🌍',title:'Nuevo mundo',xp:last+500,theme:'',tagline:'Una nueva aventura te espera.',reward:'Premio especial',status:'active'});
+ save();
 };
+
 
 const DEFAULT_BADGES=defaultBadgesData();
 const BADGE_METRICS={

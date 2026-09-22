@@ -1,0 +1,12 @@
+MIS TAREAS v86 — GESTIÓN AVANZADA DE MUNDOS
+
+- Varios mundos pueden estar activos a la vez.
+- Estado por mundo: Activo / Pausado / Conquistado (Conquistado es automático).
+- Un mundo pausado conserva su progreso, pero nuevas tareas aprobadas no hacen avanzar sus fases.
+- Un mundo conquistado sigue disponible en Modo Leyenda.
+- Se puede elegir un único Mundo destacado en Inicio.
+- Inicio muestra fase, porcentaje y acceso directo al mundo destacado.
+- Las 4 fases son editables en Zona Padres:
+  nombre, escenario, misiones necesarias, premio en estrellas y premio en XP.
+- El progreso y la configuración siguen separados por hijo.
+- Copiar configuración entre hijos copia mundos/fases/destacado, pero reinicia el progreso de premios de fase.
