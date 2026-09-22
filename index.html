@@ -2309,6 +2309,33 @@ body.preview-first-run .first-run-cancel-preview{display:block}
 .goal-icon-field{display:flex;flex-direction:column;gap:4px;font-size:8px;font-weight:1000;color:#52708c}
 .goal-icon-field select{width:100%;box-sizing:border-box;border:1px solid #dfe8f5;border-radius:12px;padding:10px;font:inherit;color:var(--ink);background:#fff}
 
+
+/* ===== v102 Evolución e histórico ===== */
+.evolution-intro{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;padding:14px}
+.evolution-intro b{display:block;font-size:16px;color:#173d6c}
+.evolution-intro span{display:block;font-size:9px;color:var(--muted);font-weight:800;margin-top:3px;line-height:1.35}
+.evolution-intro select{border:1px solid #dce6f0;border-radius:11px;padding:9px;background:#fff;color:#345a7c;font:inherit;font-weight:900}
+.evolution-stats{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin:10px 0}
+.evolution-stat{background:#fff;border:1px solid #e4ebf3;border-radius:16px;padding:11px;text-align:center;box-shadow:0 6px 16px rgba(34,70,108,.06)}
+.evolution-stat span{font-size:22px}.evolution-stat b{display:block;font-size:21px;color:#173d6c}.evolution-stat small{font-size:8px;color:#75899c;font-weight:900}
+.evolution-breakdown,.evolution-section{padding:13px;margin-top:10px}
+.evolution-area-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:7px;margin-top:10px}
+.evolution-area-grid>div{border-radius:13px;background:#f5f9fd;border:1px solid #e3ebf3;padding:10px}
+.evolution-area-grid span{font-size:20px}.evolution-area-grid b{display:block;font-size:18px;color:#234d74;margin-top:2px}.evolution-area-grid small{font-size:8px;color:#74899c;font-weight:800}
+.evolution-section-head{display:flex;justify-content:space-between;gap:8px;align-items:flex-start;margin-bottom:7px}
+.evolution-section-head b{display:block;font-size:13px;color:#173d6c}.evolution-section-head div>span{display:block;font-size:8px;color:#7a8ea0;margin-top:2px;font-weight:800}
+.evolution-section-head>span{min-width:28px;text-align:center;border-radius:10px;background:#eef5fc;color:#43698d;padding:5px 7px;font-size:9px;font-weight:1000}
+.evolution-row{display:grid;grid-template-columns:36px 1fr auto;gap:8px;align-items:center;padding:9px 0;border-bottom:1px solid #edf1f5}
+.evolution-row:last-child{border-bottom:0}.evolution-row.compact{padding:7px 0}
+.evolution-icon{width:34px;height:34px;border-radius:11px;background:#f0f6fc;display:grid;place-items:center;font-size:18px}
+.evolution-row b{display:block;font-size:11px;color:#254c72}.evolution-row small{display:block;font-size:8px;color:#74899c;margin-top:2px;line-height:1.35;font-weight:800}
+.evolution-row time{font-size:8px;color:#8294a5;font-weight:900;white-space:nowrap}
+.evolution-empty{padding:14px 6px;text-align:center;color:#8999a8;font-size:9px;font-weight:800}
+@media(max-width:420px){
+ .evolution-intro{grid-template-columns:1fr}.evolution-intro select{width:100%}
+ .evolution-row{grid-template-columns:34px 1fr}.evolution-row time{grid-column:2}
+}
+
 </style>
 </head>
 <body>
@@ -2594,6 +2621,56 @@ body.preview-first-run .first-run-cancel-preview{display:block}
   </div>
 </section>
 
+
+<section id="evolution" class="screen">
+  <div class="screen-title"><h1>📈 Evolución e histórico</h1><p>Todo lo conseguido queda guardado para ver el progreso con el tiempo.</p></div>
+
+  <div class="card evolution-intro">
+    <div>
+      <b id="evolutionChildName">Mi evolución</b>
+      <span>Tareas aprobadas, retos conseguidos, objetivos alcanzados y rutinas consolidadas.</span>
+    </div>
+    <select id="evolutionPeriodInput">
+      <option value="30">Últimos 30 días</option>
+      <option value="90">Últimos 90 días</option>
+      <option value="365">Último año</option>
+      <option value="all">Todo el histórico</option>
+    </select>
+  </div>
+
+  <div class="evolution-stats">
+    <div class="evolution-stat"><span>✅</span><b id="evolutionTaskCount">0</b><small>tareas aprobadas</small></div>
+    <div class="evolution-stat"><span>🎯</span><b id="evolutionChallengeCount">0</b><small>retos conseguidos</small></div>
+    <div class="evolution-stat"><span>🚀</span><b id="evolutionGoalCount">0</b><small>objetivos logrados</small></div>
+    <div class="evolution-stat"><span>🏰</span><b id="evolutionRoutineCount">0</b><small>rutinas consolidadas</small></div>
+  </div>
+
+  <div class="card evolution-breakdown">
+    <div class="home-section-title compact"><span>🧭</span><div><b>Desarrollo por áreas</b><small>Qué tipos de progreso se están acumulando</small></div></div>
+    <div id="evolutionAreas" class="evolution-area-grid"></div>
+  </div>
+
+  <div class="card evolution-section">
+    <div class="evolution-section-head"><div><b>🚀 Objetivos alcanzados</b><span>Se conservan aunque después edites o borres el objetivo.</span></div><span id="evolutionGoalBadge">0</span></div>
+    <div id="evolutionGoalsList" class="evolution-list"></div>
+  </div>
+
+  <div class="card evolution-section">
+    <div class="evolution-section-head"><div><b>🎯 Retos conseguidos</b><span>Fecha, premio y mundo relacionado.</span></div><span id="evolutionChallengeBadge">0</span></div>
+    <div id="evolutionChallengesList" class="evolution-list"></div>
+  </div>
+
+  <div class="card evolution-section">
+    <div class="evolution-section-head"><div><b>🏰 Rutinas consolidadas</b><span>Bloques de constancia alcanzados en el Castillo.</span></div><span id="evolutionRoutineBadge">0</span></div>
+    <div id="evolutionRoutinesList" class="evolution-list"></div>
+  </div>
+
+  <div class="card evolution-section">
+    <div class="evolution-section-head"><div><b>✅ Historial de tareas</b><span>Las últimas aprobaciones del período seleccionado.</span></div><span id="evolutionTaskBadge">0</span></div>
+    <div id="evolutionTasksList" class="evolution-list"></div>
+  </div>
+</section>
+
 <section id="profile" class="screen">
   <div class="screen-title"><h1>👦 Mi perfil</h1><p>Mi aventura, mis logros y mis metas.</p></div>
   <div class="paper">
@@ -2642,6 +2719,7 @@ body.preview-first-run .first-run-cancel-preview{display:block}
   <div class="paper">
     <div class="listmenu">
       <button data-open="achievements" onclick="openScreen('achievements')">🏆 Mis logros <span>›</span></button>
+      <button data-open="evolution" onclick="openScreen('evolution')">📈 Mi evolución <span>›</span></button>
       <button data-open="reading" onclick="openScreen('reading')">📚 Mis libros <span>›</span></button>
       <button data-open="projects" onclick="openScreen('projects')">🧩 Mis proyectos <span>›</span></button>
       <button data-open="calendar" onclick="openScreen('calendar')">📅 Mi calendario <span>›</span></button>
@@ -2676,6 +2754,7 @@ body.preview-first-run .first-run-cancel-preview{display:block}
     <button class="more-card" data-open="calendar" onclick="openScreen('calendar')"><span class="bigico">📅</span>Calendario</button>
     <button class="more-card" data-open="profile" onclick="openScreen('profile')"><span class="bigico">👦</span>Mi perfil</button>
     <button class="more-card" data-open="achievements" onclick="openScreen('achievements')"><span class="bigico">🏆</span>Insignias y progreso</button>
+    <button class="more-card" data-open="evolution" onclick="openScreen('evolution')"><span class="bigico">📈</span>Evolución e histórico</button>
     <button class="more-card" data-open="family" onclick="openScreen('family')"><span class="bigico">👨‍👩‍👧</span>Familia</button>
     <button class="more-card" data-open="parents" onclick="openScreen('parents')"><span class="bigico">🛡️</span>Zona Padres</button>
   </div>
@@ -3901,6 +3980,14 @@ function ensureDailyGameState(){
 }
 ensureDailyGameState();
 
+function ensureEvolutionState(){
+ if(!Array.isArray(state.challengeHistory))state.challengeHistory=[];
+ if(!Array.isArray(state.goalHistory))state.goalHistory=[];
+ if(!Array.isArray(state.castleHistory))state.castleHistory=[];
+}
+ensureEvolutionState();
+
+
 function save(){
  state._updatedAt=Date.now();
  safeStoreState();
@@ -4453,6 +4540,147 @@ if(goalCategoryInput)goalCategoryInput.onchange=()=>{
  }
 };
 
+
+function snapshotGoalForHistory(g){
+ const p=goalProgressData(g);
+ return {
+   id:`goal-history:${g.id}`,
+   goalId:g.id,
+   name:g.name,
+   date:localDateKey(),
+   achievedAt:new Date().toISOString(),
+   category:goalCategory(g),
+   measureType:goalMeasureType(g),
+   measureLabel:goalMeasureLabel(g),
+   icon:g.icon||'🎯',
+   worldId:g.worldId||'',
+   targetDate:g.date||'',
+   message:g.message||'',
+   pct:p.pct
+ };
+}
+function syncGoalAchievementHistory(){
+ ensureEvolutionState();
+ (state.bigGoals||[]).forEach(g=>{
+   const p=goalProgressData(g);
+   if(!p.done)return;
+   const key=`goal-history:${g.id}`;
+   if(!state.goalHistory.some(x=>x.id===key)){
+     state.goalHistory.push(snapshotGoalForHistory(g));
+   }
+ });
+}
+function backfillChallengeHistory(){
+ ensureEvolutionState();
+ const defs=new Map(challengeDefs().map(c=>[c.id,c]));
+ Object.entries(state.weeklyClaims||{}).forEach(([wk,ids])=>{
+   (Array.isArray(ids)?ids:[]).forEach(id=>{
+     const histId=`${wk}:${id}`;
+     if(state.challengeHistory.some(x=>x.id===histId))return;
+     const c=defs.get(id);
+     state.challengeHistory.push({
+       id:histId,challengeId:id,title:c?.title||'Reto conseguido',
+       date:wk,week:wk,stars:Number(c?.stars)||0,xp:Number(c?.xp)||0,worldId:c?.worldId||''
+     });
+   });
+ });
+}
+function evolutionCutoff(period){
+ if(period==='all')return null;
+ const d=new Date();d.setHours(0,0,0,0);d.setDate(d.getDate()-Math.max(1,Number(period)||30)+1);
+ return d;
+}
+function evolutionInPeriod(dateKey,period){
+ if(period==='all')return true;
+ if(!dateKey)return false;
+ const d=new Date(String(dateKey).slice(0,10)+'T12:00:00');
+ const cutoff=evolutionCutoff(period);
+ return !isNaN(d)&&d>=cutoff;
+}
+function evolutionDateLabel(key){
+ if(!key)return 'Sin fecha';
+ const d=new Date(String(key).slice(0,10)+'T12:00:00');
+ return isNaN(d)?String(key):d.toLocaleDateString('es-ES',{day:'numeric',month:'short',year:'numeric'});
+}
+function evolutionWorldLabel(id){
+ if(!id||id==='none')return '';
+ const w=(state.worlds||[]).find(x=>x.id===id);
+ return w?`${w.icon||'🌍'} ${w.title||'Mundo'}`:'';
+}
+function renderEvolution(){
+ const root=$('#evolution');if(!root)return;
+ ensureEvolutionState();
+ syncGoalAchievementHistory();
+ backfillChallengeHistory();
+
+ const child=activeChildRecord();
+ if($('#evolutionChildName'))$('#evolutionChildName').textContent=`Evolución de ${child?.name||state.profile?.name||'este perfil'}`;
+
+ const period=$('#evolutionPeriodInput')?.value||'30';
+ const tasks=(state.approvalHistory||[]).filter(x=>evolutionInPeriod(x.date,period)).slice().sort((a,b)=>(b.date||'').localeCompare(a.date||''));
+ const challenges=(state.challengeHistory||[]).filter(x=>evolutionInPeriod(x.date,period)).slice().sort((a,b)=>(b.date||'').localeCompare(a.date||''));
+ const goals=(state.goalHistory||[]).filter(x=>evolutionInPeriod(x.date,period)).slice().sort((a,b)=>(b.date||'').localeCompare(a.date||''));
+ const routines=(state.castleHistory||[]).filter(x=>evolutionInPeriod(x.date,period)).slice().sort((a,b)=>(b.date||'').localeCompare(a.date||''));
+
+ if($('#evolutionTaskCount'))$('#evolutionTaskCount').textContent=tasks.length;
+ if($('#evolutionChallengeCount'))$('#evolutionChallengeCount').textContent=challenges.length;
+ if($('#evolutionGoalCount'))$('#evolutionGoalCount').textContent=goals.length;
+ if($('#evolutionRoutineCount'))$('#evolutionRoutineCount').textContent=routines.length;
+ if($('#evolutionTaskBadge'))$('#evolutionTaskBadge').textContent=tasks.length;
+ if($('#evolutionChallengeBadge'))$('#evolutionChallengeBadge').textContent=challenges.length;
+ if($('#evolutionGoalBadge'))$('#evolutionGoalBadge').textContent=goals.length;
+ if($('#evolutionRoutineBadge'))$('#evolutionRoutineBadge').textContent=routines.length;
+
+ const areas=$('#evolutionAreas');
+ if(areas){
+   const schoolGoals=goals.filter(g=>g.category==='school').length;
+   const personalGoals=goals.filter(g=>g.category==='personal').length;
+   const readingDays=new Set(tasks.filter(x=>(x.title||'').toLowerCase().includes('leer')).map(x=>x.date)).size;
+   const activeDays=new Set(tasks.map(x=>x.date)).size;
+   areas.innerHTML=`
+    <div><span>🎓</span><b>${schoolGoals}</b><small>objetivos escolares</small></div>
+    <div><span>🌱</span><b>${personalGoals}</b><small>objetivos personales</small></div>
+    <div><span>📚</span><b>${readingDays}</b><small>días con lectura</small></div>
+    <div><span>📅</span><b>${activeDays}</b><small>días con tareas aprobadas</small></div>`;
+ }
+
+ const empty='<div class="evolution-empty">Todavía no hay registros en este período.</div>';
+
+ const gl=$('#evolutionGoalsList');
+ if(gl)gl.innerHTML=goals.length?goals.map(g=>`
+   <div class="evolution-row">
+    <span class="evolution-icon">${g.icon||'🚀'}</span>
+    <div><b>${escapeHtml(g.name||'Objetivo')}</b><small>${goalCategoryLabel(g)} · ${escapeHtml(g.measureLabel||'Objetivo alcanzado')}${g.worldId&&evolutionWorldLabel(g.worldId)?' · '+escapeHtml(evolutionWorldLabel(g.worldId)):''}</small></div>
+    <time>${evolutionDateLabel(g.date)}</time>
+   </div>`).join(''):empty;
+
+ const cl=$('#evolutionChallengesList');
+ if(cl)cl.innerHTML=challenges.length?challenges.map(c=>`
+   <div class="evolution-row">
+    <span class="evolution-icon">🎯</span>
+    <div><b>${escapeHtml(c.title||'Reto conseguido')}</b><small>+${Number(c.stars)||0} ⭐ · +${Number(c.xp)||0} XP${c.worldId&&evolutionWorldLabel(c.worldId)?' · '+escapeHtml(evolutionWorldLabel(c.worldId)):''}</small></div>
+    <time>${evolutionDateLabel(c.date)}</time>
+   </div>`).join(''):empty;
+
+ const rl=$('#evolutionRoutinesList');
+ if(rl)rl.innerHTML=routines.length?routines.map(r=>`
+   <div class="evolution-row">
+    <span class="evolution-icon">🏰</span>
+    <div><b>${escapeHtml(r.sourceTitle||r.title||'Rutina consolidada')}</b><small>Cada ${Number(r.every)||0} aprobaciones · bloque ${Number(r.block)||1}</small></div>
+    <time>${evolutionDateLabel(r.date)}</time>
+   </div>`).join(''):empty;
+
+ const tl=$('#evolutionTasksList');
+ if(tl)tl.innerHTML=tasks.length?tasks.slice(0,120).map(t=>`
+   <div class="evolution-row compact">
+    <span class="evolution-icon">✅</span>
+    <div><b>${escapeHtml(t.title||'Tarea aprobada')}</b><small>${escapeHtml(t.section||'')} · +${Number(t.stars)||0} ⭐ · +${Number(t.xp)||0} XP${t.worldId&&evolutionWorldLabel(t.worldId)?' · '+escapeHtml(evolutionWorldLabel(t.worldId)):''}</small></div>
+    <time>${evolutionDateLabel(t.date)}</time>
+   </div>`).join(''):empty;
+}
+const evolutionPeriodInput=$('#evolutionPeriodInput');
+if(evolutionPeriodInput)evolutionPeriodInput.onchange=renderEvolution;
+
 function renderBigGoal(){
  const g=activeGoal(),card=$('#bigGoalCard');if(!card)return;
  if(!g){
@@ -4524,7 +4752,7 @@ function renderGoalAdmin(){
    $('#saveGoalBtn').textContent='Guardar cambios';
    focusEditTarget('#goalNameInput');
  });
- list.querySelectorAll('[data-goaldel]').forEach(b=>b.onclick=()=>{const i=Number(b.dataset.goaldel),g=state.bigGoals[i];if(confirm(`¿Eliminar "${g.name}"?`)){state.bigGoals.splice(i,1);if(state.activeGoalId===g.id)state.activeGoalId=state.bigGoals[0]?.id||'';save()}});
+ list.querySelectorAll('[data-goaldel]').forEach(b=>b.onclick=()=>{const i=Number(b.dataset.goaldel),g=state.bigGoals[i];if(confirm(`¿Eliminar "${g.name}"?`)){syncGoalAchievementHistory();state.bigGoals.splice(i,1);if(state.activeGoalId===g.id)state.activeGoalId=state.bigGoals[0]?.id||'';save()}});
 }
 $('#saveGoalBtn').onclick=()=>{
  const name=$('#goalNameInput').value.trim();
@@ -4571,6 +4799,7 @@ $('#saveGoalBtn').onclick=()=>{
    toast('Objetivo añadido 🎯');
  }
  if(showHome||!state.activeGoalId)state.activeGoalId=savedGoal.id;
+ syncGoalAchievementHistory();
  resetGoalForm();
  save();
 };
@@ -4749,7 +4978,7 @@ function freshChildState(name,birthDate='',city=''){
    profile:{name:name||'Nuevo perfil',birthDate,city,age:ageFromBirth(birthDate)||9,color:'Azul',likes:''},
    rewards:[],rewardHistory:[],projects:[],
    reading:{active:null,history:[]},
-   events:[],approvalHistory:[],weeklyClaims:{},
+   events:[],approvalHistory:[],weeklyClaims:{},challengeHistory:[],goalHistory:[],
    customChallenges:[],defaultChallengesEnabled:false,
    bigGoals:[],activeGoalId:'',specialDays:[],
    notificationPrefs:{pending:true,projects:true,tomorrow:true,rewards:true},
@@ -6112,6 +6341,36 @@ function challengeDefs(){
  });
 }
 
+
+function claimChallenge(id){
+ ensureEvolutionState();
+ const c=challengeDefs().find(x=>x.id===id);
+ if(!c)return;
+ const wk=weekKey();
+ if(!state.weeklyClaims)state.weeklyClaims={};
+ if(!Array.isArray(state.weeklyClaims[wk]))state.weeklyClaims[wk]=[];
+ if(state.weeklyClaims[wk].includes(id)){toast('Este reto ya está conseguido ✅');return}
+ if(Number(c.value)<Number(c.goal)){toast('Todavía no has completado este reto');return}
+ state.weeklyClaims[wk].push(id);
+ state.stars=(Number(state.stars)||0)+(Number(c.stars)||0);
+ state.xp=(Number(state.xp)||0)+(Number(c.xp)||0);
+ const histId=`${wk}:${id}`;
+ if(!state.challengeHistory.some(x=>x.id===histId)){
+   state.challengeHistory.push({
+     id:histId,
+     challengeId:id,
+     title:c.title,
+     date:localDateKey(),
+     week:wk,
+     stars:Number(c.stars)||0,
+     xp:Number(c.xp)||0,
+     worldId:c.worldId||''
+   });
+ }
+ toast(`Reto conseguido 🎯 +${c.stars} ⭐ · +${c.xp} XP`);
+ save();
+}
+
 function renderStreaks(){
  if(!$('#streakCount'))return;
  $('#streakCount').textContent=currentStreak();
@@ -6476,7 +6735,7 @@ if(parentsTogether()){
   : '<div class="family-illus"><div class="family-emoji-wrap"><div class="family-emoji">👨</div><div class="family-emoji small-kid">🧒</div></div></div>';
  familyCard.innerHTML=`${emojiArt}<div class="family-panel"><div class="eyebrow">Hoy estoy con</div><b>${person}</b><span>¡Juntos hacemos grandes cosas!</span></div>`;
 }
- renderProjectReminders();renderModules();renderReading();renderProjects();renderCalendar();renderRewards();renderRewardAdmin();renderParents();renderExtras();renderProfileData();renderStreaks();renderTaskAdmin();renderDailySummary();renderEventAdmin();renderTodayEvents();renderRewardHistory();renderSyncConfig();renderBigGoal();renderGoalAdmin();renderSpecialAdmin();renderSpecialDay();renderSmartAlerts();renderSmartHome();renderNoticeCenter();renderReminderPrefs();renderChildSwitcher();renderChildManager();renderActiveChildName();renderActiveChildIdentity();renderChildTopSwitcher();renderChallengeAdmin();renderCityScene();renderGoalVisual();renderActiveCity();renderFooterChildArt();renderFamilyPage();renderParentWeeklySummary();renderBadges();renderBadgeAdmin();renderWorlds();renderWorldAdmin();renderJournal();renderBirthdays();renderVacationMode();renderTomorrowList();renderChildWeekSummary();renderGoalMilestones();renderFeaturedWorldHome()
+ renderProjectReminders();renderModules();renderReading();renderProjects();renderCalendar();renderRewards();renderRewardAdmin();renderParents();renderExtras();renderProfileData();renderStreaks();renderTaskAdmin();renderDailySummary();renderEventAdmin();renderTodayEvents();renderRewardHistory();renderSyncConfig();renderBigGoal();renderGoalAdmin();renderSpecialAdmin();renderSpecialDay();renderSmartAlerts();renderSmartHome();renderNoticeCenter();renderReminderPrefs();renderChildSwitcher();renderChildManager();renderActiveChildName();renderActiveChildIdentity();renderChildTopSwitcher();renderChallengeAdmin();renderCityScene();renderGoalVisual();renderActiveCity();renderFooterChildArt();renderFamilyPage();renderParentWeeklySummary();renderBadges();renderBadgeAdmin();renderWorlds();renderWorldAdmin();renderJournal();renderBirthdays();renderVacationMode();renderTomorrowList();renderChildWeekSummary();renderGoalMilestones();renderFeaturedWorldHome();renderEvolution()
 }
 
 

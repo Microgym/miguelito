@@ -1,0 +1,27 @@
+MIS TAREAS v102 — EVOLUCIÓN E HISTÓRICO
+
+Nuevo apartado: Más > 📈 Evolución e histórico
+
+Guarda y muestra por hijo:
+- ✅ Historial de tareas aprobadas.
+- 🎯 Retos conseguidos, con fecha, estrellas, XP y mundo.
+- 🚀 Grandes objetivos alcanzados, con categoría y resultado.
+- 🏰 Rutinas consolidadas del Castillo.
+
+Filtros:
+- Últimos 30 días
+- Últimos 90 días
+- Último año
+- Todo el histórico
+
+También muestra desarrollo por áreas:
+- objetivos escolares
+- objetivos personales
+- días de lectura
+- días con tareas aprobadas
+
+Compatibilidad:
+- Las tareas antiguas ya aprobadas aparecen porque approvalHistory ya existía.
+- Los retos reclamados anteriormente se intentan reconstruir desde weeklyClaims.
+- Los objetivos alcanzados actuales se registran automáticamente.
+- Un objetivo alcanzado permanece en el histórico aunque después se edite o se borre.
