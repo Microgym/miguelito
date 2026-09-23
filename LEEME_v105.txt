@@ -1,0 +1,12 @@
+MIS TAREAS v105 — COLEGIO Y VALORES DEL MES
+
+- Perfil escolar por hijo: Colegio, Curso y Clase/Grupo.
+- Nueva pantalla “🏫 Colegio y valores” en Más y Mi perfil.
+- Valores de cada mes editables.
+- Ejemplo inicial: Septiembre/Octubre = Orgullo; Noviembre/Diciembre = Respeto.
+- El resto de meses queda libre para editar.
+- Inicio muestra una tarjeta compacta con el valor del mes.
+- Los retos pueden vincularse a un mes/valor escolar.
+- Desde Colegio puedes crear un reto para el valor actual con PIN de padres.
+- Los retos del mes muestran su progreso.
+- Los retos conseguidos siguen entrando en Evolución e histórico.

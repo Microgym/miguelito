@@ -1,0 +1,13 @@
+MIS TAREAS v103 — RETOS CON CONTEO CORRECTO
+
+Cada reto puede contar:
+- ✅ Tareas aprobadas: cada aprobación cuenta.
+- 📅 Días distintos: máximo 1 por día.
+- 🔥 Días seguidos: mejor racha consecutiva.
+
+Ejemplos:
+- 30 tareas aprobadas → Tareas aprobadas → meta 30.
+- Leer 5 días → Días distintos → “leer” → meta 5.
+- Preparar mochila 7 días seguidos → Días seguidos → “preparar la mochila” → meta 7.
+
+Los retos antiguos se interpretan como “Días distintos”, conservando su comportamiento anterior.

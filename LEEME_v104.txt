@@ -1,0 +1,1 @@
+v104: Portada ajustada. El cartel de texto de la imagen principal ahora es mas pequeno para no tapar la cara del nino y mantener mejor visibilidad del personaje.

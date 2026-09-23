@@ -1,0 +1,8 @@
+MIS TAREAS v106 — CORRECCIÓN VALORES DEL COLEGIO
+
+- Septiembre = Orden
+- Octubre = Orden
+- Noviembre = Respeto
+- Diciembre = Respeto
+
+Todos los meses siguen siendo editables.
