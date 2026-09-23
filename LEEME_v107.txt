@@ -1,0 +1,7 @@
+MIS TAREAS v107 — VALOR DEL COLEGIO OPCIONAL EN INICIO
+
+- Nuevo interruptor “Mostrar en Inicio” dentro de Colegio y valores.
+- Por defecto está desactivado.
+- Si se activa, aparece la tarjeta del valor del mes en Inicio.
+- Si se desactiva, Colegio y valores sigue existiendo y funcionando, pero no ocupa espacio en la portada.
+- La preferencia se guarda por hijo.

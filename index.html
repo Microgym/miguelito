@@ -2398,6 +2398,17 @@ body.preview-first-run .first-run-cancel-preview{display:block}
 .school-value-pill{display:inline-block;margin-left:4px;padding:2px 5px;border-radius:7px;background:#eef8ff;color:#3b6a91;font-size:7px;font-weight:1000}.challenge-school-field{margin-top:8px}
 @media(max-width:420px){.school-profile-grid{grid-template-columns:1fr}.school-profile-grid label:first-child{grid-column:auto}.school-month-row{grid-template-columns:95px 1fr}}
 
+
+/* ===== v107 Mostrar/ocultar valor del colegio en Inicio ===== */
+.school-home-toggle{
+ display:flex;align-items:flex-start;gap:9px;margin-top:10px;padding:10px 11px;border-radius:13px;
+ background:#fff;border:1px solid #e3eaf2;cursor:pointer
+}
+.school-home-toggle input{margin-top:2px;transform:scale(1.1)}
+.school-home-toggle span{display:block;min-width:0}
+.school-home-toggle span>b{display:block;font-size:9px;color:#2d5477}
+.school-home-toggle span>small{display:block;margin-top:2px;font-size:7px;line-height:1.35;color:#7c8f9f;font-weight:800}
+
 </style>
 </head>
 <body>
@@ -2852,6 +2863,10 @@ body.preview-first-run .first-run-cancel-preview{display:block}
       <b id="schoolCurrentValue">Valor sin definir</b>
       <small id="schoolCurrentMessage">Puedes editar el valor de cada mes.</small>
     </div>
+    <label class="school-home-toggle">
+      <input id="schoolShowHomeInput" type="checkbox">
+      <span><b>Mostrar en Inicio</b><small>Actívalo solo si quieres que el valor del mes aparezca en la portada.</small></span>
+    </label>
   </div>
 
   <div class="card panelcard">
@@ -5109,7 +5124,7 @@ function freshChildState(name,birthDate='',city=''){
    events:[],approvalHistory:[],weeklyClaims:{},challengeHistory:[],goalHistory:[],
    customChallenges:[],defaultChallengesEnabled:false,
    bigGoals:[],activeGoalId:'',specialDays:[],
-   school:{name:'',course:'',classGroup:'',monthlyValues:{}},
+   school:{name:'',course:'',classGroup:'',monthlyValues:{},showOnHome:false},
    notificationPrefs:{pending:true,projects:true,tomorrow:true,rewards:true},
    vacationMode:false,tomorrowList:[],tomorrowCheckDate:'',
    badges:defaultBadgesData(),
@@ -6187,6 +6202,7 @@ function ensureSchoolState(){
  if(typeof state.school.course!=='string')state.school.course='';
  if(typeof state.school.classGroup!=='string')state.school.classGroup='';
  if(!state.school.monthlyValues||typeof state.school.monthlyValues!=='object')state.school.monthlyValues={};
+ if(typeof state.school.showOnHome!=='boolean')state.school.showOnHome=false;
  if(!state.school._defaultsApplied){
    const defaults={9:'Orden',10:'Orden',11:'Respeto',12:'Respeto'};
    Object.keys(defaults).forEach(k=>{
@@ -6229,6 +6245,7 @@ function renderSchool(){
  if($('#schoolCurrentMonth'))$('#schoolCurrentMonth').textContent=schoolMonthLabel(month);
  if($('#schoolCurrentValue'))$('#schoolCurrentValue').textContent=value||'Valor sin definir';
  if($('#schoolCurrentMessage'))$('#schoolCurrentMessage').textContent=value?`Este mes trabajamos: ${value}.`:'Puedes editar el valor de este mes y crear retos relacionados.';
+ if($('#schoolShowHomeInput'))$('#schoolShowHomeInput').checked=state.school.showOnHome===true;
  renderSchoolValues();
 
  const list=$('#schoolChallengesList');
@@ -6243,7 +6260,7 @@ function renderSchool(){
 
  const home=$('#schoolValueHome');
  if(home){
-   if(!state.school.name&&!value)home.style.display='none';
+   if(state.school.showOnHome!==true || (!state.school.name&&!value))home.style.display='none';
    else{
      home.style.display='';
      home.innerHTML=`<span class="school-home-icon">🏫</span><div><small>${escapeHtml(state.school.name||'Colegio')} · ${schoolMonthLabel(month)}</small><b>${escapeHtml(value||'Valor del mes sin definir')}</b><span>${escapeHtml(course||'Valores del colegio')}</span></div><button type="button" onclick="openScreen('school')">Ver ›</button>`;
@@ -6547,6 +6564,14 @@ function renderExtras(){
  }
 }
 
+
+const schoolShowHomeInput=$('#schoolShowHomeInput');
+if(schoolShowHomeInput)schoolShowHomeInput.onchange=()=>{
+ ensureSchoolState();
+ state.school.showOnHome=schoolShowHomeInput.checked===true;
+ toast(state.school.showOnHome?'Valor del mes visible en Inicio 🏫':'Valor del mes oculto de Inicio');
+ save();
+};
 
 const saveSchoolValuesBtn=$('#saveSchoolValuesBtn');
 if(saveSchoolValuesBtn)saveSchoolValuesBtn.onclick=()=>{
