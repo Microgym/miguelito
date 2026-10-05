@@ -1,0 +1,12 @@
+MIS TAREAS v108 — LECTURA MEJORADA
+
+- Varios libros activos a la vez.
+- Selector rápido entre libros activos.
+- Registro por libro de día de lectura y páginas leídas.
+- Total de páginas y días registrados en el historial.
+- La foto del capítulo es opcional.
+- Un padre puede aprobar directamente un capítulo sin subir foto.
+- Se puede quitar una aprobación.
+- Al terminar un libro, los demás libros siguen activos.
+- Migración automática de libros del formato anterior.
+- Sin revisión IA en Lectura.

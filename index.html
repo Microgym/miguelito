@@ -2409,6 +2409,25 @@ body.preview-first-run .first-run-cancel-preview{display:block}
 .school-home-toggle span>b{display:block;font-size:9px;color:#2d5477}
 .school-home-toggle span>small{display:block;margin-top:2px;font-size:7px;line-height:1.35;color:#7c8f9f;font-weight:800}
 
+
+/* ===== v108 Lectura: varios libros + sesiones + aprobación directa ===== */
+.active-books-switcher{display:flex;gap:7px;overflow-x:auto;padding:2px 1px 9px;margin-bottom:3px;scrollbar-width:none}
+.active-books-switcher::-webkit-scrollbar{display:none}
+.active-book-chip{min-width:155px;display:grid;grid-template-columns:27px 1fr;gap:7px;align-items:center;text-align:left;border:1px solid #dfe8f2;border-radius:13px;background:#f7fbff;padding:8px 9px;color:#355d80}
+.active-book-chip.on{background:#eaf5ff;border-color:#9fc8ee;box-shadow:0 5px 14px rgba(50,102,151,.10)}
+.active-book-chip>span{font-size:21px}.active-book-chip b{display:block;font-size:9px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.active-book-chip small{display:block;font-size:7px;color:#7b8fa1;font-weight:800;margin-top:2px}
+.reading-log-head{display:flex;justify-content:space-between;gap:8px;align-items:flex-start}
+.reading-total-pill{white-space:nowrap;padding:5px 7px;border-radius:9px;background:#eef7ff;color:#416c92;font-size:8px;font-weight:1000}
+.reading-log-form{display:grid;grid-template-columns:1fr .8fr auto;gap:7px;align-items:end;margin-top:10px}
+.reading-log-form label{display:flex;flex-direction:column;gap:4px;font-size:8px;font-weight:1000;color:#55718b}
+.reading-log-form input{width:100%;box-sizing:border-box;border:1px solid #dce6ef;border-radius:10px;padding:8px;font:inherit;background:#fff}
+.reading-log-form .btn{padding:9px 10px;white-space:nowrap}
+.reading-sessions-list{margin-top:9px}.reading-session-row{display:grid;grid-template-columns:28px 1fr 28px;gap:7px;align-items:center;padding:7px 0;border-bottom:1px solid #edf1f5}.reading-session-row:last-child{border-bottom:0}
+.reading-session-row>span{font-size:17px}.reading-session-row b{display:block;font-size:9px;color:#315875}.reading-session-row small{display:block;font-size:7px;color:#7c8f9f;font-weight:800;margin-top:1px}
+.reading-session-row button{border:0;border-radius:8px;background:#fff0f2;color:#a64a59;width:26px;height:26px;font-weight:1000}
+.reading-empty{padding:8px 2px}.chapter-status{line-height:1.3}
+@media(max-width:420px){.reading-log-head{display:block}.reading-total-pill{display:inline-block;margin-top:6px}.reading-log-form{grid-template-columns:1fr 1fr}.reading-log-form .btn{grid-column:1/-1;width:100%}}
+
 </style>
 </head>
 <body>
@@ -3097,15 +3116,16 @@ body.preview-first-run .first-run-cancel-preview{display:block}
 </section>
 
 <section id="reading" class="screen">
- <div class="reading-hero"><h1>📚 Lectura</h1><div>30 minutos al día · libros, capítulos y resúmenes.</div></div>
+ <div class="reading-hero"><h1>📚 Lectura</h1><div>Varios libros a la vez · días de lectura · páginas leídas.</div></div>
 
  <div class="section-tabs">
-  <button class="on" data-readtab="current">Libro actual</button>
+  <button class="on" data-readtab="current">Libros activos</button>
   <button data-readtab="newbook">Añadir libro</button>
   <button data-readtab="history">Historial</button>
  </div>
 
  <div id="read-current">
+   <div id="activeBooksSwitcher" class="active-books-switcher"></div>
    <div id="noBook" class="card book-card hidden">
     <b>No hay libro activo.</b>
     <div class="mmeta" style="margin-top:5px">Añade el libro que está leyendo Miguelito.</div>
@@ -3116,7 +3136,7 @@ body.preview-first-run .first-run-cancel-preview{display:block}
       <div class="book-top">
         <div class="cover">📘</div>
         <div>
-          <div class="eyebrow">Libro actual</div>
+          <div class="eyebrow">Libro seleccionado</div>
           <div id="bookTitle" class="book-title">Libro de ejemplo</div>
           <div id="bookMeta" class="book-meta"></div>
           <div class="read-progress"><i id="bookProgress"></i></div>
@@ -3130,12 +3150,25 @@ body.preview-first-run .first-run-cancel-preview{display:block}
     </div>
 
     <div class="card book-card">
+      <div class="reading-log-head">
+        <div><h3 style="margin:0">📖 Registrar lectura</h3><div class="mmeta">Anota el día y cuántas páginas ha leído de este libro.</div></div>
+        <div id="bookPagesReadTotal" class="reading-total-pill">0 páginas leídas</div>
+      </div>
+      <div class="reading-log-form">
+        <label><span>Día de lectura</span><input id="readingDayInput" type="date"></label>
+        <label><span>Páginas leídas</span><input id="readingPagesInput" type="number" min="1" placeholder="Ej. 12"></label>
+        <button id="addReadingSessionBtn" class="btn primary" type="button">Añadir lectura</button>
+      </div>
+      <div id="readingSessionsList" class="reading-sessions-list"></div>
+    </div>
+
+    <div class="card book-card">
       <h3 style="margin:0 0 8px">Capítulos</h3>
       <div id="chapterList"></div>
     </div>
 
     <div class="card book-card">
-      <h3 style="margin:0 0 10px">Finalizar libro</h3>
+      <h3 style="margin:0 0 10px">Finalizar este libro</h3>
       <div class="formgrid">
         <div class="field"><label>Fecha final</label><input id="finishDate" type="date"></div>
         <div class="field"><label>¿Cuánto le ha gustado?</label>
@@ -3150,7 +3183,7 @@ body.preview-first-run .first-run-cancel-preview{display:block}
 
  <div id="read-newbook" class="hidden">
   <div class="card book-card">
-   <h3 style="margin:0 0 10px">Añadir libro</h3>
+   <h3 style="margin:0 0 10px">Añadir otro libro</h3><div class="mmeta" style="margin:-5px 0 10px">Puedes tener varios libros activos a la vez.</div>
    <div class="field"><label>Título</label><input id="newTitle" placeholder="Título del libro"></div>
    <div class="formgrid" style="margin-top:8px">
     <div class="field"><label>Nº de páginas</label><input id="newPages" type="number" min="1" value="120"></div>
@@ -3796,7 +3829,7 @@ function freshFirstRunState(){
   stars:0,xp:0,calendar:{},missions:[],
   profile:{name:'',birthDate:'',city:'',age:9,color:'Azul',likes:''},
   rewards:[],rewardHistory:[],projects:[],
-  reading:{active:null,history:[]},
+  reading:{activeBooks:[],activeBookId:'',history:[]},
   events:[],approvalHistory:[],castleHistory:[],weeklyClaims:{},
   customChallenges:[],defaultChallengesEnabled:false,
   bigGoals:[],activeGoalId:'',specialDays:[],
@@ -6018,31 +6051,104 @@ $('#saveProject').onclick=()=>{
  document.querySelector('[data-projecttab="list"]').click();
 };
 
+function normalizeReadingBook(book,index=0){
+ if(!book)return null;
+ if(!book.id)book.id=`book-${Date.now()}-${index}-${Math.random().toString(36).slice(2,7)}`;
+ if(!Array.isArray(book.chapterData)){
+   const chapters=Math.max(1,Number(book.chapters)||1);
+   book.chapterData=Array.from({length:chapters},(_,i)=>({n:i+1,photoName:'',parentApproved:false,parentNote:''}));
+ }
+ book.chapterData.forEach((c,i)=>{
+   if(typeof c.n==='undefined')c.n=i+1;
+   if(typeof c.photoName!=='string')c.photoName='';
+   if(typeof c.parentApproved!=='boolean')c.parentApproved=false;
+   if(typeof c.parentNote!=='string')c.parentNote='';
+ });
+ if(!Array.isArray(book.readingSessions))book.readingSessions=[];
+ book.readingSessions=book.readingSessions.map((s,i)=>({
+   id:s.id||`read-${book.id}-${i}-${Math.random().toString(36).slice(2,6)}`,
+   date:s.date||localDateKey(),
+   pages:Math.max(0,Number(s.pages)||0)
+ })).filter(s=>s.pages>0);
+ return book;
+}
 function ensureReadingState(){
- if(!state.reading){
-   state.reading={
-     active:{
-       title:'Libro de ejemplo',
-       pages:120,
-       chapters:6,
-       start:new Date().toISOString().slice(0,10),
-       due:'',
-       finish:'',
-       rating:5,
-       comment:'',
-       chapterData:Array.from({length:6},(_,i)=>({n:i+1,photoName:'',parentApproved:false,parentNote:'',aiReviewed:false}))
-     },
-     history:[]
-   };
+ if(!state.reading)state.reading={activeBooks:[],activeBookId:'',history:[]};
+ if(state.reading.active){
+   const legacy=normalizeReadingBook(state.reading.active,0);
+   if(legacy){
+     if(!Array.isArray(state.reading.activeBooks))state.reading.activeBooks=[];
+     if(!state.reading.activeBooks.some(b=>b.id===legacy.id))state.reading.activeBooks.push(legacy);
+     if(!state.reading.activeBookId)state.reading.activeBookId=legacy.id;
+   }
+   delete state.reading.active;
+ }
+ if(!Array.isArray(state.reading.activeBooks))state.reading.activeBooks=[];
+ state.reading.activeBooks=state.reading.activeBooks.map((b,i)=>normalizeReadingBook(b,i)).filter(Boolean);
+ if(!Array.isArray(state.reading.history))state.reading.history=[];
+ state.reading.history=state.reading.history.map((b,i)=>normalizeReadingBook(b,i)).filter(Boolean);
+ if(!state.reading.activeBookId || !state.reading.activeBooks.some(b=>b.id===state.reading.activeBookId)){
+   state.reading.activeBookId=state.reading.activeBooks[0]?.id||'';
  }
 }
 ensureReadingState();
 
-function currentBook(){ return state.reading.active; }
-
+function currentBook(){
+ ensureReadingState();
+ return state.reading.activeBooks.find(b=>b.id===state.reading.activeBookId)||state.reading.activeBooks[0]||null;
+}
+function selectReadingBook(id){
+ ensureReadingState();
+ if(state.reading.activeBooks.some(b=>b.id===id)){
+   state.reading.activeBookId=id;
+   save();
+ }
+}
+function totalPagesRead(book){
+ return (book?.readingSessions||[]).reduce((sum,s)=>sum+(Number(s.pages)||0),0);
+}
+function renderActiveBooksSwitcher(){
+ const wrap=$('#activeBooksSwitcher');if(!wrap)return;
+ ensureReadingState();
+ wrap.innerHTML='';
+ if(!state.reading.activeBooks.length)return;
+ state.reading.activeBooks.forEach(book=>{
+   const b=document.createElement('button');
+   b.type='button';
+   b.className='active-book-chip'+(book.id===state.reading.activeBookId?' on':'');
+   const read=totalPagesRead(book);
+   b.innerHTML=`<span>📘</span><div><b>${escapeHtml(book.title)}</b><small>${read} pág. registradas</small></div>`;
+   b.onclick=()=>selectReadingBook(book.id);
+   wrap.appendChild(b);
+ });
+}
+function renderReadingSessions(book){
+ const total=totalPagesRead(book);
+ if($('#bookPagesReadTotal'))$('#bookPagesReadTotal').textContent=`${total} páginas leídas`;
+ if($('#readingDayInput')&&!$('#readingDayInput').value)$('#readingDayInput').value=localDateKey();
+ const list=$('#readingSessionsList');if(!list)return;
+ const rows=(book.readingSessions||[]).slice().sort((a,b)=>(b.date||'').localeCompare(a.date||''));
+ if(!rows.length){
+   list.innerHTML='<div class="mmeta reading-empty">Todavía no hay días de lectura registrados para este libro.</div>';
+   return;
+ }
+ list.innerHTML=rows.map(s=>`
+   <div class="reading-session-row">
+     <span>📅</span>
+     <div><b>${new Date(s.date+'T12:00:00').toLocaleDateString('es-ES',{weekday:'short',day:'numeric',month:'short'})}</b><small>${Number(s.pages)||0} páginas leídas</small></div>
+     <button type="button" data-del-reading="${s.id}" aria-label="Eliminar registro">×</button>
+   </div>`).join('');
+ list.querySelectorAll('[data-del-reading]').forEach(btn=>btn.onclick=()=>{
+   if(!confirm('¿Eliminar este registro de lectura?'))return;
+   book.readingSessions=book.readingSessions.filter(s=>s.id!==btn.dataset.delReading);
+   save();
+ });
+}
 function renderReading(){
+ ensureReadingState();
+ renderActiveBooksSwitcher();
  const book=currentBook();
- const noBook=$('#noBook'), wrap=$('#activeBookWrap');
+ const noBook=$('#noBook'),wrap=$('#activeBookWrap');
  if(!book){
    noBook.classList.remove('hidden');wrap.classList.add('hidden');
  }else{
@@ -6053,8 +6159,9 @@ function renderReading(){
    const approved=book.chapterData.filter(c=>c.parentApproved).length;
    $('#approvedStat').textContent=approved;
    $('#bookProgress').style.width=(book.chapters?Math.round(approved/book.chapters*100):0)+'%';
-   const due=book.due?` · límite: ${new Date(book.due+'T00:00:00').toLocaleDateString('es-ES')}`:'';
-   $('#bookMeta').textContent=`${book.pages} páginas · ${book.chapters} capítulos · inicio: ${new Date(book.start+'T00:00:00').toLocaleDateString('es-ES')}${due}`;
+   const due=book.due?` · límite: ${new Date(book.due+'T12:00:00').toLocaleDateString('es-ES')}`:'';
+   $('#bookMeta').textContent=`${book.pages} páginas · ${book.chapters} capítulos · inicio: ${new Date(book.start+'T12:00:00').toLocaleDateString('es-ES')}${due}`;
+   renderReadingSessions(book);
 
    const list=$('#chapterList');list.innerHTML='';
    book.chapterData.forEach((c,idx)=>{
@@ -6064,90 +6171,101 @@ function renderReading(){
         <div class="chapter-num">${c.parentApproved?'✓':c.n}</div>
         <div class="chapter-main">
           <div class="chapter-title">Capítulo ${c.n}</div>
-          <div class="chapter-status">${c.parentApproved?'Aprobado por un padre ✅':c.photoName?'Resumen subido · pendiente de revisión':'Pendiente de resumen'}</div>
+          <div class="chapter-status">${c.parentApproved?'Aprobado por un padre ✅':c.photoName?'Foto añadida · pendiente de aprobación':'Pendiente de aprobación'}</div>
         </div>
        </div>
        <div class="chapter-actions">
-        <label class="smallbtn uploadbtn">📷 Subir foto<input class="file-hidden chapterFile" data-i="${idx}" type="file" accept="image/*"></label>
-        <button class="smallbtn aiBtn" data-ai="${idx}">✨ Revisar con IA</button>
+        <label class="smallbtn uploadbtn">📷 Foto opcional<input class="file-hidden chapterFile" data-i="${idx}" type="file" accept="image/*"></label>
         <button class="smallbtn parentbtn" data-parent="${idx}">${c.parentApproved?'✅ Aprobado':'👨‍👩‍👦 Aprobar'}</button>
        </div>
-       ${c.photoName?`<div class="chapter-note">📎 Foto: ${c.photoName}</div>`:''}
-       ${c.aiReviewed?'<div class="chapter-note">✨ Revisión automática preparada. En la versión online analizaremos la foto y sugeriremos correcciones antes de la aprobación parental.</div>':''}
-       ${c.parentNote?`<div class="chapter-note">📝 Padres: ${c.parentNote}</div>`:''}
-     `;
+       ${c.photoName?`<div class="chapter-note">📎 Foto: ${escapeHtml(c.photoName)}</div>`:''}
+       ${c.parentNote?`<div class="chapter-note">📝 Padres: ${escapeHtml(c.parentNote)}</div>`:''}`;
      list.appendChild(d);
    });
 
    list.querySelectorAll('.chapterFile').forEach(inp=>inp.onchange=e=>{
-     const i=Number(inp.dataset.i); const f=e.target.files?.[0];
+     const i=Number(inp.dataset.i),f=e.target.files?.[0];
      if(!f)return;
      book.chapterData[i].photoName=f.name;
-     toast('Foto del resumen añadida 📷');
-     save();
-   });
-   list.querySelectorAll('[data-ai]').forEach(b=>b.onclick=()=>{
-     const i=Number(b.dataset.ai);
-     if(!book.chapterData[i].photoName){toast('Primero sube la foto del resumen');return}
-     book.chapterData[i].aiReviewed=true;
-     toast('Revisión IA preparada ✨');
+     toast('Foto añadida 📷');
      save();
    });
    list.querySelectorAll('[data-parent]').forEach(b=>b.onclick=()=>{
-     const i=Number(b.dataset.parent);
-     if(!book.chapterData[i].photoName){toast('Falta la foto del resumen');return}
-     const note=prompt('Comentario de los padres (opcional):',book.chapterData[i].parentNote||'');
-     book.chapterData[i].parentNote=note||'';
-     book.chapterData[i].parentApproved=true;
+     const i=Number(b.dataset.parent),c=book.chapterData[i];
+     if(c.parentApproved){
+       if(confirm('¿Quitar la aprobación de este capítulo?')){c.parentApproved=false;save()}
+       return;
+     }
+     const note=prompt('Comentario de los padres (opcional):',c.parentNote||'');
+     if(note===null)return;
+     c.parentNote=note||'';
+     c.parentApproved=true;
      toast('Capítulo aprobado ✅');
      save();
    });
  }
  renderReadingHistory();
 }
-
 function renderReadingHistory(){
- const list=$('#historyList'); if(!list)return;
+ const list=$('#historyList');if(!list)return;
  list.innerHTML='';
  const hist=state.reading.history||[];
- if(!hist.length){ list.innerHTML='<div class="mmeta">Todavía no hay libros terminados.</div>'; return; }
+ if(!hist.length){list.innerHTML='<div class="mmeta">Todavía no hay libros terminados.</div>';return}
  hist.slice().reverse().forEach(b=>{
+   const read=totalPagesRead(b),days=new Set((b.readingSessions||[]).map(s=>s.date)).size;
    const row=document.createElement('div');row.className='history-item';
-   row.innerHTML=`<div class="history-cover">📘</div><div><b>${b.title}</b><div class="mmeta">${b.pages} páginas · ${b.chapters} capítulos<br>${b.start} → ${b.finish}</div><div class="rating">${'⭐'.repeat(b.rating||0)}</div>${b.comment?`<div class="mmeta">“${b.comment}”</div>`:''}</div><div>✅</div>`;
+   row.innerHTML=`<div class="history-cover">📘</div><div><b>${escapeHtml(b.title)}</b><div class="mmeta">${b.pages} páginas · ${b.chapters} capítulos<br>${b.start} → ${b.finish}<br>📖 ${read} páginas registradas · ${days} días de lectura</div><div class="rating">${'⭐'.repeat(b.rating||0)}</div>${b.comment?`<div class="mmeta">“${escapeHtml(b.comment)}”</div>`:''}</div><div>✅</div>`;
    list.appendChild(row);
  });
 }
-
 document.querySelectorAll('[data-readtab]').forEach(btn=>btn.onclick=()=>{
  document.querySelectorAll('[data-readtab]').forEach(x=>x.classList.remove('on'));btn.classList.add('on');
  ['current','newbook','history'].forEach(k=>document.getElementById('read-'+k).classList.toggle('hidden',btn.dataset.readtab!==k));
 });
-
+$('#addReadingSessionBtn').onclick=()=>{
+ const book=currentBook();if(!book){toast('Primero añade un libro');return}
+ const date=$('#readingDayInput').value||localDateKey();
+ const pages=Math.max(0,Number($('#readingPagesInput').value)||0);
+ if(pages<1){toast('Indica cuántas páginas ha leído');return}
+ book.readingSessions.push({id:`read-${book.id}-${Date.now()}`,date,pages});
+ $('#readingPagesInput').value='';
+ toast(`Lectura registrada: ${pages} páginas 📖`);
+ save();
+};
 $('#saveBook').onclick=()=>{
+ ensureReadingState();
  const title=$('#newTitle').value.trim();
  const pages=Math.max(1,Number($('#newPages').value)||1);
  const chapters=Math.max(1,Math.min(50,Number($('#newChapters').value)||1));
- const start=$('#newStart').value||new Date().toISOString().slice(0,10);
- const due=$('#newDue').value||'';
+ const start=$('#newStart').value||localDateKey(),due=$('#newDue').value||'';
  if(!title){toast('Escribe el título del libro');return}
- state.reading.active={title,pages,chapters,start,due,finish:'',rating:5,comment:'',chapterData:Array.from({length:chapters},(_,i)=>({n:i+1,photoName:'',parentApproved:false,parentNote:'',aiReviewed:false}))};
+ const book=normalizeReadingBook({
+   id:`book-${Date.now()}-${Math.random().toString(36).slice(2,7)}`,
+   title,pages,chapters,start,due,finish:'',rating:5,comment:'',readingSessions:[],
+   chapterData:Array.from({length:chapters},(_,i)=>({n:i+1,photoName:'',parentApproved:false,parentNote:''}))
+ });
+ state.reading.activeBooks.push(book);
+ state.reading.activeBookId=book.id;
+ $('#newTitle').value='';$('#newPages').value=120;$('#newChapters').value=10;$('#newStart').value='';$('#newDue').value='';
  toast('Libro añadido 📚');save();
  document.querySelector('[data-readtab="current"]').click();
 };
-
 $('#finishBook').onclick=()=>{
+ ensureReadingState();
  const book=currentBook();if(!book)return;
  const approved=book.chapterData.filter(c=>c.parentApproved).length;
- if(approved<book.chapters){toast(`Faltan ${book.chapters-approved} capítulos por aprobar`);return}
- book.finish=$('#finishDate').value||new Date().toISOString().slice(0,10);
+ if(approved<book.chapters && !confirm(`Hay ${book.chapters-approved} capítulos sin aprobar. ¿Quieres terminar el libro igualmente?`))return;
+ book.finish=$('#finishDate').value||localDateKey();
  book.rating=Number($('#ratingSelect').value)||5;
  book.comment=$('#bookComment').value.trim();
  state.reading.history.push(JSON.parse(JSON.stringify(book)));
- state.reading.active=null;
+ state.reading.activeBooks=state.reading.activeBooks.filter(b=>b.id!==book.id);
+ state.reading.activeBookId=state.reading.activeBooks[0]?.id||'';
+ $('#bookComment').value='';$('#finishDate').value='';
  toast('¡Libro terminado! 🎉📚');save();
- document.querySelector('[data-readtab="history"]').click();
+ if(state.reading.activeBooks.length)document.querySelector('[data-readtab="current"]').click();
+ else document.querySelector('[data-readtab="history"]').click();
 };
-
 
 function openScreen(name){
  try{
