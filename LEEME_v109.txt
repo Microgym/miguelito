@@ -1,0 +1,9 @@
+MIS TAREAS v109 — EDITAR Y ELIMINAR LIBROS
+
+En Lectura:
+- Cada libro activo tiene botón “Editar libro”.
+- Se pueden modificar título, número de páginas, capítulos, fecha de inicio y fecha límite.
+- Se conservan los días/páginas leídos y las aprobaciones existentes.
+- Si al reducir capítulos se perdería información, la app pide confirmación.
+- Cada libro activo tiene botón “Eliminar libro”.
+- El borrado pide confirmación y elimina solo ese libro.
