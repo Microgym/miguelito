@@ -2436,6 +2436,16 @@ body.preview-first-run .first-run-cancel-preview{display:block}
 .book-form-actions{display:grid;grid-template-columns:1fr;gap:7px;margin-top:10px}
 .book-form-actions .btn{width:100%;margin:0}
 
+
+/* ===== v110 Catálogo automático de premios por nivel ===== */
+.reward-tier-section{margin-bottom:14px}.reward-tier-section:last-child{margin-bottom:0}
+.reward-tier-head{display:flex;align-items:flex-start;justify-content:space-between;margin:0 0 8px;padding-bottom:7px;border-bottom:1px solid #edf1f5}
+.reward-tier-head b{display:block;font-size:12px;color:#284f73}.reward-tier-head span{display:block;margin-top:2px;font-size:7px;line-height:1.35;color:#7b8d9e;font-weight:800}
+.reward-tier-grid{margin:0!important}
+.reward-box.long-term{background:linear-gradient(180deg,#fff9e5,#fff);border:1px solid #f0d98a}
+.reward-target-date{margin-top:4px;font-size:7px;color:#607a91;font-weight:900}.reward-missing{font-size:7px;color:#8a6a3d;font-weight:900;margin:3px 0}.reward-ready{font-size:7px;color:#32805c;font-weight:900;margin:3px 0}
+.reward-date-row{align-items:center}
+
 </style>
 </head>
 <body>
@@ -3617,13 +3627,14 @@ body.preview-first-run .first-run-cancel-preview{display:block}
  <button class="btn ghost parent-back-btn" type="button" onclick="backToParents()">← Volver a Zona Padres</button>
  <div class="card panelcard reward-admin">
 <h3 style="margin:0 0 5px">🏆 Gestionar premios</h3>
-<div class="mmeta">Puedes añadir, editar o eliminar premios. Los cambios aparecen en Premios.</div>
+<div class="mmeta">Incluye un catálogo inicial de premios fáciles, intermedios, especiales y a largo plazo. Puedes editar o eliminar cualquiera.</div>
 <div class="reward-admin-form">
 <input id="rewardNameInput" placeholder="Nombre del premio"/>
 <input id="rewardCostInput" min="1" placeholder="⭐ Coste" type="number"/>
 </div>
 <div class="reward-admin-form">
 <select id="rewardEmojiInput">
+<option value="🍨">🍨 Postre</option>
 <option value="🍦">🍦 Helado</option>
 <option value="🎬">🎬 Cine / peli</option>
 <option value="🎮">🎮 Videojuegos</option>
@@ -3632,13 +3643,20 @@ body.preview-first-run .first-run-cancel-preview{display:block}
 <option value="🎁">🎁 Regalo</option>
 <option value="🍕">🍕 Comida especial</option>
 <option value="🎉">🎉 Experiencia</option>
+<option value="👫">👫 Amigos</option>
+<option value="🎟️">🎟️ Actividad</option>
+<option value="🗺️">🗺️ Excursión</option>
 </select>
 <select id="rewardSizeInput">
-<option value="Pequeño">Pequeño</option>
-<option value="Mediano">Mediano</option>
-<option value="Grande">Grande</option>
-<option value="Gran premio">Gran premio</option>
+<option value="Fácil">🟢 Fácil</option>
+<option value="Intermedio">🔵 Intermedio</option>
+<option value="Especial">🟣 Especial</option>
+<option value="Largo plazo">🏆 Largo plazo</option>
 </select>
+</div>
+<div class="reward-admin-form reward-date-row">
+ <input id="rewardTargetDateInput" type="date" title="Fecha objetivo opcional"/>
+ <div class="mmeta" style="align-self:center">Fecha objetivo (opcional). Útil para premios grandes como viajes.</div>
 </div>
 <button class="btn primary" id="saveRewardBtn" style="margin-top:9px;width:100%">Añadir premio</button>
 <div class="reward-admin-list" id="rewardAdminList"></div>
@@ -4623,18 +4641,37 @@ function renderCalendar(){
 }
 
 function renderRewards(){
- $('#rewardList').innerHTML='';
- $('#rewardList').classList.add('reward-grid');
+ const list=$('#rewardList');
+ list.innerHTML='';
+ list.classList.remove('reward-grid');
+ ensureRewardState();
  if(!state.rewards.length){
-   $('#rewardList').innerHTML='<div class="mmeta">No hay premios disponibles.</div>';
+   list.innerHTML='<div class="mmeta">No hay premios disponibles.</div>';
    return;
  }
- state.rewards.forEach(r=>{
-   const box=document.createElement('div');
-   box.className='reward-box';
-   box.innerHTML=`<div class="emoji">${r.emoji}</div><b>${r.name}</b><div class="cost">${r.cost} ⭐</div><button class="btn primary">Canjear</button>`;
-   box.querySelector('button').onclick=()=>redeem(r.name,r.cost);
-   $('#rewardList').appendChild(box);
+ const tiers=['Fácil','Intermedio','Especial','Largo plazo'];
+ const descriptions={
+   'Fácil':'Pequeños premios para disfrutar sin alejarse de las metas grandes.',
+   'Intermedio':'Premios que requieren algo más de constancia.',
+   'Especial':'Planes y experiencias que merece la pena ahorrar.',
+   'Largo plazo':'Grandes objetivos para ahorrar durante semanas o meses.'
+ };
+ tiers.forEach(tier=>{
+   const items=state.rewards.filter(r=>rewardTier(r)===tier).sort((a,b)=>(Number(a.cost)||0)-(Number(b.cost)||0));
+   if(!items.length)return;
+   const section=document.createElement('div');section.className='reward-tier-section';
+   section.innerHTML=`<div class="reward-tier-head"><div><b>${rewardTierIcon(tier)} ${tier}</b><span>${descriptions[tier]}</span></div></div><div class="reward-grid reward-tier-grid"></div>`;
+   const grid=section.querySelector('.reward-tier-grid');
+   items.forEach(r=>{
+     const box=document.createElement('div');
+     box.className='reward-box'+(tier==='Largo plazo'?' long-term':'');
+     const date=r.targetDate?`<div class="reward-target-date">📅 ${rewardDateLabel(r)}</div>`:'';
+     const missing=Math.max(0,(Number(r.cost)||0)-(Number(state.stars)||0));
+     box.innerHTML=`<div class="emoji">${r.emoji}</div><b>${escapeHtml(r.name)}</b>${date}<div class="cost">${r.cost} ⭐</div>${missing?`<div class="reward-missing">Faltan ${missing} ⭐</div>`:'<div class="reward-ready">¡Ya puedes canjearlo!</div>'}<button class="btn primary">Canjear</button>`;
+     box.querySelector('button').onclick=()=>redeem(r.name,r.cost);
+     grid.appendChild(box);
+   });
+   list.appendChild(section);
  });
 }
 
@@ -5838,15 +5875,56 @@ function ensureRewardHistory(){
 }
 ensureRewardHistory();
 
+const REWARD_STARTER_PACK_V110=[
+ {emoji:'🍨',name:'Elegir el postre',cost:15,size:'Fácil'},
+ {emoji:'🍕',name:'Elegir la cena',cost:20,size:'Fácil'},
+ {emoji:'🎮',name:'+30 min de videojuegos',cost:25,size:'Fácil'},
+ {emoji:'🎬',name:'Elegir la película familiar',cost:30,size:'Fácil'},
+
+ {emoji:'🍦',name:'Merienda especial',cost:50,size:'Intermedio'},
+ {emoji:'🎮',name:'+1 hora de videojuegos',cost:60,size:'Intermedio'},
+ {emoji:'⚽',name:'Plan especial de fútbol o parque',cost:75,size:'Intermedio'},
+ {emoji:'👫',name:'Tarde especial con un amigo',cost:80,size:'Intermedio'},
+ {emoji:'🎬',name:'Cine con palomitas',cost:90,size:'Intermedio'},
+
+ {emoji:'🎉',name:'Elegir un plan especial de fin de semana',cost:120,size:'Especial'},
+ {emoji:'🎟️',name:'Actividad o experiencia especial',cost:150,size:'Especial'},
+ {emoji:'🎁',name:'Pequeño regalo elegido',cost:200,size:'Especial'},
+ {emoji:'🗺️',name:'Gran plan o excursión especial',cost:300,size:'Especial'},
+
+ {emoji:'🎿',name:'Esquí en Baqueira · 22 de enero',cost:600,size:'Largo plazo',targetDate:'2027-01-22'}
+];
+function normalizeRewardText(v=''){
+ return String(v||'').trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/\s+/g,' ');
+}
+function rewardTier(r){
+ const s=String(r?.size||'');
+ if(['Fácil','Intermedio','Especial','Largo plazo'].includes(s))return s;
+ if(s==='Pequeño')return 'Fácil';
+ if(s==='Mediano')return 'Intermedio';
+ if(s==='Grande')return 'Especial';
+ if(s==='Gran premio')return 'Largo plazo';
+ const c=Number(r?.cost)||0;
+ return c>=500?'Largo plazo':c>=120?'Especial':c>=50?'Intermedio':'Fácil';
+}
+function rewardTierIcon(t){return t==='Fácil'?'🟢':t==='Intermedio'?'🔵':t==='Especial'?'🟣':'🏆'}
+function rewardDateLabel(r){
+ if(!r?.targetDate)return '';
+ try{return new Date(r.targetDate+'T12:00:00').toLocaleDateString('es-ES',{day:'numeric',month:'long',year:'numeric'})}catch(e){return r.targetDate}
+}
 function ensureRewardState(){
- if(!state.rewards){
-   state.rewards=[
-    {emoji:'🍦',name:'Helado especial',cost:80,size:'Pequeño'},
-    {emoji:'🎬',name:'Elegir la peli',cost:100,size:'Pequeño'},
-    {emoji:'🎮',name:'+30 min videojuego',cost:120,size:'Mediano'},
-    {emoji:'⚽',name:'Ver al Madrid en la tele',cost:180,size:'Mediano'},
-    {emoji:'🎿',name:'Viaje a esquiar',cost:600,size:'Gran premio'}
-   ];
+ if(!Array.isArray(state.rewards))state.rewards=[];
+ // Convierte categorías antiguas sin romper premios existentes.
+ state.rewards.forEach(r=>{r.size=rewardTier(r)});
+ if(state.rewardStarterPackV110Loaded!==true){
+   const names=new Set(state.rewards.map(r=>normalizeRewardText(r.name)));
+   REWARD_STARTER_PACK_V110.forEach(r=>{
+     if(!names.has(normalizeRewardText(r.name))){
+       state.rewards.push({...r,starterPack:'v110'});
+       names.add(normalizeRewardText(r.name));
+     }
+   });
+   state.rewardStarterPackV110Loaded=true;
  }
 }
 ensureRewardState();
@@ -5855,7 +5933,8 @@ function resetRewardForm(){
  $('#rewardNameInput').value='';
  $('#rewardCostInput').value='';
  $('#rewardEmojiInput').value='🎁';
- $('#rewardSizeInput').value='Pequeño';
+ $('#rewardSizeInput').value='Fácil';
+ if($('#rewardTargetDateInput'))$('#rewardTargetDateInput').value='';
  $('#saveRewardBtn').dataset.edit='';
  $('#saveRewardBtn').textContent='Añadir premio';
 }
@@ -5875,7 +5954,7 @@ function renderRewardAdmin(){
     <div class="reward-admin-emoji">${r.emoji}</div>
     <div>
       <b>${r.name}</b>
-      <div class="mmeta">${r.cost} ⭐ · ${r.size||'Premio'}</div>
+      <div class="mmeta">${r.cost} ⭐ · ${rewardTierIcon(rewardTier(r))} ${rewardTier(r)}${r.targetDate?' · 📅 '+rewardDateLabel(r):''}</div>
     </div>
     <div class="reward-admin-actions">
       <button class="smallbtn uploadbtn" data-editreward="${i}">Editar</button>
@@ -5889,7 +5968,8 @@ function renderRewardAdmin(){
    $('#rewardNameInput').value=r.name;
    $('#rewardCostInput').value=r.cost;
    $('#rewardEmojiInput').value=r.emoji;
-   $('#rewardSizeInput').value=r.size||'Pequeño';
+   $('#rewardSizeInput').value=rewardTier(r);
+   if($('#rewardTargetDateInput'))$('#rewardTargetDateInput').value=r.targetDate||'';
    $('#saveRewardBtn').dataset.edit=String(i);
    $('#saveRewardBtn').textContent='Guardar cambios';
  });
@@ -5915,7 +5995,8 @@ $('#saveRewardBtn').onclick=()=>{
    emoji:$('#rewardEmojiInput').value,
    name,
    cost,
-   size:$('#rewardSizeInput').value
+   size:$('#rewardSizeInput').value,
+   targetDate:$('#rewardTargetDateInput')?.value||''
  };
 
  const edit=$('#saveRewardBtn').dataset.edit;

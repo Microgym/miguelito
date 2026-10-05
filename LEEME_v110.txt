@@ -1,0 +1,9 @@
+MIS TAREAS v110 — CATÁLOGO AUTOMÁTICO DE PREMIOS
+
+Premios iniciales por hijo:
+Fáciles: 15–30 ⭐
+Intermedios: 50–90 ⭐
+Especiales: 120–300 ⭐
+Largo plazo: Esquí en Baqueira · 22 de enero de 2027 = 600 ⭐
+
+Todos pueden editarse o eliminarse desde Zona Padres > Premios. También se pueden añadir premios nuevos y poner fecha objetivo opcional.
