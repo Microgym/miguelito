@@ -1,0 +1,13 @@
+MIS TAREAS v111 — CUSTODIA SIN ROMPER RACHAS
+
+Nueva opción para familias con padres separados/divorciados:
+- “Pausar seguimiento en el otro hogar”.
+- Se puede elegir si la app se controla en casa de Papá o en casa de Mamá.
+- Si está activado, los días del otro hogar son neutrales:
+  · no cuentan como fallo,
+  · no rompen la racha,
+  · no rompen los retos de días seguidos.
+- Al volver al hogar donde sí se controla, la racha continúa.
+- Se puede cambiar después en Más → Familia.
+- Si se elige “Viven juntos”, el seguimiento vuelve automáticamente a ambos hogares.
+- Familias existentes mantienen el comportamiento anterior hasta activar esta opción.

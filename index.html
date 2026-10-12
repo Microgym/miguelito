@@ -2446,6 +2446,22 @@ body.preview-first-run .first-run-cancel-preview{display:block}
 .reward-target-date{margin-top:4px;font-size:7px;color:#607a91;font-weight:900}.reward-missing{font-size:7px;color:#8a6a3d;font-weight:900;margin:3px 0}.reward-ready{font-size:7px;color:#32805c;font-weight:900;margin:3px 0}
 .reward-date-row{align-items:center}
 
+
+/* ===== v111 Custodia: pausa de seguimiento por hogar ===== */
+.custody-tracking-box{
+ margin-top:10px;padding:11px;border-radius:15px;background:#f6fbff;border:1px solid #dce9f5
+}
+.custody-toggle-row{display:flex!important;gap:9px;align-items:flex-start!important;cursor:pointer}
+.custody-toggle-row input{width:18px!important;height:18px;margin-top:1px;flex:0 0 auto}
+.custody-toggle-row span{display:block;flex:1}
+.custody-toggle-row b{display:block;font-size:10px;color:#315a7e}
+.custody-toggle-row small{display:block;margin-top:3px;font-size:8px;line-height:1.35;color:#74899b;font-weight:800}
+.custody-home-select{display:flex;flex-direction:column;gap:5px;margin-top:10px}
+.custody-home-select>span{font-size:8px;font-weight:1000;color:#58738c}
+.custody-home-select select{width:100%;border:1px solid #dce6ef;border-radius:11px;padding:9px;background:#fff;font:inherit;color:#284e70}
+.custody-tracking-status{margin-top:8px;padding:7px 8px;border-radius:10px;background:#fff;color:#668096;font-size:8px;font-weight:800;line-height:1.35}
+.first-run-tracking{margin-top:11px;padding:11px;border-radius:16px;background:#f5faff;border:1px solid #dce8f3;text-align:left}
+
 </style>
 </head>
 <body>
@@ -3050,6 +3066,22 @@ body.preview-first-run .first-run-cancel-preview{display:block}
      </label>
      <label>PIN familiar<input id="familyPagePin" inputmode="numeric" maxlength="8" placeholder="1234"></label>
    </div>
+
+   <div id="familyTrackingBox" class="custody-tracking-box" style="display:none">
+     <label class="custody-toggle-row">
+       <input id="familyPauseOtherHome" type="checkbox">
+       <span><b>Pausar seguimiento en el otro hogar</b><small>Los días sin control quedan neutrales y no rompen las rachas.</small></span>
+     </label>
+     <label id="familyTrackingHomeWrap" class="custody-home-select" style="display:none">
+       <span>¿En qué casa se controla la app?</span>
+       <select id="familyTrackingHome">
+         <option value="papa">👨 En casa de Papá</option>
+         <option value="mama">👩 En casa de Mamá</option>
+       </select>
+     </label>
+     <div id="familyTrackingStatus" class="custody-tracking-status"></div>
+   </div>
+
    <button id="familyPageSave" class="btn primary" style="width:100%;margin-top:10px">Guardar datos familiares</button>
  </div>
 
@@ -3994,13 +4026,14 @@ if(!familyStore){
    activeChildId:firstId,
    onboardingCompleted:false,
    onboardingStage:'father',
-   family:{fatherName:'',motherName:'',parentsTogether:null},
+   family:{fatherName:'',motherName:'',parentsTogether:null,trackingHome:'both'},
    parentPin:'1234',
    children:[{id:firstId,name:'',avatar:'👦',birthDate:'',city:'',state:first}]
  };
  saveFamilyStore();
 }else{
- if(!familyStore.family)familyStore.family={fatherName:'',motherName:'',parentsTogether:null};
+ if(!familyStore.family)familyStore.family={fatherName:'',motherName:'',parentsTogether:null,trackingHome:'both'};
+ if(!['both','papa','mama'].includes(familyStore.family.trackingHome))familyStore.family.trackingHome='both';
  if(!familyStore.parentPin)familyStore.parentPin=(activeChildRecord?.()?.state?.parentPin)||'1234';
  if(typeof familyStore.onboardingCompleted==='undefined'){
    const hasReal=(familyStore.children||[]).some(c=>{
@@ -4027,7 +4060,7 @@ if(!state){
    activeChildId:fallbackId,
    onboardingCompleted:false,
    onboardingStage:'father',
-   family:{fatherName:'',motherName:'',parentsTogether:null},
+   family:{fatherName:'',motherName:'',parentsTogether:null,trackingHome:'both'},
    parentPin:'1234',
    children:[{id:fallbackId,name:'',avatar:'👦',birthDate:'',city:'',state}]
  };
@@ -4041,6 +4074,11 @@ function hasRealProfile(){
  return !!n && n!=='Nuevo perfil' && n!=='Hijo';
 }
 function parentsTogether(){return familyStore.family?.parentsTogether===true}
+function trackingHomeMode(){
+ if(parentsTogether())return 'both';
+ const raw=familyStore.family?.trackingHome;
+ return ['papa','mama'].includes(raw)?raw:'both';
+}
 function fatherName(){return familyStore.family?.fatherName?.trim()||'Papá'}
 function motherName(){return familyStore.family?.motherName?.trim()||'Mamá'}
 
@@ -4426,6 +4464,34 @@ function redeem(name,cost){
 }
 function iso(d){return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`}
 function home(d){if(parentsTogether())return 'Familia';return state.calendar[iso(d)]||(((d.getDay()+6)%7)<=2?'Papá':'Mamá')}
+function isTrackingDate(input){
+ if(parentsTogether()||trackingHomeMode()==='both')return true;
+ const d=typeof input==='string'?new Date(input+'T12:00:00'):new Date(input);
+ const h=home(d);
+ return trackingHomeMode()==='papa'?h==='Papá':h==='Mamá';
+}
+function custodyNeutralDaysBetween(aKey,bKey){
+ let d=new Date(aKey+'T12:00:00');
+ const end=new Date(bKey+'T12:00:00');
+ let neutral=0;
+ d.setDate(d.getDate()+1);
+ while(d<end){
+   if(!isTrackingDate(d))neutral++;
+   d.setDate(d.getDate()+1);
+ }
+ return neutral;
+}
+function trackedDaysBetween(aKey,bKey){
+ let d=new Date(aKey+'T12:00:00');
+ const end=new Date(bKey+'T12:00:00');
+ let tracked=0;
+ d.setDate(d.getDate()+1);
+ while(d<end){
+   if(isTrackingDate(d))tracked++;
+   d.setDate(d.getDate()+1);
+ }
+ return tracked;
+}
 function startWeek(){const d=new Date(),n=(d.getDay()+6)%7;d.setDate(d.getDate()-n+weekOffset*7);return d}
 
 function renderModules(){
@@ -5236,6 +5302,7 @@ function openFirstRunPreview(){
    fatherName:familyStore.family?.fatherName||'',
    motherName:familyStore.family?.motherName||'',
    parentsTogether:familyStore.family?.parentsTogether,
+   trackingHome:familyStore.family?.trackingHome||'both',
    childCount:Math.max(1,(familyStore.children||[]).length||1),
    children:(familyStore.children||[]).map(c=>({
      name:c.name||c.state?.profile?.name||'',
@@ -5272,6 +5339,7 @@ function firstRunDraft(){
      fatherName:familyStore.family?.fatherName||'',
      motherName:familyStore.family?.motherName||'',
      parentsTogether:familyStore.family?.parentsTogether,
+     trackingHome:familyStore.family?.trackingHome||'both',
      childCount:1,children:[],childIndex:0
    };
  }
@@ -5387,22 +5455,46 @@ function renderFirstRun(){
     <p>Esto solo cambia cómo se muestra el calendario familiar.</p>
     <div class="first-run-choice">
       <button id="frTogether" class="${d.parentsTogether===true?'on':''}">🏠 Vivimos juntos</button>
-      <button id="frSeparated" class="${d.parentsTogether===false?'on':''}">🏡 Vivimos separados</button>
+      <button id="frSeparated" class="${d.parentsTogether===false?'on':''}">🏡 Vivimos separados / divorciados</button>
     </div>
+    ${d.parentsTogether===false?`
+    <div class="first-run-tracking">
+      <label class="custody-toggle-row">
+        <input id="frPauseOtherHome" type="checkbox" ${d.trackingHome&&d.trackingHome!=='both'?'checked':''}>
+        <span><b>Pausar seguimiento en el otro hogar</b><small>Los días del otro hogar no cuentan como fallo y no rompen la racha.</small></span>
+      </label>
+      <label id="frTrackingHomeWrap" class="custody-home-select" ${d.trackingHome&&d.trackingHome!=='both'?'':'style="display:none"'}>
+        <span>¿En qué casa se controla la app?</span>
+        <select id="frTrackingHome">
+          <option value="papa" ${d.trackingHome==='papa'?'selected':''}>👨 Casa de Papá</option>
+          <option value="mama" ${d.trackingHome==='mama'?'selected':''}>👩 Casa de Mamá</option>
+        </select>
+      </label>
+    </div>`:''}
     <div class="first-run-actions">
       <button id="frLivingBack" class="btn ghost">Atrás</button>
       <button id="frLivingNext" class="btn primary">Continuar</button>
     </div>`;
-   $('#frTogether').onclick=()=>{d.parentsTogether=true;renderFirstRun()};
-   $('#frSeparated').onclick=()=>{d.parentsTogether=false;renderFirstRun()};
+   $('#frTogether').onclick=()=>{d.parentsTogether=true;d.trackingHome='both';renderFirstRun()};
+   $('#frSeparated').onclick=()=>{d.parentsTogether=false;if(!d.trackingHome)d.trackingHome='both';renderFirstRun()};
+   const frPause=$('#frPauseOtherHome');
+   if(frPause)frPause.onchange=()=>{
+     d.trackingHome=frPause.checked?($('#frTrackingHome')?.value||'papa'):'both';
+     renderFirstRun();
+   };
+   const frTrackHome=$('#frTrackingHome');
+   if(frTrackHome)frTrackHome.onchange=()=>{d.trackingHome=frTrackHome.value||'papa'};
    $('#frLivingBack').onclick=()=>{familyStore.onboardingStage='mother';saveFirstRunState();renderFirstRun()};
    $('#frLivingNext').onclick=()=>{
      if(d.parentsTogether!==true&&d.parentsTogether!==false){toast('Elige una opción');return}
+     if(d.parentsTogether===false && $('#frPauseOtherHome')?.checked)d.trackingHome=$('#frTrackingHome')?.value||'papa';
+     if(d.parentsTogether===true)d.trackingHome='both';
      // IMPORTANT: preserve names already entered.
      familyStore.family={
        fatherName:d.fatherName||familyStore.family?.fatherName||'',
        motherName:d.motherName||familyStore.family?.motherName||'',
-       parentsTogether:d.parentsTogether
+       parentsTogether:d.parentsTogether,
+       trackingHome:d.trackingHome||'both'
      };
      familyStore.onboardingStage=d.parentsTogether===false?'custody':'children';
      saveFirstRunState();renderFirstRun();
@@ -5675,15 +5767,17 @@ function challengeDistinctDates(c){
  return [...new Set(challengeFilteredApprovals(c).map(x=>x.date).filter(Boolean))].sort();
 }
 function challengeBestStreak(c){
- const dates=challengeDistinctDates(c);
+ const dates=challengeDistinctDates(c).filter(k=>isTrackingDate(k));
  if(!dates.length)return 0;
  let best=1,current=1;
  for(let i=1;i<dates.length;i++){
-   const a=new Date(dates[i-1]+'T12:00:00');
-   const b=new Date(dates[i]+'T12:00:00');
-   const diff=Math.round((b-a)/86400000);
-   if(diff===1){current++;best=Math.max(best,current)}
-   else if(diff>1){current=1}
+   const trackedGap=trackedDaysBetween(dates[i-1],dates[i]);
+   if(trackedGap===0){
+     current++;
+     best=Math.max(best,current);
+   }else{
+     current=1;
+   }
  }
  return best;
 }
@@ -5755,7 +5849,7 @@ function blankFamilyStore(){
    onboardingCompleted:false,
    onboardingStage:'father',
    onboardingDraft:null,
-   family:{fatherName:'',motherName:'',parentsTogether:null},
+   family:{fatherName:'',motherName:'',parentsTogether:null,trackingHome:'both'},
    parentPin:'1234',
    children:[{id,name:'',avatar:'👦',birthDate:'',city:'',state:s}]
  };
@@ -5803,6 +5897,17 @@ function renderFamilyPage(){
  if($('#familyPageMother'))$('#familyPageMother').value=familyStore.family?.motherName||'';
  if($('#familyPageLiving'))$('#familyPageLiving').value=familyStore.family?.parentsTogether===false?'separated':'together';
  if($('#familyPagePin'))$('#familyPagePin').value=String(familyStore.parentPin||'1234');
+ const separated=familyStore.family?.parentsTogether===false;
+ const tracking=familyStore.family?.trackingHome||'both';
+ if($('#familyTrackingBox'))$('#familyTrackingBox').style.display=separated?'':'none';
+ if($('#familyPauseOtherHome'))$('#familyPauseOtherHome').checked=separated&&tracking!=='both';
+ if($('#familyTrackingHomeWrap'))$('#familyTrackingHomeWrap').style.display=separated&&tracking!=='both'?'':'none';
+ if($('#familyTrackingHome'))$('#familyTrackingHome').value=tracking==='mama'?'mama':'papa';
+ if($('#familyTrackingStatus')){
+   $('#familyTrackingStatus').textContent=tracking==='both'
+     ?'Seguimiento activo en ambos hogares.'
+     :`Seguimiento activo solo en casa de ${tracking==='papa'?'Papá':'Mamá'}. Los días del otro hogar son neutrales.`;
+ }
  const box=$('#familyPageChildren');
  if(box){
    box.innerHTML='';
@@ -5822,8 +5927,20 @@ $('#familyPageSave').onclick=()=>{
  const father=$('#familyPageFather').value.trim(),mother=$('#familyPageMother').value.trim(),pin=$('#familyPagePin').value.trim();
  if(!father||!mother){toast('Escribe los nombres de Papá y Mamá');return}
  if(!/^\d{4,8}$/.test(pin)){toast('El PIN debe tener entre 4 y 8 números');return}
- familyStore.family={fatherName:father,motherName:mother,parentsTogether:$('#familyPageLiving').value==='together'};
+ const together=$('#familyPageLiving').value==='together';
+ let trackingHome='both';
+ if(!together && $('#familyPauseOtherHome')?.checked)trackingHome=$('#familyTrackingHome')?.value||'papa';
+ familyStore.family={fatherName:father,motherName:mother,parentsTogether:together,trackingHome};
  familyStore.parentPin=pin;saveFamilyStore();render();toast('Familia actualizada ✅');
+};
+const familyLivingSelect=$('#familyPageLiving');
+if(familyLivingSelect)familyLivingSelect.onchange=()=>{
+ const separated=familyLivingSelect.value==='separated';
+ if($('#familyTrackingBox'))$('#familyTrackingBox').style.display=separated?'':'none';
+};
+const familyPauseOtherHome=$('#familyPauseOtherHome');
+if(familyPauseOtherHome)familyPauseOtherHome.onchange=()=>{
+ if($('#familyTrackingHomeWrap'))$('#familyTrackingHomeWrap').style.display=familyPauseOtherHome.checked?'':'none';
 };
 $('#familyPagePreviewOnboarding').onclick=()=>{document.body.classList.add('preview-first-run');openFirstRunPreview()};
 
@@ -5844,6 +5961,8 @@ if(legacyFamilySaveBtn)legacyFamilySaveBtn.onclick=()=>{
  familyStore.family.fatherName=father;
  familyStore.family.motherName=mother;
  familyStore.family.parentsTogether=$('#familyLivingInput').value==='together';
+ if(familyStore.family.parentsTogether)familyStore.family.trackingHome='both';
+ else if(!['both','papa','mama'].includes(familyStore.family.trackingHome))familyStore.family.trackingHome='both';
  familyStore.parentPin=pin;
  saveFamilyStore();
  render();
@@ -6928,11 +7047,28 @@ function currentStreak(){
  const dates=new Set(uniqueApprovalDates());
  let d=new Date();
  let count=0;
- // If nothing approved today yet, allow the streak to continue from yesterday.
- if(!dates.has(localDateKey(d))) d.setDate(d.getDate()-1);
- while(dates.has(localDateKey(d))){
-   count++;
-   d.setDate(d.getDate()-1);
+ let skippedCurrentTracked=false;
+ let guard=0;
+
+ // Los días del hogar sin seguimiento son neutrales: se saltan.
+ // En el hogar con seguimiento, hoy puede estar aún pendiente sin romper la racha.
+ while(guard++<730){
+   const key=localDateKey(d);
+   if(!isTrackingDate(d)){
+     d.setDate(d.getDate()-1);
+     continue;
+   }
+   if(dates.has(key)){
+     count++;
+     d.setDate(d.getDate()-1);
+     continue;
+   }
+   if(!skippedCurrentTracked){
+     skippedCurrentTracked=true;
+     d.setDate(d.getDate()-1);
+     continue;
+   }
+   break;
  }
  return count;
 }
