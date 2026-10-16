@@ -2462,6 +2462,13 @@ body.preview-first-run .first-run-cancel-preview{display:block}
 .custody-tracking-status{margin-top:8px;padding:7px 8px;border-radius:10px;background:#fff;color:#668096;font-size:8px;font-weight:800;line-height:1.35}
 .first-run-tracking{margin-top:11px;padding:11px;border-radius:16px;background:#f5faff;border:1px solid #dce8f3;text-align:left}
 
+
+/* ===== v112 Mundos más duraderos ===== */
+.mountain-day-rule{
+ display:block;margin-top:6px;padding:7px 8px;border-radius:10px;
+ background:#eef7ff;color:#456b8d;font-size:8px;font-weight:900;line-height:1.35
+}
+
 </style>
 </head>
 <body>
@@ -7697,10 +7704,10 @@ $('#journalDatePicker').onchange=()=>{
 
 const DEFAULT_WORLDS=defaultWorldsData();
 const WORLD_VISUALS={
- mountain:{image:'./world-mountain.webp',tags:['🏔️ Hábitos','⭐ Constancia','🏕️ Rutina'],action:'Seguir subiendo'},
+ mountain:{image:'./world-mountain.webp',tags:['✅ Tareas diarias','📅 Días completados','🏔️ Paso a paso'],action:'Seguir subiendo'},
  maze:{image:'./world-maze.webp',tags:['📚 Cole','🧠 Pensar','✏️ Aprender'],action:'Resolver misiones'},
  jungle:{image:'./world-jungle.webp',tags:['⚽ Deporte','🏃 Movimiento','🌿 Energía'],action:'Ir a la aventura'},
- castle:{image:'./world-castle.webp',tags:['🏠 Casa','🧹 Orden','👑 Responsabilidad'],action:'Entrar al castillo'},
+ castle:{image:'./world-castle.webp',tags:['🔥 Repetición','⭐ Constancia','🏰 Rutinas'],action:'Entrar al castillo'},
  ocean:{image:'./world-ocean.webp',tags:['💙 Emociones','🌊 Calma','🤝 Convivencia'],action:'Navegar ahora'},
  space:{image:'./world-space.webp',tags:['🚀 Grandes metas','🌟 Sueños','🪐 Objetivos largos'],action:'Despegar'}
 };
@@ -7719,6 +7726,15 @@ function ensureWorldState(){
    if(!w.tagline && d.tagline)w.tagline=d.tagline;
    if(!w.reward && d.reward)w.reward=d.reward;
    if(w.status!=='paused'&&w.status!=='active')w.status='active';
+
+   // v112: si el mundo conserva exactamente los objetivos antiguos,
+   // se amplían automáticamente sin tocar nombres, lugares ni premios personalizados.
+   if(Array.isArray(w.stages)&&w.stages.length===4){
+     const oldTargets=w.stages.map(s=>Number(s.target)||0).join(',');
+     if(oldTargets==='5,15,30,50'){
+       [20,50,100,200].forEach((target,si)=>{w.stages[si].target=target});
+     }
+   }
  });
  if(typeof state.featuredWorldId!=='string')state.featuredWorldId='';
  if(state.featuredWorldId && !state.worlds.some(w=>w.id===state.featuredWorldId))state.featuredWorldId='';
@@ -7733,10 +7749,10 @@ function worldVisual(w,index=0){
 }
 
 const WORLD_STAGE_BASE=[
- {key:'explorer',name:'Explorador',icon:'🧭',target:5,stars:5,xp:10},
- {key:'adventurer',name:'Aventurero',icon:'🎒',target:15,stars:10,xp:20},
- {key:'champion',name:'Campeón',icon:'🏆',target:30,stars:15,xp:30},
- {key:'legend',name:'Leyenda',icon:'👑',target:50,stars:25,xp:50}
+ {key:'explorer',name:'Explorador',icon:'🧭',target:20,stars:5,xp:10},
+ {key:'adventurer',name:'Aventurero',icon:'🎒',target:50,stars:10,xp:20},
+ {key:'champion',name:'Campeón',icon:'🏆',target:100,stars:15,xp:30},
+ {key:'legend',name:'Leyenda',icon:'👑',target:200,stars:25,xp:50}
 ];
 const WORLD_STAGE_PLACES={
  mountain:['Campamento Base','Bosque Alto','Camino de las Nubes','La Gran Cima'],
@@ -7762,15 +7778,25 @@ function approvalWorldId(item){
 }
 function worldMissionApprovals(worldId){
  const approvals=state.approvalHistory||[];
- // 🏔️ Montaña = todas las tareas diarias aprobadas, sin importar su mundo temático.
+
+ // 🏔️ Montaña = como máximo 1 paso por día con alguna tarea aprobada.
+ // Así 8 tareas en un mismo día siguen siendo solo 1 paso.
  if(worldId==='mountain'){
-   return approvals.map(x=>({...x,worldId:'mountain',dailyProgress:true}));
+   const byDate=new Map();
+   approvals.forEach(x=>{
+     if(!x?.date)return;
+     if(typeof isTrackingDate==='function'&&!isTrackingDate(x.date))return;
+     if(!byDate.has(x.date))byDate.set(x.date,{...x,worldId:'mountain',dailyProgress:true,title:'Día completado'});
+   });
+   return [...byDate.values()].sort((a,b)=>(a.date||'').localeCompare(b.date||''));
  }
+
  // 🏰 Castillo = constancia acumulada: bloques de repeticiones configurados en tareas.
  if(worldId==='castle'){
    ensureCastleHistory();
    return state.castleHistory.map(x=>({...x,worldId:'castle',castleDerived:true}));
  }
+
  // El resto de mundos conserva su progreso temático habitual.
  return approvals.filter(x=>approvalWorldId(x)===worldId);
 }
@@ -7867,7 +7893,12 @@ function renderWorldDetail(worldId=activeWorldDetailId){
  const world=currentWorldById(worldId);if(!world)return;
  const idx=(state.worlds||[]).indexOf(world),v=worldVisual(world,idx),ss=worldStageState(world);
  const purpose=$('#worldPurposeNote');
- if(purpose)purpose.innerHTML=`<b>Este mundo trabaja:</b> ${worldPurpose(world)}.`;
+ if(purpose){
+   const extra=world.id==='mountain'||world.theme==='mountain'
+     ? ' <span class="mountain-day-rule">Aquí cuenta como máximo 1 paso por día con tareas aprobadas.</span>'
+     : '';
+   purpose.innerHTML=`<b>Este mundo trabaja:</b> ${worldPurpose(world)}.${extra}`;
+ }
  const hero=$('#worldDetailHero');
  if(hero){
    hero.style.backgroundImage=v.image?`url('${v.image}')`:'';
@@ -7890,7 +7921,7 @@ function renderWorldDetail(worldId=activeWorldDetailId){
      const claimed=worldClaimed(world.id,s.key);
      return `<div class="world-stage-node ${done?'done':''} ${active?'active':''}">
        <div class="stage-node-icon">${done?'✓':s.icon}</div>
-       <div class="stage-node-copy"><b>${s.name}</b><span>${s.place}</span><small>${Math.min(ss.count,s.target)}/${s.target} misiones</small></div>
+       <div class="stage-node-copy"><b>${s.name}</b><span>${s.place}</span><small>${Math.min(ss.count,s.target)}/${s.target} ${worldProgressUnit(world,s.target)}</small></div>
        <div class="stage-node-reward">${claimed?'🎁 Recogido':done?`<button type="button" onclick="claimWorldStage('${world.id}','${s.key}')">🎁 Recoger</button>`:`🔒 ${s.target}`}</div>
      </div>`;
    }).join('');
@@ -7909,7 +7940,7 @@ function renderWorldDetail(worldId=activeWorldDetailId){
    `:`
      <div class="world-current-head"><div><div class="eyebrow">FASE ACTUAL</div><h2>${targetStage.icon} ${targetStage.name}</h2><p>${targetStage.place}</p></div><b>${ss.pct}%</b></div>
      <div class="world-current-bar"><i style="width:${ss.pct}%"></i></div>
-     <div class="world-current-foot"><span>${stageCount}/${stageNeed} pasos de esta fase</span><span>🎁 ${targetStage.stars} ⭐ + ${targetStage.xp} XP</span></div>
+     <div class="world-current-foot"><span>${stageCount}/${stageNeed} ${worldProgressUnit(world,stageNeed)} de esta fase</span><span>🎁 ${targetStage.stars} ⭐ + ${targetStage.xp} XP</span></div>
      ${rewardReady?`<button class="btn primary world-claim-btn" onclick="claimWorldStage('${world.id}','${targetStage.key}')">🎉 Superar fase y recoger premio</button>`:''}
    `);
  }
@@ -7967,7 +7998,7 @@ function renderWorldDetail(worldId=activeWorldDetailId){
  const master=$('#worldMasterCard');if(master){
    if(ss.conquered){
      const extra=Math.max(0,ss.count-ss.stages[3].target);
-     master.innerHTML=`<div class="world-master-icon">✨</div><div><div class="eyebrow">MODO LEYENDA</div><h2>Misiones libres</h2><p>El mundo no termina: sigue haciendo sus misiones y mejora tu marca personal.</p><b>${extra} misiones extra desde que conquistaste el mundo</b></div>`;
+     master.innerHTML=`<div class="world-master-icon">✨</div><div><div class="eyebrow">MODO LEYENDA</div><h2>Misiones libres</h2><p>El mundo no termina: sigue haciendo sus misiones y mejora tu marca personal.</p><b>${extra} ${worldProgressUnit(world,extra)} extra desde que conquistaste el mundo</b></div>`;
    }else{
      master.innerHTML=`<div class="world-master-icon">🔒</div><div><div class="eyebrow">MODO LEYENDA</div><h2>Se abre al conquistar el mundo</h2><p>Después de Leyenda podrás seguir jugando este mundo con misiones libres.</p></div>`;
    }
@@ -8015,7 +8046,7 @@ function renderWorlds(){
        <div class="adventure-world-title"><small>${w.icon||'🌍'}</small><b>${w.title||'Mundo'}</b><span>${w.tagline||'Tu próxima aventura te espera.'}</span></div>
      </div>
      <div class="adventure-world-body">
-       <div class="adventure-progress-head"><b>${adventurePct}%</b><span>${opened?(ss.conquered?'Historia completada':`${ss.current.name} · ${ss.count}/${ss.stages[3].target} misiones`):`${Math.min(p.xp,p.target)} / ${p.target} XP`}</span></div>
+       <div class="adventure-progress-head"><b>${adventurePct}%</b><span>${opened?(ss.conquered?'Historia completada':`${ss.current.name} · ${ss.count}/${ss.stages[3].target} ${worldProgressUnit(w,ss.stages[3].target)}`):`${Math.min(p.xp,p.target)} / ${p.target} XP`}</span></div>
        <div class="adventure-world-bar"><i style="width:${adventurePct}%"></i></div>
        <div class="adventure-world-info">
          <div><strong>${ss.conquered?'🏆':status==='paused'?'⏸':'🌟'}</strong><span>${ss.conquered?'Modo Leyenda disponible':status==='paused'?'Progreso en pausa':opened?'Aventura en marcha':'Sigue ganando XP'}</span></div>
@@ -8042,6 +8073,13 @@ function worldPurpose(world){
  const key=world?.theme||world?.id||'';
  return WORLD_PURPOSES[key]||'una aventura personalizada con las acciones que decidáis vincular aquí';
 }
+function worldProgressUnit(world,count=2){
+ const key=world?.theme||world?.id||'';
+ if(key==='mountain')return count===1?'día':'días';
+ if(key==='castle')return count===1?'rutina':'rutinas';
+ return count===1?'misión':'misiones';
+}
+
 function openCreateFromWorld(kind,worldId){
  ensureWorldState();
  const w=(state.worlds||[]).find(x=>x.id===worldId);if(!w)return;
@@ -8085,7 +8123,7 @@ function renderWorldAdmin(){
         <div class="stage-edit-title">${s.icon} Fase ${si+1}</div>
         <input data-stage-name="${i}:${si}" value="${String(s.name).replace(/"/g,'&quot;')}" placeholder="Nombre">
         <input data-stage-place="${i}:${si}" value="${String(s.place).replace(/"/g,'&quot;')}" placeholder="Lugar / etapa">
-        <label>Misiones<input data-stage-target="${i}:${si}" type="number" min="1" value="${s.target}"></label>
+        <label>${(w.id==='mountain'||w.theme==='mountain')?'Días':(w.id==='castle'||w.theme==='castle')?'Rutinas':'Misiones'}<input data-stage-target="${i}:${si}" type="number" min="1" value="${s.target}"></label>
         <label>⭐ Premio<input data-stage-stars="${i}:${si}" type="number" min="0" value="${s.stars}"></label>
         <label>⚡ XP<input data-stage-xp="${i}:${si}" type="number" min="0" value="${s.xp}"></label>
       </div>`).join('');
@@ -8111,11 +8149,11 @@ function renderWorldAdmin(){
     </div>
     <div class="world-feature-actions">
       <button type="button" class="smallbtn ${w.id===state.featuredWorldId?'featured-on':'uploadbtn'}" data-world-feature="${i}" ${status==='paused'?'disabled':''}>${w.id===state.featuredWorldId?'⭐ Destacado en Inicio':'☆ Destacar en Inicio'}</button>
-      <span>${p.done?`${ss.count} misiones · ${ss.totalPct}%`:`🔒 ${p.xp}/${p.target} XP`}</span>
+      <span>${p.done?`${ss.count} ${worldProgressUnit(w,ss.count)} · ${ss.totalPct}%`:`🔒 ${p.xp}/${p.target} XP`}</span>
     </div>
     <details class="world-stage-editor">
       <summary>🎮 Editar las 4 fases</summary>
-      <div class="mmeta">Personaliza nombre, escenario, misiones necesarias y premio de cada fase.</div>
+      <div class="mmeta">Personaliza nombre, escenario, progreso necesario y premio de cada fase.</div>
       ${stageRows}
     </details>
     <div class="world-admin-bottom">

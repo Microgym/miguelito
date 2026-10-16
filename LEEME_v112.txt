@@ -1,0 +1,19 @@
+MIS TAREAS v112 — MUNDOS MÁS DURADEROS
+
+Cambios:
+- Nuevas metas por defecto de las fases:
+  Explorador: 20
+  Aventurero: 50
+  Campeón: 100
+  Leyenda: 200
+
+- Montaña de los Logros:
+  · Ya no suma una misión por cada tarea.
+  · Suma como máximo 1 paso por día con alguna tarea aprobada.
+  · Si hay custodia con seguimiento pausado en el otro hogar, esos días tampoco suman a Montaña.
+  · 8 tareas aprobadas en un mismo día = 1 paso.
+
+- Castillo sigue avanzando por rutinas consolidadas.
+- Laberinto, Selva, Océano y Espacio siguen avanzando por sus acciones temáticas.
+- Los mundos que todavía tenían exactamente los antiguos objetivos 5/15/30/50 se actualizan automáticamente a 20/50/100/200.
+- Premios de fases ya cobrados no se vuelven a cobrar.
