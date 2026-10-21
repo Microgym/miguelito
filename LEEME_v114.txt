@@ -1,0 +1,11 @@
+MIS TAREAS v114 — IMPORTAR PLAN SEMANAL DEL COLEGIO
+
+- Nueva opción en “Plan semanal del cole” para elegir una imagen o PDF.
+- Lectura OCR en el propio navegador; no usa API, clave ni servicio de IA de pago.
+- Soporta castellano e inglés.
+- Intenta separar automáticamente Materia / Sesión / Trabajo previsto.
+- Detecta después el tipo (examen, dictado, trabajo semanal, proyecto, clase) con las reglas ya existentes.
+- Antes de guardar muestra una vista previa completamente editable.
+- Puedes corregir materia, sesión, texto y tipo, y eliminar filas.
+- Solo se añade al plan cuando pulsas “Añadir todo a esta semana”.
+- Requiere conexión a Internet la primera vez para cargar las librerías OCR/PDF desde CDN.

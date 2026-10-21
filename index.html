@@ -2482,6 +2482,24 @@ body.preview-first-run .first-run-cancel-preview{display:block}
 .school-plan-row{display:grid;grid-template-columns:50px 1fr 58px;gap:8px;align-items:center;padding:9px 10px;border-bottom:1px solid #edf1f5}.school-plan-row:last-child{border-bottom:0}.school-plan-session{text-align:center;padding:6px 3px;border-radius:9px;background:#f3f6f9;color:#526d84;font-size:8px;font-weight:1000}.school-plan-main b{display:block;margin-top:4px;font-size:9px;line-height:1.35;color:#314f69}.school-plan-actions{display:flex;gap:4px;justify-content:flex-end}.school-plan-actions button{border:0;border-radius:8px;background:#f0f5fa;width:26px;height:26px;font-size:12px}.school-plan-actions button:last-child{background:#fff0f2}.school-plan-empty{text-align:center;padding:18px;font-size:9px;color:#7c8e9e;font-weight:900}
 @media(max-width:420px){.school-plan-form-grid{grid-template-columns:1fr}.school-plan-form-grid .wide{grid-column:auto}.school-plan-row{grid-template-columns:43px 1fr 54px}}
 
+
+/* ===== v114 Importar planificación semanal desde imagen/PDF ===== */
+.school-import-card{overflow:hidden}
+.school-import-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:11px}
+.school-file-btn{display:flex;align-items:center;justify-content:center;border:1px dashed #9db8d1;border-radius:12px;background:#f5faff;color:#42698d;padding:10px;font-size:9px;font-weight:1000;cursor:pointer}
+.school-file-btn input{display:none}
+.school-import-filename{margin-top:7px}
+.school-import-note{margin-top:8px;padding:8px 9px;border-radius:10px;background:#fff8df;color:#7a6620;font-size:8px;font-weight:800;line-height:1.35}
+.school-import-progress{margin-top:10px}.school-import-progress>div:first-child{display:flex;justify-content:space-between;font-size:8px;font-weight:900;color:#57738d}
+.school-import-bar{height:7px;background:#e8eef4;border-radius:10px;overflow:hidden;margin-top:5px}.school-import-bar i{display:block;height:100%;width:0;background:#5e8fd3;border-radius:inherit;transition:width .2s}
+.school-import-preview{margin-top:12px;border-top:1px solid #e8edf3;padding-top:11px}
+.school-import-preview-head{display:flex;justify-content:space-between;gap:8px;align-items:center;margin-bottom:8px}.school-import-preview-head b{display:block;font-size:11px;color:#315875}.school-import-preview-head span{display:block;font-size:8px;color:#7c8f9f;font-weight:800}.school-import-preview-head>div:last-child{font-size:8px;color:#6b8195}.school-import-preview-head strong{font-size:16px;color:#315875}
+.school-import-row{display:grid;grid-template-columns:1.1fr .6fr 34px;gap:6px;align-items:end;padding:9px;border:1px solid #e3ebf3;border-radius:12px;background:#f9fbfd;margin:7px 0}
+.school-import-row label{display:flex;flex-direction:column;gap:3px;font-size:7px;font-weight:1000;color:#668096}.school-import-row label.wide{grid-column:1/3}.school-import-row input,.school-import-row textarea,.school-import-row select{width:100%;box-sizing:border-box;border:1px solid #dce6ef;border-radius:9px;padding:7px;font:inherit;background:#fff;color:#2f516f}.school-import-row textarea{resize:vertical}
+.school-import-delete{grid-column:3;grid-row:1/3;border:0;border-radius:9px;background:#fff0f2;color:#a74a59;height:100%;min-height:40px}
+.school-import-preview-actions{display:grid;grid-template-columns:1.5fr 1fr;gap:7px;margin-top:10px}
+@media(max-width:420px){.school-import-actions{grid-template-columns:1fr}.school-import-row{grid-template-columns:1fr 80px 32px}.school-import-row label.wide{grid-column:1/3}}
+
 </style>
 </head>
 <body>
@@ -2960,6 +2978,37 @@ body.preview-first-run .first-run-cancel-preview{display:block}
     </div>
   </div>
 
+  <div class="card panelcard school-import-card">
+    <div class="school-section-head">
+      <div><h3>📄 Importar documento semanal</h3><p>Selecciona una imagen o PDF. La lectura se hace en tu dispositivo y podrás revisar todo antes de guardar.</p></div>
+    </div>
+    <div class="school-import-actions">
+      <label class="school-file-btn">📎 Elegir archivo
+        <input id="schoolPlanFileInput" type="file" accept="image/*,application/pdf">
+      </label>
+      <button id="readSchoolPlanFileBtn" class="btn primary" type="button">Leer documento</button>
+    </div>
+    <div id="schoolImportFileName" class="mmeta school-import-filename">Ningún archivo seleccionado.</div>
+    <div id="schoolImportProgress" class="school-import-progress" style="display:none">
+      <div><span id="schoolImportProgressText">Preparando lectura…</span><b id="schoolImportProgressPct">0%</b></div>
+      <div class="school-import-bar"><i id="schoolImportProgressBar"></i></div>
+    </div>
+    <div id="schoolImportNote" class="school-import-note">
+      Compatible con fotos, capturas y PDF. La primera vez puede tardar un poco mientras carga el lector OCR.
+    </div>
+    <div id="schoolImportPreview" class="school-import-preview" style="display:none">
+      <div class="school-import-preview-head">
+        <div><b>Vista previa</b><span>Corrige cualquier fila antes de añadirla a la semana.</span></div>
+        <div><strong id="schoolImportRowsCount">0</strong> filas</div>
+      </div>
+      <div id="schoolImportRows"></div>
+      <div class="school-import-preview-actions">
+        <button id="saveImportedSchoolPlanBtn" class="btn primary" type="button">Añadir todo a esta semana</button>
+        <button id="cancelImportedSchoolPlanBtn" class="btn ghost" type="button">Cancelar</button>
+      </div>
+    </div>
+  </div>
+
   <div class="card panelcard">
     <div class="school-section-head">
       <div><h3>➕ Añadir sesión</h3><p>Una línea del documento semanal del colegio.</p></div>
@@ -2990,8 +3039,8 @@ body.preview-first-run .first-run-cancel-preview{display:block}
   <div id="schoolWeekPlanList"></div>
 
   <div class="card school-history-note">
-    <b>ℹ️ Primera fase</b>
-    <span>Esta versión organiza y guarda el plan semanal. La lectura automática del archivo que manda el colegio la podemos añadir después.</span>
+    <b>ℹ️ Importación semanal</b>
+    <span>Después de leer el documento siempre se muestra una vista previa editable. Nada se guarda hasta que pulses “Añadir todo a esta semana”.</span>
   </div>
 </section>
 
@@ -6831,6 +6880,289 @@ const saveSchoolPlanItemBtn=$('#saveSchoolPlanItemBtn');if(saveSchoolPlanItemBtn
  resetSchoolPlanItemForm();save();
 };
 const cancelSchoolPlanItemBtn=$('#cancelSchoolPlanItemBtn');if(cancelSchoolPlanItemBtn)cancelSchoolPlanItemBtn.onclick=resetSchoolPlanItemForm;
+
+
+let schoolImportRows=[];
+let schoolImportSelectedFile=null;
+
+function setSchoolImportProgress(show,text='',pct=0){
+ const box=$('#schoolImportProgress');if(!box)return;
+ box.style.display=show?'':'none';
+ if($('#schoolImportProgressText'))$('#schoolImportProgressText').textContent=text;
+ if($('#schoolImportProgressPct'))$('#schoolImportProgressPct').textContent=`${Math.round(pct)}%`;
+ if($('#schoolImportProgressBar'))$('#schoolImportProgressBar').style.width=`${Math.max(0,Math.min(100,pct))}%`;
+}
+function loadExternalScript(src,testFn){
+ return new Promise((resolve,reject)=>{
+   if(testFn())return resolve();
+   const existing=[...document.scripts].find(s=>s.src===src);
+   if(existing){
+     existing.addEventListener('load',()=>resolve(),{once:true});
+     existing.addEventListener('error',()=>reject(new Error('No se pudo cargar el lector')),{once:true});
+     return;
+   }
+   const s=document.createElement('script');s.src=src;s.async=true;
+   s.onload=()=>resolve();s.onerror=()=>reject(new Error('No se pudo cargar el lector'));
+   document.head.appendChild(s);
+ });
+}
+async function ensureTesseract(){
+ await loadExternalScript(
+   'https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js',
+   ()=>!!window.Tesseract
+ );
+}
+async function ensurePdfJs(){
+ await loadExternalScript(
+   'https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.min.js',
+   ()=>!!window.pdfjsLib
+ );
+ if(window.pdfjsLib){
+   window.pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.worker.min.js';
+ }
+}
+function fileToImageCanvas(file){
+ return new Promise((resolve,reject)=>{
+   const url=URL.createObjectURL(file),img=new Image();
+   img.onload=()=>{
+     const max=2400,scale=Math.min(1,max/Math.max(img.naturalWidth,img.naturalHeight));
+     const c=document.createElement('canvas');
+     c.width=Math.round(img.naturalWidth*scale);c.height=Math.round(img.naturalHeight*scale);
+     c.getContext('2d').drawImage(img,0,0,c.width,c.height);
+     URL.revokeObjectURL(url);resolve(c);
+   };
+   img.onerror=()=>{URL.revokeObjectURL(url);reject(new Error('No se pudo abrir la imagen'))};
+   img.src=url;
+ });
+}
+async function pdfToCanvases(file){
+ await ensurePdfJs();
+ const data=await file.arrayBuffer();
+ const pdf=await window.pdfjsLib.getDocument({data}).promise;
+ const out=[];
+ for(let p=1;p<=pdf.numPages;p++){
+   const page=await pdf.getPage(p);
+   const base=page.getViewport({scale:1});
+   const scale=Math.min(2.2,2200/base.width);
+   const viewport=page.getViewport({scale});
+   const c=document.createElement('canvas');c.width=Math.round(viewport.width);c.height=Math.round(viewport.height);
+   await page.render({canvasContext:c.getContext('2d'),viewport}).promise;
+   out.push(c);
+ }
+ return out;
+}
+function cleanOcrText(s=''){
+ return String(s||'').replace(/[|]/g,'I').replace(/\s+/g,' ').trim();
+}
+function normalizeSchoolSubject(s=''){
+ const raw=cleanOcrText(s);
+ const x=raw.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+ const map=[
+   ['castellano','Castellano'],['lengua','Castellano'],['matematic','Matemáticas'],
+   ['science','Science'],['english','English'],['spelling','Spelling'],
+   ['valenc','Valenciano'],['relig','Religión'],['technology','Technology'],
+   ['tecnolog','Technology'],['project','Proyecto'],['proyecto','Proyecto'],
+   ['art','Arte'],['music','Música'],['physical','Educación Física'],['educacion fisica','Educación Física']
+ ];
+ for(const [needle,label] of map)if(x.includes(needle))return label;
+ return raw;
+}
+function looksLikePlanHeader(text=''){
+ const x=text.toLowerCase();
+ return /work plan|plan semanal|trabajo semanal|week|semana|session|sesion|subject|materia/.test(x)
+   && text.length<80;
+}
+function ocrWordsToRows(words,width,height){
+ const usable=(words||[]).filter(w=>{
+   const t=cleanOcrText(w.text);
+   return t && Number(w.confidence??w.conf??100)>20 && w.bbox;
+ });
+ if(!usable.length)return [];
+
+ const groups=[];
+ const tol=Math.max(10,height*0.008);
+ usable.sort((a,b)=>((a.bbox.y0+a.bbox.y1)/2)-((b.bbox.y0+b.bbox.y1)/2)||a.bbox.x0-b.bbox.x0);
+ usable.forEach(w=>{
+   const cy=(w.bbox.y0+w.bbox.y1)/2;
+   let g=groups.find(r=>Math.abs(r.cy-cy)<=tol);
+   if(!g){g={cy,words:[]};groups.push(g)}
+   g.words.push(w);
+   g.cy=(g.cy*(g.words.length-1)+cy)/g.words.length;
+ });
+ groups.sort((a,b)=>a.cy-b.cy);
+
+ const subjectCut=width*0.225;
+ const sessionCut=width*0.365;
+ let lastSubject='';
+ const rows=[];
+
+ groups.forEach(g=>{
+   g.words.sort((a,b)=>a.bbox.x0-b.bbox.x0);
+   const subject=cleanOcrText(g.words.filter(w=>w.bbox.x0<subjectCut).map(w=>w.text).join(' '));
+   const session=cleanOcrText(g.words.filter(w=>w.bbox.x0>=subjectCut&&w.bbox.x0<sessionCut).map(w=>w.text).join(' '));
+   const work=cleanOcrText(g.words.filter(w=>w.bbox.x0>=sessionCut).map(w=>w.text).join(' '));
+   const all=cleanOcrText(g.words.map(w=>w.text).join(' '));
+   if(!all||looksLikePlanHeader(all))return;
+
+   let subj=normalizeSchoolSubject(subject);
+   if(subj && subj.length>2 && !/^\d+$/.test(subj))lastSubject=subj;
+   else subj=lastSubject;
+
+   let sess=session.replace(/^session\s*/i,'').replace(/^ses[ií]on\s*/i,'').trim();
+   let task=work;
+
+   // Si OCR ha desplazado una fila a columnas incorrectas, recuperarla.
+   if(!task && sess.length>18){task=sess;sess=''}
+   if(!task && subject && lastSubject===subj && subject!==subj){task=subject}
+
+   if(!subj||!task)return;
+   if(task.length<2)return;
+   rows.push({
+     id:`imp-${Date.now()}-${rows.length}-${Math.random().toString(36).slice(2,5)}`,
+     subject:subj,
+     session:sess,
+     work:task,
+     type:'auto'
+   });
+ });
+
+ // Une continuaciones de una misma fila que el OCR haya partido.
+ const merged=[];
+ rows.forEach(r=>{
+   const prev=merged[merged.length-1];
+   if(prev && r.subject===prev.subject && !r.session && r.work.length<80){
+     prev.work=`${prev.work} ${r.work}`.trim();
+   }else merged.push(r);
+ });
+ return merged;
+}
+function fallbackTextRows(text=''){
+ const lines=String(text||'').split(/\n+/).map(cleanOcrText).filter(Boolean);
+ const subjects=['Castellano','Matemáticas','Science','English','Spelling','Proyecto','Valenciano','Religión','Technology','Arte','Música'];
+ let current='';
+ const rows=[];
+ lines.forEach(line=>{
+   const found=subjects.find(s=>line.toLowerCase().startsWith(s.toLowerCase()));
+   if(found){
+     current=found;
+     line=cleanOcrText(line.slice(found.length));
+   }
+   if(!current||!line||looksLikePlanHeader(line))return;
+   const m=line.match(/^(?:ses(?:i[oó]n)?\s*)?(\d+[A-Za-z]?)[\s:.-]+(.+)$/i);
+   rows.push({
+     id:`imp-${Date.now()}-${rows.length}-${Math.random().toString(36).slice(2,5)}`,
+     subject:current,session:m?m[1]:'',work:m?m[2]:line,type:'auto'
+   });
+ });
+ return rows;
+}
+function renderSchoolImportPreview(){
+ const wrap=$('#schoolImportPreview'),box=$('#schoolImportRows');if(!wrap||!box)return;
+ wrap.style.display=schoolImportRows.length?'':'none';
+ if($('#schoolImportRowsCount'))$('#schoolImportRowsCount').textContent=schoolImportRows.length;
+ box.innerHTML=schoolImportRows.map((r,i)=>`
+   <div class="school-import-row" data-import-row="${i}">
+     <label><span>Materia</span><input data-import-subject value="${escapeHtml(r.subject||'')}"></label>
+     <label><span>Sesión</span><input data-import-session value="${escapeHtml(r.session||'')}"></label>
+     <label class="wide"><span>Trabajo previsto</span><textarea data-import-work rows="2">${escapeHtml(r.work||'')}</textarea></label>
+     <label><span>Tipo</span><select data-import-type>
+       <option value="auto" ${r.type==='auto'?'selected':''}>✨ Automático</option>
+       <option value="class" ${r.type==='class'?'selected':''}>🔵 Clase</option>
+       <option value="exam" ${r.type==='exam'?'selected':''}>🔴 Examen/Test</option>
+       <option value="dictation" ${r.type==='dictation'?'selected':''}>🟡 Dictado</option>
+       <option value="homework" ${r.type==='homework'?'selected':''}>🟠 Trabajo/deberes</option>
+       <option value="project" ${r.type==='project'?'selected':''}>🟣 Proyecto</option>
+     </select></label>
+     <button class="school-import-delete" data-import-delete="${i}" type="button">🗑️</button>
+   </div>`).join('');
+
+ box.querySelectorAll('.school-import-row').forEach(row=>{
+   const i=Number(row.dataset.importRow);
+   row.querySelector('[data-import-subject]').oninput=e=>schoolImportRows[i].subject=e.target.value;
+   row.querySelector('[data-import-session]').oninput=e=>schoolImportRows[i].session=e.target.value;
+   row.querySelector('[data-import-work]').oninput=e=>schoolImportRows[i].work=e.target.value;
+   row.querySelector('[data-import-type]').onchange=e=>schoolImportRows[i].type=e.target.value;
+ });
+ box.querySelectorAll('[data-import-delete]').forEach(btn=>btn.onclick=()=>{
+   schoolImportRows.splice(Number(btn.dataset.importDelete),1);
+   renderSchoolImportPreview();
+ });
+}
+async function recognizeSchoolCanvas(canvas,pageIndex,pageCount){
+ await ensureTesseract();
+ const base=pageCount>1?((pageIndex)/pageCount)*100:0;
+ const span=pageCount>1?(100/pageCount):100;
+ const result=await window.Tesseract.recognize(canvas,'spa+eng',{
+   logger:m=>{
+     if(m.status==='recognizing text'){
+       const pct=base+(m.progress||0)*span;
+       setSchoolImportProgress(true,`Leyendo ${pageCount>1?`página ${pageIndex+1} de ${pageCount}`:'documento'}…`,pct);
+     }
+   }
+ });
+ const rows=ocrWordsToRows(result.data?.words||[],canvas.width,canvas.height);
+ return {rows,text:result.data?.text||''};
+}
+const schoolPlanFileInput=$('#schoolPlanFileInput');
+if(schoolPlanFileInput)schoolPlanFileInput.onchange=()=>{
+ schoolImportSelectedFile=schoolPlanFileInput.files?.[0]||null;
+ $('#schoolImportFileName').textContent=schoolImportSelectedFile?schoolImportSelectedFile.name:'Ningún archivo seleccionado.';
+ schoolImportRows=[];
+ renderSchoolImportPreview();
+};
+const readSchoolPlanFileBtn=$('#readSchoolPlanFileBtn');
+if(readSchoolPlanFileBtn)readSchoolPlanFileBtn.onclick=async()=>{
+ const file=schoolImportSelectedFile||$('#schoolPlanFileInput')?.files?.[0];
+ if(!file){toast('Elige primero una imagen o PDF');return}
+ if(!activeSchoolWeek()){toast('Crea o selecciona primero la semana donde quieres importar el plan');return}
+ try{
+   readSchoolPlanFileBtn.disabled=true;
+   schoolImportRows=[];
+   setSchoolImportProgress(true,'Preparando lector…',1);
+   const canvases=file.type==='application/pdf'?await pdfToCanvases(file):[await fileToImageCanvas(file)];
+   let raw='';
+   for(let i=0;i<canvases.length;i++){
+     const out=await recognizeSchoolCanvas(canvases[i],i,canvases.length);
+     raw+=`\n${out.text||''}`;
+     schoolImportRows.push(...out.rows);
+   }
+   if(!schoolImportRows.length)schoolImportRows=fallbackTextRows(raw);
+   setSchoolImportProgress(false);
+   if(!schoolImportRows.length){
+     toast('No he podido separar las filas. Prueba con una imagen más nítida.');
+     return;
+   }
+   renderSchoolImportPreview();
+   $('#schoolImportPreview')?.scrollIntoView({behavior:'smooth',block:'start'});
+   toast(`${schoolImportRows.length} filas detectadas. Revísalas antes de guardar.`);
+ }catch(err){
+   console.error(err);
+   setSchoolImportProgress(false);
+   toast('No se pudo leer el documento. Comprueba la conexión y vuelve a intentarlo.');
+ }finally{
+   readSchoolPlanFileBtn.disabled=false;
+ }
+};
+const cancelImportedSchoolPlanBtn=$('#cancelImportedSchoolPlanBtn');
+if(cancelImportedSchoolPlanBtn)cancelImportedSchoolPlanBtn.onclick=()=>{
+ schoolImportRows=[];renderSchoolImportPreview();
+};
+const saveImportedSchoolPlanBtn=$('#saveImportedSchoolPlanBtn');
+if(saveImportedSchoolPlanBtn)saveImportedSchoolPlanBtn.onclick=()=>{
+ const w=activeSchoolWeek();if(!w){toast('Selecciona primero una semana');return}
+ const valid=schoolImportRows
+   .map(r=>({subject:cleanOcrText(r.subject),session:cleanOcrText(r.session),work:cleanOcrText(r.work),type:r.type||'auto'}))
+   .filter(r=>r.subject&&r.work);
+ if(!valid.length){toast('No hay filas válidas para guardar');return}
+ valid.forEach((r,i)=>w.items.push({
+   id:`spi-${Date.now()}-${i}-${Math.random().toString(36).slice(2,6)}`,
+   ...r,imported:true
+ }));
+ schoolImportRows=[];
+ renderSchoolImportPreview();
+ toast(`${valid.length} filas añadidas al plan ✅`);
+ save();
+};
 
 const SCHOOL_MONTHS=[
  {n:9,label:'Septiembre'},{n:10,label:'Octubre'},{n:11,label:'Noviembre'},{n:12,label:'Diciembre'},
