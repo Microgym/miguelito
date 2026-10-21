@@ -2469,6 +2469,19 @@ body.preview-first-run .first-run-cancel-preview{display:block}
  background:#eef7ff;color:#456b8d;font-size:8px;font-weight:900;line-height:1.35
 }
 
+
+/* ===== v113 Plan semanal del cole ===== */
+.school-week-hero{padding:14px;background:linear-gradient(135deg,#edf6ff,#fff)}
+.school-week-hero>div:first-child>b{display:block;font-size:18px;color:#1f4e78;margin:3px 0}.school-week-hero>div:first-child>small{font-size:8px;color:#71879a;font-weight:800}
+.school-week-counts{display:flex;gap:7px;margin-top:10px}.school-week-counts span{background:#fff;border-radius:10px;padding:6px 8px;font-size:8px;color:#70879b;font-weight:900}.school-week-counts b{color:#244e75;font-size:12px}
+.school-week-select{width:100%;margin-top:10px;border:1px solid #dce6ef;border-radius:11px;padding:9px;background:#fff;font:inherit;color:#284e70}
+.school-week-form{margin-top:10px;padding:10px;border-radius:13px;background:#f7fbff;border:1px solid #e1eaf2}.school-week-form-actions{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:9px}.school-week-form-actions .btn{width:100%}
+.school-plan-form-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}.school-plan-form-grid label{display:flex;flex-direction:column;gap:4px;font-size:8px;font-weight:1000;color:#55718b}.school-plan-form-grid .wide{grid-column:1/-1}.school-plan-form-grid input,.school-plan-form-grid textarea,.school-plan-form-grid select{width:100%;box-sizing:border-box;border:1px solid #dce6ef;border-radius:10px;padding:8px;font:inherit;background:#fff;color:#284e70}.school-plan-form-grid textarea{resize:vertical}
+.school-plan-legend{display:flex;flex-wrap:wrap;gap:5px;margin:8px 0}.school-plan-legend span,.school-plan-tag{padding:4px 6px;border-radius:8px;font-size:7px;font-weight:1000}.school-plan-legend .class,.school-plan-tag.class{background:#eaf4ff;color:#376d9b}.school-plan-legend .exam,.school-plan-tag.exam{background:#fff0f1;color:#a63e4b}.school-plan-legend .dictation,.school-plan-tag.dictation{background:#fff8d9;color:#8b7221}.school-plan-legend .homework,.school-plan-tag.homework{background:#fff0df;color:#9a6128}.school-plan-legend .project,.school-plan-tag.project{background:#f2ecff;color:#6850a0}
+.school-subject-card{padding:0;overflow:hidden;margin-bottom:9px}.school-subject-head{display:flex;justify-content:space-between;align-items:center;padding:10px 11px;background:#f5f9ff;border-bottom:1px solid #e3ebf3}.school-subject-head>div{display:flex;gap:7px;align-items:center}.school-subject-head b{font-size:11px;color:#244f76}.school-subject-head small{font-size:7px;color:#7b8e9e;font-weight:900}
+.school-plan-row{display:grid;grid-template-columns:50px 1fr 58px;gap:8px;align-items:center;padding:9px 10px;border-bottom:1px solid #edf1f5}.school-plan-row:last-child{border-bottom:0}.school-plan-session{text-align:center;padding:6px 3px;border-radius:9px;background:#f3f6f9;color:#526d84;font-size:8px;font-weight:1000}.school-plan-main b{display:block;margin-top:4px;font-size:9px;line-height:1.35;color:#314f69}.school-plan-actions{display:flex;gap:4px;justify-content:flex-end}.school-plan-actions button{border:0;border-radius:8px;background:#f0f5fa;width:26px;height:26px;font-size:12px}.school-plan-actions button:last-child{background:#fff0f2}.school-plan-empty{text-align:center;padding:18px;font-size:9px;color:#7c8e9e;font-weight:900}
+@media(max-width:420px){.school-plan-form-grid{grid-template-columns:1fr}.school-plan-form-grid .wide{grid-column:auto}.school-plan-row{grid-template-columns:43px 1fr 54px}}
+
 </style>
 </head>
 <body>
@@ -2867,6 +2880,7 @@ body.preview-first-run .first-run-cancel-preview{display:block}
       <button data-open="reading" onclick="openScreen('reading')">📚 Mis libros <span>›</span></button>
       <button data-open="projects" onclick="openScreen('projects')">🧩 Mis proyectos <span>›</span></button>
       <button data-open="school" onclick="openScreen('school')">🏫 Colegio y valores <span>›</span></button>
+      <button data-open="schoolWeek" onclick="openScreen('schoolWeek')">📚 Plan semanal del cole <span>›</span></button>
       <button data-open="calendar" onclick="openScreen('calendar')">📅 Mi calendario <span>›</span></button>
     </div>
   </div>
@@ -2897,6 +2911,7 @@ body.preview-first-run .first-run-cancel-preview{display:block}
     <button class="more-card" data-open="journal" onclick="openScreen('journal')"><span class="bigico">📔</span>Mi diario</button>
     <button class="more-card" data-open="projects" onclick="openScreen('projects')"><span class="bigico">🧩</span>Proyectos</button>
     <button class="more-card" data-open="school" onclick="openScreen('school')"><span class="bigico">🏫</span>Colegio y valores</button>
+    <button class="more-card" data-open="schoolWeek" onclick="openScreen('schoolWeek')"><span class="bigico">📚</span>Plan semanal del cole</button>
     <button class="more-card" data-open="calendar" onclick="openScreen('calendar')"><span class="bigico">📅</span>Calendario</button>
     <button class="more-card" data-open="profile" onclick="openScreen('profile')"><span class="bigico">👦</span>Mi perfil</button>
     <button class="more-card" data-open="achievements" onclick="openScreen('achievements')"><span class="bigico">🏆</span>Insignias y progreso</button>
@@ -2909,6 +2924,76 @@ body.preview-first-run .first-run-cancel-preview{display:block}
 
 
 
+
+
+<section id="schoolWeek" class="screen">
+  <div class="screen-title"><h1>📚 Plan semanal del cole</h1><p>Materias, sesiones y lo que van a trabajar cada semana.</p></div>
+
+  <div class="card school-week-hero">
+    <div>
+      <span class="eyebrow">SEMANA SELECCIONADA</span>
+      <b id="schoolWeekTitle">Sin semana creada</b>
+      <small id="schoolWeekMeta">Crea una semana y añade las sesiones del colegio.</small>
+    </div>
+    <div class="school-week-counts">
+      <span><b id="schoolWeekSubjectsCount">0</b> materias</span>
+      <span><b id="schoolWeekItemsCount">0</b> sesiones</span>
+    </div>
+  </div>
+
+  <div class="card panelcard">
+    <div class="school-section-head">
+      <div><h3>📅 Semanas</h3><p>Guarda varias semanas y cambia entre ellas.</p></div>
+      <button id="newSchoolWeekBtn" class="smallbtn uploadbtn" type="button">＋ Nueva</button>
+    </div>
+    <select id="schoolWeekSelect" class="school-week-select"></select>
+    <div id="schoolWeekForm" class="school-week-form" style="display:none">
+      <div class="formgrid">
+        <div class="field"><label>Desde</label><input id="schoolWeekStartInput" type="date"></div>
+        <div class="field"><label>Hasta</label><input id="schoolWeekEndInput" type="date"></div>
+      </div>
+      <div class="field" style="margin-top:8px"><label>Título opcional</label><input id="schoolWeekNameInput" placeholder="Ej. Semana 19 al 23 de octubre"></div>
+      <div class="school-week-form-actions">
+        <button id="saveSchoolWeekBtn" class="btn primary" type="button">Guardar semana</button>
+        <button id="cancelSchoolWeekBtn" class="btn ghost" type="button">Cancelar</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="card panelcard">
+    <div class="school-section-head">
+      <div><h3>➕ Añadir sesión</h3><p>Una línea del documento semanal del colegio.</p></div>
+    </div>
+    <div class="school-plan-form-grid">
+      <label><span>Materia</span><input id="schoolPlanSubjectInput" placeholder="Ej. Matemáticas"></label>
+      <label><span>Sesión</span><input id="schoolPlanSessionInput" placeholder="Ej. 2 o 2 Grammar"></label>
+      <label class="wide"><span>Trabajo previsto</span><textarea id="schoolPlanWorkInput" rows="3" placeholder="Ej. Sesión 14 - Sumo, resto y comparo números decimales"></textarea></label>
+      <label><span>Tipo</span><select id="schoolPlanTypeInput">
+        <option value="auto">✨ Detectar automáticamente</option>
+        <option value="class">🔵 Trabajo de clase</option>
+        <option value="exam">🔴 Examen / Test</option>
+        <option value="dictation">🟡 Dictado</option>
+        <option value="homework">🟠 Trabajo semanal / deberes</option>
+        <option value="project">🟣 Proyecto</option>
+      </select></label>
+    </div>
+    <div class="school-week-form-actions">
+      <button id="saveSchoolPlanItemBtn" class="btn primary" type="button">Añadir al plan</button>
+      <button id="cancelSchoolPlanItemBtn" class="btn ghost" type="button" style="display:none">Cancelar edición</button>
+    </div>
+  </div>
+
+  <div class="school-plan-legend">
+    <span class="class">🔵 Clase</span><span class="exam">🔴 Examen/Test</span><span class="dictation">🟡 Dictado</span><span class="homework">🟠 Trabajo semanal</span><span class="project">🟣 Proyecto</span>
+  </div>
+
+  <div id="schoolWeekPlanList"></div>
+
+  <div class="card school-history-note">
+    <b>ℹ️ Primera fase</b>
+    <span>Esta versión organiza y guarda el plan semanal. La lectura automática del archivo que manda el colegio la podemos añadir después.</span>
+  </div>
+</section>
 
 <section id="school" class="screen">
   <div class="screen-title"><h1>🏫 Colegio y valores</h1><p>Los valores que trabajamos cada mes y los retos que ayudan a practicarlos.</p></div>
@@ -5283,6 +5368,7 @@ function freshChildState(name,birthDate='',city=''){
    customChallenges:[],defaultChallengesEnabled:false,
    bigGoals:[],activeGoalId:'',specialDays:[],
    school:{name:'',course:'',classGroup:'',monthlyValues:{},showOnHome:false},
+   schoolWeeks:[],activeSchoolWeekId:'',
    notificationPrefs:{pending:true,projects:true,tomorrow:true,rewards:true},
    vacationMode:false,tomorrowList:[],tomorrowCheckDate:'',
    badges:defaultBadgesData(),
@@ -6619,6 +6705,133 @@ function ageFromBirth(dateStr){
  return age>=0?age:null;
 }
 
+
+const SCHOOL_PLAN_TYPES={
+ class:{label:'Trabajo de clase',icon:'🔵'},
+ exam:{label:'Examen / Test',icon:'🔴'},
+ dictation:{label:'Dictado',icon:'🟡'},
+ homework:{label:'Trabajo semanal',icon:'🟠'},
+ project:{label:'Proyecto',icon:'🟣'}
+};
+function ensureSchoolWeekState(){
+ if(!Array.isArray(state.schoolWeeks))state.schoolWeeks=[];
+ state.schoolWeeks.forEach((w,wi)=>{
+   if(!w.id)w.id=`week-${Date.now()}-${wi}`;
+   if(!Array.isArray(w.items))w.items=[];
+   w.items.forEach((it,ii)=>{if(!it.id)it.id=`spi-${wi}-${ii}-${Date.now()}`});
+ });
+ if(!state.activeSchoolWeekId||!state.schoolWeeks.some(w=>w.id===state.activeSchoolWeekId)){
+   state.activeSchoolWeekId=state.schoolWeeks[0]?.id||'';
+ }
+}
+ensureSchoolWeekState();
+function activeSchoolWeek(){
+ ensureSchoolWeekState();
+ return state.schoolWeeks.find(w=>w.id===state.activeSchoolWeekId)||null;
+}
+function schoolWeekLabel(w){
+ if(!w)return 'Sin semana creada';
+ if(w.name?.trim())return w.name.trim();
+ const fmt=d=>d?new Date(d+'T12:00:00').toLocaleDateString('es-ES',{day:'numeric',month:'short'}):'';
+ return [fmt(w.start),fmt(w.end)].filter(Boolean).join(' – ')||'Semana sin fecha';
+}
+function detectSchoolPlanType(text=''){
+ const s=String(text||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+ if(/\b(exam|examen|test|prueba)\b/.test(s))return 'exam';
+ if(/\bdictado\b/.test(s))return 'dictation';
+ if(/trabajo semana|w\.b|workbook|deberes|homework/.test(s))return 'homework';
+ if(/proyecto|project/.test(s))return 'project';
+ return 'class';
+}
+function schoolPlanType(item){
+ const raw=item?.type;
+ if(raw&&raw!=='auto'&&SCHOOL_PLAN_TYPES[raw])return raw;
+ return detectSchoolPlanType(`${item?.subject||''} ${item?.work||''}`);
+}
+function resetSchoolWeekForm(){
+ if($('#schoolWeekForm'))$('#schoolWeekForm').style.display='none';
+ $('#saveSchoolWeekBtn').dataset.edit='';
+ $('#schoolWeekStartInput').value='';$('#schoolWeekEndInput').value='';$('#schoolWeekNameInput').value='';
+}
+function resetSchoolPlanItemForm(){
+ $('#schoolPlanSubjectInput').value='';$('#schoolPlanSessionInput').value='';$('#schoolPlanWorkInput').value='';$('#schoolPlanTypeInput').value='auto';
+ $('#saveSchoolPlanItemBtn').dataset.edit='';$('#saveSchoolPlanItemBtn').textContent='Añadir al plan';
+ $('#cancelSchoolPlanItemBtn').style.display='none';
+}
+function renderSchoolWeek(){
+ ensureSchoolWeekState();
+ const select=$('#schoolWeekSelect');if(!select)return;
+ if(!state.schoolWeeks.length){
+   select.innerHTML='<option value="">Sin semanas</option>';
+   select.disabled=true;
+ }else{
+   select.disabled=false;
+   select.innerHTML=state.schoolWeeks.map(w=>`<option value="${w.id}">${escapeHtml(schoolWeekLabel(w))}</option>`).join('');
+   select.value=state.activeSchoolWeekId;
+ }
+ const w=activeSchoolWeek();
+ $('#schoolWeekTitle').textContent=schoolWeekLabel(w);
+ $('#schoolWeekMeta').textContent=w?(w.start&&w.end?`${new Date(w.start+'T12:00:00').toLocaleDateString('es-ES')} → ${new Date(w.end+'T12:00:00').toLocaleDateString('es-ES')}`:'Semana guardada'):'Crea una semana y añade las sesiones del colegio.';
+ const items=w?.items||[];
+ const subjects=[...new Set(items.map(x=>(x.subject||'').trim()).filter(Boolean))];
+ $('#schoolWeekSubjectsCount').textContent=subjects.length;
+ $('#schoolWeekItemsCount').textContent=items.length;
+ $('#saveSchoolPlanItemBtn').disabled=!w;
+ const list=$('#schoolWeekPlanList');list.innerHTML='';
+ if(!w){list.innerHTML='<div class="card school-plan-empty">Crea primero una semana para empezar.</div>';return}
+ if(!items.length){list.innerHTML='<div class="card school-plan-empty">Todavía no hay sesiones en esta semana.</div>';return}
+ const groups=[];
+ items.forEach(it=>{
+   const key=(it.subject||'Sin materia').trim()||'Sin materia';
+   let g=groups.find(x=>x.subject===key);if(!g){g={subject:key,items:[]};groups.push(g)}g.items.push(it);
+ });
+ groups.forEach(g=>{
+   const card=document.createElement('div');card.className='card school-subject-card';
+   card.innerHTML=`<div class="school-subject-head"><div><span>📘</span><b>${escapeHtml(g.subject)}</b></div><small>${g.items.length} ${g.items.length===1?'sesión':'sesiones'}</small></div><div class="school-subject-items"></div>`;
+   const box=card.querySelector('.school-subject-items');
+   g.items.forEach(it=>{
+     const type=schoolPlanType(it),meta=SCHOOL_PLAN_TYPES[type]||SCHOOL_PLAN_TYPES.class;
+     const row=document.createElement('div');row.className=`school-plan-row ${type}`;
+     row.innerHTML=`<div class="school-plan-session">${escapeHtml(it.session||'—')}</div><div class="school-plan-main"><div class="school-plan-tag ${type}">${meta.icon} ${meta.label}</div><b>${escapeHtml(it.work||'Sin descripción')}</b></div><div class="school-plan-actions"><button data-spedit="${it.id}" type="button">✏️</button><button data-spdel="${it.id}" type="button">🗑️</button></div>`;
+     box.appendChild(row);
+   });
+   list.appendChild(card);
+ });
+ list.querySelectorAll('[data-spedit]').forEach(btn=>btn.onclick=()=>{
+   const it=w.items.find(x=>x.id===btn.dataset.spedit);if(!it)return;
+   $('#schoolPlanSubjectInput').value=it.subject||'';$('#schoolPlanSessionInput').value=it.session||'';$('#schoolPlanWorkInput').value=it.work||'';$('#schoolPlanTypeInput').value=it.type||'auto';
+   $('#saveSchoolPlanItemBtn').dataset.edit=it.id;$('#saveSchoolPlanItemBtn').textContent='Guardar cambios';$('#cancelSchoolPlanItemBtn').style.display='';
+   $('#schoolPlanSubjectInput').scrollIntoView({behavior:'smooth',block:'center'});$('#schoolPlanSubjectInput').focus();
+ });
+ list.querySelectorAll('[data-spdel]').forEach(btn=>btn.onclick=()=>{
+   const it=w.items.find(x=>x.id===btn.dataset.spdel);if(!it)return;
+   if(!confirm(`¿Eliminar esta sesión de ${it.subject||'la materia'}?`))return;
+   w.items=w.items.filter(x=>x.id!==it.id);save();
+ });
+}
+const newSchoolWeekBtn=$('#newSchoolWeekBtn');if(newSchoolWeekBtn)newSchoolWeekBtn.onclick=()=>{
+ resetSchoolWeekForm();$('#schoolWeekForm').style.display='';
+ const d=new Date(),day=(d.getDay()+6)%7,start=new Date(d);start.setDate(d.getDate()-day);const end=new Date(start);end.setDate(start.getDate()+4);
+ $('#schoolWeekStartInput').value=localDateKey(start);$('#schoolWeekEndInput').value=localDateKey(end);$('#schoolWeekStartInput').focus();
+};
+const cancelSchoolWeekBtn=$('#cancelSchoolWeekBtn');if(cancelSchoolWeekBtn)cancelSchoolWeekBtn.onclick=resetSchoolWeekForm;
+const schoolWeekSelect=$('#schoolWeekSelect');if(schoolWeekSelect)schoolWeekSelect.onchange=()=>{state.activeSchoolWeekId=schoolWeekSelect.value;resetSchoolPlanItemForm();save()};
+const saveSchoolWeekBtn=$('#saveSchoolWeekBtn');if(saveSchoolWeekBtn)saveSchoolWeekBtn.onclick=()=>{
+ const start=$('#schoolWeekStartInput').value,end=$('#schoolWeekEndInput').value,name=$('#schoolWeekNameInput').value.trim();
+ if(!start||!end){toast('Elige las fechas de la semana');return}if(end<start){toast('La fecha final no puede ser anterior');return}
+ const id=`week-${Date.now()}`;state.schoolWeeks.unshift({id,start,end,name,items:[]});state.activeSchoolWeekId=id;resetSchoolWeekForm();toast('Semana creada 📚');save();
+};
+const saveSchoolPlanItemBtn=$('#saveSchoolPlanItemBtn');if(saveSchoolPlanItemBtn)saveSchoolPlanItemBtn.onclick=()=>{
+ const w=activeSchoolWeek();if(!w){toast('Crea primero una semana');return}
+ const subject=$('#schoolPlanSubjectInput').value.trim(),session=$('#schoolPlanSessionInput').value.trim(),work=$('#schoolPlanWorkInput').value.trim(),type=$('#schoolPlanTypeInput').value||'auto';
+ if(!subject){toast('Escribe la materia');return}if(!work){toast('Escribe el trabajo previsto');return}
+ const edit=$('#saveSchoolPlanItemBtn').dataset.edit;
+ if(edit){const it=w.items.find(x=>x.id===edit);if(it){Object.assign(it,{subject,session,work,type});toast('Sesión actualizada ✏️')}}
+ else{w.items.push({id:`spi-${Date.now()}-${Math.random().toString(36).slice(2,6)}`,subject,session,work,type});toast('Sesión añadida ✅')}
+ resetSchoolPlanItemForm();save();
+};
+const cancelSchoolPlanItemBtn=$('#cancelSchoolPlanItemBtn');if(cancelSchoolPlanItemBtn)cancelSchoolPlanItemBtn.onclick=resetSchoolPlanItemForm;
+
 const SCHOOL_MONTHS=[
  {n:9,label:'Septiembre'},{n:10,label:'Octubre'},{n:11,label:'Noviembre'},{n:12,label:'Diciembre'},
  {n:1,label:'Enero'},{n:2,label:'Febrero'},{n:3,label:'Marzo'},{n:4,label:'Abril'},
@@ -7502,7 +7715,7 @@ if(parentsTogether()){
   : '<div class="family-illus"><div class="family-emoji-wrap"><div class="family-emoji">👨</div><div class="family-emoji small-kid">🧒</div></div></div>';
  familyCard.innerHTML=`${emojiArt}<div class="family-panel"><div class="eyebrow">Hoy estoy con</div><b>${person}</b><span>¡Juntos hacemos grandes cosas!</span></div>`;
 }
- renderProjectReminders();renderModules();renderReading();renderProjects();renderCalendar();renderRewards();renderRewardAdmin();renderParents();renderExtras();renderProfileData();renderStreaks();renderTaskAdmin();renderDailySummary();renderEventAdmin();renderTodayEvents();renderRewardHistory();renderSyncConfig();renderBigGoal();renderGoalAdmin();renderSpecialAdmin();renderSpecialDay();renderSmartAlerts();renderSmartHome();renderNoticeCenter();renderReminderPrefs();renderChildSwitcher();renderChildManager();renderActiveChildName();renderActiveChildIdentity();renderChildTopSwitcher();renderChallengeAdmin();renderCityScene();renderGoalVisual();renderActiveCity();renderFooterChildArt();renderFamilyPage();renderParentWeeklySummary();renderBadges();renderBadgeAdmin();renderWorlds();renderWorldAdmin();renderJournal();renderBirthdays();renderVacationMode();renderTomorrowList();renderChildWeekSummary();renderGoalMilestones();renderFeaturedWorldHome();renderEvolution();renderSchool()
+ renderProjectReminders();renderModules();renderReading();renderProjects();renderCalendar();renderRewards();renderRewardAdmin();renderParents();renderExtras();renderProfileData();renderStreaks();renderTaskAdmin();renderDailySummary();renderEventAdmin();renderTodayEvents();renderRewardHistory();renderSyncConfig();renderBigGoal();renderGoalAdmin();renderSpecialAdmin();renderSpecialDay();renderSmartAlerts();renderSmartHome();renderNoticeCenter();renderReminderPrefs();renderChildSwitcher();renderChildManager();renderActiveChildName();renderActiveChildIdentity();renderChildTopSwitcher();renderChallengeAdmin();renderCityScene();renderGoalVisual();renderActiveCity();renderFooterChildArt();renderFamilyPage();renderParentWeeklySummary();renderBadges();renderBadgeAdmin();renderWorlds();renderWorldAdmin();renderJournal();renderBirthdays();renderVacationMode();renderTomorrowList();renderChildWeekSummary();renderGoalMilestones();renderFeaturedWorldHome();renderEvolution();renderSchool();renderSchoolWeek()
 }
 
 

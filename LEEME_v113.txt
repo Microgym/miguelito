@@ -1,0 +1,10 @@
+MIS TAREAS v113 — PLAN SEMANAL DEL COLE
+
+- Nueva pantalla “Plan semanal del cole”.
+- Guarda varias semanas.
+- Añade materia, sesión y trabajo previsto.
+- Agrupa automáticamente por materias.
+- Distingue visualmente Clase, Examen/Test, Dictado, Trabajo semanal y Proyecto.
+- El tipo puede detectarse automáticamente por palabras clave.
+- Las sesiones pueden editarse y eliminarse.
+- Esta primera fase es manual; la lectura automática del archivo semanal queda para una fase posterior.
