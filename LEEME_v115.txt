@@ -1,0 +1,9 @@
+MIS TAREAS v115 — IMPORTADOR DEL PLAN SEMANAL CORREGIDO
+
+- PDF: lectura directa del texto y de la posición real de sus columnas antes de usar OCR.
+- Imagen/captura: parser de tabla reforzado para Materia / Sesión / Trabajo.
+- Solo reconoce materias conocidas en la columna izquierda, evitando que dibujos/logos creen materias falsas.
+- Mantiene la materia en filas sucesivas aunque la celda de Materia esté combinada.
+- Mantiene Spelling y otras materias cuando continúan en la página siguiente.
+- Las líneas de texto partidas se conservan dentro de Trabajo previsto en lugar de saltar de columna.
+- Vista previa sigue siendo editable antes de guardar.

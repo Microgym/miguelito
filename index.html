@@ -2500,6 +2500,7 @@ body.preview-first-run .first-run-cancel-preview{display:block}
 .school-import-preview-actions{display:grid;grid-template-columns:1.5fr 1fr;gap:7px;margin-top:10px}
 @media(max-width:420px){.school-import-actions{grid-template-columns:1fr}.school-import-row{grid-template-columns:1fr 80px 32px}.school-import-row label.wide{grid-column:1/3}}
 
+\n/* ===== v115 Importador de tabla corregido ===== */\n.school-import-row textarea{white-space:pre-wrap;line-height:1.3}\n.school-import-note{border:1px solid #f0dda1}\n
 </style>
 </head>
 <body>
@@ -2994,11 +2995,11 @@ body.preview-first-run .first-run-cancel-preview{display:block}
       <div class="school-import-bar"><i id="schoolImportProgressBar"></i></div>
     </div>
     <div id="schoolImportNote" class="school-import-note">
-      Compatible con fotos, capturas y PDF. La primera vez puede tardar un poco mientras carga el lector OCR.
+      Compatible con fotos, capturas y PDF. Si tienes el PDF original, úsalo: ahora se leen primero sus columnas reales y solo se usa OCR como respaldo.
     </div>
     <div id="schoolImportPreview" class="school-import-preview" style="display:none">
       <div class="school-import-preview-head">
-        <div><b>Vista previa</b><span>Corrige cualquier fila antes de añadirla a la semana.</span></div>
+        <div><b>Vista previa</b><span>Comprueba especialmente Materia · Sesión · Trabajo. Puedes corregir cada columna antes de guardar.</span></div>
         <div><strong id="schoolImportRowsCount">0</strong> filas</div>
       </div>
       <div id="schoolImportRows"></div>
@@ -6951,110 +6952,157 @@ async function pdfToCanvases(file){
  }
  return out;
 }
+async function pdfToPositionedWords(file){
+ await ensurePdfJs();
+ const data=await file.arrayBuffer();
+ const pdf=await window.pdfjsLib.getDocument({data}).promise;
+ const pages=[];
+ for(let p=1;p<=pdf.numPages;p++){
+   const page=await pdf.getPage(p);
+   const viewport=page.getViewport({scale:1});
+   const tc=await page.getTextContent();
+   const words=[];
+   (tc.items||[]).forEach(it=>{
+     const text=cleanOcrText(it.str||'');if(!text)return;
+     const x=Number(it.transform?.[4])||0;
+     const yPdf=Number(it.transform?.[5])||0;
+     const h=Math.max(7,Math.abs(Number(it.height)||Number(it.transform?.[3])||9));
+     const w=Math.max(2,Number(it.width)||text.length*5);
+     const cy=viewport.height-yPdf;
+     words.push({text,confidence:100,bbox:{x0:x,y0:cy-h,x1:x+w,y1:cy+2}});
+   });
+   pages.push({words,width:viewport.width,height:viewport.height});
+ }
+ return pages;
+}
 function cleanOcrText(s=''){
  return String(s||'').replace(/[|]/g,'I').replace(/\s+/g,' ').trim();
 }
+const SCHOOL_SUBJECT_ALIASES=[
+ ['castellano','Castellano'],['lengua castellana','Castellano'],['lengua','Castellano'],
+ ['matematicas','Matemáticas'],['matematica','Matemáticas'],['maths','Matemáticas'],['math','Matemáticas'],
+ ['science','Science'],['english','English'],['ingles','English'],['spelling','Spelling'],
+ ['valenciano','Valenciano'],['valencia','Valenciano'],['religion','Religión'],
+ ['technology','Technology'],['tecnologia','Technology'],['proyecto','Proyecto'],['project','Proyecto'],
+ ['art','Arte'],['arte','Arte'],['music','Música'],['musica','Música'],
+ ['physical education','Educación Física'],['educacion fisica','Educación Física'],['pe','Educación Física']
+];
+function normSchoolText(s=''){
+ return cleanOcrText(s).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9 ]+/g,' ').replace(/\s+/g,' ').trim();
+}
+function detectSchoolSubject(s=''){
+ const x=normSchoolText(s);if(!x)return '';
+ // Coincidencia exacta o contenida, pero nunca devolvemos basura OCR como materia.
+ for(const [needle,label] of SCHOOL_SUBJECT_ALIASES){
+   if(x===needle || x.startsWith(needle+' ') || x.includes(' '+needle+' '))return label;
+ }
+ return '';
+}
 function normalizeSchoolSubject(s=''){
- const raw=cleanOcrText(s);
- const x=raw.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
- const map=[
-   ['castellano','Castellano'],['lengua','Castellano'],['matematic','Matemáticas'],
-   ['science','Science'],['english','English'],['spelling','Spelling'],
-   ['valenc','Valenciano'],['relig','Religión'],['technology','Technology'],
-   ['tecnolog','Technology'],['project','Proyecto'],['proyecto','Proyecto'],
-   ['art','Arte'],['music','Música'],['physical','Educación Física'],['educacion fisica','Educación Física']
- ];
- for(const [needle,label] of map)if(x.includes(needle))return label;
- return raw;
+ return detectSchoolSubject(s)||cleanOcrText(s);
 }
 function looksLikePlanHeader(text=''){
- const x=text.toLowerCase();
- return /work plan|plan semanal|trabajo semanal|week|semana|session|sesion|subject|materia/.test(x)
-   && text.length<80;
+ const x=normSchoolText(text);
+ return /^(semana|week|materia|subject|sesion|session|trabajo|trabajo propuesto|work plan)/.test(x)
+   || (/semana/.test(x)&&/octubre|noviembre|diciembre|enero|febrero|marzo|abril|mayo|junio/.test(x));
 }
-function ocrWordsToRows(words,width,height){
+function plausibleSession(s=''){
+ const x=cleanOcrText(s);
+ if(!x)return false;
+ return /^(?:\d{1,2}(?:\s*[A-Za-z.]+(?:\s*[A-Za-z.]+)*)?|monday|tuesday|wednesday|thursday|friday|lunes|martes|miercoles|miércoles|jueves|viernes)$/i.test(x);
+}
+function schoolSpecialLine(s=''){
+ const x=normSchoolText(s);
+ return /\b(exam|examen|test|dictado|dictation|trabajo semana|weekly work|proyecto|project)\b/.test(x);
+}
+function positionedWordsToPlanRows(words,width,height,initialSubject=''){
  const usable=(words||[]).filter(w=>{
    const t=cleanOcrText(w.text);
-   return t && Number(w.confidence??w.conf??100)>20 && w.bbox;
+   return t && Number(w.confidence??w.conf??100)>18 && w.bbox;
  });
- if(!usable.length)return [];
+ if(!usable.length)return {rows:[],lastSubject:initialSubject||''};
 
- const groups=[];
- const tol=Math.max(10,height*0.008);
+ // Estas proporciones corresponden a las tres columnas estables del documento Edelweiss:
+ // Materia ~24%, Sesión ~13%, Trabajo ~63%.
+ const subjectCut=width*0.245;
+ const sessionCut=width*0.375;
+ const tol=Math.max(7,Math.min(15,height*0.007));
+ const physical=[];
+
  usable.sort((a,b)=>((a.bbox.y0+a.bbox.y1)/2)-((b.bbox.y0+b.bbox.y1)/2)||a.bbox.x0-b.bbox.x0);
  usable.forEach(w=>{
    const cy=(w.bbox.y0+w.bbox.y1)/2;
-   let g=groups.find(r=>Math.abs(r.cy-cy)<=tol);
-   if(!g){g={cy,words:[]};groups.push(g)}
+   let g=physical.find(r=>Math.abs(r.cy-cy)<=tol);
+   if(!g){g={cy,words:[]};physical.push(g)}
    g.words.push(w);
    g.cy=(g.cy*(g.words.length-1)+cy)/g.words.length;
  });
- groups.sort((a,b)=>a.cy-b.cy);
+ physical.sort((a,b)=>a.cy-b.cy);
 
- const subjectCut=width*0.225;
- const sessionCut=width*0.365;
- let lastSubject='';
+ let lastSubject=initialSubject||'';
  const rows=[];
-
- groups.forEach(g=>{
+ physical.forEach(g=>{
    g.words.sort((a,b)=>a.bbox.x0-b.bbox.x0);
-   const subject=cleanOcrText(g.words.filter(w=>w.bbox.x0<subjectCut).map(w=>w.text).join(' '));
-   const session=cleanOcrText(g.words.filter(w=>w.bbox.x0>=subjectCut&&w.bbox.x0<sessionCut).map(w=>w.text).join(' '));
-   const work=cleanOcrText(g.words.filter(w=>w.bbox.x0>=sessionCut).map(w=>w.text).join(' '));
+   const left=cleanOcrText(g.words.filter(w=>w.bbox.x0<subjectCut).map(w=>w.text).join(' '));
+   const mid=cleanOcrText(g.words.filter(w=>w.bbox.x0>=subjectCut&&w.bbox.x0<sessionCut).map(w=>w.text).join(' '));
+   const right=cleanOcrText(g.words.filter(w=>w.bbox.x0>=sessionCut).map(w=>w.text).join(' '));
    const all=cleanOcrText(g.words.map(w=>w.text).join(' '));
    if(!all||looksLikePlanHeader(all))return;
 
-   let subj=normalizeSchoolSubject(subject);
-   if(subj && subj.length>2 && !/^\d+$/.test(subj))lastSubject=subj;
-   else subj=lastSubject;
+   const detected=detectSchoolSubject(left);
+   if(detected)lastSubject=detected;
+   if(!lastSubject)return;
 
-   let sess=session.replace(/^session\s*/i,'').replace(/^ses[ií]on\s*/i,'').trim();
-   let task=work;
+   let session=mid.replace(/^session\s*/i,'').replace(/^ses[ií]on\s*/i,'').trim();
+   let work=right;
 
-   // Si OCR ha desplazado una fila a columnas incorrectas, recuperarla.
-   if(!task && sess.length>18){task=sess;sess=''}
-   if(!task && subject && lastSubject===subj && subject!==subj){task=subject}
+   // Si OCR mete texto largo en la columna Sesión, en realidad pertenece a Trabajo.
+   if(session && !plausibleSession(session) && !work){work=session;session=''}
+   if(session && !plausibleSession(session) && work){work=`${session} ${work}`.trim();session=''}
 
-   if(!subj||!task)return;
-   if(task.length<2)return;
+   // No usamos el texto de Materia salvo para reconocer una asignatura conocida.
+   // Esto evita que dibujos/logos OCR se conviertan en materias falsas.
+   if(!work)return;
+   if(/^edelweiss\b/i.test(work)||/^school\b/i.test(work))return;
+
+   const prev=rows[rows.length-1];
+   if(!session && prev && prev.subject===lastSubject){
+     // Una línea sin número normalmente es continuación de la celda anterior.
+     // Conservamos todo en Trabajo para que no salte a otra columna.
+     prev.work=`${prev.work}\n${work}`.trim();
+     return;
+   }
+
    rows.push({
      id:`imp-${Date.now()}-${rows.length}-${Math.random().toString(36).slice(2,5)}`,
-     subject:subj,
-     session:sess,
-     work:task,
-     type:'auto'
+     subject:lastSubject,session,work,type:'auto',_y:g.cy
    });
  });
-
- // Une continuaciones de una misma fila que el OCR haya partido.
- const merged=[];
- rows.forEach(r=>{
-   const prev=merged[merged.length-1];
-   if(prev && r.subject===prev.subject && !r.session && r.work.length<80){
-     prev.work=`${prev.work} ${r.work}`.trim();
-   }else merged.push(r);
- });
- return merged;
+ return {rows:rows.map(({_y,...r})=>r),lastSubject};
 }
-function fallbackTextRows(text=''){
+function ocrWordsToRows(words,width,height,initialSubject=''){
+ return positionedWordsToPlanRows(words,width,height,initialSubject);
+}
+function fallbackTextRows(text='',initialSubject=''){
  const lines=String(text||'').split(/\n+/).map(cleanOcrText).filter(Boolean);
- const subjects=['Castellano','Matemáticas','Science','English','Spelling','Proyecto','Valenciano','Religión','Technology','Arte','Música'];
- let current='';
+ let current=initialSubject||'';
  const rows=[];
  lines.forEach(line=>{
-   const found=subjects.find(s=>line.toLowerCase().startsWith(s.toLowerCase()));
+   const found=detectSchoolSubject(line);
    if(found){
      current=found;
-     line=cleanOcrText(line.slice(found.length));
+     const n=normSchoolText(line),subjNorm=normSchoolText(found);
+     if(n===subjNorm)return;
    }
-   if(!current||!line||looksLikePlanHeader(line))return;
-   const m=line.match(/^(?:ses(?:i[oó]n)?\s*)?(\d+[A-Za-z]?)[\s:.-]+(.+)$/i);
-   rows.push({
-     id:`imp-${Date.now()}-${rows.length}-${Math.random().toString(36).slice(2,5)}`,
-     subject:current,session:m?m[1]:'',work:m?m[2]:line,type:'auto'
-   });
+   if(!current||looksLikePlanHeader(line))return;
+   const m=line.match(/^(?:ses(?:i[oó]n)?\s*)?(\d{1,2}(?:\s+[A-Za-z.]+)?|Monday|Tuesday|Wednesday|Thursday|Friday)[\s:.-]+(.+)$/i);
+   if(m){
+     rows.push({id:`imp-${Date.now()}-${rows.length}-${Math.random().toString(36).slice(2,5)}`,subject:current,session:m[1],work:m[2],type:'auto'});
+   }else if(rows.length&&rows[rows.length-1].subject===current){
+     rows[rows.length-1].work=`${rows[rows.length-1].work}\n${line}`;
+   }
  });
- return rows;
+ return {rows,lastSubject:current};
 }
 function renderSchoolImportPreview(){
  const wrap=$('#schoolImportPreview'),box=$('#schoolImportRows');if(!wrap||!box)return;
@@ -7100,8 +7148,9 @@ async function recognizeSchoolCanvas(canvas,pageIndex,pageCount){
      }
    }
  });
- const rows=ocrWordsToRows(result.data?.words||[],canvas.width,canvas.height);
- return {rows,text:result.data?.text||''};
+ const parsed=ocrWordsToRows(result.data?.words||[],canvas.width,canvas.height,window._schoolImportLastSubject||'');
+ window._schoolImportLastSubject=parsed.lastSubject||window._schoolImportLastSubject||'';
+ return {rows:parsed.rows,text:result.data?.text||'',lastSubject:parsed.lastSubject||''};
 }
 const schoolPlanFileInput=$('#schoolPlanFileInput');
 if(schoolPlanFileInput)schoolPlanFileInput.onchange=()=>{
@@ -7119,14 +7168,41 @@ if(readSchoolPlanFileBtn)readSchoolPlanFileBtn.onclick=async()=>{
    readSchoolPlanFileBtn.disabled=true;
    schoolImportRows=[];
    setSchoolImportProgress(true,'Preparando lector…',1);
-   const canvases=file.type==='application/pdf'?await pdfToCanvases(file):[await fileToImageCanvas(file)];
    let raw='';
-   for(let i=0;i<canvases.length;i++){
-     const out=await recognizeSchoolCanvas(canvases[i],i,canvases.length);
-     raw+=`\n${out.text||''}`;
+   let lastSubject='';
+   window._schoolImportLastSubject='';
+
+   if(file.type==='application/pdf'){
+     // Primero usamos el texto real y las coordenadas del PDF. Es mucho más fiable que OCR para tablas.
+     const pdfPages=await pdfToPositionedWords(file);
+     for(let i=0;i<pdfPages.length;i++){
+       setSchoolImportProgress(true,`Leyendo texto del PDF · página ${i+1} de ${pdfPages.length}…`,10+((i+1)/Math.max(1,pdfPages.length))*65);
+       const page=pdfPages[i];
+       const parsed=positionedWordsToPlanRows(page.words,page.width,page.height,lastSubject);
+       lastSubject=parsed.lastSubject||lastSubject;
+       schoolImportRows.push(...parsed.rows);
+     }
+     // Si el PDF es escaneado y no trae texto útil, entonces sí hacemos OCR.
+     if(schoolImportRows.length<2){
+       schoolImportRows=[];lastSubject='';window._schoolImportLastSubject='';
+       const canvases=await pdfToCanvases(file);
+       for(let i=0;i<canvases.length;i++){
+         const out=await recognizeSchoolCanvas(canvases[i],i,canvases.length);
+         raw+=`\n${out.text||''}`;
+         schoolImportRows.push(...out.rows);
+       }
+     }
+   }else{
+     const canvas=await fileToImageCanvas(file);
+     const out=await recognizeSchoolCanvas(canvas,0,1);
+     raw=out.text||'';
      schoolImportRows.push(...out.rows);
    }
-   if(!schoolImportRows.length)schoolImportRows=fallbackTextRows(raw);
+
+   if(!schoolImportRows.length){
+     const fb=fallbackTextRows(raw,lastSubject);
+     schoolImportRows=fb.rows;
+   }
    setSchoolImportProgress(false);
    if(!schoolImportRows.length){
      toast('No he podido separar las filas. Prueba con una imagen más nítida.');
