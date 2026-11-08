@@ -2501,6 +2501,33 @@ body.preview-first-run .first-run-cancel-preview{display:block}
 @media(max-width:420px){.school-import-actions{grid-template-columns:1fr}.school-import-row{grid-template-columns:1fr 80px 32px}.school-import-row label.wide{grid-column:1/3}}
 
 \n/* ===== v115 Importador de tabla corregido ===== */\n.school-import-row textarea{white-space:pre-wrap;line-height:1.3}\n.school-import-note{border:1px solid #f0dda1}\n
+
+/* ===== v116 Familia compartida Supabase ===== */
+.cloud-v116-card{overflow:hidden}
+.cloud-step{margin-top:11px;padding:11px;border:1px solid #e3ebf5;border-radius:15px;background:#f9fbfe}
+.cloud-step>b{display:block;color:#244d74;font-size:11px;margin-bottom:8px}
+.cloud-auth-row{display:grid;grid-template-columns:1fr auto;gap:8px}
+.cloud-auth-row input,.cloud-family-grid input{width:100%;box-sizing:border-box;border:1px solid #dfe8f5;border-radius:12px;padding:10px;font:inherit;color:var(--ink);background:#fff}
+.cloud-user-box{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:7px;padding:8px 9px;border-radius:11px;background:#eef5fb;color:#5b7288;font-size:9px;font-weight:900}
+.cloud-family-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+.cloud-family-connected{display:grid;gap:8px}
+.cloud-family-connected>div{padding:9px 10px;border-radius:12px;background:#eef8f2;border:1px solid #d7eddf}
+.cloud-family-connected span{display:block;font-size:8px;font-weight:900;color:#6c8275}
+.cloud-family-connected b{display:block;margin-top:2px;font-size:13px;color:#28593c}
+.cloud-code-box{position:relative;padding-right:66px!important}
+.cloud-code-box b{letter-spacing:1.5px;font-size:15px}
+.cloud-code-box button{position:absolute;right:8px;top:50%;transform:translateY(-50%)}
+.cloud-security-note{margin-top:9px;padding:8px;border-radius:11px;background:#fff9e9;color:#6f642f}
+@media(max-width:430px){
+ .cloud-auth-row,.cloud-family-grid{grid-template-columns:1fr}
+}
+
+
+.first-run-cloud-entry{
+ width:100%;margin-top:10px;border:1px solid #cfe0f1;border-radius:13px;padding:10px 12px;
+ background:#eef7ff;color:#28567d;font-weight:1000;font-size:10px
+}
+
 </style>
 </head>
 <body>
@@ -3915,23 +3942,59 @@ body.preview-first-run .first-run-cancel-preview{display:block}
 <input accept="application/json,.json" id="importBackupInput" style="display:none" type="file"/>
 <div class="mmeta" id="backupStatus" style="margin-top:8px"></div>
 </div>
- <div class="card panelcard sync-card">
-<h3 style="margin:0 0 5px">☁️ Sincronización entre padres</h3>
-<div class="mmeta">La app sigue funcionando sin conexión. Al activar la nube, ambos dispositivos compartirán los mismos datos.</div>
+ <div class="card panelcard sync-card cloud-v116-card">
+<h3 style="margin:0 0 5px">☁️ Familia compartida</h3>
+<div class="mmeta">Conecta esta app con Supabase para que Papá y Mamá uséis la misma familia desde móviles y ordenadores distintos.</div>
+
 <div class="sync-status" id="syncStatus">
-<span class="sync-dot"></span>
-<span id="syncStatusText">Sin configurar</span>
+  <span class="sync-dot"></span>
+  <span id="syncStatusText">Sin configurar</span>
 </div>
-<div class="sync-grid">
-<input id="syncFamilyCode" placeholder="Código familiar, ej. MIGUELITO-2026"/>
-<input id="syncDeviceName" placeholder="Este dispositivo, ej. Papá"/>
-<input class="sync-wide" id="syncUrl" placeholder="URL de Supabase"/>
-<input class="sync-wide" id="syncKey" placeholder="Anon key de Supabase" type="password"/>
+
+<div class="cloud-step">
+  <b>1 · Conexión Supabase</b>
+  <div class="sync-grid">
+    <input class="sync-wide" id="syncUrl" placeholder="Project URL · https://xxxx.supabase.co"/>
+    <input class="sync-wide" id="syncKey" placeholder="Publishable / anon key (nunca service_role)" type="password"/>
+    <input id="syncDeviceName" placeholder="Este dispositivo, ej. Papá"/>
+    <button class="btn primary" id="saveSyncBtn" type="button">Guardar conexión</button>
+  </div>
 </div>
+
+<div class="cloud-step">
+  <b>2 · Cuenta del progenitor</b>
+  <div class="cloud-auth-row">
+    <input id="cloudEmailInput" type="email" autocomplete="email" placeholder="tu@email.com"/>
+    <button class="btn primary" id="cloudMagicLinkBtn" type="button">Enviar enlace de acceso</button>
+  </div>
+  <div id="cloudUserBox" class="cloud-user-box">
+    <span id="cloudUserText">No has iniciado sesión.</span>
+    <button id="cloudSignOutBtn" class="smallbtn" type="button" style="display:none">Cerrar sesión</button>
+  </div>
+</div>
+
+<div class="cloud-step" id="cloudFamilyStep">
+  <b>3 · Familia</b>
+  <div id="cloudNoFamilyBox">
+    <div class="mmeta" style="margin-bottom:7px">En el primer dispositivo crea la familia usando los datos actuales. En el segundo, entra con el código de invitación.</div>
+    <div class="cloud-family-grid">
+      <input id="cloudFamilyNameInput" placeholder="Nombre, ej. Familia de Miguelito"/>
+      <button class="btn primary" id="cloudCreateFamilyBtn" type="button">Crear y subir esta familia</button>
+      <input id="cloudInviteCodeInput" placeholder="Código de invitación"/>
+      <button class="btn ghost" id="cloudJoinFamilyBtn" type="button">Unirme a una familia</button>
+    </div>
+  </div>
+  <div id="cloudFamilyConnectedBox" class="cloud-family-connected" style="display:none">
+    <div><span>Familia conectada</span><b id="cloudFamilyName">—</b></div>
+    <div class="cloud-code-box"><span>Código para el otro progenitor</span><b id="cloudInviteCode">—</b><button id="cloudCopyCodeBtn" class="smallbtn" type="button">Copiar</button></div>
+  </div>
+</div>
+
 <div class="sync-actions">
-<button class="btn primary" id="saveSyncBtn" type="button">Guardar y conectar</button>
-<button class="btn ghost" id="syncNowBtn" type="button">Sincronizar ahora</button>
+  <button class="btn primary" id="syncNowBtn" type="button">↻ Sincronizar ahora</button>
+  <button class="btn ghost" id="cloudPullBtn" type="button">↓ Descargar nube</button>
 </div>
+<div class="mmeta cloud-security-note">🔐 Cada progenitor entra con su propio email. La clave pública de Supabase puede estar en la web; la <b>service_role</b> no debe ponerse nunca aquí.</div>
 </div>
  <div class="card panelcard danger-card">
 <h3 style="margin:0 0 5px">🧹 Empezar toda la app desde cero</h3>
@@ -3962,6 +4025,7 @@ body.preview-first-run .first-run-cancel-preview{display:block}
     <div style="font-size:11px;color:#6e8298;margin-bottom:14px">Configuración inicial de la familia</div>
     <div id="firstRunProgress" class="first-run-progress"></div>
     <div id="firstRunBody"></div>
+<button id="firstRunCloudEntry" class="first-run-cloud-entry" type="button">☁️ Ya tengo una familia compartida</button>
 <button id="firstRunCancelPreview" class="first-run-cancel-preview" type="button">Salir de la prueba sin guardar</button>
   </div>
 </div>
@@ -3971,6 +4035,16 @@ body.preview-first-run .first-run-cancel-preview{display:block}
 <script>
 document.addEventListener('click',function(e){
  if(e.target && e.target.id==='firstRunResume') resumeFirstRunAfterCalendar();
+ if(e.target && e.target.id==='firstRunCloudEntry'){
+   const overlay=document.getElementById('firstRunOverlay');
+   if(overlay)overlay.style.display='none';
+   document.body.classList.remove('preview-first-run');
+   if(typeof showParents==='function')showParents();
+   setTimeout(()=>{
+     const card=document.querySelector('.cloud-v116-card');
+     if(card)card.scrollIntoView({behavior:'smooth',block:'start'});
+   },120);
+ }
 });
 </script>
 
@@ -4004,7 +4078,13 @@ function loadFamilyStore(){
  }catch(e){return null}
 }
 function saveFamilyStore(){
- try{window.localStorage.setItem('miguelito-family-v1',JSON.stringify(familyStore))}catch(e){}
+ try{
+   if(!window.__cloudApplyingRemote && familyStore)familyStore._updatedAt=Date.now();
+   window.localStorage.setItem('miguelito-family-v1',JSON.stringify(familyStore));
+ }catch(e){}
+ if(!window.__cloudApplyingRemote && typeof window.scheduleFamilyCloudPush==='function'){
+   window.scheduleFamilyCloudPush();
+ }
 }
 
 function defaultWorldsData(){
@@ -4395,157 +4475,336 @@ function focusEditTarget(selector){
 
 function toast(msg){const t=$('#toast');t.textContent=msg;t.style.display='block';clearTimeout(window.tt);window.tt=setTimeout(()=>t.style.display='none',1600)}
 
+
 function loadSyncConfig(){
  try{
-   const raw=localStorage.getItem('miguelito-sync-config');
-   return raw?JSON.parse(raw):{url:'',key:'',familyCode:'',deviceName:''};
+   const raw=localStorage.getItem('miguelito-sync-config-v116');
+   return raw?JSON.parse(raw):{url:'',key:'',deviceName:'',familyId:'',email:''};
  }catch(e){
-   return {url:'',key:'',familyCode:'',deviceName:''};
+   return {url:'',key:'',deviceName:'',familyId:'',email:''};
  }
 }
 function storeSyncConfig(){
- try{localStorage.setItem('miguelito-sync-config',JSON.stringify(syncConfig));}catch(e){}
+ try{localStorage.setItem('miguelito-sync-config-v116',JSON.stringify(syncConfig));}catch(e){}
 }
 let syncConfig=loadSyncConfig();
-let syncTimer=null;
-let syncPollTimer=null;
-let syncBusy=false;
+let cloudClient=null;
+let cloudSession=null;
+let cloudFamilyMeta=null;
+let cloudRealtimeChannel=null;
+let cloudPushTimer=null;
+let cloudBusy=false;
+let cloudModulePromise=null;
+window.__cloudApplyingRemote=false;
 
-function syncEnabled(){
- return !!(syncConfig.url && syncConfig.key && syncConfig.familyCode);
-}
-function cleanBaseUrl(url){
- return (url||'').trim().replace(/\/+$/,'');
-}
+function cleanBaseUrl(url){return (url||'').trim().replace(/\/+$/,'')}
+function cloudConfigured(){return !!(syncConfig.url&&syncConfig.key)}
+function cloudReady(){return !!(cloudClient&&cloudSession?.user&&cloudFamilyMeta?.id)}
 function setSyncStatus(type,text){
  const box=$('#syncStatus'),label=$('#syncStatusText');
  if(!box||!label)return;
  box.className='sync-status'+(type?' '+type:'');
  label.textContent=text;
 }
-function syncHeaders(){
- return {
-   'apikey':syncConfig.key,
-   'Authorization':'Bearer '+syncConfig.key,
-   'Content-Type':'application/json',
-   'Prefer':'return=representation'
- };
+async function loadSupabaseModule(){
+ if(cloudModulePromise)return cloudModulePromise;
+ cloudModulePromise=import('https://esm.sh/@supabase/supabase-js@2.84.0');
+ return cloudModulePromise;
 }
-async function fetchRemoteState(){
- if(!syncEnabled())return null;
- const base=cleanBaseUrl(syncConfig.url);
- const code=encodeURIComponent(syncConfig.familyCode);
- const res=await fetch(`${base}/rest/v1/miguelito_state?family_code=eq.${code}&select=payload,updated_at`,{
-   headers:syncHeaders()
+async function ensureCloudClient(){
+ if(!cloudConfigured())return null;
+ if(cloudClient)return cloudClient;
+ const mod=await loadSupabaseModule();
+ cloudClient=mod.createClient(syncConfig.url,syncConfig.key,{
+   auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}
  });
- if(!res.ok)throw new Error(`Error ${res.status}`);
- const rows=await res.json();
- return rows&&rows[0]?rows[0].payload:null;
+ cloudClient.auth.onAuthStateChange((_event,session)=>{
+   cloudSession=session;
+   renderCloudConfig();
+   if(session?.user)setTimeout(()=>loadCloudFamily(),0);
+   else{
+     cloudFamilyMeta=null;
+     stopCloudRealtime();
+     renderCloudConfig();
+   }
+ });
+ const {data}=await cloudClient.auth.getSession();
+ cloudSession=data?.session||null;
+ return cloudClient;
 }
-async function pushRemoteState(){
- if(!syncEnabled()||syncBusy)return;
- syncBusy=true;
- setSyncStatus('busy','Sincronizando…');
+function cloudLocalPayload(){
  try{
-   const base=cleanBaseUrl(syncConfig.url);
-   const payload={
-     family_code:syncConfig.familyCode,
-     payload:state,
-     updated_at:new Date().toISOString()
-   };
-   const res=await fetch(`${base}/rest/v1/miguelito_state?on_conflict=family_code`,{
-     method:'POST',
-     headers:{...syncHeaders(),'Prefer':'resolution=merge-duplicates,return=minimal'},
-     body:JSON.stringify(payload)
+   const child=activeChildRecord();
+   if(child)child.state=state;
+   return JSON.parse(JSON.stringify(familyStore));
+ }catch(e){return familyStore}
+}
+function storeFromPayload(payload,preserveActive=true){
+ if(!payload||!Array.isArray(payload.children)||!payload.children.length)return false;
+ const previousActive=familyStore?.activeChildId;
+ window.__cloudApplyingRemote=true;
+ try{
+   familyStore=JSON.parse(JSON.stringify(payload));
+   if(preserveActive && previousActive && familyStore.children.some(c=>String(c.id)===String(previousActive))){
+     familyStore.activeChildId=previousActive;
+   }
+   let child=familyStore.children.find(c=>String(c.id)===String(familyStore.activeChildId))||familyStore.children[0];
+   familyStore.activeChildId=child.id;
+   state=child.state;
+   ensureV33State();ensureV34State();ensureEventState();ensureDailyGameState();ensureJournalState();ensureWorldState();ensureBadgeState();ensureTaskState();ensureRewardHistory();ensureRewardState();ensureProjectState();ensureReadingState();ensureProfileState();ensureEvolutionState?.();ensureSchoolState?.();ensureSchoolWeekState?.();
+   window.localStorage.setItem('miguelito-family-v1',JSON.stringify(familyStore));
+   window.localStorage.setItem('miguelito-v10',JSON.stringify(state));
+ }finally{
+   window.__cloudApplyingRemote=false;
+ }
+ render();
+ return true;
+}
+function childUpdatedAt(c){return Number(c?.state?._updatedAt)||0}
+function mergeFamilyStores(remote,local){
+ if(!remote)return local;
+ if(!local)return remote;
+ const rTime=Number(remote._updatedAt)||0,lTime=Number(local._updatedAt)||0;
+ const top=JSON.parse(JSON.stringify(lTime>=rTime?local:remote));
+ const map=new Map();
+ (remote.children||[]).forEach(c=>map.set(String(c.id),JSON.parse(JSON.stringify(c))));
+ (local.children||[]).forEach(c=>{
+   const key=String(c.id),prev=map.get(key);
+   if(!prev||childUpdatedAt(c)>=childUpdatedAt(prev))map.set(key,JSON.parse(JSON.stringify(c)));
+ });
+ top.children=[...map.values()];
+ const active=local.activeChildId;
+ top.activeChildId=top.children.some(c=>String(c.id)===String(active))?active:(top.activeChildId||top.children[0]?.id);
+ top._updatedAt=Math.max(rTime,lTime,Date.now());
+ return top;
+}
+async function loadCloudFamily(){
+ if(!cloudClient||!cloudSession?.user)return;
+ try{
+   setSyncStatus('busy','Buscando tu familia…');
+   const uid=cloudSession.user.id;
+   const {data:members,error:me}=await cloudClient.from('family_members').select('family_id,role').eq('user_id',uid);
+   if(me)throw me;
+   const ids=(members||[]).map(x=>x.family_id);
+   if(!ids.length){
+     cloudFamilyMeta=null;
+     syncConfig.familyId='';
+     storeSyncConfig();
+     setSyncStatus('ok','Sesión iniciada · crea o únete a una familia');
+     renderCloudConfig();
+     return;
+   }
+   const preferred=syncConfig.familyId&&ids.includes(syncConfig.familyId)?syncConfig.familyId:ids[0];
+   const {data:fam,error:fe}=await cloudClient.from('families').select('id,name,invite_code,payload,revision,updated_at').eq('id',preferred).single();
+   if(fe)throw fe;
+   cloudFamilyMeta={id:fam.id,name:fam.name,invite_code:fam.invite_code,revision:Number(fam.revision)||1,updated_at:fam.updated_at};
+   syncConfig.familyId=fam.id;storeSyncConfig();
+   if(fam.payload)storeFromPayload(fam.payload,true);
+   startCloudRealtime();
+   setSyncStatus('ok',`Conectado · ${fam.name}`);
+   renderCloudConfig();
+ }catch(e){
+   console.error(e);
+   setSyncStatus('err','No se pudo cargar la familia');
+ }
+}
+async function createCloudFamily(){
+ if(!cloudSession?.user){toast('Primero inicia sesión con tu email');return}
+ const name=$('#cloudFamilyNameInput')?.value.trim()||'Mi familia';
+ try{
+   cloudBusy=true;setSyncStatus('busy','Creando familia…');
+   const payload=cloudLocalPayload();
+   const {data:fam,error}=await cloudClient.from('families').insert({
+     name,owner_id:cloudSession.user.id,payload,updated_by:cloudSession.user.id
+   }).select('id,name,invite_code,revision,updated_at').single();
+   if(error)throw error;
+   const {error:memberError}=await cloudClient.from('family_members').insert({
+     family_id:fam.id,user_id:cloudSession.user.id,role:'parent'
    });
-   if(!res.ok)throw new Error(`Error ${res.status}`);
-   setSyncStatus('ok',`Sincronizado · ${syncConfig.deviceName||'dispositivo'}`);
+   if(memberError)throw memberError;
+   cloudFamilyMeta={...fam,revision:Number(fam.revision)||1};
+   syncConfig.familyId=fam.id;storeSyncConfig();
+   startCloudRealtime();
+   setSyncStatus('ok',`Conectado · ${fam.name}`);
+   renderCloudConfig();
+   toast('Familia creada y subida ☁️');
  }catch(e){
-   setSyncStatus('err','No se pudo sincronizar');
- }finally{
-   syncBusy=false;
- }
+   console.error(e);setSyncStatus('err','No se pudo crear la familia');toast('Revisa que hayas ejecutado el SQL de Supabase');
+ }finally{cloudBusy=false}
 }
-async function pullRemoteState(force=false){
- if(!syncEnabled()||syncBusy)return;
- syncBusy=true;
- setSyncStatus('busy','Comprobando cambios…');
+async function joinCloudFamily(){
+ if(!cloudSession?.user){toast('Primero inicia sesión con tu email');return}
+ const code=($('#cloudInviteCodeInput')?.value||'').trim().toUpperCase();
+ if(!code){toast('Escribe el código de invitación');return}
  try{
-   const remote=await fetchRemoteState();
-   if(!remote){
-     syncBusy=false;
-     await pushRemoteState();
-     return;
-   }
-   const remoteTime=Number(remote._updatedAt)||0;
-   const localTime=Number(state._updatedAt)||0;
-   if(force || remoteTime>localTime){
-     state=remote;
-     ensureEventState();
-     ensureDailyGameState();
-     ensureTaskState?.();
-     ensureRewardHistory?.();
-     ensureRewardState?.();
-     ensureProjectState?.();
-     ensureReadingState?.();
-     ensureProfileState?.();
-     safeStoreState();
-     render();
-   }else if(localTime>remoteTime){
-     syncBusy=false;
-     await pushRemoteState();
-     return;
-   }
-   setSyncStatus('ok',`Sincronizado · ${syncConfig.deviceName||'dispositivo'}`);
+   cloudBusy=true;setSyncStatus('busy','Uniéndote a la familia…');
+   const {data,error}=await cloudClient.rpc('join_family',{p_code:code});
+   if(error)throw error;
+   const familyId=Array.isArray(data)?data[0]?.family_id:data?.family_id||data;
+   if(familyId)syncConfig.familyId=familyId;
+   storeSyncConfig();
+   await loadCloudFamily();
+   toast('Ya compartís la misma familia ✅');
  }catch(e){
-   setSyncStatus('err','No se pudo conectar con la nube');
- }finally{
-   syncBusy=false;
+   console.error(e);setSyncStatus('err','Código no válido o familia no disponible');toast('No he podido unirte con ese código');
+ }finally{cloudBusy=false}
+}
+async function pullFamilyCloud(forceToast=false){
+ if(!cloudReady()||cloudBusy)return;
+ try{
+   cloudBusy=true;setSyncStatus('busy','Descargando cambios…');
+   const {data,error}=await cloudClient.from('families').select('id,name,invite_code,payload,revision,updated_at').eq('id',cloudFamilyMeta.id).single();
+   if(error)throw error;
+   cloudFamilyMeta={id:data.id,name:data.name,invite_code:data.invite_code,revision:Number(data.revision)||1,updated_at:data.updated_at};
+   if(data.payload)storeFromPayload(data.payload,true);
+   setSyncStatus('ok',`Sincronizado · ${cloudFamilyMeta.name}`);
+   renderCloudConfig();
+   if(forceToast)toast('Datos descargados de la nube ↓');
+ }catch(e){
+   console.error(e);setSyncStatus('err','No se pudo descargar la nube');
+ }finally{cloudBusy=false}
+}
+async function pushFamilyCloud(){
+ if(!cloudReady()||cloudBusy||window.__cloudApplyingRemote)return;
+ cloudBusy=true;
+ try{
+   setSyncStatus('busy','Guardando cambios…');
+   let local=cloudLocalPayload();
+   const rev=Number(cloudFamilyMeta.revision)||1;
+   let {data,error}=await cloudClient.from('families')
+     .update({payload:local,revision:rev+1,updated_at:new Date().toISOString(),updated_by:cloudSession.user.id})
+     .eq('id',cloudFamilyMeta.id).eq('revision',rev)
+     .select('revision,updated_at');
+   if(error)throw error;
+
+   if(!data?.length){
+     const {data:remote,error:re}=await cloudClient.from('families').select('payload,revision,updated_at').eq('id',cloudFamilyMeta.id).single();
+     if(re)throw re;
+     local=mergeFamilyStores(remote.payload,local);
+     const remoteRev=Number(remote.revision)||1;
+     const retry=await cloudClient.from('families')
+       .update({payload:local,revision:remoteRev+1,updated_at:new Date().toISOString(),updated_by:cloudSession.user.id})
+       .eq('id',cloudFamilyMeta.id).eq('revision',remoteRev)
+       .select('revision,updated_at');
+     if(retry.error)throw retry.error;
+     if(!retry.data?.length){
+       setSyncStatus('err','Hubo cambios simultáneos · pulsa sincronizar');
+       return;
+     }
+     cloudFamilyMeta.revision=Number(retry.data[0].revision)||remoteRev+1;
+     cloudFamilyMeta.updated_at=retry.data[0].updated_at;
+     storeFromPayload(local,true);
+   }else{
+     cloudFamilyMeta.revision=Number(data[0].revision)||rev+1;
+     cloudFamilyMeta.updated_at=data[0].updated_at;
+   }
+   setSyncStatus('ok',`Sincronizado · ${cloudFamilyMeta.name}`);
+ }catch(e){
+   console.error(e);setSyncStatus('err','Sin conexión · cambios guardados en este dispositivo');
+ }finally{cloudBusy=false}
+}
+function scheduleFamilyCloudPush(){
+ if(!cloudReady()||window.__cloudApplyingRemote)return;
+ clearTimeout(cloudPushTimer);
+ cloudPushTimer=setTimeout(()=>pushFamilyCloud(),900);
+}
+window.scheduleFamilyCloudPush=scheduleFamilyCloudPush;
+
+function stopCloudRealtime(){
+ if(cloudClient&&cloudRealtimeChannel){
+   try{cloudClient.removeChannel(cloudRealtimeChannel)}catch(e){}
  }
+ cloudRealtimeChannel=null;
 }
-function scheduleRemotePush(){
- if(!syncEnabled())return;
- clearTimeout(syncTimer);
- syncTimer=setTimeout(()=>pushRemoteState(),700);
+function startCloudRealtime(){
+ stopCloudRealtime();
+ if(!cloudReady())return;
+ cloudRealtimeChannel=cloudClient.channel(`family-${cloudFamilyMeta.id}`)
+   .on('postgres_changes',{
+     event:'UPDATE',schema:'public',table:'families',filter:`id=eq.${cloudFamilyMeta.id}`
+   },payload=>{
+     const rev=Number(payload.new?.revision)||0;
+     if(rev>(Number(cloudFamilyMeta?.revision)||0)){
+       clearTimeout(cloudPushTimer);
+       setTimeout(()=>pullFamilyCloud(false),250);
+     }
+   }).subscribe();
 }
-function startSyncPolling(){
- clearInterval(syncPollTimer);
- if(!syncEnabled())return;
- syncPollTimer=setInterval(()=>pullRemoteState(false),10000);
-}
-function renderSyncConfig(){
- if($('#syncFamilyCode'))$('#syncFamilyCode').value=syncConfig.familyCode||'';
- if($('#syncDeviceName'))$('#syncDeviceName').value=syncConfig.deviceName||'';
+function renderCloudConfig(){
  if($('#syncUrl'))$('#syncUrl').value=syncConfig.url||'';
  if($('#syncKey'))$('#syncKey').value=syncConfig.key||'';
- if(syncEnabled())setSyncStatus('ok','Configurado · listo para sincronizar');
- else setSyncStatus('','Sin configurar');
+ if($('#syncDeviceName'))$('#syncDeviceName').value=syncConfig.deviceName||'';
+ if($('#cloudEmailInput')&&!$('#cloudEmailInput').value)$('#cloudEmailInput').value=syncConfig.email||cloudSession?.user?.email||'';
+
+ const signed=!!cloudSession?.user;
+ if($('#cloudUserText'))$('#cloudUserText').textContent=signed?`Sesión: ${cloudSession.user.email}`:'No has iniciado sesión.';
+ if($('#cloudSignOutBtn'))$('#cloudSignOutBtn').style.display=signed?'':'none';
+
+ const connected=!!cloudFamilyMeta?.id;
+ if($('#cloudNoFamilyBox'))$('#cloudNoFamilyBox').style.display=signed&&!connected?'':'none';
+ if($('#cloudFamilyConnectedBox'))$('#cloudFamilyConnectedBox').style.display=connected?'':'none';
+ if($('#cloudFamilyName'))$('#cloudFamilyName').textContent=cloudFamilyMeta?.name||'—';
+ if($('#cloudInviteCode'))$('#cloudInviteCode').textContent=cloudFamilyMeta?.invite_code||'—';
+
+ if(!cloudConfigured())setSyncStatus('','Configura primero Supabase');
+ else if(!signed)setSyncStatus('','Supabase configurado · falta iniciar sesión');
+ else if(!connected)setSyncStatus('ok','Sesión iniciada · crea o únete a una familia');
 }
-
-$('#saveSyncBtn').onclick=async()=>{
- syncConfig={
-   familyCode:$('#syncFamilyCode').value.trim(),
-   deviceName:$('#syncDeviceName').value.trim(),
-   url:cleanBaseUrl($('#syncUrl').value),
-   key:$('#syncKey').value.trim()
- };
- if(!syncEnabled()){
-   toast('Completa URL, clave y código familiar');
-   return;
+async function initFamilyCloud(){
+ renderCloudConfig();
+ if(!cloudConfigured())return;
+ try{
+   setSyncStatus('busy','Conectando con Supabase…');
+   await ensureCloudClient();
+   if(cloudSession?.user)await loadCloudFamily();
+   else setSyncStatus('','Supabase configurado · falta iniciar sesión');
+ }catch(e){
+   console.error(e);setSyncStatus('err','No se pudo conectar con Supabase');
  }
+}
+const saveSyncBtn=$('#saveSyncBtn');
+if(saveSyncBtn)saveSyncBtn.onclick=async()=>{
+ const url=cleanBaseUrl($('#syncUrl')?.value),key=($('#syncKey')?.value||'').trim(),deviceName=($('#syncDeviceName')?.value||'').trim();
+ if(!url||!key){toast('Completa la URL y la clave pública');return}
+ if(/service_role/i.test(key)){toast('No uses la service_role. Usa la publishable/anon key.');return}
+ syncConfig={...syncConfig,url,key,deviceName};
  storeSyncConfig();
- startSyncPolling();
- await pullRemoteState(false);
+ cloudClient=null;cloudSession=null;cloudFamilyMeta=null;stopCloudRealtime();
+ await initFamilyCloud();
+ toast('Conexión guardada');
 };
-$('#syncNowBtn').onclick=()=>pullRemoteState(true);
-
-setTimeout(()=>{
- renderSyncConfig();
- if(syncEnabled()){
-   startSyncPolling();
-   pullRemoteState(false);
+const cloudMagicLinkBtn=$('#cloudMagicLinkBtn');
+if(cloudMagicLinkBtn)cloudMagicLinkBtn.onclick=async()=>{
+ const email=($('#cloudEmailInput')?.value||'').trim();
+ if(!email){toast('Escribe tu email');return}
+ if(!cloudConfigured()){toast('Guarda primero la conexión de Supabase');return}
+ try{
+   await ensureCloudClient();
+   syncConfig.email=email;storeSyncConfig();
+   const redirectTo=location.origin+location.pathname;
+   const {error}=await cloudClient.auth.signInWithOtp({email,options:{emailRedirectTo:redirectTo,shouldCreateUser:true}});
+   if(error)throw error;
+   toast('Te he enviado el enlace de acceso ✉️');
+   setSyncStatus('ok','Revisa tu email y abre el enlace de acceso');
+ }catch(e){
+   console.error(e);setSyncStatus('err','No se pudo enviar el enlace');toast('No se pudo enviar el email de acceso');
  }
-},50);
+};
+const cloudSignOutBtn=$('#cloudSignOutBtn');
+if(cloudSignOutBtn)cloudSignOutBtn.onclick=async()=>{
+ if(cloudClient)await cloudClient.auth.signOut();
+ cloudSession=null;cloudFamilyMeta=null;syncConfig.familyId='';storeSyncConfig();stopCloudRealtime();renderCloudConfig();
+};
+const cloudCreateFamilyBtn=$('#cloudCreateFamilyBtn');if(cloudCreateFamilyBtn)cloudCreateFamilyBtn.onclick=createCloudFamily;
+const cloudJoinFamilyBtn=$('#cloudJoinFamilyBtn');if(cloudJoinFamilyBtn)cloudJoinFamilyBtn.onclick=joinCloudFamily;
+const syncNowBtn=$('#syncNowBtn');if(syncNowBtn)syncNowBtn.onclick=async()=>{if(cloudReady()){await pushFamilyCloud();await pullFamilyCloud(true)}else toast('Conecta tu cuenta y una familia primero')};
+const cloudPullBtn=$('#cloudPullBtn');if(cloudPullBtn)cloudPullBtn.onclick=()=>pullFamilyCloud(true);
+const cloudCopyCodeBtn=$('#cloudCopyCodeBtn');if(cloudCopyCodeBtn)cloudCopyCodeBtn.onclick=async()=>{
+ const code=cloudFamilyMeta?.invite_code;if(!code)return;
+ try{await navigator.clipboard.writeText(code);toast('Código copiado 📋')}catch(e){toast(`Código: ${code}`)}
+};
+
+setTimeout(()=>initFamilyCloud(),80);
 
 
 function complete(i){const m=state.missions[i];if(m.status!==0)return;m.status=2;toast('Pendiente de aprobación 👀');save()}

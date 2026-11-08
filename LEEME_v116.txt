@@ -1,0 +1,12 @@
+MIS TAREAS v116 — FAMILIA COMPARTIDA
+
+- Sincronización completa de familyStore.
+- Login real con Supabase Auth por email/magic link.
+- Cada progenitor usa su propia cuenta.
+- Crear familia desde los datos actuales.
+- Código de invitación para el otro progenitor.
+- RLS y función segura de invitación.
+- Realtime entre dispositivos.
+- Copia local/offline conservada.
+- Control de revisión y mezcla por hijo.
+- Incluye SUPABASE_SETUP_v116.sql y GUIA_COMPARTIR_v116.md.
