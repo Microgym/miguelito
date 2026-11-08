@@ -1,0 +1,5 @@
+MIS TAREAS v117 — ACCESO POR CÓDIGO
+
+- Email → código de 6 dígitos → introducir en la misma app.
+- No hace falta abrir enlaces.
+- Usa Supabase signInWithOtp + verifyOtp.

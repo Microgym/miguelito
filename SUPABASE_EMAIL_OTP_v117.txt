@@ -1,0 +1,19 @@
+MIS TAREAS v117 · CONFIGURAR EMAIL CON CÓDIGO
+
+En Supabase:
+Authentication → Emails → Templates → Magic Link / OTP
+
+La plantilla debe contener:
+
+{{ .Token }}
+
+Ejemplo:
+
+<h2>Tu código de acceso</h2>
+<p>Introduce este código en Mis Tareas:</p>
+<h1>{{ .Token }}</h1>
+<p>No necesitas abrir ningún enlace.</p>
+
+IMPORTANTE:
+- Si quieres recibir código, no uses {{ .ConfirmationURL }} en esa plantilla.
+- La app verifica el código con verifyOtp({ email, token, type: 'email' }).

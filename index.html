@@ -2528,6 +2528,13 @@ body.preview-first-run .first-run-cancel-preview{display:block}
  background:#eef7ff;color:#28567d;font-weight:1000;font-size:10px
 }
 
+
+/* ===== v117 Login por código OTP ===== */
+.cloud-otp-row{display:grid;grid-template-columns:1fr auto;gap:8px;margin-top:8px}
+.cloud-otp-row input{width:100%;box-sizing:border-box;border:1px solid #dfe8f5;border-radius:12px;padding:10px;font:inherit;color:var(--ink);background:#fff;letter-spacing:3px;font-weight:1000;text-align:center}
+.cloud-otp-help{margin-top:6px}
+@media(max-width:430px){.cloud-otp-row{grid-template-columns:1fr}}
+
 </style>
 </head>
 <body>
@@ -3965,8 +3972,13 @@ body.preview-first-run .first-run-cancel-preview{display:block}
   <b>2 · Cuenta del progenitor</b>
   <div class="cloud-auth-row">
     <input id="cloudEmailInput" type="email" autocomplete="email" placeholder="tu@email.com"/>
-    <button class="btn primary" id="cloudMagicLinkBtn" type="button">Enviar enlace de acceso</button>
+    <button class="btn primary" id="cloudSendCodeBtn" type="button">Enviar código</button>
   </div>
+  <div id="cloudOtpRow" class="cloud-otp-row">
+    <input id="cloudOtpInput" inputmode="numeric" autocomplete="one-time-code" maxlength="6" placeholder="Código de 6 dígitos"/>
+    <button class="btn primary" id="cloudVerifyCodeBtn" type="button">Entrar</button>
+  </div>
+  <div class="mmeta cloud-otp-help">Te llegará un código por email. Escríbelo aquí sin abrir ningún enlace.</div>
   <div id="cloudUserBox" class="cloud-user-box">
     <span id="cloudUserText">No has iniciado sesión.</span>
     <button id="cloudSignOutBtn" class="smallbtn" type="button" style="display:none">Cerrar sesión</button>
@@ -4773,21 +4785,50 @@ if(saveSyncBtn)saveSyncBtn.onclick=async()=>{
  await initFamilyCloud();
  toast('Conexión guardada');
 };
-const cloudMagicLinkBtn=$('#cloudMagicLinkBtn');
-if(cloudMagicLinkBtn)cloudMagicLinkBtn.onclick=async()=>{
+const cloudSendCodeBtn=$('#cloudSendCodeBtn');
+if(cloudSendCodeBtn)cloudSendCodeBtn.onclick=async()=>{
  const email=($('#cloudEmailInput')?.value||'').trim();
  if(!email){toast('Escribe tu email');return}
  if(!cloudConfigured()){toast('Guarda primero la conexión de Supabase');return}
  try{
    await ensureCloudClient();
    syncConfig.email=email;storeSyncConfig();
-   const redirectTo=location.origin+location.pathname;
-   const {error}=await cloudClient.auth.signInWithOtp({email,options:{emailRedirectTo:redirectTo,shouldCreateUser:true}});
+   const {error}=await cloudClient.auth.signInWithOtp({email,options:{shouldCreateUser:true}});
    if(error)throw error;
-   toast('Te he enviado el enlace de acceso ✉️');
-   setSyncStatus('ok','Revisa tu email y abre el enlace de acceso');
+   if($('#cloudOtpInput'))$('#cloudOtpInput').value='';
+   toast('Código enviado por email ✉️');
+   setSyncStatus('ok','Código enviado · escríbelo para entrar');
+   setTimeout(()=>$('#cloudOtpInput')?.focus(),100);
  }catch(e){
-   console.error(e);setSyncStatus('err','No se pudo enviar el enlace');toast('No se pudo enviar el email de acceso');
+   console.error(e);setSyncStatus('err','No se pudo enviar el código');toast('No se pudo enviar el código');
+ }
+};
+const cloudVerifyCodeBtn=$('#cloudVerifyCodeBtn');
+if(cloudVerifyCodeBtn)cloudVerifyCodeBtn.onclick=async()=>{
+ const email=($('#cloudEmailInput')?.value||syncConfig.email||'').trim();
+ const token=($('#cloudOtpInput')?.value||'').replace(/\D/g,'').trim();
+ if(!email){toast('Escribe tu email');return}
+ if(token.length!==6){toast('Escribe el código de 6 dígitos');return}
+ if(!cloudConfigured()){toast('Guarda primero la conexión de Supabase');return}
+ try{
+   await ensureCloudClient();
+   setSyncStatus('busy','Comprobando código…');
+   const {data,error}=await cloudClient.auth.verifyOtp({email,token,type:'email'});
+   if(error)throw error;
+   cloudSession=data?.session||null;
+   if(!cloudSession){
+     const current=await cloudClient.auth.getSession();
+     cloudSession=current.data?.session||null;
+   }
+   if(!cloudSession)throw new Error('Sesión no creada');
+   syncConfig.email=email;storeSyncConfig();
+   if($('#cloudOtpInput'))$('#cloudOtpInput').value='';
+   setSyncStatus('ok','Sesión iniciada');
+   renderCloudConfig();
+   await loadCloudFamily();
+   toast('Has iniciado sesión ✅');
+ }catch(e){
+   console.error(e);setSyncStatus('err','Código incorrecto o caducado');toast('Código incorrecto o caducado');
  }
 };
 const cloudSignOutBtn=$('#cloudSignOutBtn');
