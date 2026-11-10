@@ -1,0 +1,12 @@
+MIS TAREAS v118 · CONFIGURACIÓN SENCILLA
+
+1. Supabase > SQL Editor: ejecuta SUPABASE_SETUP_v118_SIMPLE.sql.
+2. No necesitas Authentication, Emails, SMTP ni plantillas.
+3. Sube esta v118 a GitHub.
+4. En la app: Más > Zona Padres > Familia compartida.
+5. Pega Project URL + Publishable key.
+6. Primer dispositivo: Crear familia compartida.
+7. Copia el código familiar.
+8. Segundo dispositivo: pega el código y pulsa Entrar con código.
+
+El código funciona como una contraseña familiar.

@@ -1,0 +1,12 @@
+MIS TAREAS v119 — PLAN SEMANAL DEL COLE
+
+- El PDF original del colegio se lee primero como texto real, sin OCR.
+- Detecta automáticamente “SEMANA X AL Y MES” y crea/selecciona esa semana.
+- Mantiene Materia / Sesión / Trabajo propuesto.
+- Detecta aparte Dictados, Exámenes/Test/Pruebas, Trabajo semanal y Proyectos.
+- Antes de guardar muestra sugerencias editables de tareas para casa.
+- Exámenes, dictados y trabajo semanal vienen marcados por defecto; proyectos no.
+- Si la sesión trae un día (Tuesday, Wednesday, etc.) usa ese día; el resto propone el viernes de la semana y puede editarse.
+- Las tareas creadas son de Tarde, 5 estrellas, 10 XP y mundo Laberinto.
+- Evita duplicar la misma tarea por título y fecha.
+- Desde una semana ya guardada aparece un botón 🏠 en las filas importantes para crear una tarea después.

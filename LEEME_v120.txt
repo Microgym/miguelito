@@ -1,0 +1,18 @@
+MIS TAREAS v120 — DEBERES Y REPASO
+
+- Nueva sección propia: Más → 📝 Deberes y repaso.
+- Separada de las tareas diarias y domésticas.
+- El PDF semanal sigue detectando lo importante.
+- Exámenes, dictados, trabajo semanal y proyectos pueden añadirse a Deberes y repaso.
+- Cada elemento tiene:
+  · materia
+  · tipo
+  · texto
+  · fecha objetivo
+  · check de completado
+  · fecha en que se marcó como hecho
+- Filtros: Pendientes / Hechos / Todos.
+- Edición y borrado manual.
+- Añadir deberes o repasos manualmente.
+- No da estrellas ni XP automáticamente.
+- El botón 📝 desde el plan semanal añade el elemento a esta sección.

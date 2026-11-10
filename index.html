@@ -2535,6 +2535,35 @@ body.preview-first-run .first-run-cancel-preview{display:block}
 .cloud-otp-help{margin-top:6px}
 @media(max-width:430px){.cloud-otp-row{grid-template-columns:1fr}}
 
+
+/* ===== v118 Código familiar simple ===== */
+.cloud-family-grid{grid-template-columns:1fr 1fr}.cloud-family-connected .btn{width:100%;margin-top:2px}@media(max-width:430px){.cloud-family-grid{grid-template-columns:1fr}}
+
+/* ===== v119 PDF semanal + avisos importantes ===== */
+.school-import-important{margin-top:12px;padding-top:11px;border-top:1px solid #e5edf5}
+.school-important-head{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:7px}
+.school-important-head b{display:block;color:#704b18;font-size:11px}.school-important-head span{display:block;color:#8b775d;font-size:8px;font-weight:800;margin-top:2px}.school-important-head strong{font-size:18px;color:#a36a19}
+.school-important-row{display:grid;grid-template-columns:32px 1fr 112px;gap:7px;align-items:center;padding:8px;border:1px solid #f0dfbd;border-radius:12px;background:#fffaf0;margin:6px 0}
+.school-important-check{display:flex;align-items:center;justify-content:center;gap:3px}.school-important-check span{font-size:15px}.school-important-main small{display:block;font-size:7px;font-weight:1000;color:#8f7552}.school-important-main b{display:block;font-size:9px;color:#5d482d;margin:2px 0 5px}.school-important-main input,.school-important-date input{width:100%;box-sizing:border-box;border:1px solid #e8d9bc;border-radius:8px;padding:6px;font:inherit;background:#fff;color:#4a5360}.school-important-date span{display:block;font-size:7px;font-weight:1000;color:#8f7552;margin-bottom:3px}
+.school-saved-important{display:flex;flex-wrap:wrap;gap:4px;margin-top:5px}.school-saved-important span{display:inline-block;padding:3px 6px;border-radius:8px;background:#fff5dc;color:#765a20;font-size:7px;font-weight:900}
+@media(max-width:430px){.school-important-row{grid-template-columns:28px 1fr}.school-important-date{grid-column:2}.school-important-date input{max-width:170px}}
+
+
+/* ===== v120 Deberes y repaso ===== */
+.homework-review-summary{display:flex;justify-content:space-between;gap:10px;align-items:center}
+.homework-review-summary>div:first-child b{display:block;color:#264e73;font-size:14px;margin-top:2px}
+.homework-review-summary>div:first-child small{display:block;color:#75899a;font-size:8px;font-weight:800;margin-top:3px}
+.homework-review-counts{display:flex;gap:6px}.homework-review-counts span{min-width:64px;padding:8px;border-radius:12px;background:#eef5fb;text-align:center;font-size:7px;font-weight:900;color:#688097}.homework-review-counts b{display:block;font-size:17px;color:#315b82}
+.homework-review-tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:10px 0}
+.homework-review-tabs button{border:1px solid #dce7f1;background:#f6f9fc;color:#647f98;border-radius:11px;padding:8px;font-size:8px;font-weight:1000}.homework-review-tabs button.active{background:#315f8e;color:#fff;border-color:#315f8e}
+.homework-review-card{display:grid;grid-template-columns:42px 1fr auto;gap:9px;align-items:center;margin:8px 0}
+.homework-review-card.done{opacity:.68}.homework-review-card.done .homework-review-main>b{text-decoration:line-through}
+.homework-review-check{width:40px;height:40px;border:0;border-radius:12px;background:#eef5fb;font-size:20px}
+.homework-review-main{min-width:0}.homework-review-top{display:flex;flex-wrap:wrap;gap:5px;align-items:center;margin-bottom:3px}.homework-review-top span{font-size:7px;font-weight:1000;color:#5f7387;background:#eef4fa;padding:3px 6px;border-radius:8px}.homework-review-top small{font-size:7px;font-weight:1000;color:#8193a2}.homework-review-main>b{display:block;color:#2b4f6e;font-size:10px;line-height:1.25}.homework-review-foot{display:flex;flex-wrap:wrap;gap:8px;margin-top:5px}.homework-review-foot span{font-size:7px;font-weight:900;color:#8797a4}
+.homework-review-actions{display:flex;gap:4px}.homework-review-actions button{border:0;border-radius:9px;background:#f1f5f8;padding:7px}
+.homework-review-empty{text-align:center;color:#7890a4;font-size:9px;font-weight:900;padding:18px}
+@media(max-width:430px){.homework-review-summary{align-items:flex-start;flex-direction:column}.homework-review-card{grid-template-columns:38px 1fr}.homework-review-actions{grid-column:2}}
+
 </style>
 </head>
 <body>
@@ -2965,6 +2994,7 @@ body.preview-first-run .first-run-cancel-preview{display:block}
     <button class="more-card" data-open="projects" onclick="openScreen('projects')"><span class="bigico">🧩</span>Proyectos</button>
     <button class="more-card" data-open="school" onclick="openScreen('school')"><span class="bigico">🏫</span>Colegio y valores</button>
     <button class="more-card" data-open="schoolWeek" onclick="openScreen('schoolWeek')"><span class="bigico">📚</span>Plan semanal del cole</button>
+    <button class="more-card" data-open="homeworkReview" onclick="openScreen('homeworkReview')"><span class="bigico">📝</span>Deberes y repaso</button>
     <button class="more-card" data-open="calendar" onclick="openScreen('calendar')"><span class="bigico">📅</span>Calendario</button>
     <button class="more-card" data-open="profile" onclick="openScreen('profile')"><span class="bigico">👦</span>Mi perfil</button>
     <button class="more-card" data-open="achievements" onclick="openScreen('achievements')"><span class="bigico">🏆</span>Insignias y progreso</button>
@@ -3015,7 +3045,7 @@ body.preview-first-run .first-run-cancel-preview{display:block}
 
   <div class="card panelcard school-import-card">
     <div class="school-section-head">
-      <div><h3>📄 Importar documento semanal</h3><p>Selecciona una imagen o PDF. La lectura se hace en tu dispositivo y podrás revisar todo antes de guardar.</p></div>
+      <div><h3>📄 Importar planificación del cole</h3><p>Sube el PDF del domingo. Detectaremos la semana, materias, sesiones y lo importante antes de guardar.</p></div>
     </div>
     <div class="school-import-actions">
       <label class="school-file-btn">📎 Elegir archivo
@@ -3037,6 +3067,10 @@ body.preview-first-run .first-run-cancel-preview{display:block}
         <div><strong id="schoolImportRowsCount">0</strong> filas</div>
       </div>
       <div id="schoolImportRows"></div>
+      <div id="schoolImportImportant" class="school-import-important" style="display:none">
+        <div class="school-important-head"><div><b>⚠️ Cosas importantes detectadas</b><span>Marca cuáles quieres añadir también a Deberes y repaso.</span></div><strong id="schoolImportantCount">0</strong></div>
+        <div id="schoolImportantList"></div>
+      </div>
       <div class="school-import-preview-actions">
         <button id="saveImportedSchoolPlanBtn" class="btn primary" type="button">Añadir todo a esta semana</button>
         <button id="cancelImportedSchoolPlanBtn" class="btn ghost" type="button">Cancelar</button>
@@ -3075,7 +3109,52 @@ body.preview-first-run .first-run-cancel-preview{display:block}
 
   <div class="card school-history-note">
     <b>ℹ️ Importación semanal</b>
-    <span>Después de leer el documento siempre se muestra una vista previa editable. Nada se guarda hasta que pulses “Añadir todo a esta semana”.</span>
+    <span>El PDF crea o selecciona su semana automáticamente. Revisas todo y decides qué avisos importantes se añaden también a Deberes y repaso.</span>
+  </div>
+</section>
+
+
+<section id="homeworkReview" class="screen">
+  <div class="screen-title"><h1>📝 Deberes y repaso</h1><p>Lo importante del cole, separado de las tareas diarias.</p></div>
+
+  <div class="card homework-review-summary">
+    <div><span class="eyebrow">ESTA SEMANA</span><b id="homeworkReviewWeek">Sin semana seleccionada</b><small id="homeworkReviewMeta">Importa el PDF semanal para preparar esta lista.</small></div>
+    <div class="homework-review-counts"><span><b id="homeworkReviewPending">0</b> pendientes</span><span><b id="homeworkReviewDone">0</b> hechos</span></div>
+  </div>
+
+  <div class="card panelcard">
+    <div class="school-section-head">
+      <div><h3>➕ Añadir manualmente</h3><p>Para deberes o repasos que no vengan en el PDF.</p></div>
+    </div>
+    <div class="school-plan-form-grid">
+      <label><span>Materia</span><input id="homeworkSubjectInput" placeholder="Ej. Matemáticas"></label>
+      <label><span>Tipo</span><select id="homeworkTypeInput">
+        <option value="homework">🟠 Deberes</option>
+        <option value="review">🔵 Repaso</option>
+        <option value="exam">🔴 Examen / Test</option>
+        <option value="dictation">🟡 Dictado</option>
+        <option value="project">🟣 Proyecto</option>
+      </select></label>
+      <label class="wide"><span>Qué hay que hacer</span><input id="homeworkTitleInput" placeholder="Ej. Repasar Dictado 5"></label>
+      <label><span>Fecha objetivo</span><input id="homeworkDateInput" type="date"></label>
+    </div>
+    <div class="school-week-form-actions">
+      <button id="saveHomeworkReviewBtn" class="btn primary" type="button">Añadir</button>
+      <button id="cancelHomeworkReviewEditBtn" class="btn ghost" type="button" style="display:none">Cancelar edición</button>
+    </div>
+  </div>
+
+  <div class="homework-review-tabs">
+    <button id="homeworkReviewTabPending" class="active" type="button">Pendientes</button>
+    <button id="homeworkReviewTabDone" type="button">Hechos</button>
+    <button id="homeworkReviewTabAll" type="button">Todos</button>
+  </div>
+
+  <div id="homeworkReviewList"></div>
+
+  <div class="card school-history-note">
+    <b>✅ Aquí sí se marca “hecho”</b>
+    <span>Los deberes y repasos no son tareas domésticas ni dan estrellas automáticamente. Sirven para organizar el estudio y comprobar qué queda pendiente.</span>
   </div>
 </section>
 
@@ -3951,64 +4030,30 @@ body.preview-first-run .first-run-cancel-preview{display:block}
 </div>
  <div class="card panelcard sync-card cloud-v116-card">
 <h3 style="margin:0 0 5px">☁️ Familia compartida</h3>
-<div class="mmeta">Conecta esta app con Supabase para que Papá y Mamá uséis la misma familia desde móviles y ordenadores distintos.</div>
-
-<div class="sync-status" id="syncStatus">
-  <span class="sync-dot"></span>
-  <span id="syncStatusText">Sin configurar</span>
+<div class="mmeta">Sin emails ni contraseñas. Los dos usáis la misma web y un código familiar privado.</div>
+<div class="sync-status" id="syncStatus"><span class="sync-dot"></span><span id="syncStatusText">Sin configurar</span></div>
+<div class="cloud-step"><b>1 · Conexión Supabase</b><div class="sync-grid">
+<input class="sync-wide" id="syncUrl" placeholder="Project URL · https://xxxx.supabase.co"/>
+<input class="sync-wide" id="syncKey" placeholder="Publishable key"/>
+<input id="syncDeviceName" placeholder="Este dispositivo, ej. Papá"/>
+<button class="btn primary" id="saveSyncBtn" type="button">Guardar conexión</button>
+</div></div>
+<div class="cloud-step"><b>2 · Compartir familia</b>
+<div id="cloudNoFamilyBox"><div class="mmeta" style="margin-bottom:8px">En el primer dispositivo crea la familia. En el segundo, introduce el mismo código.</div><div class="cloud-family-grid">
+<input id="cloudFamilyNameInput" placeholder="Nombre, ej. Familia de Miguelito"/>
+<button class="btn primary" id="cloudCreateFamilyBtn" type="button">Crear familia compartida</button>
+<input id="cloudInviteCodeInput" placeholder="Código familiar"/>
+<button class="btn ghost" id="cloudJoinFamilyBtn" type="button">Entrar con código</button>
+</div></div>
+<div id="cloudFamilyConnectedBox" class="cloud-family-connected" style="display:none">
+<div><span>Familia conectada</span><b id="cloudFamilyName">—</b></div>
+<div class="cloud-code-box"><span>Código familiar privado</span><b id="cloudInviteCode">—</b><button id="cloudCopyCodeBtn" class="smallbtn" type="button">Copiar</button></div>
+<button id="cloudLeaveFamilyBtn" class="btn ghost" type="button">Desconectar este dispositivo</button>
+</div></div>
+<div class="sync-actions"><button class="btn primary" id="syncNowBtn" type="button">↻ Sincronizar ahora</button><button class="btn ghost" id="cloudPullBtn" type="button">↓ Descargar nube</button></div>
+<div class="mmeta cloud-security-note">🔐 Guarda el código como una contraseña familiar. Cualquiera que lo conozca podría entrar en vuestra familia.</div>
 </div>
-
-<div class="cloud-step">
-  <b>1 · Conexión Supabase</b>
-  <div class="sync-grid">
-    <input class="sync-wide" id="syncUrl" placeholder="Project URL · https://xxxx.supabase.co"/>
-    <input class="sync-wide" id="syncKey" placeholder="Publishable / anon key (nunca service_role)" type="password"/>
-    <input id="syncDeviceName" placeholder="Este dispositivo, ej. Papá"/>
-    <button class="btn primary" id="saveSyncBtn" type="button">Guardar conexión</button>
-  </div>
-</div>
-
-<div class="cloud-step">
-  <b>2 · Cuenta del progenitor</b>
-  <div class="cloud-auth-row">
-    <input id="cloudEmailInput" type="email" autocomplete="email" placeholder="tu@email.com"/>
-    <button class="btn primary" id="cloudSendCodeBtn" type="button">Enviar código</button>
-  </div>
-  <div id="cloudOtpRow" class="cloud-otp-row">
-    <input id="cloudOtpInput" inputmode="numeric" autocomplete="one-time-code" maxlength="6" placeholder="Código de 6 dígitos"/>
-    <button class="btn primary" id="cloudVerifyCodeBtn" type="button">Entrar</button>
-  </div>
-  <div class="mmeta cloud-otp-help">Te llegará un código por email. Escríbelo aquí sin abrir ningún enlace.</div>
-  <div id="cloudUserBox" class="cloud-user-box">
-    <span id="cloudUserText">No has iniciado sesión.</span>
-    <button id="cloudSignOutBtn" class="smallbtn" type="button" style="display:none">Cerrar sesión</button>
-  </div>
-</div>
-
-<div class="cloud-step" id="cloudFamilyStep">
-  <b>3 · Familia</b>
-  <div id="cloudNoFamilyBox">
-    <div class="mmeta" style="margin-bottom:7px">En el primer dispositivo crea la familia usando los datos actuales. En el segundo, entra con el código de invitación.</div>
-    <div class="cloud-family-grid">
-      <input id="cloudFamilyNameInput" placeholder="Nombre, ej. Familia de Miguelito"/>
-      <button class="btn primary" id="cloudCreateFamilyBtn" type="button">Crear y subir esta familia</button>
-      <input id="cloudInviteCodeInput" placeholder="Código de invitación"/>
-      <button class="btn ghost" id="cloudJoinFamilyBtn" type="button">Unirme a una familia</button>
-    </div>
-  </div>
-  <div id="cloudFamilyConnectedBox" class="cloud-family-connected" style="display:none">
-    <div><span>Familia conectada</span><b id="cloudFamilyName">—</b></div>
-    <div class="cloud-code-box"><span>Código para el otro progenitor</span><b id="cloudInviteCode">—</b><button id="cloudCopyCodeBtn" class="smallbtn" type="button">Copiar</button></div>
-  </div>
-</div>
-
-<div class="sync-actions">
-  <button class="btn primary" id="syncNowBtn" type="button">↻ Sincronizar ahora</button>
-  <button class="btn ghost" id="cloudPullBtn" type="button">↓ Descargar nube</button>
-</div>
-<div class="mmeta cloud-security-note">🔐 Cada progenitor entra con su propio email. La clave pública de Supabase puede estar en la web; la <b>service_role</b> no debe ponerse nunca aquí.</div>
-</div>
- <div class="card panelcard danger-card">
+<div class="card panelcard danger-card">
 <h3 style="margin:0 0 5px">🧹 Empezar toda la app desde cero</h3>
 <div class="mmeta">Borra perfiles, hijos, tareas, retos, premios, estrellas, XP, lectura, proyectos, calendario, objetivos e historiales. El diseño y las funciones de la app se mantienen.</div>
 <button class="danger-btn" id="resetWholeAppBtn" type="button">Poner toda la app a 0</button>
@@ -4037,7 +4082,7 @@ body.preview-first-run .first-run-cancel-preview{display:block}
     <div style="font-size:11px;color:#6e8298;margin-bottom:14px">Configuración inicial de la familia</div>
     <div id="firstRunProgress" class="first-run-progress"></div>
     <div id="firstRunBody"></div>
-<button id="firstRunCloudEntry" class="first-run-cloud-entry" type="button">☁️ Ya tengo una familia compartida</button>
+<button id="firstRunCloudEntry" class="first-run-cloud-entry" type="button">☁️ Ya tengo un código familiar</button>
 <button id="firstRunCancelPreview" class="first-run-cancel-preview" type="button">Salir de la prueba sin guardar</button>
   </div>
 </div>
@@ -4488,363 +4533,43 @@ function focusEditTarget(selector){
 function toast(msg){const t=$('#toast');t.textContent=msg;t.style.display='block';clearTimeout(window.tt);window.tt=setTimeout(()=>t.style.display='none',1600)}
 
 
+
 function loadSyncConfig(){
- try{
-   const raw=localStorage.getItem('miguelito-sync-config-v116');
-   return raw?JSON.parse(raw):{url:'',key:'',deviceName:'',familyId:'',email:''};
- }catch(e){
-   return {url:'',key:'',deviceName:'',familyId:'',email:''};
- }
+ try{const raw=localStorage.getItem('miguelito-sync-config-v118');return raw?JSON.parse(raw):{url:'',key:'',deviceName:'',familyCode:'',familyName:'',revision:0};}
+ catch(e){return {url:'',key:'',deviceName:'',familyCode:'',familyName:'',revision:0};}
 }
-function storeSyncConfig(){
- try{localStorage.setItem('miguelito-sync-config-v116',JSON.stringify(syncConfig));}catch(e){}
-}
-let syncConfig=loadSyncConfig();
-let cloudClient=null;
-let cloudSession=null;
-let cloudFamilyMeta=null;
-let cloudRealtimeChannel=null;
-let cloudPushTimer=null;
-let cloudBusy=false;
-let cloudModulePromise=null;
+function storeSyncConfig(){try{localStorage.setItem('miguelito-sync-config-v118',JSON.stringify(syncConfig));}catch(e){}}
+let syncConfig=loadSyncConfig(),cloudClient=null,cloudPushTimer=null,cloudPollTimer=null,cloudBusy=false;
 window.__cloudApplyingRemote=false;
-
 function cleanBaseUrl(url){return (url||'').trim().replace(/\/+$/,'')}
+function normalizeFamilyCode(code){return (code||'').toUpperCase().replace(/[^A-Z0-9]/g,'').slice(0,12)}
 function cloudConfigured(){return !!(syncConfig.url&&syncConfig.key)}
-function cloudReady(){return !!(cloudClient&&cloudSession?.user&&cloudFamilyMeta?.id)}
-function setSyncStatus(type,text){
- const box=$('#syncStatus'),label=$('#syncStatusText');
- if(!box||!label)return;
- box.className='sync-status'+(type?' '+type:'');
- label.textContent=text;
-}
-async function loadSupabaseModule(){
- if(cloudModulePromise)return cloudModulePromise;
- cloudModulePromise=import('https://esm.sh/@supabase/supabase-js@2.84.0');
- return cloudModulePromise;
-}
-async function ensureCloudClient(){
- if(!cloudConfigured())return null;
- if(cloudClient)return cloudClient;
- const mod=await loadSupabaseModule();
- cloudClient=mod.createClient(syncConfig.url,syncConfig.key,{
-   auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}
- });
- cloudClient.auth.onAuthStateChange((_event,session)=>{
-   cloudSession=session;
-   renderCloudConfig();
-   if(session?.user)setTimeout(()=>loadCloudFamily(),0);
-   else{
-     cloudFamilyMeta=null;
-     stopCloudRealtime();
-     renderCloudConfig();
-   }
- });
- const {data}=await cloudClient.auth.getSession();
- cloudSession=data?.session||null;
- return cloudClient;
-}
-function cloudLocalPayload(){
- try{
-   const child=activeChildRecord();
-   if(child)child.state=state;
-   return JSON.parse(JSON.stringify(familyStore));
- }catch(e){return familyStore}
-}
-function storeFromPayload(payload,preserveActive=true){
- if(!payload||!Array.isArray(payload.children)||!payload.children.length)return false;
- const previousActive=familyStore?.activeChildId;
- window.__cloudApplyingRemote=true;
- try{
-   familyStore=JSON.parse(JSON.stringify(payload));
-   if(preserveActive && previousActive && familyStore.children.some(c=>String(c.id)===String(previousActive))){
-     familyStore.activeChildId=previousActive;
-   }
-   let child=familyStore.children.find(c=>String(c.id)===String(familyStore.activeChildId))||familyStore.children[0];
-   familyStore.activeChildId=child.id;
-   state=child.state;
-   ensureV33State();ensureV34State();ensureEventState();ensureDailyGameState();ensureJournalState();ensureWorldState();ensureBadgeState();ensureTaskState();ensureRewardHistory();ensureRewardState();ensureProjectState();ensureReadingState();ensureProfileState();ensureEvolutionState?.();ensureSchoolState?.();ensureSchoolWeekState?.();
-   window.localStorage.setItem('miguelito-family-v1',JSON.stringify(familyStore));
-   window.localStorage.setItem('miguelito-v10',JSON.stringify(state));
- }finally{
-   window.__cloudApplyingRemote=false;
- }
- render();
- return true;
-}
+function cloudReady(){return !!(cloudClient&&syncConfig.familyCode)}
+function setSyncStatus(type,text){const box=$('#syncStatus'),label=$('#syncStatusText');if(!box||!label)return;box.className='sync-status'+(type?' '+type:'');label.textContent=text;}
+async function loadSupabaseModule(){if(window.__supabaseV118Module)return window.__supabaseV118Module;window.__supabaseV118Module=import('https://esm.sh/@supabase/supabase-js@2.84.0');return window.__supabaseV118Module;}
+async function ensureCloudClient(){if(!cloudConfigured())return null;if(cloudClient)return cloudClient;const mod=await loadSupabaseModule();cloudClient=mod.createClient(syncConfig.url,syncConfig.key,{auth:{persistSession:false,autoRefreshToken:false}});return cloudClient;}
+function cloudLocalPayload(){try{const child=activeChildRecord();if(child)child.state=state;return JSON.parse(JSON.stringify(familyStore));}catch(e){return familyStore}}
+function storeFromPayload(payload,preserveActive=true){if(!payload||!Array.isArray(payload.children)||!payload.children.length)return false;const previousActive=familyStore?.activeChildId;window.__cloudApplyingRemote=true;try{familyStore=JSON.parse(JSON.stringify(payload));if(preserveActive&&previousActive&&familyStore.children.some(c=>String(c.id)===String(previousActive)))familyStore.activeChildId=previousActive;let child=familyStore.children.find(c=>String(c.id)===String(familyStore.activeChildId))||familyStore.children[0];familyStore.activeChildId=child.id;state=child.state;ensureV33State();ensureV34State();ensureEventState();ensureDailyGameState();ensureJournalState();ensureWorldState();ensureBadgeState();ensureTaskState();ensureRewardHistory();ensureRewardState();ensureProjectState();ensureReadingState();ensureProfileState();ensureEvolutionState?.();ensureSchoolState?.();ensureSchoolWeekState?.();window.localStorage.setItem('miguelito-family-v1',JSON.stringify(familyStore));window.localStorage.setItem('miguelito-v10',JSON.stringify(state));}finally{window.__cloudApplyingRemote=false}render();return true;}
 function childUpdatedAt(c){return Number(c?.state?._updatedAt)||0}
-function mergeFamilyStores(remote,local){
- if(!remote)return local;
- if(!local)return remote;
- const rTime=Number(remote._updatedAt)||0,lTime=Number(local._updatedAt)||0;
- const top=JSON.parse(JSON.stringify(lTime>=rTime?local:remote));
- const map=new Map();
- (remote.children||[]).forEach(c=>map.set(String(c.id),JSON.parse(JSON.stringify(c))));
- (local.children||[]).forEach(c=>{
-   const key=String(c.id),prev=map.get(key);
-   if(!prev||childUpdatedAt(c)>=childUpdatedAt(prev))map.set(key,JSON.parse(JSON.stringify(c)));
- });
- top.children=[...map.values()];
- const active=local.activeChildId;
- top.activeChildId=top.children.some(c=>String(c.id)===String(active))?active:(top.activeChildId||top.children[0]?.id);
- top._updatedAt=Math.max(rTime,lTime,Date.now());
- return top;
-}
-async function loadCloudFamily(){
- if(!cloudClient||!cloudSession?.user)return;
- try{
-   setSyncStatus('busy','Buscando tu familia…');
-   const uid=cloudSession.user.id;
-   const {data:members,error:me}=await cloudClient.from('family_members').select('family_id,role').eq('user_id',uid);
-   if(me)throw me;
-   const ids=(members||[]).map(x=>x.family_id);
-   if(!ids.length){
-     cloudFamilyMeta=null;
-     syncConfig.familyId='';
-     storeSyncConfig();
-     setSyncStatus('ok','Sesión iniciada · crea o únete a una familia');
-     renderCloudConfig();
-     return;
-   }
-   const preferred=syncConfig.familyId&&ids.includes(syncConfig.familyId)?syncConfig.familyId:ids[0];
-   const {data:fam,error:fe}=await cloudClient.from('families').select('id,name,invite_code,payload,revision,updated_at').eq('id',preferred).single();
-   if(fe)throw fe;
-   cloudFamilyMeta={id:fam.id,name:fam.name,invite_code:fam.invite_code,revision:Number(fam.revision)||1,updated_at:fam.updated_at};
-   syncConfig.familyId=fam.id;storeSyncConfig();
-   if(fam.payload)storeFromPayload(fam.payload,true);
-   startCloudRealtime();
-   setSyncStatus('ok',`Conectado · ${fam.name}`);
-   renderCloudConfig();
- }catch(e){
-   console.error(e);
-   setSyncStatus('err','No se pudo cargar la familia');
- }
-}
-async function createCloudFamily(){
- if(!cloudSession?.user){toast('Primero inicia sesión con tu email');return}
- const name=$('#cloudFamilyNameInput')?.value.trim()||'Mi familia';
- try{
-   cloudBusy=true;setSyncStatus('busy','Creando familia…');
-   const payload=cloudLocalPayload();
-   const {data:fam,error}=await cloudClient.from('families').insert({
-     name,owner_id:cloudSession.user.id,payload,updated_by:cloudSession.user.id
-   }).select('id,name,invite_code,revision,updated_at').single();
-   if(error)throw error;
-   const {error:memberError}=await cloudClient.from('family_members').insert({
-     family_id:fam.id,user_id:cloudSession.user.id,role:'parent'
-   });
-   if(memberError)throw memberError;
-   cloudFamilyMeta={...fam,revision:Number(fam.revision)||1};
-   syncConfig.familyId=fam.id;storeSyncConfig();
-   startCloudRealtime();
-   setSyncStatus('ok',`Conectado · ${fam.name}`);
-   renderCloudConfig();
-   toast('Familia creada y subida ☁️');
- }catch(e){
-   console.error(e);setSyncStatus('err','No se pudo crear la familia');toast('Revisa que hayas ejecutado el SQL de Supabase');
- }finally{cloudBusy=false}
-}
-async function joinCloudFamily(){
- if(!cloudSession?.user){toast('Primero inicia sesión con tu email');return}
- const code=($('#cloudInviteCodeInput')?.value||'').trim().toUpperCase();
- if(!code){toast('Escribe el código de invitación');return}
- try{
-   cloudBusy=true;setSyncStatus('busy','Uniéndote a la familia…');
-   const {data,error}=await cloudClient.rpc('join_family',{p_code:code});
-   if(error)throw error;
-   const familyId=Array.isArray(data)?data[0]?.family_id:data?.family_id||data;
-   if(familyId)syncConfig.familyId=familyId;
-   storeSyncConfig();
-   await loadCloudFamily();
-   toast('Ya compartís la misma familia ✅');
- }catch(e){
-   console.error(e);setSyncStatus('err','Código no válido o familia no disponible');toast('No he podido unirte con ese código');
- }finally{cloudBusy=false}
-}
-async function pullFamilyCloud(forceToast=false){
- if(!cloudReady()||cloudBusy)return;
- try{
-   cloudBusy=true;setSyncStatus('busy','Descargando cambios…');
-   const {data,error}=await cloudClient.from('families').select('id,name,invite_code,payload,revision,updated_at').eq('id',cloudFamilyMeta.id).single();
-   if(error)throw error;
-   cloudFamilyMeta={id:data.id,name:data.name,invite_code:data.invite_code,revision:Number(data.revision)||1,updated_at:data.updated_at};
-   if(data.payload)storeFromPayload(data.payload,true);
-   setSyncStatus('ok',`Sincronizado · ${cloudFamilyMeta.name}`);
-   renderCloudConfig();
-   if(forceToast)toast('Datos descargados de la nube ↓');
- }catch(e){
-   console.error(e);setSyncStatus('err','No se pudo descargar la nube');
- }finally{cloudBusy=false}
-}
-async function pushFamilyCloud(){
- if(!cloudReady()||cloudBusy||window.__cloudApplyingRemote)return;
- cloudBusy=true;
- try{
-   setSyncStatus('busy','Guardando cambios…');
-   let local=cloudLocalPayload();
-   const rev=Number(cloudFamilyMeta.revision)||1;
-   let {data,error}=await cloudClient.from('families')
-     .update({payload:local,revision:rev+1,updated_at:new Date().toISOString(),updated_by:cloudSession.user.id})
-     .eq('id',cloudFamilyMeta.id).eq('revision',rev)
-     .select('revision,updated_at');
-   if(error)throw error;
-
-   if(!data?.length){
-     const {data:remote,error:re}=await cloudClient.from('families').select('payload,revision,updated_at').eq('id',cloudFamilyMeta.id).single();
-     if(re)throw re;
-     local=mergeFamilyStores(remote.payload,local);
-     const remoteRev=Number(remote.revision)||1;
-     const retry=await cloudClient.from('families')
-       .update({payload:local,revision:remoteRev+1,updated_at:new Date().toISOString(),updated_by:cloudSession.user.id})
-       .eq('id',cloudFamilyMeta.id).eq('revision',remoteRev)
-       .select('revision,updated_at');
-     if(retry.error)throw retry.error;
-     if(!retry.data?.length){
-       setSyncStatus('err','Hubo cambios simultáneos · pulsa sincronizar');
-       return;
-     }
-     cloudFamilyMeta.revision=Number(retry.data[0].revision)||remoteRev+1;
-     cloudFamilyMeta.updated_at=retry.data[0].updated_at;
-     storeFromPayload(local,true);
-   }else{
-     cloudFamilyMeta.revision=Number(data[0].revision)||rev+1;
-     cloudFamilyMeta.updated_at=data[0].updated_at;
-   }
-   setSyncStatus('ok',`Sincronizado · ${cloudFamilyMeta.name}`);
- }catch(e){
-   console.error(e);setSyncStatus('err','Sin conexión · cambios guardados en este dispositivo');
- }finally{cloudBusy=false}
-}
-function scheduleFamilyCloudPush(){
- if(!cloudReady()||window.__cloudApplyingRemote)return;
- clearTimeout(cloudPushTimer);
- cloudPushTimer=setTimeout(()=>pushFamilyCloud(),900);
-}
+function mergeFamilyStores(remote,local){if(!remote)return local;if(!local)return remote;const rTime=Number(remote._updatedAt)||0,lTime=Number(local._updatedAt)||0;const top=JSON.parse(JSON.stringify(lTime>=rTime?local:remote));const map=new Map();(remote.children||[]).forEach(c=>map.set(String(c.id),JSON.parse(JSON.stringify(c))));(local.children||[]).forEach(c=>{const key=String(c.id),prev=map.get(key);if(!prev||childUpdatedAt(c)>=childUpdatedAt(prev))map.set(key,JSON.parse(JSON.stringify(c)))});top.children=[...map.values()];const active=local.activeChildId;top.activeChildId=top.children.some(c=>String(c.id)===String(active))?active:(top.activeChildId||top.children[0]?.id);top._updatedAt=Math.max(rTime,lTime,Date.now());return top;}
+function generateFamilyCode(){const chars='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';let out='';if(window.crypto?.getRandomValues){const arr=new Uint32Array(10);crypto.getRandomValues(arr);arr.forEach(n=>out+=chars[n%chars.length]);}else for(let i=0;i<10;i++)out+=chars[Math.floor(Math.random()*chars.length)];return out;}
+async function createCloudFamily(){if(!cloudConfigured()){toast('Guarda primero la conexión de Supabase');return}const name=($('#cloudFamilyNameInput')?.value||'').trim()||'Mi familia',code=generateFamilyCode();try{cloudBusy=true;setSyncStatus('busy','Creando familia…');await ensureCloudClient();const payload=cloudLocalPayload();const {data,error}=await cloudClient.rpc('create_shared_family_v118',{p_code:code,p_name:name,p_payload:payload});if(error)throw error;const row=Array.isArray(data)?data[0]:data;syncConfig.familyCode=code;syncConfig.familyName=row?.family_name||name;syncConfig.revision=Number(row?.family_revision)||1;storeSyncConfig();renderCloudConfig();startCloudPolling();setSyncStatus('ok',`Conectado · ${syncConfig.familyName}`);toast('Familia creada y subida ☁️');}catch(e){console.error(e);setSyncStatus('err','No se pudo crear la familia');toast('Revisa que hayas ejecutado el SQL v118 en Supabase');}finally{cloudBusy=false}}
+async function joinCloudFamily(){if(!cloudConfigured()){toast('Guarda primero la conexión de Supabase');return}const code=normalizeFamilyCode($('#cloudInviteCodeInput')?.value);if(code.length<6){toast('Escribe el código familiar');return}try{cloudBusy=true;setSyncStatus('busy','Buscando familia…');await ensureCloudClient();const {data,error}=await cloudClient.rpc('get_shared_family_v118',{p_code:code});if(error)throw error;const row=Array.isArray(data)?data[0]:data;if(!row?.family_payload)throw new Error('Familia no encontrada');syncConfig.familyCode=code;syncConfig.familyName=row.family_name||'Mi familia';syncConfig.revision=Number(row.family_revision)||1;storeSyncConfig();storeFromPayload(row.family_payload,true);renderCloudConfig();startCloudPolling();setSyncStatus('ok',`Conectado · ${syncConfig.familyName}`);toast('Familia descargada ✅');}catch(e){console.error(e);setSyncStatus('err','Código no válido');toast('No encuentro una familia con ese código');}finally{cloudBusy=false}}
+async function pullFamilyCloud(forceToast=false){if(!cloudReady()||cloudBusy)return;try{cloudBusy=true;if(forceToast)setSyncStatus('busy','Descargando cambios…');const {data,error}=await cloudClient.rpc('get_shared_family_v118',{p_code:syncConfig.familyCode});if(error)throw error;const row=Array.isArray(data)?data[0]:data;if(!row?.family_payload)throw new Error('Sin datos');const remoteRev=Number(row.family_revision)||0;if(forceToast||remoteRev>Number(syncConfig.revision||0)){syncConfig.revision=remoteRev;syncConfig.familyName=row.family_name||syncConfig.familyName;storeSyncConfig();storeFromPayload(row.family_payload,true);renderCloudConfig();}setSyncStatus('ok',`Sincronizado · ${syncConfig.familyName||'Familia'}`);if(forceToast)toast('Datos descargados de la nube ↓');}catch(e){console.error(e);setSyncStatus('err','Sin conexión · se mantiene la copia local');}finally{cloudBusy=false}}
+async function pushFamilyCloud(){if(!cloudReady()||cloudBusy||window.__cloudApplyingRemote)return;cloudBusy=true;try{setSyncStatus('busy','Guardando cambios…');let local=cloudLocalPayload(),expected=Number(syncConfig.revision)||1;let {data,error}=await cloudClient.rpc('update_shared_family_v118',{p_code:syncConfig.familyCode,p_expected_revision:expected,p_payload:local});if(error)throw error;let row=Array.isArray(data)?data[0]:data;if(row&&row.ok===false){const remote=await cloudClient.rpc('get_shared_family_v118',{p_code:syncConfig.familyCode});if(remote.error)throw remote.error;const rr=Array.isArray(remote.data)?remote.data[0]:remote.data;local=mergeFamilyStores(rr.family_payload,local);expected=Number(rr.family_revision)||1;const retry=await cloudClient.rpc('update_shared_family_v118',{p_code:syncConfig.familyCode,p_expected_revision:expected,p_payload:local});if(retry.error)throw retry.error;row=Array.isArray(retry.data)?retry.data[0]:retry.data;if(!row?.ok)throw new Error('Conflicto simultáneo');storeFromPayload(local,true);}syncConfig.revision=Number(row?.new_revision)||expected+1;storeSyncConfig();setSyncStatus('ok',`Sincronizado · ${syncConfig.familyName||'Familia'}`);}catch(e){console.error(e);setSyncStatus('err','Sin conexión · cambios guardados aquí');}finally{cloudBusy=false}}
+function scheduleFamilyCloudPush(){if(!cloudReady()||window.__cloudApplyingRemote)return;clearTimeout(cloudPushTimer);cloudPushTimer=setTimeout(()=>pushFamilyCloud(),900)}
 window.scheduleFamilyCloudPush=scheduleFamilyCloudPush;
-
-function stopCloudRealtime(){
- if(cloudClient&&cloudRealtimeChannel){
-   try{cloudClient.removeChannel(cloudRealtimeChannel)}catch(e){}
- }
- cloudRealtimeChannel=null;
-}
-function startCloudRealtime(){
- stopCloudRealtime();
- if(!cloudReady())return;
- cloudRealtimeChannel=cloudClient.channel(`family-${cloudFamilyMeta.id}`)
-   .on('postgres_changes',{
-     event:'UPDATE',schema:'public',table:'families',filter:`id=eq.${cloudFamilyMeta.id}`
-   },payload=>{
-     const rev=Number(payload.new?.revision)||0;
-     if(rev>(Number(cloudFamilyMeta?.revision)||0)){
-       clearTimeout(cloudPushTimer);
-       setTimeout(()=>pullFamilyCloud(false),250);
-     }
-   }).subscribe();
-}
-function renderCloudConfig(){
- if($('#syncUrl'))$('#syncUrl').value=syncConfig.url||'';
- if($('#syncKey'))$('#syncKey').value=syncConfig.key||'';
- if($('#syncDeviceName'))$('#syncDeviceName').value=syncConfig.deviceName||'';
- if($('#cloudEmailInput')&&!$('#cloudEmailInput').value)$('#cloudEmailInput').value=syncConfig.email||cloudSession?.user?.email||'';
-
- const signed=!!cloudSession?.user;
- if($('#cloudUserText'))$('#cloudUserText').textContent=signed?`Sesión: ${cloudSession.user.email}`:'No has iniciado sesión.';
- if($('#cloudSignOutBtn'))$('#cloudSignOutBtn').style.display=signed?'':'none';
-
- const connected=!!cloudFamilyMeta?.id;
- if($('#cloudNoFamilyBox'))$('#cloudNoFamilyBox').style.display=signed&&!connected?'':'none';
- if($('#cloudFamilyConnectedBox'))$('#cloudFamilyConnectedBox').style.display=connected?'':'none';
- if($('#cloudFamilyName'))$('#cloudFamilyName').textContent=cloudFamilyMeta?.name||'—';
- if($('#cloudInviteCode'))$('#cloudInviteCode').textContent=cloudFamilyMeta?.invite_code||'—';
-
- if(!cloudConfigured())setSyncStatus('','Configura primero Supabase');
- else if(!signed)setSyncStatus('','Supabase configurado · falta iniciar sesión');
- else if(!connected)setSyncStatus('ok','Sesión iniciada · crea o únete a una familia');
-}
-async function initFamilyCloud(){
- renderCloudConfig();
- if(!cloudConfigured())return;
- try{
-   setSyncStatus('busy','Conectando con Supabase…');
-   await ensureCloudClient();
-   if(cloudSession?.user)await loadCloudFamily();
-   else setSyncStatus('','Supabase configurado · falta iniciar sesión');
- }catch(e){
-   console.error(e);setSyncStatus('err','No se pudo conectar con Supabase');
- }
-}
-const saveSyncBtn=$('#saveSyncBtn');
-if(saveSyncBtn)saveSyncBtn.onclick=async()=>{
- const url=cleanBaseUrl($('#syncUrl')?.value),key=($('#syncKey')?.value||'').trim(),deviceName=($('#syncDeviceName')?.value||'').trim();
- if(!url||!key){toast('Completa la URL y la clave pública');return}
- if(/service_role/i.test(key)){toast('No uses la service_role. Usa la publishable/anon key.');return}
- syncConfig={...syncConfig,url,key,deviceName};
- storeSyncConfig();
- cloudClient=null;cloudSession=null;cloudFamilyMeta=null;stopCloudRealtime();
- await initFamilyCloud();
- toast('Conexión guardada');
-};
-const cloudSendCodeBtn=$('#cloudSendCodeBtn');
-if(cloudSendCodeBtn)cloudSendCodeBtn.onclick=async()=>{
- const email=($('#cloudEmailInput')?.value||'').trim();
- if(!email){toast('Escribe tu email');return}
- if(!cloudConfigured()){toast('Guarda primero la conexión de Supabase');return}
- try{
-   await ensureCloudClient();
-   syncConfig.email=email;storeSyncConfig();
-   const {error}=await cloudClient.auth.signInWithOtp({email,options:{shouldCreateUser:true}});
-   if(error)throw error;
-   if($('#cloudOtpInput'))$('#cloudOtpInput').value='';
-   toast('Código enviado por email ✉️');
-   setSyncStatus('ok','Código enviado · escríbelo para entrar');
-   setTimeout(()=>$('#cloudOtpInput')?.focus(),100);
- }catch(e){
-   console.error(e);setSyncStatus('err','No se pudo enviar el código');toast('No se pudo enviar el código');
- }
-};
-const cloudVerifyCodeBtn=$('#cloudVerifyCodeBtn');
-if(cloudVerifyCodeBtn)cloudVerifyCodeBtn.onclick=async()=>{
- const email=($('#cloudEmailInput')?.value||syncConfig.email||'').trim();
- const token=($('#cloudOtpInput')?.value||'').replace(/\D/g,'').trim();
- if(!email){toast('Escribe tu email');return}
- if(token.length!==6){toast('Escribe el código de 6 dígitos');return}
- if(!cloudConfigured()){toast('Guarda primero la conexión de Supabase');return}
- try{
-   await ensureCloudClient();
-   setSyncStatus('busy','Comprobando código…');
-   const {data,error}=await cloudClient.auth.verifyOtp({email,token,type:'email'});
-   if(error)throw error;
-   cloudSession=data?.session||null;
-   if(!cloudSession){
-     const current=await cloudClient.auth.getSession();
-     cloudSession=current.data?.session||null;
-   }
-   if(!cloudSession)throw new Error('Sesión no creada');
-   syncConfig.email=email;storeSyncConfig();
-   if($('#cloudOtpInput'))$('#cloudOtpInput').value='';
-   setSyncStatus('ok','Sesión iniciada');
-   renderCloudConfig();
-   await loadCloudFamily();
-   toast('Has iniciado sesión ✅');
- }catch(e){
-   console.error(e);setSyncStatus('err','Código incorrecto o caducado');toast('Código incorrecto o caducado');
- }
-};
-const cloudSignOutBtn=$('#cloudSignOutBtn');
-if(cloudSignOutBtn)cloudSignOutBtn.onclick=async()=>{
- if(cloudClient)await cloudClient.auth.signOut();
- cloudSession=null;cloudFamilyMeta=null;syncConfig.familyId='';storeSyncConfig();stopCloudRealtime();renderCloudConfig();
-};
+function stopCloudPolling(){if(cloudPollTimer){clearInterval(cloudPollTimer);cloudPollTimer=null}}
+function startCloudPolling(){stopCloudPolling();if(!cloudReady())return;cloudPollTimer=setInterval(()=>pullFamilyCloud(false),5000)}
+function renderCloudConfig(){if($('#syncUrl'))$('#syncUrl').value=syncConfig.url||'';if($('#syncKey'))$('#syncKey').value=syncConfig.key||'';if($('#syncDeviceName'))$('#syncDeviceName').value=syncConfig.deviceName||'';const connected=!!syncConfig.familyCode;if($('#cloudNoFamilyBox'))$('#cloudNoFamilyBox').style.display=connected?'none':'';if($('#cloudFamilyConnectedBox'))$('#cloudFamilyConnectedBox').style.display=connected?'':'none';if($('#cloudFamilyName'))$('#cloudFamilyName').textContent=syncConfig.familyName||'Mi familia';if($('#cloudInviteCode'))$('#cloudInviteCode').textContent=syncConfig.familyCode||'—';if(!cloudConfigured())setSyncStatus('','Configura primero Supabase');else if(!connected)setSyncStatus('ok','Supabase configurado · crea o introduce el código familiar');else setSyncStatus('ok',`Conectado · ${syncConfig.familyName||'Familia'}`)}
+async function initFamilyCloud(){renderCloudConfig();if(!cloudConfigured())return;try{setSyncStatus('busy','Conectando con Supabase…');await ensureCloudClient();if(syncConfig.familyCode){await pullFamilyCloud(false);startCloudPolling();}else setSyncStatus('ok','Supabase configurado · crea o introduce el código familiar');}catch(e){console.error(e);setSyncStatus('err','No se pudo conectar con Supabase')}}
+const saveSyncBtn=$('#saveSyncBtn');if(saveSyncBtn)saveSyncBtn.onclick=async()=>{const url=cleanBaseUrl($('#syncUrl')?.value),key=($('#syncKey')?.value||'').trim(),deviceName=($('#syncDeviceName')?.value||'').trim();if(!url||!key){toast('Completa la URL y la clave pública');return}syncConfig={...syncConfig,url,key,deviceName};storeSyncConfig();cloudClient=null;await initFamilyCloud();toast('Conexión guardada')};
 const cloudCreateFamilyBtn=$('#cloudCreateFamilyBtn');if(cloudCreateFamilyBtn)cloudCreateFamilyBtn.onclick=createCloudFamily;
 const cloudJoinFamilyBtn=$('#cloudJoinFamilyBtn');if(cloudJoinFamilyBtn)cloudJoinFamilyBtn.onclick=joinCloudFamily;
-const syncNowBtn=$('#syncNowBtn');if(syncNowBtn)syncNowBtn.onclick=async()=>{if(cloudReady()){await pushFamilyCloud();await pullFamilyCloud(true)}else toast('Conecta tu cuenta y una familia primero')};
+const syncNowBtn=$('#syncNowBtn');if(syncNowBtn)syncNowBtn.onclick=async()=>{if(cloudReady()){await pushFamilyCloud();await pullFamilyCloud(true)}else toast('Conecta una familia primero')};
 const cloudPullBtn=$('#cloudPullBtn');if(cloudPullBtn)cloudPullBtn.onclick=()=>pullFamilyCloud(true);
-const cloudCopyCodeBtn=$('#cloudCopyCodeBtn');if(cloudCopyCodeBtn)cloudCopyCodeBtn.onclick=async()=>{
- const code=cloudFamilyMeta?.invite_code;if(!code)return;
- try{await navigator.clipboard.writeText(code);toast('Código copiado 📋')}catch(e){toast(`Código: ${code}`)}
-};
-
+const cloudCopyCodeBtn=$('#cloudCopyCodeBtn');if(cloudCopyCodeBtn)cloudCopyCodeBtn.onclick=async()=>{const code=syncConfig.familyCode;if(!code)return;try{await navigator.clipboard.writeText(code);toast('Código copiado 📋')}catch(e){toast(`Código: ${code}`)}};
+const cloudLeaveFamilyBtn=$('#cloudLeaveFamilyBtn');if(cloudLeaveFamilyBtn)cloudLeaveFamilyBtn.onclick=()=>{if(!confirm('¿Desconectar este dispositivo de la familia compartida? La copia local se conserva.'))return;syncConfig.familyCode='';syncConfig.familyName='';syncConfig.revision=0;storeSyncConfig();stopCloudPolling();renderCloudConfig();toast('Dispositivo desconectado')};
 setTimeout(()=>initFamilyCloud(),80);
 
 
@@ -7086,10 +6811,12 @@ function schoolWeekLabel(w){
  return [fmt(w.start),fmt(w.end)].filter(Boolean).join(' – ')||'Semana sin fecha';
 }
 function detectSchoolPlanType(text=''){
- const s=String(text||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
- if(/\b(exam|examen|test|prueba)\b/.test(s))return 'exam';
+ const lines=String(text||'').split(/\n+/).map(x=>x.trim()).filter(Boolean);
+ const useful=lines.filter(line=>!/^\s*(correcci[oó]n|correction|comprehension correction|lesson correction)/i.test(line));
+ const s=useful.join(' ').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
  if(/\bdictado\b/.test(s))return 'dictation';
- if(/trabajo semana|w\.b|workbook|deberes|homework/.test(s))return 'homework';
+ if(/trabajo\s+semana|trabajo\s+semanal|deberes|homework|weekly\s+work/.test(s))return 'homework';
+ if(/\b(exam|examen|test|prueba|ponte a prueba)\b/.test(s))return 'exam';
  if(/proyecto|project/.test(s))return 'project';
  return 'class';
 }
@@ -7108,6 +6835,145 @@ function resetSchoolPlanItemForm(){
  $('#saveSchoolPlanItemBtn').dataset.edit='';$('#saveSchoolPlanItemBtn').textContent='Añadir al plan';
  $('#cancelSchoolPlanItemBtn').style.display='none';
 }
+
+function ensureHomeworkReviewState(){
+ if(!Array.isArray(state.homeworkReview))state.homeworkReview=[];
+ state.homeworkReview.forEach(x=>{
+   if(!x.id)x.id=`hr-${Date.now()}-${Math.random().toString(36).slice(2,6)}`;
+   if(typeof x.done!=='boolean')x.done=false;
+   if(!x.type)x.type='review';
+   if(!x.subject)x.subject='';
+   if(!x.title)x.title='';
+   if(!x.date)x.date='';
+   if(!x.createdAt)x.createdAt=new Date().toISOString();
+ });
+ if(!state.homeworkReviewView)state.homeworkReviewView='pending';
+}
+ensureHomeworkReviewState();
+
+const HOMEWORK_REVIEW_TYPES={
+ homework:{icon:'🟠',label:'Deberes'},
+ review:{icon:'🔵',label:'Repaso'},
+ exam:{icon:'🔴',label:'Examen / Test'},
+ dictation:{icon:'🟡',label:'Dictado'},
+ project:{icon:'🟣',label:'Proyecto'}
+};
+function homeworkTypeFromSchoolKind(kind){
+ if(kind==='homework')return 'homework';
+ if(kind==='exam')return 'exam';
+ if(kind==='dictation')return 'dictation';
+ if(kind==='project')return 'project';
+ return 'review';
+}
+function homeworkReviewDuplicate(item){
+ ensureHomeworkReviewState();
+ return state.homeworkReview.some(x=>
+   cleanOcrText(x.title).toLowerCase()===cleanOcrText(item.title).toLowerCase() &&
+   (x.date||'')===(item.date||'') &&
+   cleanOcrText(x.subject).toLowerCase()===cleanOcrText(item.subject).toLowerCase()
+ );
+}
+function addHomeworkReview(item){
+ ensureHomeworkReviewState();
+ const title=cleanOcrText(item?.title);
+ if(!title)return false;
+ const entry={
+   id:`hr-${Date.now()}-${Math.random().toString(36).slice(2,7)}`,
+   subject:cleanOcrText(item.subject||''),
+   title,
+   type:item.type||'review',
+   date:item.date||'',
+   done:false,
+   doneAt:'',
+   source:item.source||'manual',
+   sourceLine:item.sourceLine||'',
+   schoolWeekId:item.schoolWeekId||state.activeSchoolWeekId||'',
+   createdAt:new Date().toISOString()
+ };
+ if(homeworkReviewDuplicate(entry))return false;
+ state.homeworkReview.push(entry);
+ return true;
+}
+function resetHomeworkReviewForm(){
+ $('#homeworkSubjectInput').value='';
+ $('#homeworkTitleInput').value='';
+ $('#homeworkTypeInput').value='homework';
+ $('#homeworkDateInput').value=activeSchoolWeek()?.end||localDateKey();
+ $('#saveHomeworkReviewBtn').dataset.edit='';
+ $('#saveHomeworkReviewBtn').textContent='Añadir';
+ $('#cancelHomeworkReviewEditBtn').style.display='none';
+}
+function renderHomeworkReview(){
+ ensureHomeworkReviewState();
+ const week=activeSchoolWeek();
+ if($('#homeworkReviewWeek'))$('#homeworkReviewWeek').textContent=week?schoolWeekLabel(week):'Sin semana seleccionada';
+ if($('#homeworkReviewMeta'))$('#homeworkReviewMeta').textContent=week&&week.start&&week.end
+   ? `${new Date(week.start+'T12:00:00').toLocaleDateString('es-ES')} → ${new Date(week.end+'T12:00:00').toLocaleDateString('es-ES')}`
+   : 'Importa el PDF semanal para preparar esta lista.';
+
+ const all=[...state.homeworkReview].sort((a,b)=>{
+   const da=a.date||'9999-12-31',db=b.date||'9999-12-31';
+   if(da!==db)return da.localeCompare(db);
+   return (a.createdAt||'').localeCompare(b.createdAt||'');
+ });
+ const pending=all.filter(x=>!x.done),done=all.filter(x=>x.done);
+ if($('#homeworkReviewPending'))$('#homeworkReviewPending').textContent=pending.length;
+ if($('#homeworkReviewDone'))$('#homeworkReviewDone').textContent=done.length;
+
+ ['pending','done','all'].forEach(v=>{
+   const id=v==='pending'?'#homeworkReviewTabPending':v==='done'?'#homeworkReviewTabDone':'#homeworkReviewTabAll';
+   $(id)?.classList.toggle('active',state.homeworkReviewView===v);
+ });
+ const view=state.homeworkReviewView==='done'?done:state.homeworkReviewView==='all'?all:pending;
+ const list=$('#homeworkReviewList');if(!list)return;
+ list.innerHTML='';
+ if(!view.length){
+   list.innerHTML=`<div class="card homework-review-empty">${state.homeworkReviewView==='done'?'Todavía no hay elementos completados.':'No hay deberes o repasos pendientes 🎉'}</div>`;
+   return;
+ }
+ view.forEach(item=>{
+   const meta=HOMEWORK_REVIEW_TYPES[item.type]||HOMEWORK_REVIEW_TYPES.review;
+   const card=document.createElement('div');
+   card.className=`card homework-review-card${item.done?' done':''}`;
+   const dateLabel=item.date?new Date(item.date+'T12:00:00').toLocaleDateString('es-ES',{weekday:'short',day:'numeric',month:'short'}):'Sin fecha';
+   card.innerHTML=`
+    <button class="homework-review-check" data-hrtoggle="${item.id}" type="button">${item.done?'✅':'⬜'}</button>
+    <div class="homework-review-main">
+      <div class="homework-review-top"><span>${meta.icon} ${meta.label}</span><small>${escapeHtml(item.subject||'Cole')}</small></div>
+      <b>${escapeHtml(item.title)}</b>
+      <div class="homework-review-foot"><span>📅 ${escapeHtml(dateLabel)}</span>${item.done&&item.doneAt?`<span>Hecho ${new Date(item.doneAt).toLocaleDateString('es-ES')}</span>`:''}</div>
+    </div>
+    <div class="homework-review-actions">
+      <button data-hredit="${item.id}" type="button">✏️</button>
+      <button data-hrdel="${item.id}" type="button">🗑️</button>
+    </div>`;
+   list.appendChild(card);
+ });
+ list.querySelectorAll('[data-hrtoggle]').forEach(btn=>btn.onclick=()=>{
+   const item=state.homeworkReview.find(x=>x.id===btn.dataset.hrtoggle);if(!item)return;
+   item.done=!item.done;
+   item.doneAt=item.done?new Date().toISOString():'';
+   save();renderHomeworkReview();
+ });
+ list.querySelectorAll('[data-hredit]').forEach(btn=>btn.onclick=()=>{
+   const item=state.homeworkReview.find(x=>x.id===btn.dataset.hredit);if(!item)return;
+   $('#homeworkSubjectInput').value=item.subject||'';
+   $('#homeworkTitleInput').value=item.title||'';
+   $('#homeworkTypeInput').value=item.type||'review';
+   $('#homeworkDateInput').value=item.date||'';
+   $('#saveHomeworkReviewBtn').dataset.edit=item.id;
+   $('#saveHomeworkReviewBtn').textContent='Guardar cambios';
+   $('#cancelHomeworkReviewEditBtn').style.display='';
+   $('#homeworkTitleInput').scrollIntoView({behavior:'smooth',block:'center'});
+ });
+ list.querySelectorAll('[data-hrdel]').forEach(btn=>btn.onclick=()=>{
+   const item=state.homeworkReview.find(x=>x.id===btn.dataset.hrdel);if(!item)return;
+   if(!confirm(`¿Eliminar "${item.title}"?`))return;
+   state.homeworkReview=state.homeworkReview.filter(x=>x.id!==item.id);
+   save();renderHomeworkReview();
+ });
+}
+
 function renderSchoolWeek(){
  ensureSchoolWeekState();
  const select=$('#schoolWeekSelect');if(!select)return;
@@ -7142,10 +7008,18 @@ function renderSchoolWeek(){
    g.items.forEach(it=>{
      const type=schoolPlanType(it),meta=SCHOOL_PLAN_TYPES[type]||SCHOOL_PLAN_TYPES.class;
      const row=document.createElement('div');row.className=`school-plan-row ${type}`;
-     row.innerHTML=`<div class="school-plan-session">${escapeHtml(it.session||'—')}</div><div class="school-plan-main"><div class="school-plan-tag ${type}">${meta.icon} ${meta.label}</div><b>${escapeHtml(it.work||'Sin descripción')}</b></div><div class="school-plan-actions"><button data-spedit="${it.id}" type="button">✏️</button><button data-spdel="${it.id}" type="button">🗑️</button></div>`;
+     const importantLines=String(it.work||'').split(/\n+/).map(cleanOcrText).filter(line=>schoolActionKind(line));
+     const importantHtml=importantLines.length?`<div class="school-saved-important">${importantLines.map(line=>{const k=schoolActionKind(line),m=SCHOOL_PLAN_TYPES[k]||SCHOOL_PLAN_TYPES.class;return `<span>${m.icon} ${escapeHtml(line)}</span>`}).join('')}</div>`:'';
+     row.innerHTML=`<div class="school-plan-session">${escapeHtml(it.session||'—')}</div><div class="school-plan-main"><div class="school-plan-tag ${type}">${meta.icon} ${meta.label}</div><b>${escapeHtml(it.work||'Sin descripción')}</b>${importantHtml}</div><div class="school-plan-actions">${importantLines.length?`<button data-sptask="${it.id}" type="button" title="Añadir a Deberes y repaso">📝</button>`:''}<button data-spedit="${it.id}" type="button">✏️</button><button data-spdel="${it.id}" type="button">🗑️</button></div>`;
      box.appendChild(row);
    });
    list.appendChild(card);
+ });
+ list.querySelectorAll('[data-sptask]').forEach(btn=>btn.onclick=()=>{
+   const it=w.items.find(x=>x.id===btn.dataset.sptask);if(!it)return;
+   const line=String(it.work||'').split(/\n+/).map(cleanOcrText).find(x=>schoolActionKind(x));if(!line)return;
+   const kind=schoolActionKind(line),s={subject:it.subject||'',session:it.session||'',line,kind,title:schoolSuggestionTitle(kind,line,it.subject||'Cole'),date:schoolDateFromSession(w,it.session||'')};
+   if(createSchoolHomeTask(s)){toast('Añadido a Deberes y repaso 📝');save()}else toast('Ese deber o repaso ya existe');
  });
  list.querySelectorAll('[data-spedit]').forEach(btn=>btn.onclick=()=>{
    const it=w.items.find(x=>x.id===btn.dataset.spedit);if(!it)return;
@@ -7181,6 +7055,31 @@ const saveSchoolPlanItemBtn=$('#saveSchoolPlanItemBtn');if(saveSchoolPlanItemBtn
  resetSchoolPlanItemForm();save();
 };
 const cancelSchoolPlanItemBtn=$('#cancelSchoolPlanItemBtn');if(cancelSchoolPlanItemBtn)cancelSchoolPlanItemBtn.onclick=resetSchoolPlanItemForm;
+
+const saveHomeworkReviewBtn=$('#saveHomeworkReviewBtn');
+if(saveHomeworkReviewBtn)saveHomeworkReviewBtn.onclick=()=>{
+ ensureHomeworkReviewState();
+ const subject=$('#homeworkSubjectInput').value.trim();
+ const title=$('#homeworkTitleInput').value.trim();
+ const type=$('#homeworkTypeInput').value||'homework';
+ const date=$('#homeworkDateInput').value||'';
+ if(!title){toast('Escribe qué hay que hacer');return}
+ const edit=saveHomeworkReviewBtn.dataset.edit;
+ if(edit){
+   const item=state.homeworkReview.find(x=>x.id===edit);
+   if(item){Object.assign(item,{subject,title,type,date});toast('Actualizado ✏️')}
+ }else{
+   if(!addHomeworkReview({subject,title,type,date,source:'manual'})){toast('Ese deber o repaso ya existe');return}
+   toast('Añadido a Deberes y repaso 📝');
+ }
+ resetHomeworkReviewForm();save();renderHomeworkReview();
+};
+const cancelHomeworkReviewEditBtn=$('#cancelHomeworkReviewEditBtn');
+if(cancelHomeworkReviewEditBtn)cancelHomeworkReviewEditBtn.onclick=resetHomeworkReviewForm;
+const homeworkReviewTabPending=$('#homeworkReviewTabPending');if(homeworkReviewTabPending)homeworkReviewTabPending.onclick=()=>{state.homeworkReviewView='pending';save();renderHomeworkReview()};
+const homeworkReviewTabDone=$('#homeworkReviewTabDone');if(homeworkReviewTabDone)homeworkReviewTabDone.onclick=()=>{state.homeworkReviewView='done';save();renderHomeworkReview()};
+const homeworkReviewTabAll=$('#homeworkReviewTabAll');if(homeworkReviewTabAll)homeworkReviewTabAll.onclick=()=>{state.homeworkReviewView='all';save();renderHomeworkReview()};
+
 
 
 let schoolImportRows=[];
@@ -7271,7 +7170,7 @@ async function pdfToPositionedWords(file){
      const cy=viewport.height-yPdf;
      words.push({text,confidence:100,bbox:{x0:x,y0:cy-h,x1:x+w,y1:cy+2}});
    });
-   pages.push({words,width:viewport.width,height:viewport.height});
+   pages.push({words,width:viewport.width,height:viewport.height,rawText:(tc.items||[]).map(it=>it.str||'').join(' ')});
  }
  return pages;
 }
@@ -7324,8 +7223,8 @@ function positionedWordsToPlanRows(words,width,height,initialSubject=''){
 
  // Estas proporciones corresponden a las tres columnas estables del documento Edelweiss:
  // Materia ~24%, Sesión ~13%, Trabajo ~63%.
- const subjectCut=width*0.245;
- const sessionCut=width*0.375;
+ const subjectCut=width*0.225;
+ const sessionCut=width*0.360;
  const tol=Math.max(7,Math.min(15,height*0.007));
  const physical=[];
 
@@ -7404,6 +7303,116 @@ function fallbackTextRows(text='',initialSubject=''){
  });
  return {rows,lastSubject:current};
 }
+
+let schoolImportImportant=[];
+
+const SCHOOL_MONTH_NUMBERS={
+ enero:1,febrero:2,marzo:3,abril:4,mayo:5,junio:6,julio:7,agosto:8,
+ septiembre:9,setiembre:9,octubre:10,noviembre:11,diciembre:12
+};
+function schoolIsoDate(y,m,d){return `${y}-${String(m).padStart(2,'0')}-${String(d).padStart(2,'0')}`}
+function inferSchoolWeekYear(month,startDay){
+ const now=new Date(),y=now.getFullYear();
+ const candidates=[y-1,y,y+1].map(year=>({year,diff:Math.abs(new Date(year,month-1,startDay,12)-now)}));
+ candidates.sort((a,b)=>a.diff-b.diff);return candidates[0].year;
+}
+function detectSchoolWeekFromText(text=''){
+ const n=String(text||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,' ').replace(/\s+/g,' ');
+ const m=n.match(/semana\s+(\d{1,2})\s+(?:al|a|-)\s+(\d{1,2})\s+(?:de\s+)?(enero|febrero|marzo|abril|mayo|junio|julio|agosto|septiembre|setiembre|octubre|noviembre|diciembre)/i);
+ if(!m)return null;
+ const startDay=Number(m[1]),endDay=Number(m[2]),month=SCHOOL_MONTH_NUMBERS[m[3]];
+ if(!month||!startDay||!endDay)return null;
+ const year=inferSchoolWeekYear(month,startDay);
+ return {start:schoolIsoDate(year,month,startDay),end:schoolIsoDate(year,month,endDay),name:`Semana ${startDay} al ${endDay} de ${m[3]}`};
+}
+function ensureImportedSchoolWeek(meta){
+ ensureSchoolWeekState();
+ if(meta?.start&&meta?.end){
+   let w=state.schoolWeeks.find(x=>x.start===meta.start&&x.end===meta.end);
+   if(!w){
+     w={id:`week-${Date.now()}-${Math.random().toString(36).slice(2,5)}`,start:meta.start,end:meta.end,name:meta.name||'',items:[]};
+     state.schoolWeeks.unshift(w);
+   }
+   state.activeSchoolWeekId=w.id;
+   return w;
+ }
+ return activeSchoolWeek();
+}
+function schoolActionKind(line=''){
+ const clean=cleanOcrText(line),s=normSchoolText(clean);
+ if(!s||/^(correccion|correction|comprehension correction|lesson correction)/.test(s))return '';
+ if(/\bdictado\b/.test(s))return 'dictation';
+ if(/trabajo semana|trabajo semanal|deberes|homework|weekly work/.test(s))return 'homework';
+ if(/\b(exam|examen|test|prueba)\b/.test(s)||/ponte a prueba/.test(s))return 'exam';
+ if(/\b(proyecto|project)\b/.test(s))return 'project';
+ return '';
+}
+function schoolSuggestionTitle(kind,line,subject){
+ const t=cleanOcrText(line);
+ if(kind==='dictation')return `Repasar ${t}`;
+ if(kind==='homework')return `Hacer ${t}`;
+ if(kind==='project')return `Avanzar ${t}`;
+ if(kind==='exam')return `Repasar ${subject}: ${t}`;
+ return t;
+}
+function schoolDateFromSession(week,session=''){
+ if(!week?.start)return week?.end||'';
+ const key=normSchoolText(session);
+ const map={monday:0,lunes:0,tuesday:1,martes:1,wednesday:2,miercoles:2,thursday:3,jueves:3,friday:4,viernes:4};
+ let offset=null;
+ Object.keys(map).some(k=>{if(key.includes(k)){offset=map[k];return true}return false});
+ if(offset===null)return week.end||week.start;
+ const d=new Date(week.start+'T12:00:00');d.setDate(d.getDate()+offset);return localDateKey(d);
+}
+function rebuildSchoolImportant(){
+ const week=activeSchoolWeek();
+ const seen=new Set();
+ schoolImportImportant=[];
+ schoolImportRows.forEach((r,rowIndex)=>{
+   String(r.work||'').split(/\n+/).map(cleanOcrText).filter(Boolean).forEach(line=>{
+     const kind=schoolActionKind(line);if(!kind)return;
+     const key=`${r.subject}|${r.session}|${line}`.toLowerCase();if(seen.has(key))return;seen.add(key);
+     schoolImportImportant.push({
+       id:`important-${rowIndex}-${schoolImportImportant.length}`,
+       rowIndex,subject:r.subject||'',session:r.session||'',line,kind,
+       title:schoolSuggestionTitle(kind,line,r.subject||'Cole'),
+       date:schoolDateFromSession(week,r.session||''),
+       selected:kind!=='project'
+     });
+   });
+ });
+}
+function renderSchoolImportant(){
+ const wrap=$('#schoolImportImportant'),list=$('#schoolImportantList');if(!wrap||!list)return;
+ rebuildSchoolImportant();
+ wrap.style.display=schoolImportImportant.length?'':'none';
+ if($('#schoolImportantCount'))$('#schoolImportantCount').textContent=schoolImportImportant.length;
+ list.innerHTML=schoolImportImportant.map((a,i)=>{
+   const meta=SCHOOL_PLAN_TYPES[a.kind]||SCHOOL_PLAN_TYPES.class;
+   return `<div class="school-important-row" data-important="${i}">
+     <label class="school-important-check"><input data-important-selected type="checkbox" ${a.selected?'checked':''}><span>${meta.icon}</span></label>
+     <div class="school-important-main"><small>${escapeHtml(a.subject)}${a.session?' · '+escapeHtml(a.session):''}</small><b>${escapeHtml(a.line)}</b><input data-important-title value="${escapeHtml(a.title)}"></div>
+     <label class="school-important-date"><span>Fecha objetivo</span><input data-important-date type="date" value="${escapeHtml(a.date||'')}"></label>
+   </div>`;
+ }).join('');
+ list.querySelectorAll('[data-important]').forEach(row=>{
+   const i=Number(row.dataset.important),a=schoolImportImportant[i];
+   row.querySelector('[data-important-selected]').onchange=e=>a.selected=e.target.checked;
+   row.querySelector('[data-important-title]').oninput=e=>a.title=e.target.value;
+   row.querySelector('[data-important-date]').onchange=e=>a.date=e.target.value;
+ });
+}
+function createSchoolHomeTask(suggestion){
+ return addHomeworkReview({
+   subject:suggestion?.subject||'',
+   title:cleanOcrText(suggestion?.title),
+   type:homeworkTypeFromSchoolKind(suggestion?.kind),
+   date:suggestion?.date||activeSchoolWeek()?.end||localDateKey(),
+   source:'school-plan',
+   sourceLine:suggestion?.line||'',
+   schoolWeekId:state.activeSchoolWeekId||''
+ });
+}
 function renderSchoolImportPreview(){
  const wrap=$('#schoolImportPreview'),box=$('#schoolImportRows');if(!wrap||!box)return;
  wrap.style.display=schoolImportRows.length?'':'none';
@@ -7435,6 +7444,7 @@ function renderSchoolImportPreview(){
    schoolImportRows.splice(Number(btn.dataset.importDelete),1);
    renderSchoolImportPreview();
  });
+ renderSchoolImportant();
 }
 async function recognizeSchoolCanvas(canvas,pageIndex,pageCount){
  await ensureTesseract();
@@ -7456,14 +7466,13 @@ const schoolPlanFileInput=$('#schoolPlanFileInput');
 if(schoolPlanFileInput)schoolPlanFileInput.onchange=()=>{
  schoolImportSelectedFile=schoolPlanFileInput.files?.[0]||null;
  $('#schoolImportFileName').textContent=schoolImportSelectedFile?schoolImportSelectedFile.name:'Ningún archivo seleccionado.';
- schoolImportRows=[];
+ schoolImportRows=[];schoolImportImportant=[];
  renderSchoolImportPreview();
 };
 const readSchoolPlanFileBtn=$('#readSchoolPlanFileBtn');
 if(readSchoolPlanFileBtn)readSchoolPlanFileBtn.onclick=async()=>{
  const file=schoolImportSelectedFile||$('#schoolPlanFileInput')?.files?.[0];
  if(!file){toast('Elige primero una imagen o PDF');return}
- if(!activeSchoolWeek()){toast('Crea o selecciona primero la semana donde quieres importar el plan');return}
  try{
    readSchoolPlanFileBtn.disabled=true;
    schoolImportRows=[];
@@ -7475,6 +7484,14 @@ if(readSchoolPlanFileBtn)readSchoolPlanFileBtn.onclick=async()=>{
    if(file.type==='application/pdf'){
      // Primero usamos el texto real y las coordenadas del PDF. Es mucho más fiable que OCR para tablas.
      const pdfPages=await pdfToPositionedWords(file);
+     const pdfRaw=pdfPages.map(p=>p.rawText||'').join(' ');
+     raw+=pdfRaw;
+     const weekMeta=detectSchoolWeekFromText(pdfRaw);
+     const importedWeek=ensureImportedSchoolWeek(weekMeta);
+     if(!importedWeek){
+       toast('No he detectado las fechas de la semana. Crea una semana y vuelve a leer el PDF.');
+       setSchoolImportProgress(false);return;
+     }
      for(let i=0;i<pdfPages.length;i++){
        setSchoolImportProgress(true,`Leyendo texto del PDF · página ${i+1} de ${pdfPages.length}…`,10+((i+1)/Math.max(1,pdfPages.length))*65);
        const page=pdfPages[i];
@@ -7503,6 +7520,12 @@ if(readSchoolPlanFileBtn)readSchoolPlanFileBtn.onclick=async()=>{
      const fb=fallbackTextRows(raw,lastSubject);
      schoolImportRows=fb.rows;
    }
+   if(!activeSchoolWeek()){
+     const meta=detectSchoolWeekFromText(raw);
+     if(!ensureImportedSchoolWeek(meta)){
+       setSchoolImportProgress(false);toast('No he detectado las fechas. Crea la semana manualmente y vuelve a intentarlo.');return;
+     }
+   }
    setSchoolImportProgress(false);
    if(!schoolImportRows.length){
      toast('No he podido separar las filas. Prueba con una imagen más nítida.');
@@ -7525,18 +7548,29 @@ if(cancelImportedSchoolPlanBtn)cancelImportedSchoolPlanBtn.onclick=()=>{
 };
 const saveImportedSchoolPlanBtn=$('#saveImportedSchoolPlanBtn');
 if(saveImportedSchoolPlanBtn)saveImportedSchoolPlanBtn.onclick=()=>{
- const w=activeSchoolWeek();if(!w){toast('Selecciona primero una semana');return}
+ const w=activeSchoolWeek();if(!w){toast('No hay una semana seleccionada');return}
+ // Capturamos las ediciones de las sugerencias antes de guardar.
+ const selectedSuggestions=[];
+ $('#schoolImportantList')?.querySelectorAll('[data-important]').forEach(row=>{
+   const i=Number(row.dataset.important),a=schoolImportImportant[i];if(!a)return;
+   a.selected=!!row.querySelector('[data-important-selected]')?.checked;
+   a.title=row.querySelector('[data-important-title]')?.value||a.title;
+   a.date=row.querySelector('[data-important-date]')?.value||a.date;
+   if(a.selected)selectedSuggestions.push({...a});
+ });
  const valid=schoolImportRows
-   .map(r=>({subject:cleanOcrText(r.subject),session:cleanOcrText(r.session),work:cleanOcrText(r.work),type:r.type||'auto'}))
+   .map(r=>({subject:cleanOcrText(r.subject),session:cleanOcrText(r.session),work:String(r.work||'').trim(),type:r.type||'auto'}))
    .filter(r=>r.subject&&r.work);
  if(!valid.length){toast('No hay filas válidas para guardar');return}
- valid.forEach((r,i)=>w.items.push({
-   id:`spi-${Date.now()}-${i}-${Math.random().toString(36).slice(2,6)}`,
-   ...r,imported:true
- }));
- schoolImportRows=[];
+ valid.forEach((r,i)=>{
+   const duplicate=w.items.some(x=>x.subject===r.subject&&x.session===r.session&&x.work===r.work);
+   if(!duplicate)w.items.push({id:`spi-${Date.now()}-${i}-${Math.random().toString(36).slice(2,6)}`,...r,imported:true});
+ });
+ let homeworkCreated=0;
+ selectedSuggestions.forEach(s=>{if(createSchoolHomeTask(s))homeworkCreated++});
+ schoolImportRows=[];schoolImportImportant=[];
  renderSchoolImportPreview();
- toast(`${valid.length} filas añadidas al plan ✅`);
+ toast(`${valid.length} filas guardadas${homeworkCreated?` · ${homeworkCreated} en Deberes y repaso`:''} ✅`);
  save();
 };
 

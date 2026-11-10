@@ -1,0 +1,1 @@
+Mis Tareas v118: sin login, sin OTP, sin SMTP; Supabase + código familiar privado.
